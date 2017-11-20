@@ -10,12 +10,14 @@ license = "ISC"
 
 [dependencies]
 bare-metal = "^0.1.1"
-riscv = "^0.1.3"
 vcell = "^0.1.0"
+
+[dependencies.riscv]
+git = "https://github.com/dvc94ch/riscv"
 
 [dependencies.riscv-rt]
 optional = true
-version = "^0.1.2"
+git = "https://github.com/dvc94ch/riscv-rt"
 
 [features]
 rt = ["riscv-rt"]
