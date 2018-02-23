@@ -11,13 +11,8 @@ license = "ISC"
 [dependencies]
 bare-metal = "^0.1.1"
 vcell = "^0.1.0"
-
-[dependencies.riscv]
-git = "https://github.com/dvc94ch/riscv"
-
-[dependencies.riscv-rt]
-optional = true
-git = "https://github.com/dvc94ch/riscv-rt"
+riscv = { path = "../riscv" }
+riscv-rt = { path = "../riscv-rt", optional = true }
 
 [features]
 rt = ["riscv-rt"]

@@ -1,7 +1,8 @@
-# ! [ cfg_attr ( feature = "rt" , feature ( global_asm ) ) ] # ! [ cfg_attr ( feature = "rt" , feature ( macro_reexport ) ) ] # ! [ cfg_attr ( feature = "rt" , feature ( used ) ) ] # ! [ doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.11.3)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.11.3/svd2rust/#peripheral-api" ] # ! [ deny ( missing_docs ) ] # ! [ deny ( warnings ) ] # ! [ allow ( non_camel_case_types ) ] # ! [ feature ( const_fn ) ] # ! [ no_std ]#[cfg(feature = "rt")]
-extern crate riscv_rt ;
-extern crate bare_metal ;
-extern crate vcell ;
+# ! [ cfg_attr ( feature = "rt" , feature ( global_asm ) ) ] # ! [ cfg_attr ( feature = "rt" , feature ( macro_reexport ) ) ] # ! [ cfg_attr ( feature = "rt" , feature ( used ) ) ] # ! [ doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.11.3)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.11.3/svd2rust/#peripheral-api" ] # ! [ deny ( missing_docs ) ] # ! [ deny ( warnings ) ] # ! [ allow ( non_camel_case_types ) ] # ! [ feature ( const_fn ) ] # ! [ no_std ]
+extern crate bare_metal;
+#[cfg(feature = "rt")]
+extern crate riscv_rt;
+extern crate vcell;
 use core::ops::Deref;
 use bare_metal::Peripheral;
 pub use interrupt::Interrupt;
@@ -286,7 +287,9 @@ pub mod clint {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -355,7 +358,9 @@ pub mod clint {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -424,7 +429,9 @@ pub mod clint {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -493,7 +500,9 @@ pub mod clint {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -562,7 +571,9 @@ pub mod clint {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -665,7 +676,9 @@ pub mod plic {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -734,7 +747,9 @@ pub mod plic {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -803,7 +818,9 @@ pub mod plic {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -872,7 +889,9 @@ pub mod plic {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -914,13 +933,14 @@ pub mod plic {
             }
         }
         #[doc = "Values that can be written to the field `priority`"]
-        pub enum PRIORITYW { }
+        pub enum PRIORITYW {
+}
         impl PRIORITYW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> u8 {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -1008,7 +1028,9 @@ pub mod plic {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -1112,7 +1134,9 @@ pub mod wdog {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -1517,7 +1541,9 @@ pub mod wdog {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -1586,7 +1612,9 @@ pub mod wdog {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -1655,7 +1683,9 @@ pub mod wdog {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -1760,7 +1790,9 @@ pub mod wdog {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -1903,7 +1935,9 @@ pub mod rtc {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2131,7 +2165,9 @@ pub mod rtc {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2200,7 +2236,9 @@ pub mod rtc {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2310,7 +2348,9 @@ pub mod rtc {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2379,7 +2419,9 @@ pub mod rtc {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2473,7 +2515,9 @@ pub mod aonclk {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2701,7 +2745,9 @@ pub mod aonclk {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -2911,7 +2957,9 @@ pub mod backup {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -3015,7 +3063,9 @@ pub mod pmu {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -3302,7 +3352,9 @@ pub mod pmu {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -3589,7 +3641,9 @@ pub mod pmu {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -3835,7 +3889,9 @@ pub mod pmu {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -4274,7 +4330,9 @@ pub mod prci {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -4543,7 +4601,9 @@ pub mod prci {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -4730,7 +4790,9 @@ pub mod prci {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5018,13 +5080,14 @@ pub mod prci {
             }
         }
         #[doc = "Values that can be written to the field `pllq`"]
-        pub enum PLLQW { }
+        pub enum PLLQW {
+}
         impl PLLQW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> u8 {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -5280,7 +5343,9 @@ pub mod prci {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5449,7 +5514,9 @@ pub mod prci {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5566,7 +5633,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5635,7 +5704,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5704,7 +5775,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5773,7 +5846,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5842,7 +5917,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5911,7 +5988,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -5980,7 +6059,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6049,7 +6130,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6118,7 +6201,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6187,7 +6272,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6256,7 +6343,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6325,7 +6414,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6394,7 +6485,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6463,7 +6556,9 @@ pub mod otp {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -6586,7 +6681,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -8543,7 +8640,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -10500,7 +10599,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -12457,7 +12558,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -14414,7 +14517,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -16371,7 +16476,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -18328,7 +18435,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -20285,7 +20394,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -22242,7 +22353,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -24199,7 +24312,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -26156,7 +26271,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -28113,7 +28230,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -30070,7 +30189,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -32027,7 +32148,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -33984,7 +34107,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -35941,7 +36066,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -37016,13 +37143,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin0`"]
-        pub enum PIN0W { }
+        pub enum PIN0W {
+}
         impl PIN0W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37056,13 +37184,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin1`"]
-        pub enum PIN1W { }
+        pub enum PIN1W {
+}
         impl PIN1W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37096,13 +37225,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin2`"]
-        pub enum PIN2W { }
+        pub enum PIN2W {
+}
         impl PIN2W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37136,13 +37266,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin3`"]
-        pub enum PIN3W { }
+        pub enum PIN3W {
+}
         impl PIN3W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37176,13 +37307,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin4`"]
-        pub enum PIN4W { }
+        pub enum PIN4W {
+}
         impl PIN4W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37216,13 +37348,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin5`"]
-        pub enum PIN5W { }
+        pub enum PIN5W {
+}
         impl PIN5W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37256,13 +37389,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin6`"]
-        pub enum PIN6W { }
+        pub enum PIN6W {
+}
         impl PIN6W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37296,13 +37430,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin7`"]
-        pub enum PIN7W { }
+        pub enum PIN7W {
+}
         impl PIN7W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37336,13 +37471,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin8`"]
-        pub enum PIN8W { }
+        pub enum PIN8W {
+}
         impl PIN8W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37376,13 +37512,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin9`"]
-        pub enum PIN9W { }
+        pub enum PIN9W {
+}
         impl PIN9W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37416,13 +37553,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin10`"]
-        pub enum PIN10W { }
+        pub enum PIN10W {
+}
         impl PIN10W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37456,13 +37594,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin11`"]
-        pub enum PIN11W { }
+        pub enum PIN11W {
+}
         impl PIN11W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37496,13 +37635,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin12`"]
-        pub enum PIN12W { }
+        pub enum PIN12W {
+}
         impl PIN12W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37536,13 +37676,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin13`"]
-        pub enum PIN13W { }
+        pub enum PIN13W {
+}
         impl PIN13W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37576,13 +37717,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin14`"]
-        pub enum PIN14W { }
+        pub enum PIN14W {
+}
         impl PIN14W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37616,13 +37758,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin15`"]
-        pub enum PIN15W { }
+        pub enum PIN15W {
+}
         impl PIN15W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37656,13 +37799,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin16`"]
-        pub enum PIN16W { }
+        pub enum PIN16W {
+}
         impl PIN16W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37696,13 +37840,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin17`"]
-        pub enum PIN17W { }
+        pub enum PIN17W {
+}
         impl PIN17W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37736,13 +37881,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin18`"]
-        pub enum PIN18W { }
+        pub enum PIN18W {
+}
         impl PIN18W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37776,13 +37922,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin19`"]
-        pub enum PIN19W { }
+        pub enum PIN19W {
+}
         impl PIN19W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37816,13 +37963,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin20`"]
-        pub enum PIN20W { }
+        pub enum PIN20W {
+}
         impl PIN20W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37856,13 +38004,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin21`"]
-        pub enum PIN21W { }
+        pub enum PIN21W {
+}
         impl PIN21W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37896,13 +38045,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin22`"]
-        pub enum PIN22W { }
+        pub enum PIN22W {
+}
         impl PIN22W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37936,13 +38086,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin23`"]
-        pub enum PIN23W { }
+        pub enum PIN23W {
+}
         impl PIN23W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -37976,13 +38127,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin24`"]
-        pub enum PIN24W { }
+        pub enum PIN24W {
+}
         impl PIN24W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38016,13 +38168,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin25`"]
-        pub enum PIN25W { }
+        pub enum PIN25W {
+}
         impl PIN25W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38056,13 +38209,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin26`"]
-        pub enum PIN26W { }
+        pub enum PIN26W {
+}
         impl PIN26W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38096,13 +38250,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin27`"]
-        pub enum PIN27W { }
+        pub enum PIN27W {
+}
         impl PIN27W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38136,13 +38291,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin28`"]
-        pub enum PIN28W { }
+        pub enum PIN28W {
+}
         impl PIN28W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38176,13 +38332,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin29`"]
-        pub enum PIN29W { }
+        pub enum PIN29W {
+}
         impl PIN29W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38216,13 +38373,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin30`"]
-        pub enum PIN30W { }
+        pub enum PIN30W {
+}
         impl PIN30W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38256,13 +38414,14 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin31`"]
-        pub enum PIN31W { }
+        pub enum PIN31W {
+}
         impl PIN31W {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -38794,7 +38953,9 @@ pub mod gpio0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -40785,7 +40946,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -40954,7 +41117,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -41123,7 +41288,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -41351,7 +41518,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -41520,7 +41689,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -41707,7 +41878,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -41894,7 +42067,9 @@ pub mod uart0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42062,7 +42237,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42172,7 +42349,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42359,7 +42538,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42428,7 +42609,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42497,7 +42680,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42566,7 +42751,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42717,7 +42904,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42868,7 +43057,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -42899,12 +43090,7 @@ pub mod qspi0 {
         }
         #[doc = "Possible values of the field `direction`"]
         #[derive(Clone, Copy, Debug, PartialEq)]
-        pub enum DIRECTIONR {
-            #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
-            RX,
-            #[doc = "The receive FIFO is not populated."]
-            TX,
-        }
+        pub enum DIRECTIONR {# [ doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  " ] RX , # [ doc = "The receive FIFO is not populated." ] TX}
         impl DIRECTIONR {
             #[doc = r" Returns `true` if the bit is clear (0)"]
             #[inline(always)]
@@ -43016,12 +43202,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `direction`"]
-        pub enum DIRECTIONW {
-            #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
-            RX,
-            #[doc = "The receive FIFO is not populated."]
-            TX,
-        }
+        pub enum DIRECTIONW {# [ doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  " ] RX , # [ doc = "The receive FIFO is not populated." ] TX}
         impl DIRECTIONW {
             #[allow(missing_docs)]
             #[doc(hidden)]
@@ -43045,8 +43226,7 @@ pub mod qspi0 {
                     self.bit(variant._bits())
                 }
             }
-            #[doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal."]
-            #[inline(always)]
+            # [ doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal." ] # [ inline ( always ) ]
             pub fn rx(self) -> &'a mut W {
                 self.variant(DIRECTIONW::RX)
             }
@@ -43074,13 +43254,14 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `endian`"]
-        pub enum ENDIANW { }
+        pub enum ENDIANW {
+}
         impl ENDIANW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> bool {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -43114,13 +43295,14 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `protocol`"]
-        pub enum PROTOCOLW { }
+        pub enum PROTOCOLW {
+}
         impl PROTOCOLW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> u8 {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -43251,7 +43433,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -43420,7 +43604,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -43589,7 +43775,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -43699,7 +43887,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -43809,7 +43999,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -43937,7 +44129,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -44130,13 +44324,14 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `data_proto`"]
-        pub enum DATA_PROTOW { }
+        pub enum DATA_PROTOW {
+}
         impl DATA_PROTOW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> u8 {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -44160,13 +44355,14 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `addr_proto`"]
-        pub enum ADDR_PROTOW { }
+        pub enum ADDR_PROTOW {
+}
         impl ADDR_PROTOW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> u8 {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -44190,13 +44386,14 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `cmd_proto`"]
-        pub enum CMD_PROTOW { }
+        pub enum CMD_PROTOW {
+}
         impl CMD_PROTOW {
             #[allow(missing_docs)]
             #[doc(hidden)]
             #[inline(always)]
             pub fn _bits(&self) -> u8 {
-                match * self { }
+                match *self {}
             }
         }
         #[doc = r" Proxy"]
@@ -44448,7 +44645,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -44635,7 +44834,9 @@ pub mod qspi0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -44858,7 +45059,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -45953,7 +46156,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -46022,7 +46227,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -46091,7 +46298,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -46201,7 +46410,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -46311,7 +46522,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
@@ -46421,7 +46634,9 @@ pub mod pwm0 {
             #[doc = r" Reads the contents of the register"]
             #[inline(always)]
             pub fn read(&self) -> R {
-                R { bits: self.register.get() }
+                R {
+                    bits: self.register.get(),
+                }
             }
             #[doc = r" Writes to the register"]
             #[inline(always)]
