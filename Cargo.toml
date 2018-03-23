@@ -1,0 +1,15 @@
+[package]
+name = "e310x-hal"
+version = "0.1.0"
+authors = ["David Craven <david@craven.ch>"]
+repository = "https://github.com/riscv-rust/e310x-hal"
+categories = ["embedded", "hardware-support", "no-std"]
+description = "HAL for the E310x family of microcontrollers."
+keywords = ["riscv", "e310", "hal"]
+license = "ISC"
+
+[dependencies]
+embedded-hal = "0.1.2"
+riscv = { path = "../riscv" }
+riscv-rt = { path = "../riscv-rt" }
+e310x = { path = "../e310x", features = ["rt"] }
