@@ -64,10 +64,9 @@
         <register>
           <dim>255</dim>
           <dimIncrement>0x04</dimIncrement>
-          <dimIndex>1-255</dimIndex>
           <name>priority[%s]</name>
           <description>Interrupt Priority Register</description>
-          <addressOffset>0x000004</addressOffset>
+          <addressOffset>0x000000</addressOffset>
           <enumeratedValues derivedFrom="threshold">
           </enumeratedValues>
         </register>
