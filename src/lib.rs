@@ -1,11 +1,21 @@
-# ! [ cfg_attr ( feature = "rt" , feature ( global_asm ) ) ] # ! [ cfg_attr ( feature = "rt" , feature ( macro_reexport ) ) ] # ! [ cfg_attr ( feature = "rt" , feature ( used ) ) ] # ! [ doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.12.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.12.0/svd2rust/#peripheral-api" ] # ! [ allow ( private_no_mangle_statics ) ] # ! [ deny ( missing_docs ) ] # ! [ deny ( warnings ) ] # ! [ allow ( non_camel_case_types ) ] # ! [ feature ( const_fn ) ] # ! [ feature ( try_from ) ] # ! [ no_std ]
+#![cfg_attr(feature = "rt", feature(global_asm))]
+#![cfg_attr(feature = "rt", feature(macro_reexport))]
+#![cfg_attr(feature = "rt", feature(used))]
+#![doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.12.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.12.0/svd2rust/#peripheral-api"]
+#![allow(private_no_mangle_statics)]
+#![deny(missing_docs)]
+#![deny(warnings)]
+#![allow(non_camel_case_types)]
+#![feature(const_fn)]
+#![feature(try_from)]
+#![no_std]
 extern crate bare_metal;
 extern crate riscv;
 #[cfg(feature = "rt")]
 extern crate riscv_rt;
 extern crate vcell;
-use core::ops::Deref;
 use core::marker::PhantomData;
+use core::ops::Deref;
 pub use interrupt::Interrupt;
 #[doc(hidden)]
 pub mod interrupt {
@@ -259,7 +269,6 @@ impl Deref for CLINT {
 }
 #[doc = "Coreplex Local Interrupts"]
 pub mod clint {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -278,7 +287,7 @@ pub mod clint {
     }
     #[doc = "Hart 0 software interrupt register"]
     pub struct MSIP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Hart 0 software interrupt register"]
     pub mod msip {
@@ -349,7 +358,7 @@ pub mod clint {
     }
     #[doc = "Hart 0 time comparator register"]
     pub struct MTIMECMP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Hart 0 time comparator register"]
     pub mod mtimecmp {
@@ -420,7 +429,7 @@ pub mod clint {
     }
     #[doc = "Hart 0 time comparator register"]
     pub struct MTIMECMPH {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Hart 0 time comparator register"]
     pub mod mtimecmph {
@@ -491,7 +500,7 @@ pub mod clint {
     }
     #[doc = "Timer register"]
     pub struct MTIME {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Timer register"]
     pub mod mtime {
@@ -562,7 +571,7 @@ pub mod clint {
     }
     #[doc = "Timer register"]
     pub struct MTIMEH {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Timer register"]
     pub mod mtimeh {
@@ -651,528 +660,18 @@ impl Deref for PLIC {
 }
 #[doc = "Platform Level Interrupt Control"]
 pub mod plic {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
-        _reserved0: [u8; 4usize],
-        #[doc = "0x04 - Interrupt Priority Register"]
-        pub priority1: PRIORITY,
-        #[doc = "0x08 - Interrupt Priority Register"]
-        pub priority2: PRIORITY,
-        #[doc = "0x0c - Interrupt Priority Register"]
-        pub priority3: PRIORITY,
-        #[doc = "0x10 - Interrupt Priority Register"]
-        pub priority4: PRIORITY,
-        #[doc = "0x14 - Interrupt Priority Register"]
-        pub priority5: PRIORITY,
-        #[doc = "0x18 - Interrupt Priority Register"]
-        pub priority6: PRIORITY,
-        #[doc = "0x1c - Interrupt Priority Register"]
-        pub priority7: PRIORITY,
-        #[doc = "0x20 - Interrupt Priority Register"]
-        pub priority8: PRIORITY,
-        #[doc = "0x24 - Interrupt Priority Register"]
-        pub priority9: PRIORITY,
-        #[doc = "0x28 - Interrupt Priority Register"]
-        pub priority10: PRIORITY,
-        #[doc = "0x2c - Interrupt Priority Register"]
-        pub priority11: PRIORITY,
-        #[doc = "0x30 - Interrupt Priority Register"]
-        pub priority12: PRIORITY,
-        #[doc = "0x34 - Interrupt Priority Register"]
-        pub priority13: PRIORITY,
-        #[doc = "0x38 - Interrupt Priority Register"]
-        pub priority14: PRIORITY,
-        #[doc = "0x3c - Interrupt Priority Register"]
-        pub priority15: PRIORITY,
-        #[doc = "0x40 - Interrupt Priority Register"]
-        pub priority16: PRIORITY,
-        #[doc = "0x44 - Interrupt Priority Register"]
-        pub priority17: PRIORITY,
-        #[doc = "0x48 - Interrupt Priority Register"]
-        pub priority18: PRIORITY,
-        #[doc = "0x4c - Interrupt Priority Register"]
-        pub priority19: PRIORITY,
-        #[doc = "0x50 - Interrupt Priority Register"]
-        pub priority20: PRIORITY,
-        #[doc = "0x54 - Interrupt Priority Register"]
-        pub priority21: PRIORITY,
-        #[doc = "0x58 - Interrupt Priority Register"]
-        pub priority22: PRIORITY,
-        #[doc = "0x5c - Interrupt Priority Register"]
-        pub priority23: PRIORITY,
-        #[doc = "0x60 - Interrupt Priority Register"]
-        pub priority24: PRIORITY,
-        #[doc = "0x64 - Interrupt Priority Register"]
-        pub priority25: PRIORITY,
-        #[doc = "0x68 - Interrupt Priority Register"]
-        pub priority26: PRIORITY,
-        #[doc = "0x6c - Interrupt Priority Register"]
-        pub priority27: PRIORITY,
-        #[doc = "0x70 - Interrupt Priority Register"]
-        pub priority28: PRIORITY,
-        #[doc = "0x74 - Interrupt Priority Register"]
-        pub priority29: PRIORITY,
-        #[doc = "0x78 - Interrupt Priority Register"]
-        pub priority30: PRIORITY,
-        #[doc = "0x7c - Interrupt Priority Register"]
-        pub priority31: PRIORITY,
-        #[doc = "0x80 - Interrupt Priority Register"]
-        pub priority32: PRIORITY,
-        #[doc = "0x84 - Interrupt Priority Register"]
-        pub priority33: PRIORITY,
-        #[doc = "0x88 - Interrupt Priority Register"]
-        pub priority34: PRIORITY,
-        #[doc = "0x8c - Interrupt Priority Register"]
-        pub priority35: PRIORITY,
-        #[doc = "0x90 - Interrupt Priority Register"]
-        pub priority36: PRIORITY,
-        #[doc = "0x94 - Interrupt Priority Register"]
-        pub priority37: PRIORITY,
-        #[doc = "0x98 - Interrupt Priority Register"]
-        pub priority38: PRIORITY,
-        #[doc = "0x9c - Interrupt Priority Register"]
-        pub priority39: PRIORITY,
-        #[doc = "0xa0 - Interrupt Priority Register"]
-        pub priority40: PRIORITY,
-        #[doc = "0xa4 - Interrupt Priority Register"]
-        pub priority41: PRIORITY,
-        #[doc = "0xa8 - Interrupt Priority Register"]
-        pub priority42: PRIORITY,
-        #[doc = "0xac - Interrupt Priority Register"]
-        pub priority43: PRIORITY,
-        #[doc = "0xb0 - Interrupt Priority Register"]
-        pub priority44: PRIORITY,
-        #[doc = "0xb4 - Interrupt Priority Register"]
-        pub priority45: PRIORITY,
-        #[doc = "0xb8 - Interrupt Priority Register"]
-        pub priority46: PRIORITY,
-        #[doc = "0xbc - Interrupt Priority Register"]
-        pub priority47: PRIORITY,
-        #[doc = "0xc0 - Interrupt Priority Register"]
-        pub priority48: PRIORITY,
-        #[doc = "0xc4 - Interrupt Priority Register"]
-        pub priority49: PRIORITY,
-        #[doc = "0xc8 - Interrupt Priority Register"]
-        pub priority50: PRIORITY,
-        #[doc = "0xcc - Interrupt Priority Register"]
-        pub priority51: PRIORITY,
-        #[doc = "0xd0 - Interrupt Priority Register"]
-        pub priority52: PRIORITY,
-        #[doc = "0xd4 - Interrupt Priority Register"]
-        pub priority53: PRIORITY,
-        #[doc = "0xd8 - Interrupt Priority Register"]
-        pub priority54: PRIORITY,
-        #[doc = "0xdc - Interrupt Priority Register"]
-        pub priority55: PRIORITY,
-        #[doc = "0xe0 - Interrupt Priority Register"]
-        pub priority56: PRIORITY,
-        #[doc = "0xe4 - Interrupt Priority Register"]
-        pub priority57: PRIORITY,
-        #[doc = "0xe8 - Interrupt Priority Register"]
-        pub priority58: PRIORITY,
-        #[doc = "0xec - Interrupt Priority Register"]
-        pub priority59: PRIORITY,
-        #[doc = "0xf0 - Interrupt Priority Register"]
-        pub priority60: PRIORITY,
-        #[doc = "0xf4 - Interrupt Priority Register"]
-        pub priority61: PRIORITY,
-        #[doc = "0xf8 - Interrupt Priority Register"]
-        pub priority62: PRIORITY,
-        #[doc = "0xfc - Interrupt Priority Register"]
-        pub priority63: PRIORITY,
-        #[doc = "0x100 - Interrupt Priority Register"]
-        pub priority64: PRIORITY,
-        #[doc = "0x104 - Interrupt Priority Register"]
-        pub priority65: PRIORITY,
-        #[doc = "0x108 - Interrupt Priority Register"]
-        pub priority66: PRIORITY,
-        #[doc = "0x10c - Interrupt Priority Register"]
-        pub priority67: PRIORITY,
-        #[doc = "0x110 - Interrupt Priority Register"]
-        pub priority68: PRIORITY,
-        #[doc = "0x114 - Interrupt Priority Register"]
-        pub priority69: PRIORITY,
-        #[doc = "0x118 - Interrupt Priority Register"]
-        pub priority70: PRIORITY,
-        #[doc = "0x11c - Interrupt Priority Register"]
-        pub priority71: PRIORITY,
-        #[doc = "0x120 - Interrupt Priority Register"]
-        pub priority72: PRIORITY,
-        #[doc = "0x124 - Interrupt Priority Register"]
-        pub priority73: PRIORITY,
-        #[doc = "0x128 - Interrupt Priority Register"]
-        pub priority74: PRIORITY,
-        #[doc = "0x12c - Interrupt Priority Register"]
-        pub priority75: PRIORITY,
-        #[doc = "0x130 - Interrupt Priority Register"]
-        pub priority76: PRIORITY,
-        #[doc = "0x134 - Interrupt Priority Register"]
-        pub priority77: PRIORITY,
-        #[doc = "0x138 - Interrupt Priority Register"]
-        pub priority78: PRIORITY,
-        #[doc = "0x13c - Interrupt Priority Register"]
-        pub priority79: PRIORITY,
-        #[doc = "0x140 - Interrupt Priority Register"]
-        pub priority80: PRIORITY,
-        #[doc = "0x144 - Interrupt Priority Register"]
-        pub priority81: PRIORITY,
-        #[doc = "0x148 - Interrupt Priority Register"]
-        pub priority82: PRIORITY,
-        #[doc = "0x14c - Interrupt Priority Register"]
-        pub priority83: PRIORITY,
-        #[doc = "0x150 - Interrupt Priority Register"]
-        pub priority84: PRIORITY,
-        #[doc = "0x154 - Interrupt Priority Register"]
-        pub priority85: PRIORITY,
-        #[doc = "0x158 - Interrupt Priority Register"]
-        pub priority86: PRIORITY,
-        #[doc = "0x15c - Interrupt Priority Register"]
-        pub priority87: PRIORITY,
-        #[doc = "0x160 - Interrupt Priority Register"]
-        pub priority88: PRIORITY,
-        #[doc = "0x164 - Interrupt Priority Register"]
-        pub priority89: PRIORITY,
-        #[doc = "0x168 - Interrupt Priority Register"]
-        pub priority90: PRIORITY,
-        #[doc = "0x16c - Interrupt Priority Register"]
-        pub priority91: PRIORITY,
-        #[doc = "0x170 - Interrupt Priority Register"]
-        pub priority92: PRIORITY,
-        #[doc = "0x174 - Interrupt Priority Register"]
-        pub priority93: PRIORITY,
-        #[doc = "0x178 - Interrupt Priority Register"]
-        pub priority94: PRIORITY,
-        #[doc = "0x17c - Interrupt Priority Register"]
-        pub priority95: PRIORITY,
-        #[doc = "0x180 - Interrupt Priority Register"]
-        pub priority96: PRIORITY,
-        #[doc = "0x184 - Interrupt Priority Register"]
-        pub priority97: PRIORITY,
-        #[doc = "0x188 - Interrupt Priority Register"]
-        pub priority98: PRIORITY,
-        #[doc = "0x18c - Interrupt Priority Register"]
-        pub priority99: PRIORITY,
-        #[doc = "0x190 - Interrupt Priority Register"]
-        pub priority100: PRIORITY,
-        #[doc = "0x194 - Interrupt Priority Register"]
-        pub priority101: PRIORITY,
-        #[doc = "0x198 - Interrupt Priority Register"]
-        pub priority102: PRIORITY,
-        #[doc = "0x19c - Interrupt Priority Register"]
-        pub priority103: PRIORITY,
-        #[doc = "0x1a0 - Interrupt Priority Register"]
-        pub priority104: PRIORITY,
-        #[doc = "0x1a4 - Interrupt Priority Register"]
-        pub priority105: PRIORITY,
-        #[doc = "0x1a8 - Interrupt Priority Register"]
-        pub priority106: PRIORITY,
-        #[doc = "0x1ac - Interrupt Priority Register"]
-        pub priority107: PRIORITY,
-        #[doc = "0x1b0 - Interrupt Priority Register"]
-        pub priority108: PRIORITY,
-        #[doc = "0x1b4 - Interrupt Priority Register"]
-        pub priority109: PRIORITY,
-        #[doc = "0x1b8 - Interrupt Priority Register"]
-        pub priority110: PRIORITY,
-        #[doc = "0x1bc - Interrupt Priority Register"]
-        pub priority111: PRIORITY,
-        #[doc = "0x1c0 - Interrupt Priority Register"]
-        pub priority112: PRIORITY,
-        #[doc = "0x1c4 - Interrupt Priority Register"]
-        pub priority113: PRIORITY,
-        #[doc = "0x1c8 - Interrupt Priority Register"]
-        pub priority114: PRIORITY,
-        #[doc = "0x1cc - Interrupt Priority Register"]
-        pub priority115: PRIORITY,
-        #[doc = "0x1d0 - Interrupt Priority Register"]
-        pub priority116: PRIORITY,
-        #[doc = "0x1d4 - Interrupt Priority Register"]
-        pub priority117: PRIORITY,
-        #[doc = "0x1d8 - Interrupt Priority Register"]
-        pub priority118: PRIORITY,
-        #[doc = "0x1dc - Interrupt Priority Register"]
-        pub priority119: PRIORITY,
-        #[doc = "0x1e0 - Interrupt Priority Register"]
-        pub priority120: PRIORITY,
-        #[doc = "0x1e4 - Interrupt Priority Register"]
-        pub priority121: PRIORITY,
-        #[doc = "0x1e8 - Interrupt Priority Register"]
-        pub priority122: PRIORITY,
-        #[doc = "0x1ec - Interrupt Priority Register"]
-        pub priority123: PRIORITY,
-        #[doc = "0x1f0 - Interrupt Priority Register"]
-        pub priority124: PRIORITY,
-        #[doc = "0x1f4 - Interrupt Priority Register"]
-        pub priority125: PRIORITY,
-        #[doc = "0x1f8 - Interrupt Priority Register"]
-        pub priority126: PRIORITY,
-        #[doc = "0x1fc - Interrupt Priority Register"]
-        pub priority127: PRIORITY,
-        #[doc = "0x200 - Interrupt Priority Register"]
-        pub priority128: PRIORITY,
-        #[doc = "0x204 - Interrupt Priority Register"]
-        pub priority129: PRIORITY,
-        #[doc = "0x208 - Interrupt Priority Register"]
-        pub priority130: PRIORITY,
-        #[doc = "0x20c - Interrupt Priority Register"]
-        pub priority131: PRIORITY,
-        #[doc = "0x210 - Interrupt Priority Register"]
-        pub priority132: PRIORITY,
-        #[doc = "0x214 - Interrupt Priority Register"]
-        pub priority133: PRIORITY,
-        #[doc = "0x218 - Interrupt Priority Register"]
-        pub priority134: PRIORITY,
-        #[doc = "0x21c - Interrupt Priority Register"]
-        pub priority135: PRIORITY,
-        #[doc = "0x220 - Interrupt Priority Register"]
-        pub priority136: PRIORITY,
-        #[doc = "0x224 - Interrupt Priority Register"]
-        pub priority137: PRIORITY,
-        #[doc = "0x228 - Interrupt Priority Register"]
-        pub priority138: PRIORITY,
-        #[doc = "0x22c - Interrupt Priority Register"]
-        pub priority139: PRIORITY,
-        #[doc = "0x230 - Interrupt Priority Register"]
-        pub priority140: PRIORITY,
-        #[doc = "0x234 - Interrupt Priority Register"]
-        pub priority141: PRIORITY,
-        #[doc = "0x238 - Interrupt Priority Register"]
-        pub priority142: PRIORITY,
-        #[doc = "0x23c - Interrupt Priority Register"]
-        pub priority143: PRIORITY,
-        #[doc = "0x240 - Interrupt Priority Register"]
-        pub priority144: PRIORITY,
-        #[doc = "0x244 - Interrupt Priority Register"]
-        pub priority145: PRIORITY,
-        #[doc = "0x248 - Interrupt Priority Register"]
-        pub priority146: PRIORITY,
-        #[doc = "0x24c - Interrupt Priority Register"]
-        pub priority147: PRIORITY,
-        #[doc = "0x250 - Interrupt Priority Register"]
-        pub priority148: PRIORITY,
-        #[doc = "0x254 - Interrupt Priority Register"]
-        pub priority149: PRIORITY,
-        #[doc = "0x258 - Interrupt Priority Register"]
-        pub priority150: PRIORITY,
-        #[doc = "0x25c - Interrupt Priority Register"]
-        pub priority151: PRIORITY,
-        #[doc = "0x260 - Interrupt Priority Register"]
-        pub priority152: PRIORITY,
-        #[doc = "0x264 - Interrupt Priority Register"]
-        pub priority153: PRIORITY,
-        #[doc = "0x268 - Interrupt Priority Register"]
-        pub priority154: PRIORITY,
-        #[doc = "0x26c - Interrupt Priority Register"]
-        pub priority155: PRIORITY,
-        #[doc = "0x270 - Interrupt Priority Register"]
-        pub priority156: PRIORITY,
-        #[doc = "0x274 - Interrupt Priority Register"]
-        pub priority157: PRIORITY,
-        #[doc = "0x278 - Interrupt Priority Register"]
-        pub priority158: PRIORITY,
-        #[doc = "0x27c - Interrupt Priority Register"]
-        pub priority159: PRIORITY,
-        #[doc = "0x280 - Interrupt Priority Register"]
-        pub priority160: PRIORITY,
-        #[doc = "0x284 - Interrupt Priority Register"]
-        pub priority161: PRIORITY,
-        #[doc = "0x288 - Interrupt Priority Register"]
-        pub priority162: PRIORITY,
-        #[doc = "0x28c - Interrupt Priority Register"]
-        pub priority163: PRIORITY,
-        #[doc = "0x290 - Interrupt Priority Register"]
-        pub priority164: PRIORITY,
-        #[doc = "0x294 - Interrupt Priority Register"]
-        pub priority165: PRIORITY,
-        #[doc = "0x298 - Interrupt Priority Register"]
-        pub priority166: PRIORITY,
-        #[doc = "0x29c - Interrupt Priority Register"]
-        pub priority167: PRIORITY,
-        #[doc = "0x2a0 - Interrupt Priority Register"]
-        pub priority168: PRIORITY,
-        #[doc = "0x2a4 - Interrupt Priority Register"]
-        pub priority169: PRIORITY,
-        #[doc = "0x2a8 - Interrupt Priority Register"]
-        pub priority170: PRIORITY,
-        #[doc = "0x2ac - Interrupt Priority Register"]
-        pub priority171: PRIORITY,
-        #[doc = "0x2b0 - Interrupt Priority Register"]
-        pub priority172: PRIORITY,
-        #[doc = "0x2b4 - Interrupt Priority Register"]
-        pub priority173: PRIORITY,
-        #[doc = "0x2b8 - Interrupt Priority Register"]
-        pub priority174: PRIORITY,
-        #[doc = "0x2bc - Interrupt Priority Register"]
-        pub priority175: PRIORITY,
-        #[doc = "0x2c0 - Interrupt Priority Register"]
-        pub priority176: PRIORITY,
-        #[doc = "0x2c4 - Interrupt Priority Register"]
-        pub priority177: PRIORITY,
-        #[doc = "0x2c8 - Interrupt Priority Register"]
-        pub priority178: PRIORITY,
-        #[doc = "0x2cc - Interrupt Priority Register"]
-        pub priority179: PRIORITY,
-        #[doc = "0x2d0 - Interrupt Priority Register"]
-        pub priority180: PRIORITY,
-        #[doc = "0x2d4 - Interrupt Priority Register"]
-        pub priority181: PRIORITY,
-        #[doc = "0x2d8 - Interrupt Priority Register"]
-        pub priority182: PRIORITY,
-        #[doc = "0x2dc - Interrupt Priority Register"]
-        pub priority183: PRIORITY,
-        #[doc = "0x2e0 - Interrupt Priority Register"]
-        pub priority184: PRIORITY,
-        #[doc = "0x2e4 - Interrupt Priority Register"]
-        pub priority185: PRIORITY,
-        #[doc = "0x2e8 - Interrupt Priority Register"]
-        pub priority186: PRIORITY,
-        #[doc = "0x2ec - Interrupt Priority Register"]
-        pub priority187: PRIORITY,
-        #[doc = "0x2f0 - Interrupt Priority Register"]
-        pub priority188: PRIORITY,
-        #[doc = "0x2f4 - Interrupt Priority Register"]
-        pub priority189: PRIORITY,
-        #[doc = "0x2f8 - Interrupt Priority Register"]
-        pub priority190: PRIORITY,
-        #[doc = "0x2fc - Interrupt Priority Register"]
-        pub priority191: PRIORITY,
-        #[doc = "0x300 - Interrupt Priority Register"]
-        pub priority192: PRIORITY,
-        #[doc = "0x304 - Interrupt Priority Register"]
-        pub priority193: PRIORITY,
-        #[doc = "0x308 - Interrupt Priority Register"]
-        pub priority194: PRIORITY,
-        #[doc = "0x30c - Interrupt Priority Register"]
-        pub priority195: PRIORITY,
-        #[doc = "0x310 - Interrupt Priority Register"]
-        pub priority196: PRIORITY,
-        #[doc = "0x314 - Interrupt Priority Register"]
-        pub priority197: PRIORITY,
-        #[doc = "0x318 - Interrupt Priority Register"]
-        pub priority198: PRIORITY,
-        #[doc = "0x31c - Interrupt Priority Register"]
-        pub priority199: PRIORITY,
-        #[doc = "0x320 - Interrupt Priority Register"]
-        pub priority200: PRIORITY,
-        #[doc = "0x324 - Interrupt Priority Register"]
-        pub priority201: PRIORITY,
-        #[doc = "0x328 - Interrupt Priority Register"]
-        pub priority202: PRIORITY,
-        #[doc = "0x32c - Interrupt Priority Register"]
-        pub priority203: PRIORITY,
-        #[doc = "0x330 - Interrupt Priority Register"]
-        pub priority204: PRIORITY,
-        #[doc = "0x334 - Interrupt Priority Register"]
-        pub priority205: PRIORITY,
-        #[doc = "0x338 - Interrupt Priority Register"]
-        pub priority206: PRIORITY,
-        #[doc = "0x33c - Interrupt Priority Register"]
-        pub priority207: PRIORITY,
-        #[doc = "0x340 - Interrupt Priority Register"]
-        pub priority208: PRIORITY,
-        #[doc = "0x344 - Interrupt Priority Register"]
-        pub priority209: PRIORITY,
-        #[doc = "0x348 - Interrupt Priority Register"]
-        pub priority210: PRIORITY,
-        #[doc = "0x34c - Interrupt Priority Register"]
-        pub priority211: PRIORITY,
-        #[doc = "0x350 - Interrupt Priority Register"]
-        pub priority212: PRIORITY,
-        #[doc = "0x354 - Interrupt Priority Register"]
-        pub priority213: PRIORITY,
-        #[doc = "0x358 - Interrupt Priority Register"]
-        pub priority214: PRIORITY,
-        #[doc = "0x35c - Interrupt Priority Register"]
-        pub priority215: PRIORITY,
-        #[doc = "0x360 - Interrupt Priority Register"]
-        pub priority216: PRIORITY,
-        #[doc = "0x364 - Interrupt Priority Register"]
-        pub priority217: PRIORITY,
-        #[doc = "0x368 - Interrupt Priority Register"]
-        pub priority218: PRIORITY,
-        #[doc = "0x36c - Interrupt Priority Register"]
-        pub priority219: PRIORITY,
-        #[doc = "0x370 - Interrupt Priority Register"]
-        pub priority220: PRIORITY,
-        #[doc = "0x374 - Interrupt Priority Register"]
-        pub priority221: PRIORITY,
-        #[doc = "0x378 - Interrupt Priority Register"]
-        pub priority222: PRIORITY,
-        #[doc = "0x37c - Interrupt Priority Register"]
-        pub priority223: PRIORITY,
-        #[doc = "0x380 - Interrupt Priority Register"]
-        pub priority224: PRIORITY,
-        #[doc = "0x384 - Interrupt Priority Register"]
-        pub priority225: PRIORITY,
-        #[doc = "0x388 - Interrupt Priority Register"]
-        pub priority226: PRIORITY,
-        #[doc = "0x38c - Interrupt Priority Register"]
-        pub priority227: PRIORITY,
-        #[doc = "0x390 - Interrupt Priority Register"]
-        pub priority228: PRIORITY,
-        #[doc = "0x394 - Interrupt Priority Register"]
-        pub priority229: PRIORITY,
-        #[doc = "0x398 - Interrupt Priority Register"]
-        pub priority230: PRIORITY,
-        #[doc = "0x39c - Interrupt Priority Register"]
-        pub priority231: PRIORITY,
-        #[doc = "0x3a0 - Interrupt Priority Register"]
-        pub priority232: PRIORITY,
-        #[doc = "0x3a4 - Interrupt Priority Register"]
-        pub priority233: PRIORITY,
-        #[doc = "0x3a8 - Interrupt Priority Register"]
-        pub priority234: PRIORITY,
-        #[doc = "0x3ac - Interrupt Priority Register"]
-        pub priority235: PRIORITY,
-        #[doc = "0x3b0 - Interrupt Priority Register"]
-        pub priority236: PRIORITY,
-        #[doc = "0x3b4 - Interrupt Priority Register"]
-        pub priority237: PRIORITY,
-        #[doc = "0x3b8 - Interrupt Priority Register"]
-        pub priority238: PRIORITY,
-        #[doc = "0x3bc - Interrupt Priority Register"]
-        pub priority239: PRIORITY,
-        #[doc = "0x3c0 - Interrupt Priority Register"]
-        pub priority240: PRIORITY,
-        #[doc = "0x3c4 - Interrupt Priority Register"]
-        pub priority241: PRIORITY,
-        #[doc = "0x3c8 - Interrupt Priority Register"]
-        pub priority242: PRIORITY,
-        #[doc = "0x3cc - Interrupt Priority Register"]
-        pub priority243: PRIORITY,
-        #[doc = "0x3d0 - Interrupt Priority Register"]
-        pub priority244: PRIORITY,
-        #[doc = "0x3d4 - Interrupt Priority Register"]
-        pub priority245: PRIORITY,
-        #[doc = "0x3d8 - Interrupt Priority Register"]
-        pub priority246: PRIORITY,
-        #[doc = "0x3dc - Interrupt Priority Register"]
-        pub priority247: PRIORITY,
-        #[doc = "0x3e0 - Interrupt Priority Register"]
-        pub priority248: PRIORITY,
-        #[doc = "0x3e4 - Interrupt Priority Register"]
-        pub priority249: PRIORITY,
-        #[doc = "0x3e8 - Interrupt Priority Register"]
-        pub priority250: PRIORITY,
-        #[doc = "0x3ec - Interrupt Priority Register"]
-        pub priority251: PRIORITY,
-        #[doc = "0x3f0 - Interrupt Priority Register"]
-        pub priority252: PRIORITY,
-        #[doc = "0x3f4 - Interrupt Priority Register"]
-        pub priority253: PRIORITY,
-        #[doc = "0x3f8 - Interrupt Priority Register"]
-        pub priority254: PRIORITY,
-        #[doc = "0x3fc - Interrupt Priority Register"]
-        pub priority255: PRIORITY,
-        _reserved1: [u8; 3072usize],
+        #[doc = "0x00 - Interrupt Priority Register"]
+        pub priority: [PRIORITY; 255],
+        _reserved0: [u8; 3076usize],
         #[doc = "0x1000 - Interrupt Pending Register"]
         pub pending: [PENDING; 8],
-        _reserved2: [u8; 4064usize],
+        _reserved1: [u8; 4064usize],
         #[doc = "0x2000 - Interrupt Enable Register"]
         pub enable: [ENABLE; 8],
-        _reserved3: [u8; 2088928usize],
+        _reserved2: [u8; 2088928usize],
         #[doc = "0x200000 - Priority Threshold Register"]
         pub threshold: THRESHOLD,
         #[doc = "0x200004 - Claim/Complete Register"]
@@ -1180,7 +679,7 @@ pub mod plic {
     }
     #[doc = "Interrupt Priority Register"]
     pub struct PRIORITY {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Interrupt Priority Register"]
     pub mod priority {
@@ -1251,7 +750,7 @@ pub mod plic {
     }
     #[doc = "Interrupt Pending Register"]
     pub struct PENDING {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Interrupt Pending Register"]
     pub mod pending {
@@ -1322,7 +821,7 @@ pub mod plic {
     }
     #[doc = "Interrupt Enable Register"]
     pub struct ENABLE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Interrupt Enable Register"]
     pub mod enable {
@@ -1393,7 +892,7 @@ pub mod plic {
     }
     #[doc = "Priority Threshold Register"]
     pub struct THRESHOLD {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Priority Threshold Register"]
     pub mod threshold {
@@ -1532,7 +1031,7 @@ pub mod plic {
     }
     #[doc = "Claim/Complete Register"]
     pub struct CLAIM {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Claim/Complete Register"]
     pub mod claim {
@@ -1621,7 +1120,6 @@ impl Deref for WDOG {
 }
 #[doc = "Watchdog"]
 pub mod wdog {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -1643,7 +1141,7 @@ pub mod wdog {
     }
     #[doc = "Watchdog Configuration Register"]
     pub struct WDOGCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Watchdog Configuration Register"]
     pub mod wdogcfg {
@@ -2050,7 +1548,7 @@ pub mod wdog {
     }
     #[doc = "Watchdog Counter Register"]
     pub struct WDOGCOUNT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Watchdog Counter Register"]
     pub mod wdogcount {
@@ -2121,7 +1619,7 @@ pub mod wdog {
     }
     #[doc = "Watchdog Scaled Counter Register"]
     pub struct WDOGS {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Watchdog Scaled Counter Register"]
     pub mod wdogs {
@@ -2192,7 +1690,7 @@ pub mod wdog {
     }
     #[doc = "Watchdog Feed Register"]
     pub struct WDOGFEED {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Watchdog Feed Register"]
     pub mod wdogfeed {
@@ -2263,7 +1761,7 @@ pub mod wdog {
     }
     #[doc = "Watchdog Key Register"]
     pub struct WDOGKEY {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Watchdog Key Register"]
     pub mod wdogkey {
@@ -2299,7 +1797,7 @@ pub mod wdog {
     }
     #[doc = "Watchdog Compare Register"]
     pub struct WDOGCMP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Watchdog Compare Register"]
     pub mod wdogcmp {
@@ -2429,7 +1927,6 @@ impl Deref for RTC {
 }
 #[doc = "Watchdog"]
 pub mod rtc {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -2449,7 +1946,7 @@ pub mod rtc {
     }
     #[doc = "RTC Configuration Register"]
     pub struct RTCCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "RTC Configuration Register"]
     pub mod rtccfg {
@@ -2679,7 +2176,7 @@ pub mod rtc {
     }
     #[doc = "RTC Counter Low Register"]
     pub struct RTCLO {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "RTC Counter Low Register"]
     pub mod rtclo {
@@ -2750,7 +2247,7 @@ pub mod rtc {
     }
     #[doc = "RTC Counter High Register"]
     pub struct RTCHI {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "RTC Counter High Register"]
     pub mod rtchi {
@@ -2862,7 +2359,7 @@ pub mod rtc {
     }
     #[doc = "RTC Scaled Counter Register"]
     pub struct RTCS {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "RTC Scaled Counter Register"]
     pub mod rtcs {
@@ -2933,7 +2430,7 @@ pub mod rtc {
     }
     #[doc = "RTC Compare Register"]
     pub struct RTCCMP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "RTC Compare Register"]
     pub mod rtccmp {
@@ -3022,7 +2519,6 @@ impl Deref for AONCLK {
 }
 #[doc = "Always-On Clock Configuration"]
 pub mod aonclk {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -3034,7 +2530,7 @@ pub mod aonclk {
     }
     #[doc = "AON Clock Configuration Register"]
     pub struct LFROSCCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "AON Clock Configuration Register"]
     pub mod lfrosccfg {
@@ -3264,7 +2760,7 @@ pub mod aonclk {
     }
     #[doc = "AON Clock Configuration Register"]
     pub struct LFXOSCCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "AON Clock Configuration Register"]
     pub mod lfxosccfg {
@@ -3471,7 +2967,6 @@ impl Deref for BACKUP {
 }
 #[doc = "Backup Registers"]
 pub mod backup {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -3481,7 +2976,7 @@ pub mod backup {
     }
     #[doc = "Backup Register"]
     pub struct BACKUP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Backup Register"]
     pub mod backup {
@@ -3570,7 +3065,6 @@ impl Deref for PMU {
 }
 #[doc = "PMU"]
 pub mod pmu {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -3590,7 +3084,7 @@ pub mod pmu {
     }
     #[doc = "PMU Wake Program Memory"]
     pub struct PMUWAKEPM {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PMU Wake Program Memory"]
     pub mod pmuwakepm {
@@ -3879,7 +3373,7 @@ pub mod pmu {
     }
     #[doc = "PMU Sleep Program Memory"]
     pub struct PMUSLEEPPM {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PMU Sleep Program Memory"]
     pub mod pmusleeppm {
@@ -4168,7 +3662,7 @@ pub mod pmu {
     }
     #[doc = "PMU Interrupt Enable Register"]
     pub struct PMUIE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PMU Interrupt Enable Register"]
     pub mod pmuie {
@@ -4416,7 +3910,7 @@ pub mod pmu {
     }
     #[doc = "PMU Cause Register"]
     pub struct PMUCAUSE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PMU Cause Register"]
     pub mod pmucause {
@@ -4727,7 +4221,7 @@ pub mod pmu {
     }
     #[doc = "PMU Sleep Register"]
     pub struct PMUSLEEP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PMU Sleep Register"]
     pub mod pmusleep {
@@ -4791,7 +4285,7 @@ pub mod pmu {
     }
     #[doc = "PMU Key Register"]
     pub struct PMUKEY {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PMU Key Register"]
     pub mod pmukey {
@@ -4845,7 +4339,6 @@ impl Deref for PRCI {
 }
 #[doc = "Power Reset Clock Interrupts"]
 pub mod prci {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -4862,7 +4355,7 @@ pub mod prci {
     }
     #[doc = "Clock Configuration Register"]
     pub struct HFROSCCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Clock Configuration Register"]
     pub mod hfrosccfg {
@@ -5133,7 +4626,7 @@ pub mod prci {
     }
     #[doc = "Clock Configuration Register"]
     pub struct HFXOSCCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Clock Configuration Register"]
     pub mod hfxosccfg {
@@ -5322,7 +4815,7 @@ pub mod prci {
     }
     #[doc = "PLL Configuration Register"]
     pub struct PLLCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PLL Configuration Register"]
     pub mod pllcfg {
@@ -5875,7 +5368,7 @@ pub mod prci {
     }
     #[doc = "PLL Divider Register"]
     pub struct PLLOUTDIV {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PLL Divider Register"]
     pub mod plloutdiv {
@@ -6046,7 +5539,7 @@ pub mod prci {
     }
     #[doc = "Clock Configuration Register"]
     pub struct CORECLKCFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Clock Configuration Register"]
     pub mod coreclkcfg {
@@ -6135,7 +5628,6 @@ impl Deref for OTP {
 }
 #[doc = "One Time Programmable Memory"]
 pub mod otp {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -6170,7 +5662,7 @@ pub mod otp {
     }
     #[doc = "Programmed-I/O lock register"]
     pub struct LOCK {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Programmed-I/O lock register"]
     pub mod lock {
@@ -6241,7 +5733,7 @@ pub mod otp {
     }
     #[doc = "OTP device clock signal"]
     pub struct CLOCK {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device clock signal"]
     pub mod clock {
@@ -6312,7 +5804,7 @@ pub mod otp {
     }
     #[doc = "OTP device output-enable signal"]
     pub struct OUTPUT_EN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device output-enable signal"]
     pub mod output_en {
@@ -6383,7 +5875,7 @@ pub mod otp {
     }
     #[doc = "OTP device chip-select signal"]
     pub struct SELECT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device chip-select signal"]
     pub mod select {
@@ -6454,7 +5946,7 @@ pub mod otp {
     }
     #[doc = "OTP device write-enable signal"]
     pub struct WRITE_EN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device write-enable signal"]
     pub mod write_en {
@@ -6525,7 +6017,7 @@ pub mod otp {
     }
     #[doc = "OTP device mode register"]
     pub struct MODE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device mode register"]
     pub mod mode {
@@ -6596,7 +6088,7 @@ pub mod otp {
     }
     #[doc = "OTP read-voltage regulator control"]
     pub struct MRR {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP read-voltage regulator control"]
     pub mod mrr {
@@ -6667,7 +6159,7 @@ pub mod otp {
     }
     #[doc = "OTP write-voltage charge pump control"]
     pub struct MPP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP write-voltage charge pump control"]
     pub mod mpp {
@@ -6738,7 +6230,7 @@ pub mod otp {
     }
     #[doc = "OTP read-voltage enable"]
     pub struct VRREN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP read-voltage enable"]
     pub mod vrren {
@@ -6809,7 +6301,7 @@ pub mod otp {
     }
     #[doc = "OTP write-voltage enable"]
     pub struct VPPEN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP write-voltage enable"]
     pub mod vppen {
@@ -6880,7 +6372,7 @@ pub mod otp {
     }
     #[doc = "OTP device address"]
     pub struct ADDR {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device address"]
     pub mod addr {
@@ -6951,7 +6443,7 @@ pub mod otp {
     }
     #[doc = "OTP device data input"]
     pub struct DATA_IN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device data input"]
     pub mod data_in {
@@ -7022,7 +6514,7 @@ pub mod otp {
     }
     #[doc = "OTP device data output"]
     pub struct DATA_OUT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP device data output"]
     pub mod data_out {
@@ -7093,7 +6585,7 @@ pub mod otp {
     }
     #[doc = "OTP read sequencer control"]
     pub struct RSCTRL {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "OTP read sequencer control"]
     pub mod rsctrl {
@@ -7182,7 +6674,6 @@ impl Deref for GPIO0 {
 }
 #[doc = "General Purpose Input Output"]
 pub mod gpio0 {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -7223,7 +6714,7 @@ pub mod gpio0 {
     }
     #[doc = "Pin value."]
     pub struct VALUE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Pin value."]
     pub mod value {
@@ -9182,7 +8673,7 @@ pub mod gpio0 {
     }
     #[doc = "Pin Input Enable Register"]
     pub struct INPUT_EN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Pin Input Enable Register"]
     pub mod input_en {
@@ -11141,7 +10632,7 @@ pub mod gpio0 {
     }
     #[doc = "Pin Output Enable Register"]
     pub struct OUTPUT_EN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Pin Output Enable Register"]
     pub mod output_en {
@@ -13100,7 +12591,7 @@ pub mod gpio0 {
     }
     #[doc = "Output Port Value Register"]
     pub struct PORT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Output Port Value Register"]
     pub mod port {
@@ -15059,7 +14550,7 @@ pub mod gpio0 {
     }
     #[doc = "Internal Pull-Up Enable Register"]
     pub struct PULLUP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Internal Pull-Up Enable Register"]
     pub mod pullup {
@@ -17018,7 +16509,7 @@ pub mod gpio0 {
     }
     #[doc = "Drive Strength Register"]
     pub struct DRIVE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Drive Strength Register"]
     pub mod drive {
@@ -18977,7 +18468,7 @@ pub mod gpio0 {
     }
     #[doc = "Rise Interrupt Enable Register"]
     pub struct RISE_IE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Rise Interrupt Enable Register"]
     pub mod rise_ie {
@@ -20936,7 +20427,7 @@ pub mod gpio0 {
     }
     #[doc = "Rise Interrupt Pending Register"]
     pub struct RISE_IP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Rise Interrupt Pending Register"]
     pub mod rise_ip {
@@ -22895,7 +22386,7 @@ pub mod gpio0 {
     }
     #[doc = "Fall Interrupt Enable Register"]
     pub struct FALL_IE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Fall Interrupt Enable Register"]
     pub mod fall_ie {
@@ -24854,7 +24345,7 @@ pub mod gpio0 {
     }
     #[doc = "Fall Interrupt Pending Register"]
     pub struct FALL_IP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Fall Interrupt Pending Register"]
     pub mod fall_ip {
@@ -26813,7 +26304,7 @@ pub mod gpio0 {
     }
     #[doc = "High Interrupt Enable Register"]
     pub struct HIGH_IE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "High Interrupt Enable Register"]
     pub mod high_ie {
@@ -28772,7 +28263,7 @@ pub mod gpio0 {
     }
     #[doc = "High Interrupt Pending Register"]
     pub struct HIGH_IP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "High Interrupt Pending Register"]
     pub mod high_ip {
@@ -30731,7 +30222,7 @@ pub mod gpio0 {
     }
     #[doc = "Low Interrupt Enable Register"]
     pub struct LOW_IE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Low Interrupt Enable Register"]
     pub mod low_ie {
@@ -32690,7 +32181,7 @@ pub mod gpio0 {
     }
     #[doc = "Low Interrupt Pending Register"]
     pub struct LOW_IP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Low Interrupt Pending Register"]
     pub mod low_ip {
@@ -34649,7 +34140,7 @@ pub mod gpio0 {
     }
     #[doc = "HW I/O Function Enable Register"]
     pub struct IOF_EN {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "HW I/O Function Enable Register"]
     pub mod iof_en {
@@ -36608,7 +36099,7 @@ pub mod gpio0 {
     }
     #[doc = "HW I/O Function Select Register"]
     pub struct IOF_SEL {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "HW I/O Function Select Register"]
     pub mod iof_sel {
@@ -39495,7 +38986,7 @@ pub mod gpio0 {
     }
     #[doc = "Output XOR (invert) Register"]
     pub struct OUT_XOR {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Output XOR (invert) Register"]
     pub mod out_xor {
@@ -41472,7 +40963,6 @@ impl Deref for UART0 {
 }
 #[doc = "Universal Asynchronous Receiver Transmitter"]
 pub mod uart0 {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -41493,7 +40983,7 @@ pub mod uart0 {
     }
     #[doc = "Transmit Data Register"]
     pub struct TXDATA {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Transmit Data Register"]
     pub mod txdata {
@@ -41664,7 +41154,7 @@ pub mod uart0 {
     }
     #[doc = "Receive Data Register"]
     pub struct RXDATA {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Receive Data Register"]
     pub mod rxdata {
@@ -41835,7 +41325,7 @@ pub mod uart0 {
     }
     #[doc = "Transmit Control Register"]
     pub struct TXCTRL {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Transmit Control Register"]
     pub mod txctrl {
@@ -42065,7 +41555,7 @@ pub mod uart0 {
     }
     #[doc = "Receive Control Register"]
     pub struct RXCTRL {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Receive Control Register"]
     pub mod rxctrl {
@@ -42236,7 +41726,7 @@ pub mod uart0 {
     }
     #[doc = "Interrupt Enable Register"]
     pub struct IE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Interrupt Enable Register"]
     pub mod ie {
@@ -42425,7 +41915,7 @@ pub mod uart0 {
     }
     #[doc = "Interrupt Pending Register"]
     pub struct IP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Interrupt Pending Register"]
     pub mod ip {
@@ -42614,7 +42104,7 @@ pub mod uart0 {
     }
     #[doc = "Baud Rate Divisor Register"]
     pub struct DIV {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Baud Rate Divisor Register"]
     pub mod div {
@@ -42744,7 +42234,6 @@ impl Deref for QSPI0 {
 }
 #[doc = "Quad Serial Peripheral Interface"]
 pub mod qspi0 {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -42789,7 +42278,7 @@ pub mod qspi0 {
     }
     #[doc = "Serial Clock Divisor Register"]
     pub struct DIV {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Serial Clock Divisor Register"]
     pub mod div {
@@ -42901,7 +42390,7 @@ pub mod qspi0 {
     }
     #[doc = "Serial Clock Mode Register"]
     pub struct MODE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Serial Clock Mode Register"]
     pub mod mode {
@@ -43090,7 +42579,7 @@ pub mod qspi0 {
     }
     #[doc = "Chip Select ID Register"]
     pub struct CSID {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Chip Select ID Register"]
     pub mod csid {
@@ -43161,7 +42650,7 @@ pub mod qspi0 {
     }
     #[doc = "Chip Select Default Register"]
     pub struct CSDEF {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Chip Select Default Register"]
     pub mod csdef {
@@ -43232,7 +42721,7 @@ pub mod qspi0 {
     }
     #[doc = "Chip Select Mode Register"]
     pub struct CSMODE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Chip Select Mode Register"]
     pub mod csmode {
@@ -43303,7 +42792,7 @@ pub mod qspi0 {
     }
     #[doc = "Delay Control 0 Register"]
     pub struct DELAY0 {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Delay Control 0 Register"]
     pub mod delay0 {
@@ -43456,7 +42945,7 @@ pub mod qspi0 {
     }
     #[doc = "Delay Control 1 Register"]
     pub struct DELAY1 {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Delay Control 1 Register"]
     pub mod delay1 {
@@ -43609,7 +43098,7 @@ pub mod qspi0 {
     }
     #[doc = "Frame Format Register"]
     pub struct FMT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Frame Format Register"]
     pub mod fmt {
@@ -43670,7 +43159,12 @@ pub mod qspi0 {
         }
         #[doc = "Possible values of the field `direction`"]
         #[derive(Clone, Copy, Debug, PartialEq)]
-        pub enum DIRECTIONR {# [ doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  " ] RX , # [ doc = "The receive FIFO is not populated." ] TX}
+        pub enum DIRECTIONR {
+            #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
+            RX,
+            #[doc = "The receive FIFO is not populated."]
+            TX,
+        }
         impl DIRECTIONR {
             #[doc = r" Returns `true` if the bit is clear (0)"]
             #[inline]
@@ -43782,7 +43276,12 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `direction`"]
-        pub enum DIRECTIONW {# [ doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  " ] RX , # [ doc = "The receive FIFO is not populated." ] TX}
+        pub enum DIRECTIONW {
+            #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
+            RX,
+            #[doc = "The receive FIFO is not populated."]
+            TX,
+        }
         impl DIRECTIONW {
             #[allow(missing_docs)]
             #[doc(hidden)]
@@ -43806,7 +43305,8 @@ pub mod qspi0 {
                     self.bit(variant._bits())
                 }
             }
-            # [ doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal." ] # [ inline ]
+            #[doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal."]
+            #[inline]
             pub fn rx(self) -> &'a mut W {
                 self.variant(DIRECTIONW::RX)
             }
@@ -43985,7 +43485,7 @@ pub mod qspi0 {
     }
     #[doc = "Transmit Data Register"]
     pub struct TXDATA {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Transmit Data Register"]
     pub mod txdata {
@@ -44156,7 +43656,7 @@ pub mod qspi0 {
     }
     #[doc = "Receive Data Register"]
     pub struct RXDATA {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Receive Data Register"]
     pub mod rxdata {
@@ -44327,7 +43827,7 @@ pub mod qspi0 {
     }
     #[doc = "Transmit Watermark Register"]
     pub struct TXMARK {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Transmit Watermark Register"]
     pub mod txmark {
@@ -44439,7 +43939,7 @@ pub mod qspi0 {
     }
     #[doc = "Receive Watermark Register"]
     pub struct RXMARK {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Receive Watermark Register"]
     pub mod rxmark {
@@ -44551,7 +44051,7 @@ pub mod qspi0 {
     }
     #[doc = "SPI Flash Interface Control Register"]
     pub struct FCTRL {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "SPI Flash Interface Control Register"]
     pub mod fctrl {
@@ -44681,7 +44181,7 @@ pub mod qspi0 {
     }
     #[doc = "SPI Flash Instruction Format Register"]
     pub struct FFMT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "SPI Flash Instruction Format Register"]
     pub mod ffmt {
@@ -45197,7 +44697,7 @@ pub mod qspi0 {
     }
     #[doc = "SPI Interrupt Enable Register"]
     pub struct IE {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "SPI Interrupt Enable Register"]
     pub mod ie {
@@ -45386,7 +44886,7 @@ pub mod qspi0 {
     }
     #[doc = "SPI Interrupt Pending Register"]
     pub struct IP {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "SPI Interrupt Pending Register"]
     pub mod ip {
@@ -45593,7 +45093,6 @@ impl Deref for PWM0 {
 }
 #[doc = "8-bit timer with 4 cmp"]
 pub mod pwm0 {
-    use vcell::VolatileCell;
     #[doc = r" Register block"]
     #[repr(C)]
     pub struct RegisterBlock {
@@ -45616,7 +45115,7 @@ pub mod pwm0 {
     }
     #[doc = "PWM Configuration Register"]
     pub struct CFG {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "PWM Configuration Register"]
     pub mod cfg {
@@ -46713,7 +46212,7 @@ pub mod pwm0 {
     }
     #[doc = "Counter Register"]
     pub struct COUNT {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Counter Register"]
     pub mod count {
@@ -46784,7 +46283,7 @@ pub mod pwm0 {
     }
     #[doc = "Scaled Halfword Counter Register"]
     pub struct PWMS {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Scaled Halfword Counter Register"]
     pub mod pwms {
@@ -46855,7 +46354,7 @@ pub mod pwm0 {
     }
     #[doc = "Compare Register"]
     pub struct CMP0 {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Compare Register"]
     pub mod cmp0 {
@@ -46967,7 +46466,7 @@ pub mod pwm0 {
     }
     #[doc = "Compare Register"]
     pub struct CMP1 {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Compare Register"]
     pub mod cmp1 {
@@ -47079,7 +46578,7 @@ pub mod pwm0 {
     }
     #[doc = "Compare Register"]
     pub struct CMP2 {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Compare Register"]
     pub mod cmp2 {
@@ -47191,7 +46690,7 @@ pub mod pwm0 {
     }
     #[doc = "Compare Register"]
     pub struct CMP3 {
-        register: VolatileCell<u32>,
+        register: ::vcell::VolatileCell<u32>,
     }
     #[doc = "Compare Register"]
     pub mod cmp3 {
