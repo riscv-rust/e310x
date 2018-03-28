@@ -21,6 +21,7 @@ pub mod clock;
 pub mod gpio;
 pub mod plic;
 pub mod prelude;
+pub mod rtc;
 pub mod serial;
 pub mod stdout;
 pub mod time;
