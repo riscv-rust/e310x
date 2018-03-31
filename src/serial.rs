@@ -21,7 +21,6 @@ use nb;
 use e310x::UART0;
 use clock::Clocks;
 use gpio::{IOF0, gpio0};
-use plic::{INTERRUPT, IrqUart0};
 use time::Bps;
 
 // FIXME these should be "closed" traits
@@ -35,10 +34,9 @@ unsafe impl<T> TxPin<UART0> for gpio0::Pin17<IOF0<T>> {}
 unsafe impl<T> RxPin<UART0> for gpio0::Pin16<IOF0<T>> {}
 
 /// Serial abstraction
-pub struct Serial<USART, PINS, IRQ> {
+pub struct Serial<USART, PINS> {
     uart: USART,
     pins: PINS,
-    intr: INTERRUPT<IRQ>,
 }
 
 /// Serial receiver
@@ -53,17 +51,16 @@ pub struct Tx<UART> {
 
 macro_rules! hal {
     ($(
-        $UARTX:ident: $uartX:ident, $IRQ:ty
+        $UARTX:ident: $uartX:ident
     )+) => {
         $(
-            impl<TX, RX> Serial<$UARTX, (TX, RX), $IRQ> {
+            impl<TX, RX> Serial<$UARTX, (TX, RX)> {
                 /// Configures a UART peripheral to provide serial communication
                 pub fn $uartX(
                     uart: $UARTX,
                     pins: (TX, RX),
                     baud_rate: Bps,
                     clocks: Clocks,
-                    intr: INTERRUPT<$IRQ>
                 ) -> Self
                 where
                     TX: TxPin<$UARTX>,
@@ -75,21 +72,21 @@ macro_rules! hal {
                     uart.txctrl.write(|w| w.enable().bit(true));
                     uart.rxctrl.write(|w| w.enable().bit(true));
 
-                    Serial { uart, pins, intr }
+                    Serial { uart, pins }
                 }
 
                 /// Starts listening for an interrupt event
-                pub fn listen(&mut self) {
-                    self.uart.ie.write(|w| w.txwm().bit(true)
+                pub fn listen(self) -> Self {
+                    self.uart.ie.write(|w| w.txwm().bit(false)
                                        .rxwm().bit(true));
-                    self.intr.enable();
+                    self
                 }
 
                 /// Starts listening for an interrupt event
-                pub fn unlisten(&mut self) {
-                    self.intr.disable();
+                pub fn unlisten(self) -> Self {
                     self.uart.ie.write(|w| w.txwm().bit(false)
                                        .rxwm().bit(false));
+                    self
                 }
 
                 /// Splits the `Serial` abstraction into a transmitter and a
@@ -160,5 +157,5 @@ macro_rules! hal {
 }
 
 hal! {
-    UART0: uart0, IrqUart0
+    UART0: uart0
 }
