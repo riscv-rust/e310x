@@ -21,6 +21,7 @@ pub use interrupt::Interrupt;
 pub mod interrupt {
     use bare_metal::Nr;
     #[doc = r" Enumeration of all the interrupts"]
+    #[derive(Copy, Clone)]
     pub enum Interrupt {
         #[doc = "1 - WATCHDOG"]
         WATCHDOG,
