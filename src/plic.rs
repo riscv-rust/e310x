@@ -93,6 +93,12 @@ pub struct PlicParts {
 
 impl PlicExt for PLIC {
     fn split(self) -> PlicParts {
+        // Disable all interrupts by default
+        unsafe {
+            self.enable[0].write(|w| w.bits(0));
+            self.enable[1].write(|w| w.bits(0));
+        }
+
         PlicParts {
             mext: MEXT { _0: () },
             threshold: THRESHOLD { _0: () },
@@ -174,10 +180,15 @@ pub struct CLAIM {
 
 impl CLAIM {
     /// Claims the interrupt with the highest priority.
-    pub fn claim(&mut self) -> Interrupt {
+    pub fn claim(&mut self) -> Option<Interrupt> {
         // NOTE: Atomic read with side effects.
-        unsafe {
-            Interrupt::try_from((*PLIC::ptr()).claim.read().bits() as u8).unwrap()
+        let intr = unsafe { (*PLIC::ptr()).claim.read().bits() };
+
+        // If no interrupt is pending return None
+        if intr == 0 {
+            None
+        } else {
+            Some(Interrupt::try_from(intr as u8).unwrap())
         }
     }
 
@@ -202,7 +213,7 @@ pub struct INTERRUPT<IRQ> {
 }
 
 impl<IRQ> INTERRUPT<IRQ> {
-    /// Enable WDOG interrupt.
+    /// Enable IRQ interrupt.
     #[inline]
     pub fn enable(&mut self) {
         // NOTE: should use atomic operations
@@ -212,7 +223,7 @@ impl<IRQ> INTERRUPT<IRQ> {
         }
     }
 
-    /// Disable WDOG interrupt.
+    /// Disable IRQ interrupt.
     #[inline]
     pub fn disable(&mut self) {
         // NOTE: should use atomic operations
@@ -222,7 +233,7 @@ impl<IRQ> INTERRUPT<IRQ> {
         }
     }
 
-    /// Returns true when WDOG interrupt is pending.
+    /// Returns true when IRQ interrupt is pending.
     pub fn is_pending(&self) -> bool {
         // NOTE: Atomic write without side effects.
         let pending = unsafe {
@@ -240,7 +251,7 @@ impl<IRQ> INTERRUPT<IRQ> {
         enabled.bits() & self.mask == self.mask
     }
 
-    /// Returns the priority of the WDOG interrupt.
+    /// Returns the priority of the IRQ interrupt.
     pub fn priority(&self) -> Priority {
         // NOTE: Atomic read without side effects.
         let priority = unsafe {
@@ -249,7 +260,7 @@ impl<IRQ> INTERRUPT<IRQ> {
         Priority::from(priority.bits()).unwrap()
     }
 
-    /// Sets the priority of the WDOG interrupt.
+    /// Sets the priority of the IRQ interrupt.
     pub fn set_priority(&mut self, priority: Priority) {
         // NOTE: Atomic write without side effects.
         unsafe {
