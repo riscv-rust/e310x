@@ -10,3 +10,4 @@ pub use plic::PlicExt as _e310x_hal_plic_PlicExt;
 pub use rtc::RtcExt as _e310x_hal_rtc_RtcExt;
 pub use serial::{Serial, Tx, Rx};
 pub use time::U32Ext as _e310x_hal_time_U32Ext;
+pub use wdog::WdogExt as _e310x_hal_wdog_WdogExt;

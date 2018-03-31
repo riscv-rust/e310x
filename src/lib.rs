@@ -25,3 +25,4 @@ pub mod rtc;
 pub mod serial;
 pub mod stdout;
 pub mod time;
+pub mod wdog;
