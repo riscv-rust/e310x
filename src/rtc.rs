@@ -69,12 +69,12 @@ impl Rtc {
     }
 
     #[inline]
-    pub fn set_rtc_hi(&mut self, value: u32) {
-        unsafe { (*RTC::ptr()).rtchi.write(|w| w.bits(value)) };
+    pub fn set_rtc_hi(&mut self, value: u16) {
+        unsafe { (*RTC::ptr()).rtchi.write(|w| w.value().bits(value)) };
     }
 
     pub fn set_rtc(&mut self, value: u64) {
-        self.set_rtc_hi((value >> 32) as u32);
+        self.set_rtc_hi((value >> 32) as u16);
         self.set_rtc_lo(value as u32);
     }
 
