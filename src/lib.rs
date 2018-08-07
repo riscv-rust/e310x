@@ -19,6 +19,7 @@ use core::ops::Deref;
 pub mod interrupt {
     use core::convert::TryFrom;
     #[doc = r" Enumeration of all the interrupts"]
+    #[derive(Copy, Clone)]
     pub enum Interrupt {
         #[doc = "1 - WATCHDOG"]
         WATCHDOG,
