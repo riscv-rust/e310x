@@ -62,7 +62,8 @@ macro_rules! gpio {
         pub mod $gpiox {
             use core::marker::PhantomData;
 
-            use hal::digital::{InputPin, OutputPin, StatefulOutputPin};
+            use hal::digital::{InputPin, OutputPin, StatefulOutputPin,
+                               ToggleableOutputPin};
             use e310x::{$gpioy, $GPIOX};
             use super::{IOF0, IOF1, Drive, Floating, GpioExt, Input, Invert,
                         NoInvert, Output, PullUp, Regular};
@@ -391,9 +392,9 @@ macro_rules! gpio {
                     }
                 }
 
-                impl<MODE> $PXi<Output<MODE>> {
+                impl<MODE> ToggleableOutputPin for $PXi<Output<MODE>> {
                     /// Toggles the pin state.
-                    pub fn toggle(&mut self) {
+                    fn toggle(&mut self) {
                         // FIXME: has to read register first
                         // use atomics
                         let gpio = unsafe { &*$GPIOX::ptr() };
