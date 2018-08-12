@@ -9,7 +9,7 @@ keywords = ["riscv", "e310", "hal"]
 license = "ISC"
 
 [dependencies]
-embedded-hal = { version = "0.1.2", features = ["unproven"] }
+embedded-hal = { version = "0.2.1", features = ["unproven"] }
 nb = "0.1.1"
 riscv = "0.3.0"
 riscv-rt = "0.3.0"

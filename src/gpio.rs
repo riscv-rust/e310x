@@ -62,7 +62,7 @@ macro_rules! gpio {
         pub mod $gpiox {
             use core::marker::PhantomData;
 
-            use hal::digital::{InputPin, OutputPin};
+            use hal::digital::{InputPin, OutputPin, StatefulOutputPin};
             use e310x::{$gpioy, $GPIOX};
             use super::{IOF0, IOF1, Drive, Floating, GpioExt, Input, Invert,
                         NoInvert, Output, PullUp, Regular};
@@ -363,17 +363,19 @@ macro_rules! gpio {
                     }
                 }
 
-                impl<MODE> OutputPin for $PXi<Output<MODE>> {
-                    fn is_high(&self) -> bool {
-                        !self.is_low()
+                impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
+                    fn is_set_high(&self) -> bool {
+                        !self.is_set_low()
                     }
 
-                    fn is_low(&self) -> bool {
+                    fn is_set_low(&self) -> bool {
                         // NOTE unsafe atomic read with no side effects
                         let gpio = unsafe { &*$GPIOX::ptr() };
                         gpio.value.read().$pxi().bit()
                     }
+                }
 
+                impl<MODE> OutputPin for $PXi<Output<MODE>> {
                     fn set_high(&mut self) {
                         // FIXME has to read register first
                         // use atomics
