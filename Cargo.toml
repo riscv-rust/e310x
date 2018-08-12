@@ -1,6 +1,6 @@
 [package]
 name = "e310x-hal"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["David Craven <david@craven.ch>"]
 repository = "https://github.com/riscv-rust/e310x-hal"
 categories = ["embedded", "hardware-support", "no-std"]
@@ -11,9 +11,9 @@ license = "ISC"
 [dependencies]
 embedded-hal = { version = "0.1.2", features = ["unproven"] }
 nb = "0.1.1"
-riscv = { path = "../riscv" }
-riscv-rt = { path = "../riscv-rt" }
-e310x = { path = "../e310x", features = ["rt"] }
+riscv = "0.3.0"
+riscv-rt = "0.3.0"
+e310x = { version = "0.2.0", features = ["rt"] }
 
 [features]
 default = ["pll", "hfxosc", "lfaltclk"]
