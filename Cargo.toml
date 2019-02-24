@@ -11,9 +11,9 @@ license = "ISC"
 [dependencies]
 embedded-hal = { version = "0.2.1", features = ["unproven"] }
 nb = "0.1.1"
-riscv = "0.3.0"
-riscv-rt = "0.3.0"
-e310x = { version = "0.2.0", features = ["rt"] }
+riscv = "0.4.0"
+riscv-rt = "0.4.0"
+e310x = { version = "0.3.0", features = ["rt"] }
 
 [features]
 default = ["pll", "hfxosc", "lfaltclk"]
