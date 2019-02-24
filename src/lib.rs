@@ -7,7 +7,6 @@
 #![deny(warnings)]
 #![feature(never_type)]
 #![no_std]
-#![feature(try_from)]
 
 extern crate embedded_hal as hal;
 #[macro_use]

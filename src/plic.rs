@@ -1,5 +1,4 @@
 //! Plic
-use core::convert::TryFrom;
 use core::marker::PhantomData;
 use riscv::register::{mie, mip};
 use riscv::interrupt::Nr;
