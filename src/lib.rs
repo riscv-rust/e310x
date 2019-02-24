@@ -5,12 +5,12 @@
 
 #![deny(missing_docs)]
 #![deny(warnings)]
-#![feature(never_type)]
 #![no_std]
 
 extern crate embedded_hal as hal;
 #[macro_use]
 extern crate nb;
+extern crate void;
 
 extern crate riscv;
 pub extern crate e310x;

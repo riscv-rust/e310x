@@ -17,6 +17,7 @@ use core::marker::PhantomData;
 
 use hal::serial;
 use nb;
+use void::Void;
 
 use e310x::UART0;
 use clock::Clocks;
@@ -109,9 +110,9 @@ macro_rules! hal {
             }
 
             impl serial::Read<u8> for Rx<$UARTX> {
-                type Error = !;
+                type Error = Void;
 
-                fn read(&mut self) -> nb::Result<u8, !> {
+                fn read(&mut self) -> nb::Result<u8, Void> {
                     // NOTE(unsafe) atomic read with no side effects
                     let rxdata = unsafe { (*$UARTX::ptr()).rxdata.read() };
 
@@ -124,9 +125,9 @@ macro_rules! hal {
             }
 
             impl serial::Write<u8> for Tx<$UARTX> {
-                type Error = !;
+                type Error = Void;
 
-                fn flush(&mut self) -> nb::Result<(), !> {
+                fn flush(&mut self) -> nb::Result<(), Void> {
                     // NOTE(unsafe) atomic read with no side effects
                     let txdata = unsafe { (*$UARTX::ptr()).txdata.read() };
 
@@ -137,7 +138,7 @@ macro_rules! hal {
                     }
                 }
 
-                fn write(&mut self, byte: u8) -> nb::Result<(), !> {
+                fn write(&mut self, byte: u8) -> nb::Result<(), Void> {
                     // NOTE(unsafe) atomic read with no side effects
                     let txdata = unsafe { (*$UARTX::ptr()).txdata.read() };
 
