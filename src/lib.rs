@@ -1,13 +1,7 @@
-#![cfg_attr(feature = "rt", feature(global_asm))]
-#![cfg_attr(feature = "rt", feature(use_extern_macros))]
-#![cfg_attr(feature = "rt", feature(used))]
-#![doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.13.1)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.13.1/svd2rust/#peripheral-api"]
-#![deny(missing_docs)]
+#![doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.14.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.14.0/svd2rust/#peripheral-api"]
 #![deny(warnings)]
 #![allow(non_camel_case_types)]
 #![no_std]
-#![feature(const_fn)]
-#![feature(try_from)]
 extern crate bare_metal;
 extern crate riscv;
 #[cfg(feature = "rt")]
@@ -17,9 +11,8 @@ use core::marker::PhantomData;
 use core::ops::Deref;
 #[doc(hidden)]
 pub mod interrupt {
-    use core::convert::TryFrom;
     #[doc = r" Enumeration of all the interrupts"]
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Debug)]
     pub enum Interrupt {
         #[doc = "1 - WATCHDOG"]
         WATCHDOG,
@@ -184,10 +177,9 @@ pub mod interrupt {
     }
     #[derive(Debug, Copy, Clone)]
     pub struct TryFromInterruptError(());
-    impl TryFrom<u8> for Interrupt {
-        type Error = TryFromInterruptError;
+    impl Interrupt {
         #[inline]
-        fn try_from(value: u8) -> Result<Self, Self::Error> {
+        pub fn try_from(value: u8) -> Result<Self, TryFromInterruptError> {
             match value {
                 1 => Ok(Interrupt::WATCHDOG),
                 2 => Ok(Interrupt::RTC),
@@ -248,7 +240,7 @@ pub mod interrupt {
     #[macro_export]
     macro_rules ! interrupt { ( $ NAME : ident , $ path : path , locals : { $ ( $ lvar : ident : $ lty : ty = $ lval : expr ; ) * } ) => { # [ allow ( non_snake_case ) ] mod $ NAME { pub struct Locals { $ ( pub $ lvar : $ lty , ) * } } # [ allow ( non_snake_case ) ] # [ no_mangle ] pub extern "C" fn $ NAME ( ) { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; static mut LOCALS : self :: $ NAME :: Locals = self :: $ NAME :: Locals { $ ( $ lvar : $ lval , ) * } ; let f : fn ( & mut self :: $ NAME :: Locals ) = $ path ; f ( unsafe { & mut LOCALS } ) ; } } ; ( $ NAME : ident , $ path : path ) => { # [ allow ( non_snake_case ) ] # [ no_mangle ] pub extern "C" fn $ NAME ( ) { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; let f : fn ( ) = $ path ; f ( ) ; } } }
 }
-pub use interrupt::Interrupt;
+pub use self::interrupt::Interrupt;
 #[doc = "Coreplex Local Interrupts"]
 pub struct CLINT {
     _marker: PhantomData<*const ()>,
@@ -46846,7 +46838,6 @@ impl Deref for PWM2 {
         unsafe { &*PWM2::ptr() }
     }
 }
-#[allow(private_no_mangle_statics)]
 #[no_mangle]
 static mut DEVICE_PERIPHERALS: bool = false;
 #[doc = r" All the peripherals"]
