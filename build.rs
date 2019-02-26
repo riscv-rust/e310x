@@ -23,20 +23,14 @@ fn external_clock_frequency() {
     let mut f = File::create(&dest_path).expect("Could not create file");
 
     let hfxosc_freq = option_env!("BOARD_HFXOSC_FREQ").unwrap_or("16000000");
-    let lfaltclk_freq = option_env!("BOARD_LFALTCLK_FREQ").unwrap_or("32768");
 
     let hfxosc_freq: u32 = str::parse(hfxosc_freq)
         .expect("Could not parse BOARD_HFXOSC_FREQ");
-    let lfaltclk_freq: u32 = str::parse(lfaltclk_freq)
-        .expect("Could not parse BOARD_LFALTCLK_FREQ");
 
     writeln!(&mut f, "const BOARD_HFXOSC_FREQ: u32 = {};", hfxosc_freq)
         .expect("Could not write file");
-    writeln!(&mut f, "const BOARD_LFALTCLK_FREQ: u32 = {};", lfaltclk_freq)
-        .expect("Could not write file");
 
     println!("cargo:rerun-if-env-changed=BOARD_HFXOSC_FREQ");
-    println!("cargo:rerun-if-env-changed=BOARD_LFALTCLK_FREQ");
 }
 
 fn main() {

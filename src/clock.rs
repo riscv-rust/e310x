@@ -43,16 +43,8 @@ impl PrciExt for PRCI {
 
 impl AonExt for AONCLK {
     fn constrain(self) -> AonClk {
-        if cfg!(feature = "lfaltclk") {
-            AonClk {
-                lfaltclk: true,
-                freq: Hertz(BOARD_LFALTCLK_FREQ),
-            }
-        } else {
-            AonClk {
-                lfaltclk: false,
-                freq: Hertz(32_768),
-            }
+        AonClk {
+            lfaltclk: None,
         }
     }
 }
@@ -236,24 +228,52 @@ impl CoreClk {
     }
 }
 
-/// Constrained AONCLK peripheral
+/// Constrained `AONCLK` peripheral
 pub struct AonClk {
-    lfaltclk: bool,
-    freq: Hertz,
+    lfaltclk: Option<Hertz>,
 }
 
 impl AonClk {
-    /// Freeze aonclk configuration.
+    /// Uses `LFALTCLK` (external low-frequency clock) instead of `LFROSC` (internal ring oscillator) as the clock source.
+    pub fn use_external<F: Into<Hertz>>(mut self, freq: F) -> Self {
+        let hz: Hertz = freq.into();
+        assert!(hz.0 < 500_000);
+
+        self.lfaltclk = Some(hz);
+        self
+    }
+
+    /// Freezes low-frequency clock configuration, making it effective
     pub(crate) fn freeze(self) -> Hertz {
         let aonclk = unsafe { &*AONCLK::ptr() };
 
-        // Use external real time oscillator.
-        if self.lfaltclk {
+        if let Some(freq) = self.lfaltclk {
+            // Use external oscillator.
+
             // Disable unused LFROSC to save power.
             aonclk.lfrosccfg.write(|w| w.enable().bit(false));
-        }
 
-        self.freq
+            freq
+        } else {
+            // Use internal oscillator.
+
+            let trim = 16;
+            let div = 4; // LFROSC/5
+
+            // Configure LFROSC
+            aonclk.lfrosccfg.write(|w| {
+                unsafe {
+                    w.bits(trim << 16) // TODO: replace this with trim()
+                     .div().bits(div)
+                     .enable().bit(true)
+                }
+            });
+
+            // Wait for LFROSC to stabilize
+            while !aonclk.lfrosccfg.read().ready().bit_is_set() {}
+
+            Hertz(32_768) // It's not so accurate: ≈30 kHz according to the datasheet
+        }
     }
 }
 
@@ -264,15 +284,15 @@ impl AonClk {
 #[derive(Clone, Copy)]
 pub struct Clocks {
     coreclk: Hertz,
-    aonclk: Hertz,
+    lfclk: Hertz,
 }
 
 impl Clocks {
     /// Freezes the coreclk and aonclk frequencies.
     pub fn freeze(coreclk: CoreClk, aonclk: AonClk, mtime: &MTIME) -> Self {
         let coreclk = coreclk.freeze(mtime);
-        let aonclk = aonclk.freeze();
-        Clocks { coreclk, aonclk }
+        let lfclk = aonclk.freeze();
+        Clocks { coreclk, lfclk }
     }
 
     /// Returns the frozen coreclk frequency
@@ -280,9 +300,9 @@ impl Clocks {
         self.coreclk
     }
 
-    /// Returns the frozen aonclk frequency
-    pub fn aonclk(&self) -> Hertz {
-        self.aonclk
+    /// Returns the frozen lfclk frequency
+    pub fn lfclk(&self) -> Hertz {
+        self.lfclk
     }
 
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
