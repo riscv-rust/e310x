@@ -25,9 +25,7 @@ pub trait ClintExt {
 }
 
 /// Opaque MTIME register
-pub struct MTIME {
-    _0: (),
-}
+pub struct MTIME;
 
 impl MTIME {
     /// Read mtime register.
@@ -180,7 +178,7 @@ impl ClintExt for CLINT {
     fn split(self) -> ClintParts {
         ClintParts {
             mtimecmp: MTIMECMP { _0: () },
-            mtime: MTIME { _0: () },
+            mtime: MTIME,
             mcycle: MCYCLE { _0: () },
             minstret: MINSTRET { _0: () },
             mtimer: MTIMER { _0: () },
