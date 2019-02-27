@@ -83,11 +83,11 @@ impl CoreClk {
     }
 
     /// Freezes the clock frequencies.
-    pub(crate) fn freeze(mut self, mtime: &MTIME) -> Hertz {
+    pub(crate) fn freeze(mut self) -> Hertz {
         if self.pll {
-            unsafe { self.use_hfpll(mtime); }
+            unsafe { self.use_hfpll(); }
         } else if self.hfxosc {
-            unsafe { self.use_hfxosc(mtime); }
+            unsafe { self.use_hfxosc(); }
         } else {
             unsafe { self.use_hfrosc(); }
         }
@@ -124,10 +124,10 @@ impl CoreClk {
     }
 
     /// Use external oscillator with bypassed pll.
-    unsafe fn use_hfxosc(&mut self, mtime: &MTIME) {
+    unsafe fn use_hfxosc(&mut self) {
         let prci = &*PRCI::ptr();
 
-        self.init_pll(mtime, |_, w| {
+        self.init_pll(|_, w| {
             // bypass PLL
             w.bypass().bit(true)
             // select HFXOSC
@@ -144,10 +144,10 @@ impl CoreClk {
     /// NOTE: By trimming the internal clock to 12MHz
     /// and using r=1, f=64, q=2 the maximum frequency
     /// of 384MHz can be reached.
-    unsafe fn use_hfpll(&mut self, mtime: &MTIME) {
+    unsafe fn use_hfpll(&mut self) {
         let prci = &*PRCI::ptr();
 
-        self.init_pll(mtime, |_, w| {
+        self.init_pll(|_, w| {
             // bypass PLL
             w.bypass().bit(false)
             // select HFXOSC
@@ -184,9 +184,10 @@ impl CoreClk {
     }*/
 
     /// Wait for the pll to lock.
-    fn wait_for_lock(&self, mtime: &MTIME) {
+    fn wait_for_lock(&self) {
         let prci = unsafe { &*PRCI::ptr() };
         // NOTE: reading mtime should always be safe.
+        let mtime = MTIME;
 
         // Won't lock when bypassed and will loop forever
         if !prci.pllcfg.read().bypass().bit_is_set() {
@@ -202,7 +203,7 @@ impl CoreClk {
         }
     }
 
-    unsafe fn init_pll<F, G>(&mut self, mtime: &MTIME, pllcfg: F, plloutdiv: G)
+    unsafe fn init_pll<F, G>(&mut self, pllcfg: F, plloutdiv: G)
         where
         for<'w> F: FnOnce(&prci::pllcfg::R,
                           &'w mut prci::pllcfg::W) -> &'w mut prci::pllcfg::W,
@@ -220,7 +221,7 @@ impl CoreClk {
         prci.pllcfg.modify(pllcfg);
         prci.plloutdiv.write(plloutdiv);
         // Wait for PLL lock
-        self.wait_for_lock(mtime);
+        self.wait_for_lock();
         // Switch to PLL
         prci.pllcfg.modify(|_, w| {
             w.sel().bit(true)
@@ -289,8 +290,8 @@ pub struct Clocks {
 
 impl Clocks {
     /// Freezes the coreclk and aonclk frequencies.
-    pub fn freeze(coreclk: CoreClk, aonclk: AonClk, mtime: &MTIME) -> Self {
-        let coreclk = coreclk.freeze(mtime);
+    pub fn freeze(coreclk: CoreClk, aonclk: AonClk) -> Self {
+        let coreclk = coreclk.freeze();
         let lfclk = aonclk.freeze();
         Clocks { coreclk, lfclk }
     }
@@ -306,7 +307,8 @@ impl Clocks {
     }
 
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
-    fn _measure_coreclk(&self, min_ticks: u64, mtime: &MTIME, mcycle: &MCYCLE) -> Hertz {
+    fn _measure_coreclk(&self, min_ticks: u64, mcycle: &MCYCLE) -> Hertz {
+        let mtime = MTIME;
         interrupt::free(|_| {
             // Don't start measuring until we see an mtime tick
             while mtime.mtime() == mtime.mtime() {}
@@ -331,10 +333,10 @@ impl Clocks {
     }
 
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
-    pub fn measure_coreclk(&self, mtime: &MTIME, mcycle: &MCYCLE) -> Hertz {
+    pub fn measure_coreclk(&self, mcycle: &MCYCLE) -> Hertz {
         // warm up I$
-        self._measure_coreclk(1, mtime, mcycle);
+        self._measure_coreclk(1, mcycle);
         // measure for real
-        self._measure_coreclk(10, mtime, mcycle)
+        self._measure_coreclk(10, mcycle)
     }
 }
