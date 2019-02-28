@@ -67,7 +67,7 @@ macro_rules! hal {
                     TX: TxPin<$UARTX>,
                     RX: RxPin<$UARTX>,
                 {
-                    let div = clocks.coreclk().0 / baud_rate.0 + 1;
+                    let div = clocks.tlclk().0 / baud_rate.0 + 1;
                     unsafe { uart.div.write(|w| w.bits(div)); }
 
                     uart.txctrl.write(|w| w.enable().bit(true));

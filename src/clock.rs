@@ -372,6 +372,13 @@ impl Clocks {
         self.coreclk
     }
 
+    /// Returns the frozen tlclk frequency
+    pub fn tlclk(&self) -> Hertz {
+        // For the FE310-G000, the TileLink bus clock (tlclk) is fixed to be
+        // the same as the processor core clock (coreclk)
+        self.coreclk
+    }
+
     /// Returns the frozen lfclk frequency
     pub fn lfclk(&self) -> Hertz {
         self.lfclk
