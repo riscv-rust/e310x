@@ -1,12 +1,21 @@
 //! Clock configuration
-use e310x::{prci, PRCI, AONCLK};
+use e310x::{PRCI, AONCLK};
 use clint::{MCYCLE, MTIME};
 use riscv::interrupt;
 use time::Hertz;
 
-/// const BOARD_HFXOSC_FREQ: u32
-/// const BOARD_LFALTCLK_FREQ: u32
-include!(concat!(env!("OUT_DIR"), "/constants.rs"));
+
+const PLLREF_MIN: u32 = 6_000_000;
+const PLLREF_MAX: u32 = 48_000_000;
+const REFR_MIN: u32 = 6_000_000;
+const REFR_MAX: u32 = 12_000_000;
+const VCO_MIN: u32 = 384_000_000;
+const VCO_MAX: u32 = 768_000_000;
+const PLLOUT_MIN: u32 = 48_000_000;
+const PLLOUT_MAX: u32 = 384_000_000;
+const DIVOUT_MIN: u32 = 375_000;
+const DIVOUT_MAX: u32 = 384_000_000;
+
 
 /// PrciExt trait extends `PRCI` peripheral.
 pub trait PrciExt {
@@ -24,19 +33,9 @@ pub trait AonExt {
 
 impl PrciExt for PRCI {
     fn constrain(self) -> CoreClk {
-        if cfg!(feature = "hfxosc") {
-            CoreClk {
-                hfxosc: true,
-                pll: false,
-                freq: Hertz(BOARD_HFXOSC_FREQ),
-            }
-        } else {
-            CoreClk {
-                hfxosc: false,
-                pll: false,
-                // Default after reset
-                freq: Hertz(13_800_000),
-            }
+        CoreClk {
+            hfxosc: None,
+            coreclk: Hertz(13_800_000), // Default after reset
         }
     }
 }
@@ -49,183 +48,255 @@ impl AonExt for AONCLK {
     }
 }
 
-/// Constrainted PRCI peripheral
+/// Constrainted `PRCI` peripheral
 pub struct CoreClk {
-    hfxosc: bool,
-    pll: bool,
-    freq: Hertz,
+    hfxosc: Option<Hertz>,
+    coreclk: Hertz,
 }
 
 impl CoreClk {
-    /// Use external clock. Requires feature hfxosc and BOARD_HFXOSC_FREQ
-    /// should be set at build time if the external oscillator is not 16MHz.
-    #[cfg(feature = "hfxosc")]
-    pub fn use_external(mut self) -> Self {
-        self.hfxosc = true;
-        self.freq = Hertz(BOARD_HFXOSC_FREQ);
+    /// Uses `HFXOSC` (external oscillator) instead of `HFROSC` (internal ring oscillator) as the clock source.
+    pub fn use_external<F: Into<Hertz>>(mut self, freq: F) -> Self {
+        let hz: Hertz = freq.into();
+        assert!(hz.0 < 20_000_000);
+
+        self.hfxosc = Some(hz);
         self
     }
 
-    /// Use internal clock. Sets frequency to 13.8MHz.
-    pub fn use_internal(mut self) -> Self {
-        self.hfxosc = false;
-        self.freq = Hertz(13_800_000);
+    /// Sets the desired frequency for the `coreclk` clock
+    pub fn coreclk<F: Into<Hertz>>(mut self, freq: F) -> Self {
+        self.coreclk = freq.into();
         self
     }
 
-    /// Use pll. Sets frequency to 256MHz. Requires feature pll.
-    /// NOTE: Assumes an external 16MHz oscillator is available.
-    #[cfg(feature = "pll")]
-    pub fn use_pll(mut self) -> Self {
-        self.pll = true;
-        self.freq = Hertz(256_000_000);
-        self
-    }
+    /// Freezes high-frequency clock configuration, making it effective
+    pub(crate) fn freeze(self) -> Hertz {
+        // Assume `psdclkbypass_n` is not used
 
-    /// Freezes the clock frequencies.
-    pub(crate) fn freeze(mut self) -> Hertz {
-        if self.pll {
-            unsafe { self.use_hfpll(); }
-        } else if self.hfxosc {
-            unsafe { self.use_hfxosc(); }
+        if let Some(freq) = self.hfxosc {
+            self.configure_with_external(freq)
         } else {
-            unsafe { self.use_hfrosc(); }
-        }
-
-        self.freq
-    }
-
-    /// Use internal oscillator with bypassed pll.
-    unsafe fn use_hfrosc(&mut self) {
-        let prci = &*PRCI::ptr();
-
-        // Enable HFROSC
-        prci.hfrosccfg.write(|w| {
-            w.enable().bit(true)
-            // It is OK to change this even if we are running off of it.
-            // Reset them to default values. (13.8MHz)
-                .div().bits(4)
-                .trim().bits(16)
-        });
-        // Wait for HFROSC to stabilize
-        while !prci.hfrosccfg.read().ready().bit_is_set() {}
-        // Switch to HFROSC
-        prci.pllcfg.modify(|_, w| {
-            w.sel().bit(false)
-        });
-        // Bypass PLL to save power
-        prci.pllcfg.modify(|_, w| {
-            w.bypass().bit(true)
-            // Select HFROSC as PLL ref to disable HFXOSC later
-                .refsel().bit(false)
-        });
-        // Disable HFXOSC to save power.
-        prci.hfxosccfg.write(|w| w.enable().bit(false));
-    }
-
-    /// Use external oscillator with bypassed pll.
-    unsafe fn use_hfxosc(&mut self) {
-        let prci = &*PRCI::ptr();
-
-        self.init_pll(|_, w| {
-            // bypass PLL
-            w.bypass().bit(true)
-            // select HFXOSC
-                .refsel().bit(true)
-        }, |w| w.divby1().bit(true));
-        // Disable HFROSC to save power
-        prci.hfrosccfg.write(|w| w.enable().bit(false));
-    }
-
-    /// Use external oscillator with pll. Sets PLL
-    /// r=2, f=64, q=2 values to maximum allowable
-    /// for a 16MHz reference clock. Output frequency
-    /// is 16MHz / 2 * 64 / 2 = 256MHz.
-    /// NOTE: By trimming the internal clock to 12MHz
-    /// and using r=1, f=64, q=2 the maximum frequency
-    /// of 384MHz can be reached.
-    unsafe fn use_hfpll(&mut self) {
-        let prci = &*PRCI::ptr();
-
-        self.init_pll(|_, w| {
-            // bypass PLL
-            w.bypass().bit(false)
-            // select HFXOSC
-                .refsel().bit(true)
-            // bits = r - 1
-                .pllr().bits(1)
-            // bits = f / 2 - 1
-                .pllf().bits(31)
-            // bits = q=2 -> 1, q=4 -> 2, q=8 -> 3
-                .pllq().bits(1)
-        }, |w| w.divby1().bit(true));
-        // Disable HFROSC to save power
-        prci.hfrosccfg.write(|w| w.enable().bit(false));
-    }
-
-    /*
-    /// Compute PLL multiplier.
-    fn pll_mult(&self) -> u32 {
-        let prci = unsafe { &*PRCI::ptr() };
-
-        let pllcfg = prci.pllcfg.read();
-        let plloutdiv = prci.plloutdiv.read();
-
-        let r = pllcfg.pllr().bits() as u32 + 1;
-        let f = (pllcfg.pllf().bits() as u32 + 1) * 2;
-        let q = [2, 4, 8][pllcfg.pllq().bits() as usize - 1];
-
-        let div = match plloutdiv.divby1().bit() {
-            true => 1,
-            false => (plloutdiv.div().bits() as u32 + 1) * 2,
-        };
-
-        f / r / q / div
-    }*/
-
-    /// Wait for the pll to lock.
-    fn wait_for_lock(&self) {
-        let prci = unsafe { &*PRCI::ptr() };
-        // NOTE: reading mtime should always be safe.
-        let mtime = MTIME;
-
-        // Won't lock when bypassed and will loop forever
-        if !prci.pllcfg.read().bypass().bit_is_set() {
-            // Wait for PLL Lock
-            // Note that the Lock signal can be glitchy.
-            // Need to wait 100 us
-            // RTC is running at 32kHz.
-            // So wait 4 ticks of RTC.
-            let time = mtime.mtime() + 4;
-            while mtime.mtime() < time {}
-            // Now it is safe to check for PLL Lock
-            while !prci.pllcfg.read().lock().bit_is_set() {}
+            self.configure_with_internal()
         }
     }
 
-    unsafe fn init_pll<F, G>(&mut self, pllcfg: F, plloutdiv: G)
-        where
-        for<'w> F: FnOnce(&prci::pllcfg::R,
-                          &'w mut prci::pllcfg::W) -> &'w mut prci::pllcfg::W,
-    for<'w> G: FnOnce(&'w mut prci::plloutdiv::W) -> &'w mut prci::plloutdiv::W,
-    {
-        let prci = &*PRCI::ptr();
-        // Make sure we are running of internal clock
-        // before configuring the PLL.
-        self.use_hfrosc();
+    /// Configures clock generation system with external oscillator
+    fn configure_with_external(self, source_freq: Hertz) -> Hertz {
+        let prci = unsafe { &*PRCI::ptr() };
+
         // Enable HFXOSC
         prci.hfxosccfg.write(|w| w.enable().bit(true));
+
         // Wait for HFXOSC to stabilize
         while !prci.hfxosccfg.read().ready().bit_is_set() {}
-        // Configure PLL
-        prci.pllcfg.modify(pllcfg);
-        prci.plloutdiv.write(plloutdiv);
-        // Wait for PLL lock
-        self.wait_for_lock();
+
+        // Select HFXOSC as pllref
+        prci.pllcfg.modify(|_, w| w.refsel().bit(true));
+
+        let freq;
+        if source_freq.0 == self.coreclk.0 {
+            // Use external oscillator with bypassed PLL
+            freq = source_freq;
+
+            // Bypass PLL
+            prci.pllcfg.modify(|_, w| w.bypass().bit(true));
+
+            // Bypass divider
+            prci.plloutdiv.write(|w| w.divby1().bit(true));
+        } else {
+            // Use external oscillator with PLL
+
+            // Configure PLL and divider
+            freq = self.configure_pll(source_freq, self.coreclk);
+        }
+
         // Switch to PLL
-        prci.pllcfg.modify(|_, w| {
-            w.sel().bit(true)
+        prci.pllcfg.modify(|_, w| w.sel().bit(true));
+
+        // Disable HFROSC to save power
+        prci.hfrosccfg.write(|w| w.enable().bit(false));
+
+        freq
+    }
+
+    /// Configures clock generation system with internal oscillator
+    fn configure_with_internal(self) -> Hertz {
+        let prci = unsafe { &*PRCI::ptr() };
+
+        let hfrosc_freq = self.configure_hfrosc();
+
+        let freq;
+        if hfrosc_freq.0 == self.coreclk.0 {
+            // Use internal oscillator with bypassed PLL
+            freq = hfrosc_freq;
+
+            // Switch to HFROSC, bypass PLL to save power
+            prci.pllcfg.modify(|_, w| w
+                .sel().bit(false)
+                .bypass().bit(true)
+            );
+
+            //
+            prci.pllcfg.modify(|_, w| w.bypass().bit(true));
+        } else {
+            // Use internal oscillator with PLL
+
+            // Configure PLL and divider
+            freq = self.configure_pll(hfrosc_freq, self.coreclk);
+
+            // Switch to PLL
+            prci.pllcfg.modify(|_, w| w.sel().bit(true));
+
+        }
+
+        // Disable HFXOSC to save power
+        prci.hfxosccfg.write(|w| w.enable().bit(false));
+
+        freq
+    }
+
+    /// Configures internal high-frequency oscillator (`HFROSC`)
+    fn configure_hfrosc(&self) -> Hertz {
+        let prci = unsafe { &*PRCI::ptr() };
+
+        // TODO: use trim value from OTP
+
+        // Configure HFROSC to 13.8 MHz
+        prci.hfrosccfg.write(|w| unsafe { w
+            .div().bits(4)
+            .trim().bits(16)
+            .enable().bit(true)
         });
+
+        // Wait for HFROSC to stabilize
+        while !prci.hfrosccfg.read().ready().bit_is_set() {}
+
+        Hertz(13_800_000)
+    }
+
+    /// Configures PLL and PLL Output Divider
+    /// The resulting frequency may differ by 0-2% from the requested
+    fn configure_pll(&self, pllref_freq: Hertz, divout_freq: Hertz) -> Hertz {
+        let pllref_freq = pllref_freq.0;
+        assert!(PLLREF_MIN <= pllref_freq && pllref_freq <= PLLREF_MAX);
+
+        let divout_freq = divout_freq.0;
+        assert!(DIVOUT_MIN <= divout_freq && divout_freq <= DIVOUT_MAX);
+
+        // Calculate PLL Output Divider settings
+        let divider_div;
+        let divider_bypass;
+
+        let d = PLLOUT_MAX / divout_freq;
+        if d > 1 {
+            divider_bypass = false;
+
+            if d > 128 {
+                divider_div = (128 / 2) - 1;
+            } else {
+                divider_div = (d / 2) - 1;
+            }
+        } else {
+            divider_div = 0;
+            divider_bypass = true;
+        }
+
+        // Calculate pllout frequency
+        let d = if divider_bypass {
+            1
+        } else {
+            2 * (divider_div + 1)
+        };
+        let pllout_freq = divout_freq * d;
+        assert!(PLLOUT_MIN <= pllout_freq && pllout_freq <= PLLOUT_MAX);
+
+        // Calculate PLL R ratio
+        let r = match pllref_freq {
+            24_000_000...48_000_000 => 4,
+            18_000_000...24_000_000 => 3,
+            12_000_000...18_000_000 => 2,
+             6_000_000...12_000_000 => 1,
+            _ => unreachable!(),
+        };
+
+        // Calculate refr frequency
+        let refr_freq = pllref_freq / r;
+        assert!(REFR_MIN <= refr_freq && refr_freq <= REFR_MAX);
+
+        // Calculate PLL Q ratio
+        let q = match pllout_freq {
+            192_000_000...384_000_000 => 2,
+             96_000_000...192_000_000 => 4,
+             48_000_000...96_000_000 => 8,
+            _ => unreachable!(),
+        };
+
+        // Calculate the desired vco frequency
+        let target_vco_freq = pllout_freq * q;
+        assert!(VCO_MIN <= target_vco_freq && target_vco_freq <= VCO_MAX);
+
+        // Calculate PLL F ratio
+        let f = target_vco_freq / refr_freq;
+        assert!(f <= 128);
+
+        // Choose the best F ratio
+        let f_lo = (f / 2) * 2; // F must be a multiple of 2
+        let vco_lo = refr_freq * f_lo;
+        let f_hi = f_lo + 2;
+        let vco_hi = refr_freq * f_hi;
+        let (f, vco_freq) = if (f_hi <= 128 && vco_hi <= VCO_MAX) && (target_vco_freq as i32 - vco_hi as i32).abs() < (target_vco_freq as i32 - vco_lo as i32).abs() {
+            (f_hi, vco_hi)
+        } else {
+            (f_lo, vco_lo)
+        };
+        assert!(VCO_MIN <= vco_freq && vco_freq <= VCO_MAX);
+
+        // Calculate actual pllout frequency
+        let pllout_freq = vco_freq / q;
+        assert!(PLLOUT_MIN <= pllout_freq && pllout_freq <= PLLOUT_MAX);
+
+        // Calculate actual divout frequency
+        let divout_freq = pllout_freq / d;
+        assert!(DIVOUT_MIN <= divout_freq && divout_freq <= DIVOUT_MAX);
+
+        // Calculate bit-values
+        let r: u8 = (r - 1) as u8;
+        let f: u8 = (f / 2 - 1) as u8;
+        let q: u8 = match q {
+            2 => 0b01,
+            4 => 0b10,
+            8 => 0b11,
+            _ => unreachable!(),
+        };
+
+        // Configure PLL
+        let prci = unsafe { &*PRCI::ptr() };
+        prci.pllcfg.modify(|_, w| unsafe { w
+            .pllr().bits(r)
+            .pllf().bits(f)
+            .pllq().bits(q)
+            .bypass().bit(false)
+        });
+
+        // Configure PLL Output Divider
+        prci.plloutdiv.write(|w| unsafe { w
+            .div().bits(divider_div as u8)
+            .divby1().bit(divider_bypass)
+        });
+
+        // Wait for PLL Lock
+        // Note that the Lock signal can be glitchy.
+        // Need to wait 100 us
+        // RTC is running at 32kHz.
+        // So wait 4 ticks of RTC.
+        let mtime = MTIME;
+        let time = mtime.mtime() + 4;
+        while mtime.mtime() < time {}
+        // Now it is safe to check for PLL Lock
+        while !prci.pllcfg.read().lock().bit_is_set() {}
+
+        Hertz(divout_freq)
     }
 }
 
