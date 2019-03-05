@@ -271,6 +271,7 @@
           <fields>
             <field><name>ready</name><msb>31</msb><lsb>31</lsb></field>
             <field><name>enable</name><msb>30</msb><lsb>30</lsb></field>
+            <field><name>trim</name><bitRange>[20:16]</bitRange></field>
             <field><name>div</name><msb>5</msb><lsb>0</lsb></field>
           </fields>
         </register>
