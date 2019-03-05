@@ -691,14 +691,14 @@ pub mod plic {
     #[repr(C)]
     pub struct RegisterBlock {
         #[doc = "0x00 - Interrupt Priority Register"]
-        pub priority: [PRIORITY; 255],
-        _reserved0: [u8; 3076usize],
+        pub priority: [PRIORITY; 52],
+        _reserved0: [u8; 3888usize],
         #[doc = "0x1000 - Interrupt Pending Register"]
-        pub pending: [PENDING; 8],
-        _reserved1: [u8; 4064usize],
+        pub pending: [PENDING; 2],
+        _reserved1: [u8; 4088usize],
         #[doc = "0x2000 - Interrupt Enable Register"]
-        pub enable: [ENABLE; 8],
-        _reserved2: [u8; 2088928usize],
+        pub enable: [ENABLE; 2],
+        _reserved2: [u8; 2088952usize],
         #[doc = "0x200000 - Priority Threshold Register"]
         pub threshold: THRESHOLD,
         #[doc = "0x200004 - Claim/Complete Register"]
