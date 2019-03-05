@@ -1,4 +1,5 @@
 #![doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.14.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.14.0/svd2rust/#peripheral-api"]
+#![deny(missing_docs)]
 #![deny(warnings)]
 #![allow(non_camel_case_types)]
 #![no_std]
@@ -238,6 +239,41 @@ pub mod interrupt {
     }
     #[cfg(feature = "rt")]
     #[macro_export]
+    #[doc = r" Assigns a handler to an interrupt"]
+    #[doc = r""]
+    #[doc = r" This macro takes two arguments: the name of an interrupt and the path to the"]
+    #[doc = r" function that will be used as the handler of that interrupt. That function"]
+    #[doc = r" must have signature `fn()`."]
+    #[doc = r""]
+    #[doc = r" Optionally, a third argument may be used to declare interrupt local data."]
+    #[doc = r" The handler will have exclusive access to these *local* variables on each"]
+    #[doc = r" invocation. If the third argument is used then the signature of the handler"]
+    #[doc = r" function must be `fn(&mut $NAME::Locals)` where `$NAME` is the first argument"]
+    #[doc = r" passed to the macro."]
+    #[doc = r""]
+    #[doc = r" # Example"]
+    #[doc = r""]
+    #[doc = r" ``` ignore"]
+    #[doc = r" interrupt!(TIM2, periodic);"]
+    #[doc = r""]
+    #[doc = r" fn periodic() {"]
+    #[doc = r#"     print!(".");"#]
+    #[doc = r" }"]
+    #[doc = r""]
+    #[doc = r" interrupt!(TIM3, tick, locals: {"]
+    #[doc = r"     tick: bool = false;"]
+    #[doc = r" });"]
+    #[doc = r""]
+    #[doc = r" fn tick(locals: &mut TIM3::Locals) {"]
+    #[doc = r"     locals.tick = !locals.tick;"]
+    #[doc = r""]
+    #[doc = r"     if locals.tick {"]
+    #[doc = r#"         println!("Tick");"#]
+    #[doc = r"     } else {"]
+    #[doc = r#"         println!("Tock");"#]
+    #[doc = r"     }"]
+    #[doc = r" }"]
+    #[doc = r" ```"]
     macro_rules ! interrupt { ( $ NAME : ident , $ path : path , locals : { $ ( $ lvar : ident : $ lty : ty = $ lval : expr ; ) * } ) => { # [ allow ( non_snake_case ) ] mod $ NAME { pub struct Locals { $ ( pub $ lvar : $ lty , ) * } } # [ allow ( non_snake_case ) ] # [ no_mangle ] pub extern "C" fn $ NAME ( ) { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; static mut LOCALS : self :: $ NAME :: Locals = self :: $ NAME :: Locals { $ ( $ lvar : $ lval , ) * } ; let f : fn ( & mut self :: $ NAME :: Locals ) = $ path ; f ( unsafe { & mut LOCALS } ) ; } } ; ( $ NAME : ident , $ path : path ) => { # [ allow ( non_snake_case ) ] # [ no_mangle ] pub extern "C" fn $ NAME ( ) { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; let f : fn ( ) = $ path ; f ( ) ; } } }
 }
 pub use self::interrupt::Interrupt;
@@ -955,6 +991,7 @@ pub mod plic {
             }
         }
         #[doc = "Values that can be written to the field `priority`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PRIORITYW {}
         impl PRIORITYW {
             #[allow(missing_docs)]
@@ -2515,8 +2552,6 @@ pub mod aonclk {
         _reserved0: [u8; 112usize],
         #[doc = "0x70 - AON Clock Configuration Register"]
         pub lfrosccfg: LFROSCCFG,
-        #[doc = "0x74 - AON Clock Configuration Register"]
-        pub lfxosccfg: LFXOSCCFG,
     }
     #[doc = "AON Clock Configuration Register"]
     pub struct LFROSCCFG {
@@ -2611,6 +2646,17 @@ pub mod aonclk {
             }
         }
         #[doc = r" Value of the field"]
+        pub struct TRIMR {
+            bits: u8,
+        }
+        impl TRIMR {
+            #[doc = r" Value of the field as raw bits"]
+            #[inline]
+            pub fn bits(&self) -> u8 {
+                self.bits
+            }
+        }
+        #[doc = r" Value of the field"]
         pub struct DIVR {
             bits: u8,
         }
@@ -2668,6 +2714,21 @@ pub mod aonclk {
             }
         }
         #[doc = r" Proxy"]
+        pub struct _TRIMW<'a> {
+            w: &'a mut W,
+        }
+        impl<'a> _TRIMW<'a> {
+            #[doc = r" Writes raw bits to the field"]
+            #[inline]
+            pub unsafe fn bits(self, value: u8) -> &'a mut W {
+                const MASK: u8 = 0x1f;
+                const OFFSET: u8 = 16;
+                self.w.bits &= !((MASK as u32) << OFFSET);
+                self.w.bits |= ((value & MASK) as u32) << OFFSET;
+                self.w
+            }
+        }
+        #[doc = r" Proxy"]
         pub struct _DIVW<'a> {
             w: &'a mut W,
         }
@@ -2708,6 +2769,16 @@ pub mod aonclk {
                 };
                 ENABLER { bits }
             }
+            #[doc = "Bits 16:20"]
+            #[inline]
+            pub fn trim(&self) -> TRIMR {
+                let bits = {
+                    const MASK: u8 = 0x1f;
+                    const OFFSET: u8 = 16;
+                    ((self.bits >> OFFSET) & MASK as u32) as u8
+                };
+                TRIMR { bits }
+            }
             #[doc = "Bits 0:5"]
             #[inline]
             pub fn div(&self) -> DIVR {
@@ -2741,199 +2812,15 @@ pub mod aonclk {
             pub fn enable(&mut self) -> _ENABLEW {
                 _ENABLEW { w: self }
             }
+            #[doc = "Bits 16:20"]
+            #[inline]
+            pub fn trim(&mut self) -> _TRIMW {
+                _TRIMW { w: self }
+            }
             #[doc = "Bits 0:5"]
             #[inline]
             pub fn div(&mut self) -> _DIVW {
                 _DIVW { w: self }
-            }
-        }
-    }
-    #[doc = "AON Clock Configuration Register"]
-    pub struct LFXOSCCFG {
-        register: ::vcell::VolatileCell<u32>,
-    }
-    #[doc = "AON Clock Configuration Register"]
-    pub mod lfxosccfg {
-        #[doc = r" Value read from the register"]
-        pub struct R {
-            bits: u32,
-        }
-        #[doc = r" Value to write to the register"]
-        pub struct W {
-            bits: u32,
-        }
-        impl super::LFXOSCCFG {
-            #[doc = r" Modifies the contents of the register"]
-            #[inline]
-            pub fn modify<F>(&self, f: F)
-            where
-                for<'w> F: FnOnce(&R, &'w mut W) -> &'w mut W,
-            {
-                let bits = self.register.get();
-                let r = R { bits: bits };
-                let mut w = W { bits: bits };
-                f(&r, &mut w);
-                self.register.set(w.bits);
-            }
-            #[doc = r" Reads the contents of the register"]
-            #[inline]
-            pub fn read(&self) -> R {
-                R {
-                    bits: self.register.get(),
-                }
-            }
-            #[doc = r" Writes to the register"]
-            #[inline]
-            pub fn write<F>(&self, f: F)
-            where
-                F: FnOnce(&mut W) -> &mut W,
-            {
-                let mut w = W::reset_value();
-                f(&mut w);
-                self.register.set(w.bits);
-            }
-            #[doc = r" Writes the reset value to the register"]
-            #[inline]
-            pub fn reset(&self) {
-                self.write(|w| w)
-            }
-        }
-        #[doc = r" Value of the field"]
-        pub struct READYR {
-            bits: bool,
-        }
-        impl READYR {
-            #[doc = r" Value of the field as raw bits"]
-            #[inline]
-            pub fn bit(&self) -> bool {
-                self.bits
-            }
-            #[doc = r" Returns `true` if the bit is clear (0)"]
-            #[inline]
-            pub fn bit_is_clear(&self) -> bool {
-                !self.bit()
-            }
-            #[doc = r" Returns `true` if the bit is set (1)"]
-            #[inline]
-            pub fn bit_is_set(&self) -> bool {
-                self.bit()
-            }
-        }
-        #[doc = r" Value of the field"]
-        pub struct ENABLER {
-            bits: bool,
-        }
-        impl ENABLER {
-            #[doc = r" Value of the field as raw bits"]
-            #[inline]
-            pub fn bit(&self) -> bool {
-                self.bits
-            }
-            #[doc = r" Returns `true` if the bit is clear (0)"]
-            #[inline]
-            pub fn bit_is_clear(&self) -> bool {
-                !self.bit()
-            }
-            #[doc = r" Returns `true` if the bit is set (1)"]
-            #[inline]
-            pub fn bit_is_set(&self) -> bool {
-                self.bit()
-            }
-        }
-        #[doc = r" Proxy"]
-        pub struct _READYW<'a> {
-            w: &'a mut W,
-        }
-        impl<'a> _READYW<'a> {
-            #[doc = r" Sets the field bit"]
-            pub fn set_bit(self) -> &'a mut W {
-                self.bit(true)
-            }
-            #[doc = r" Clears the field bit"]
-            pub fn clear_bit(self) -> &'a mut W {
-                self.bit(false)
-            }
-            #[doc = r" Writes raw bits to the field"]
-            #[inline]
-            pub fn bit(self, value: bool) -> &'a mut W {
-                const MASK: bool = true;
-                const OFFSET: u8 = 31;
-                self.w.bits &= !((MASK as u32) << OFFSET);
-                self.w.bits |= ((value & MASK) as u32) << OFFSET;
-                self.w
-            }
-        }
-        #[doc = r" Proxy"]
-        pub struct _ENABLEW<'a> {
-            w: &'a mut W,
-        }
-        impl<'a> _ENABLEW<'a> {
-            #[doc = r" Sets the field bit"]
-            pub fn set_bit(self) -> &'a mut W {
-                self.bit(true)
-            }
-            #[doc = r" Clears the field bit"]
-            pub fn clear_bit(self) -> &'a mut W {
-                self.bit(false)
-            }
-            #[doc = r" Writes raw bits to the field"]
-            #[inline]
-            pub fn bit(self, value: bool) -> &'a mut W {
-                const MASK: bool = true;
-                const OFFSET: u8 = 30;
-                self.w.bits &= !((MASK as u32) << OFFSET);
-                self.w.bits |= ((value & MASK) as u32) << OFFSET;
-                self.w
-            }
-        }
-        impl R {
-            #[doc = r" Value of the register as raw bits"]
-            #[inline]
-            pub fn bits(&self) -> u32 {
-                self.bits
-            }
-            #[doc = "Bit 31"]
-            #[inline]
-            pub fn ready(&self) -> READYR {
-                let bits = {
-                    const MASK: bool = true;
-                    const OFFSET: u8 = 31;
-                    ((self.bits >> OFFSET) & MASK as u32) != 0
-                };
-                READYR { bits }
-            }
-            #[doc = "Bit 30"]
-            #[inline]
-            pub fn enable(&self) -> ENABLER {
-                let bits = {
-                    const MASK: bool = true;
-                    const OFFSET: u8 = 30;
-                    ((self.bits >> OFFSET) & MASK as u32) != 0
-                };
-                ENABLER { bits }
-            }
-        }
-        impl W {
-            #[doc = r" Reset value of the register"]
-            #[inline]
-            pub fn reset_value() -> W {
-                W { bits: 0 }
-            }
-            #[doc = r" Writes raw bits to the register"]
-            #[inline]
-            pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-                self.bits = bits;
-                self
-            }
-            #[doc = "Bit 31"]
-            #[inline]
-            pub fn ready(&mut self) -> _READYW {
-                _READYW { w: self }
-            }
-            #[doc = "Bit 30"]
-            #[inline]
-            pub fn enable(&mut self) -> _ENABLEW {
-                _ENABLEW { w: self }
             }
         }
     }
@@ -4049,6 +3936,7 @@ pub mod pmu {
             }
         }
         #[doc = "Values that can be written to the field `resetcause`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum RESETCAUSEW {
             #[doc = "Power-on reset"]
             POWERON,
@@ -4105,6 +3993,7 @@ pub mod pmu {
             }
         }
         #[doc = "Values that can be written to the field `wakeupcause`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum WAKEUPCAUSEW {
             #[doc = "Power-on wakeup"]
             POWERON,
@@ -5123,6 +5012,7 @@ pub mod prci {
             }
         }
         #[doc = "Values that can be written to the field `pllq`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PLLQW {}
         impl PLLQW {
             #[allow(missing_docs)]
@@ -5168,6 +5058,7 @@ pub mod prci {
             }
         }
         #[doc = "Values that can be written to the field `pllr`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PLLRW {
             #[doc = "`0`"]
             R1,
@@ -37193,6 +37084,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin0`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN0W {}
         impl PIN0W {
             #[allow(missing_docs)]
@@ -37233,6 +37125,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin1`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN1W {}
         impl PIN1W {
             #[allow(missing_docs)]
@@ -37273,6 +37166,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin2`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN2W {}
         impl PIN2W {
             #[allow(missing_docs)]
@@ -37313,6 +37207,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin3`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN3W {}
         impl PIN3W {
             #[allow(missing_docs)]
@@ -37353,6 +37248,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin4`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN4W {}
         impl PIN4W {
             #[allow(missing_docs)]
@@ -37393,6 +37289,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin5`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN5W {}
         impl PIN5W {
             #[allow(missing_docs)]
@@ -37433,6 +37330,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin6`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN6W {}
         impl PIN6W {
             #[allow(missing_docs)]
@@ -37473,6 +37371,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin7`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN7W {}
         impl PIN7W {
             #[allow(missing_docs)]
@@ -37513,6 +37412,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin8`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN8W {}
         impl PIN8W {
             #[allow(missing_docs)]
@@ -37553,6 +37453,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin9`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN9W {}
         impl PIN9W {
             #[allow(missing_docs)]
@@ -37593,6 +37494,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin10`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN10W {}
         impl PIN10W {
             #[allow(missing_docs)]
@@ -37633,6 +37535,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin11`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN11W {}
         impl PIN11W {
             #[allow(missing_docs)]
@@ -37673,6 +37576,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin12`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN12W {}
         impl PIN12W {
             #[allow(missing_docs)]
@@ -37713,6 +37617,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin13`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN13W {}
         impl PIN13W {
             #[allow(missing_docs)]
@@ -37753,6 +37658,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin14`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN14W {}
         impl PIN14W {
             #[allow(missing_docs)]
@@ -37793,6 +37699,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin15`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN15W {}
         impl PIN15W {
             #[allow(missing_docs)]
@@ -37833,6 +37740,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin16`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN16W {}
         impl PIN16W {
             #[allow(missing_docs)]
@@ -37873,6 +37781,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin17`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN17W {}
         impl PIN17W {
             #[allow(missing_docs)]
@@ -37913,6 +37822,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin18`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN18W {}
         impl PIN18W {
             #[allow(missing_docs)]
@@ -37953,6 +37863,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin19`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN19W {}
         impl PIN19W {
             #[allow(missing_docs)]
@@ -37993,6 +37904,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin20`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN20W {}
         impl PIN20W {
             #[allow(missing_docs)]
@@ -38033,6 +37945,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin21`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN21W {}
         impl PIN21W {
             #[allow(missing_docs)]
@@ -38073,6 +37986,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin22`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN22W {}
         impl PIN22W {
             #[allow(missing_docs)]
@@ -38113,6 +38027,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin23`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN23W {}
         impl PIN23W {
             #[allow(missing_docs)]
@@ -38153,6 +38068,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin24`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN24W {}
         impl PIN24W {
             #[allow(missing_docs)]
@@ -38193,6 +38109,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin25`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN25W {}
         impl PIN25W {
             #[allow(missing_docs)]
@@ -38233,6 +38150,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin26`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN26W {}
         impl PIN26W {
             #[allow(missing_docs)]
@@ -38273,6 +38191,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin27`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN27W {}
         impl PIN27W {
             #[allow(missing_docs)]
@@ -38313,6 +38232,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin28`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN28W {}
         impl PIN28W {
             #[allow(missing_docs)]
@@ -38353,6 +38273,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin29`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN29W {}
         impl PIN29W {
             #[allow(missing_docs)]
@@ -38393,6 +38314,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin30`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN30W {}
         impl PIN30W {
             #[allow(missing_docs)]
@@ -38433,6 +38355,7 @@ pub mod gpio0 {
             }
         }
         #[doc = "Values that can be written to the field `pin31`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PIN31W {}
         impl PIN31W {
             #[allow(missing_docs)]
@@ -43233,6 +43156,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `direction`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum DIRECTIONW {
             #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
             RX,
@@ -43291,6 +43215,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `endian`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum ENDIANW {}
         impl ENDIANW {
             #[allow(missing_docs)]
@@ -43331,6 +43256,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `protocol`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum PROTOCOLW {}
         impl PROTOCOLW {
             #[allow(missing_docs)]
@@ -44359,6 +44285,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `data_proto`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum DATA_PROTOW {}
         impl DATA_PROTOW {
             #[allow(missing_docs)]
@@ -44389,6 +44316,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `addr_proto`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum ADDR_PROTOW {}
         impl ADDR_PROTOW {
             #[allow(missing_docs)]
@@ -44419,6 +44347,7 @@ pub mod qspi0 {
             }
         }
         #[doc = "Values that can be written to the field `cmd_proto`"]
+        #[derive(Clone, Copy, Debug, PartialEq)]
         pub enum CMD_PROTOW {}
         impl CMD_PROTOW {
             #[allow(missing_docs)]
