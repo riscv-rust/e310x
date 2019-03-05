@@ -62,7 +62,7 @@
       <description>Platform Level Interrupt Control</description>
       <registers>
         <register>
-          <dim>255</dim>
+          <dim>52</dim>
           <dimIncrement>0x04</dimIncrement>
           <name>priority[%s]</name>
           <description>Interrupt Priority Register</description>
@@ -71,14 +71,14 @@
           </enumeratedValues>
         </register>
         <register>
-          <dim>8</dim>
+          <dim>2</dim>
           <dimIncrement>0x04</dimIncrement>
           <name>pending[%s]</name>
           <description>Interrupt Pending Register</description>
           <addressOffset>0x001000</addressOffset>
         </register>
         <register>
-          <dim>8</dim>
+          <dim>2</dim>
           <dimIncrement>0x04</dimIncrement>
           <name>enable[%s]</name>
           <description>Interrupt Enable Register</description>
