@@ -275,15 +275,6 @@
             <field><name>div</name><msb>5</msb><lsb>0</lsb></field>
           </fields>
         </register>
-        <register>
-          <name>lfxosccfg</name>
-          <description>AON Clock Configuration Register</description>
-          <addressOffset>0x074</addressOffset>
-          <fields>
-            <field><name>ready</name><msb>31</msb><lsb>31</lsb></field>
-            <field><name>enable</name><msb>30</msb><lsb>30</lsb></field>
-          </fields>
-        </register>
       </registers>
     </peripheral>
     <!-- AONCLK -->
