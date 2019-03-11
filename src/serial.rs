@@ -35,19 +35,19 @@ unsafe impl<T> TxPin<UART0> for gpio0::Pin17<IOF0<T>> {}
 unsafe impl<T> RxPin<UART0> for gpio0::Pin16<IOF0<T>> {}
 
 /// Serial abstraction
-pub struct Serial<USART, PINS> {
-    uart: USART,
+pub struct Serial<UART, PINS> {
+    uart: UART,
     pins: PINS,
 }
 
 /// Serial receiver
 pub struct Rx<UART> {
-    _usart: PhantomData<UART>,
+    _usar: PhantomData<UART>,
 }
 
 /// Serial transmitter
 pub struct Tx<UART> {
-    _usart: PhantomData<UART>,
+    _usar: PhantomData<UART>,
 }
 
 macro_rules! hal {
@@ -95,15 +95,15 @@ macro_rules! hal {
                 pub fn split(self) -> (Tx<$UARTX>, Rx<$UARTX>) {
                     (
                         Tx {
-                            _usart: PhantomData,
+                            _usar: PhantomData,
                         },
                         Rx {
-                            _usart: PhantomData,
+                            _usar: PhantomData,
                         },
                     )
                 }
 
-                /// Releases the USART peripheral and associated pins
+                /// Releases the UART peripheral and associated pins
                 pub fn free(self) -> ($UARTX, (TX, RX)) {
                     (self.uart, self.pins)
                 }
