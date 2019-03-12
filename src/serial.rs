@@ -15,14 +15,14 @@
 
 use core::marker::PhantomData;
 
-use hal::serial;
+use embedded_hal::serial;
 use nb;
 use void::Void;
 
 use e310x::UART0;
-use clock::Clocks;
-use gpio::{IOF0, gpio0};
-use time::Bps;
+use crate::clock::Clocks;
+use crate::gpio::{IOF0, gpio0};
+use crate::time::Bps;
 
 // FIXME these should be "closed" traits
 /// TX pin - DO NOT IMPLEMENT THIS TRAIT

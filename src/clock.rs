@@ -1,8 +1,8 @@
 //! Clock configuration
 use e310x::{PRCI, AONCLK};
-use clint::{MCYCLE, MTIME};
+use crate::clint::{MCYCLE, MTIME};
 use riscv::interrupt;
-use time::Hertz;
+use crate::time::Hertz;
 
 
 const PLLREF_MIN: u32 = 6_000_000;

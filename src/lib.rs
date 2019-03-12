@@ -7,13 +7,7 @@
 #![deny(warnings)]
 #![no_std]
 
-extern crate embedded_hal as hal;
-#[macro_use]
-extern crate nb;
-extern crate void;
-
-extern crate riscv;
-pub extern crate e310x;
+pub use e310x;
 
 pub mod clint;
 pub mod clock;
