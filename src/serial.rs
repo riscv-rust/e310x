@@ -83,7 +83,7 @@ macro_rules! hal {
                     self
                 }
 
-                /// Starts listening for an interrupt event
+                /// Stops listening for an interrupt event
                 pub fn unlisten(self) -> Self {
                     self.uart.ie.write(|w| w.txwm().bit(false)
                                        .rxwm().bit(false));
