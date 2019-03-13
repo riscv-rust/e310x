@@ -16,6 +16,7 @@ pub mod plic;
 pub mod prelude;
 pub mod rtc;
 pub mod serial;
+pub mod spi;
 pub mod stdout;
 pub mod time;
 pub mod wdog;
