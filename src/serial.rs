@@ -8,10 +8,10 @@
 //! - Interrupt::UART0
 //!
 //! # UART1
+//! *Warning:* UART1 pins are not connected to package in FE310-G000
 //! - TX: Pin 25 IOF0
 //! - RX: Pin 24 IOF0
 //! - Interrupt::UART1
-//! Pins not connected to package in E310-G000
 
 use core::marker::PhantomData;
 
