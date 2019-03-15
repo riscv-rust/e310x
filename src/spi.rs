@@ -23,7 +23,7 @@
 //! - SS: Pin 26 IOF0
 //! - Interrupt::QSPI0
 
-pub use embedded_hal::spi::{Mode, Phase, Polarity};
+pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
 use crate::e310x::{QSPI0, QSPI1, QSPI2};
 use crate::gpio::{IOF0, gpio0};
 use crate::clock::Clocks;
