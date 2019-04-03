@@ -42,12 +42,12 @@ pub struct Serial<UART, PINS> {
 
 /// Serial receiver
 pub struct Rx<UART> {
-    _usar: PhantomData<UART>,
+    _uart: PhantomData<UART>,
 }
 
 /// Serial transmitter
 pub struct Tx<UART> {
-    _usar: PhantomData<UART>,
+    _uart: PhantomData<UART>,
 }
 
 macro_rules! hal {
@@ -95,10 +95,10 @@ macro_rules! hal {
                 pub fn split(self) -> (Tx<$UARTX>, Rx<$UARTX>) {
                     (
                         Tx {
-                            _usar: PhantomData,
+                            _uart: PhantomData,
                         },
                         Rx {
-                            _usar: PhantomData,
+                            _uart: PhantomData,
                         },
                     )
                 }
