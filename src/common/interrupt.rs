@@ -103,6 +103,8 @@ pub enum Interrupt {
     PWM2CMP2,
     #[doc = "51 - PWM2CMP3"]
     PWM2CMP3,
+    #[doc = "52 - I2C0"]
+    I2C0,
 }
 unsafe impl ::bare_metal::Nr for Interrupt {
     #[inline]
@@ -159,6 +161,7 @@ unsafe impl ::bare_metal::Nr for Interrupt {
             Interrupt::PWM2CMP1 => 49,
             Interrupt::PWM2CMP2 => 50,
             Interrupt::PWM2CMP3 => 51,
+            Interrupt::I2C0 => 52,
         }
     }
 }
@@ -219,6 +222,7 @@ impl Interrupt {
             49 => Ok(Interrupt::PWM2CMP1),
             50 => Ok(Interrupt::PWM2CMP2),
             51 => Ok(Interrupt::PWM2CMP3),
+            52 => Ok(Interrupt::I2C0),
             _ => Err(TryFromInterruptError(())),
         }
     }

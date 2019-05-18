@@ -255,6 +255,25 @@ impl Deref for PWM0 {
 }
 #[doc = "8-bit timer with 4 cmp"]
 pub mod pwm0;
+#[doc = "Inter-Integrated Circuit Master Interface"]
+pub struct I2C0 {
+    _marker: PhantomData<*const ()>,
+}
+unsafe impl Send for I2C0 {}
+impl I2C0 {
+    #[doc = r" Returns a pointer to the register block"]
+    pub fn ptr() -> *const i2c0::RegisterBlock {
+        268525568 as *const _
+    }
+}
+impl Deref for I2C0 {
+    type Target = i2c0::RegisterBlock;
+    fn deref(&self) -> &i2c0::RegisterBlock {
+        unsafe { &*I2C0::ptr() }
+    }
+}
+#[doc = "Inter-Integrated Circuit Master Interface"]
+pub mod i2c0;
 #[doc = "UART1"]
 pub struct UART1 {
     _marker: PhantomData<*const ()>,
@@ -371,6 +390,8 @@ pub struct Peripherals {
     pub QSPI0: QSPI0,
     #[doc = "PWM0"]
     pub PWM0: PWM0,
+    #[doc = "I2C0"]
+    pub I2C0: I2C0,
     #[doc = "UART1"]
     pub UART1: UART1,
     #[doc = "QSPI1"]
@@ -436,6 +457,9 @@ impl Peripherals {
                 _marker: PhantomData,
             },
             PWM0: PWM0 {
+                _marker: PhantomData,
+            },
+            I2C0: I2C0 {
                 _marker: PhantomData,
             },
             UART1: UART1 {

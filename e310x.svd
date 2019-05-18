@@ -2130,6 +2130,27 @@
     </peripheral>
     <!-- PWM0 -->
 
+    <!-- I2C0 -->
+    <peripheral>
+      <name>I2C0</name>
+      <baseAddress>0x10016000</baseAddress>
+      <groupName>I2C</groupName>
+      <description>Inter-Integrated Circuit Master Interface</description>
+      <registers>
+        <register>
+          <!-- TODO -->
+          <name>dummy</name>
+          <description>Dummy register: this peripheral is not implemented yet</description>
+          <addressOffset>0x00</addressOffset>
+        </register>
+      </registers>
+      <interrupt>
+        <name>I2C0</name>
+        <value>52</value>
+      </interrupt>
+    </peripheral>
+    <!-- I2C0 -->
+
     <!-- UART1 -->
     <peripheral derivedFrom="UART0">
       <name>UART1</name>
