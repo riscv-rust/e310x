@@ -16,6 +16,7 @@ riscv-rt = { version = "0.5.0", optional = true }
 
 [features]
 rt = ["riscv-rt"]
+g002 = []
 
 [package.metadata.docs.rs]
 features = ["rt"]

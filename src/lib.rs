@@ -11,10 +11,12 @@ extern crate vcell;
 mod common;
 
 pub use common::{
-    aonclk, backup, clint, gpio0, otp, plic, pmu, prci, pwm0, qspi0, rtc, uart0, wdog, AONCLK,
-    BACKUP, CLINT, GPIO0, OTP, PLIC, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0, QSPI1, QSPI2, RTC, UART0,
-    UART1, WDOG, Interrupt,
+    aonclk, backup, clint, gpio0, otp, plic, pmu, prci, pwm0, qspi0, rtc, uart0, wdog, Interrupt,
+    AONCLK, BACKUP, CLINT, GPIO0, OTP, PLIC, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0, QSPI1, QSPI2, RTC,
+    UART0, UART1, WDOG,
 };
+#[cfg(feature = "g002")]
+pub use common::{i2c0, I2C0};
 
 #[doc(hidden)]
 pub mod interrupt {
@@ -60,6 +62,9 @@ pub struct Peripherals {
     pub QSPI2: QSPI2,
     #[doc = "PWM2"]
     pub PWM2: PWM2,
+    #[cfg(feature = "g002")]
+    #[doc = "I2C0"]
+    pub I2C0: I2C0,
 }
 
 impl Peripherals {
@@ -84,6 +89,8 @@ impl Peripherals {
             PWM1: peripherals.PWM1,
             QSPI2: peripherals.QSPI2,
             PWM2: peripherals.PWM2,
+            #[cfg(feature = "g002")]
+            I2C0: peripherals.I2C0,
         }
     }
 
