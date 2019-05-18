@@ -4,7 +4,6 @@
 //! family of microcontrollers.
 
 #![deny(missing_docs)]
-#![deny(warnings)]
 #![no_std]
 
 pub use e310x;
