@@ -129,6 +129,12 @@ impl SELR {
 #[doc = "Possible values of the field `pllq`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PLLQR {
+    #[doc = "undocumented"]
+    Q2,
+    #[doc = "undocumented"]
+    Q4,
+    #[doc = "undocumented"]
+    Q8,
     #[doc = r" Reserved"]
     _Reserved(u8),
 }
@@ -137,6 +143,9 @@ impl PLLQR {
     #[inline]
     pub fn bits(&self) -> u8 {
         match *self {
+            PLLQR::Q2 => 1,
+            PLLQR::Q4 => 2,
+            PLLQR::Q8 => 3,
             PLLQR::_Reserved(bits) => bits,
         }
     }
@@ -145,8 +154,26 @@ impl PLLQR {
     #[inline]
     pub fn _from(value: u8) -> PLLQR {
         match value {
+            1 => PLLQR::Q2,
+            2 => PLLQR::Q4,
+            3 => PLLQR::Q8,
             i => PLLQR::_Reserved(i),
         }
+    }
+    #[doc = "Checks if the value of the field is `Q2`"]
+    #[inline]
+    pub fn is_q2(&self) -> bool {
+        *self == PLLQR::Q2
+    }
+    #[doc = "Checks if the value of the field is `Q4`"]
+    #[inline]
+    pub fn is_q4(&self) -> bool {
+        *self == PLLQR::Q4
+    }
+    #[doc = "Checks if the value of the field is `Q8`"]
+    #[inline]
+    pub fn is_q8(&self) -> bool {
+        *self == PLLQR::Q8
     }
 }
 #[doc = r" Value of the field"]
@@ -313,13 +340,24 @@ impl<'a> _SELW<'a> {
 }
 #[doc = "Values that can be written to the field `pllq`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum PLLQW {}
+pub enum PLLQW {
+    #[doc = "`1`"]
+    Q2,
+    #[doc = "`10`"]
+    Q4,
+    #[doc = "`11`"]
+    Q8,
+}
 impl PLLQW {
     #[allow(missing_docs)]
     #[doc(hidden)]
     #[inline]
     pub fn _bits(&self) -> u8 {
-        match *self {}
+        match *self {
+            PLLQW::Q2 => 1,
+            PLLQW::Q4 => 2,
+            PLLQW::Q8 => 3,
+        }
     }
 }
 #[doc = r" Proxy"]
@@ -331,6 +369,21 @@ impl<'a> _PLLQW<'a> {
     #[inline]
     pub fn variant(self, variant: PLLQW) -> &'a mut W {
         unsafe { self.bits(variant._bits()) }
+    }
+    #[doc = "`1`"]
+    #[inline]
+    pub fn q2(self) -> &'a mut W {
+        self.variant(PLLQW::Q2)
+    }
+    #[doc = "`10`"]
+    #[inline]
+    pub fn q4(self) -> &'a mut W {
+        self.variant(PLLQW::Q4)
+    }
+    #[doc = "`11`"]
+    #[inline]
+    pub fn q8(self) -> &'a mut W {
+        self.variant(PLLQW::Q8)
     }
     #[doc = r" Writes raw bits to the field"]
     #[inline]

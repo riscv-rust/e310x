@@ -103,8 +103,10 @@ impl DIRECTIONR {
 #[doc = "Possible values of the field `endian`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ENDIANR {
-    #[doc = r" Reserved"]
-    _Reserved(bool),
+    #[doc = "Transmit MSB first."]
+    BIG,
+    #[doc = "Transmit LSB first."]
+    LITTLE,
 }
 impl ENDIANR {
     #[doc = r" Returns `true` if the bit is clear (0)"]
@@ -121,7 +123,8 @@ impl ENDIANR {
     #[inline]
     pub fn bit(&self) -> bool {
         match *self {
-            ENDIANR::_Reserved(bits) => bits,
+            ENDIANR::BIG => false,
+            ENDIANR::LITTLE => true,
         }
     }
     #[allow(missing_docs)]
@@ -129,13 +132,30 @@ impl ENDIANR {
     #[inline]
     pub fn _from(value: bool) -> ENDIANR {
         match value {
-            i => ENDIANR::_Reserved(i),
+            false => ENDIANR::BIG,
+            true => ENDIANR::LITTLE,
         }
+    }
+    #[doc = "Checks if the value of the field is `BIG`"]
+    #[inline]
+    pub fn is_big(&self) -> bool {
+        *self == ENDIANR::BIG
+    }
+    #[doc = "Checks if the value of the field is `LITTLE`"]
+    #[inline]
+    pub fn is_little(&self) -> bool {
+        *self == ENDIANR::LITTLE
     }
 }
 #[doc = "Possible values of the field `protocol`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PROTOCOLR {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
     #[doc = r" Reserved"]
     _Reserved(u8),
 }
@@ -144,6 +164,9 @@ impl PROTOCOLR {
     #[inline]
     pub fn bits(&self) -> u8 {
         match *self {
+            PROTOCOLR::SINGLE => 0,
+            PROTOCOLR::DUAL => 1,
+            PROTOCOLR::QUAD => 2,
             PROTOCOLR::_Reserved(bits) => bits,
         }
     }
@@ -152,8 +175,26 @@ impl PROTOCOLR {
     #[inline]
     pub fn _from(value: u8) -> PROTOCOLR {
         match value {
+            0 => PROTOCOLR::SINGLE,
+            1 => PROTOCOLR::DUAL,
+            2 => PROTOCOLR::QUAD,
             i => PROTOCOLR::_Reserved(i),
         }
+    }
+    #[doc = "Checks if the value of the field is `SINGLE`"]
+    #[inline]
+    pub fn is_single(&self) -> bool {
+        *self == PROTOCOLR::SINGLE
+    }
+    #[doc = "Checks if the value of the field is `DUAL`"]
+    #[inline]
+    pub fn is_dual(&self) -> bool {
+        *self == PROTOCOLR::DUAL
+    }
+    #[doc = "Checks if the value of the field is `QUAD`"]
+    #[inline]
+    pub fn is_quad(&self) -> bool {
+        *self == PROTOCOLR::QUAD
     }
 }
 #[doc = r" Proxy"]
@@ -232,13 +273,21 @@ impl<'a> _DIRECTIONW<'a> {
 }
 #[doc = "Values that can be written to the field `endian`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum ENDIANW {}
+pub enum ENDIANW {
+    #[doc = "Transmit MSB first."]
+    BIG,
+    #[doc = "Transmit LSB first."]
+    LITTLE,
+}
 impl ENDIANW {
     #[allow(missing_docs)]
     #[doc(hidden)]
     #[inline]
     pub fn _bits(&self) -> bool {
-        match *self {}
+        match *self {
+            ENDIANW::BIG => false,
+            ENDIANW::LITTLE => true,
+        }
     }
 }
 #[doc = r" Proxy"]
@@ -252,6 +301,16 @@ impl<'a> _ENDIANW<'a> {
         {
             self.bit(variant._bits())
         }
+    }
+    #[doc = "Transmit MSB first."]
+    #[inline]
+    pub fn big(self) -> &'a mut W {
+        self.variant(ENDIANW::BIG)
+    }
+    #[doc = "Transmit LSB first."]
+    #[inline]
+    pub fn little(self) -> &'a mut W {
+        self.variant(ENDIANW::LITTLE)
     }
     #[doc = r" Sets the field bit"]
     pub fn set_bit(self) -> &'a mut W {
@@ -273,13 +332,24 @@ impl<'a> _ENDIANW<'a> {
 }
 #[doc = "Values that can be written to the field `protocol`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum PROTOCOLW {}
+pub enum PROTOCOLW {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
+}
 impl PROTOCOLW {
     #[allow(missing_docs)]
     #[doc(hidden)]
     #[inline]
     pub fn _bits(&self) -> u8 {
-        match *self {}
+        match *self {
+            PROTOCOLW::SINGLE => 0,
+            PROTOCOLW::DUAL => 1,
+            PROTOCOLW::QUAD => 2,
+        }
     }
 }
 #[doc = r" Proxy"]
@@ -291,6 +361,21 @@ impl<'a> _PROTOCOLW<'a> {
     #[inline]
     pub fn variant(self, variant: PROTOCOLW) -> &'a mut W {
         unsafe { self.bits(variant._bits()) }
+    }
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    #[inline]
+    pub fn single(self) -> &'a mut W {
+        self.variant(PROTOCOLW::SINGLE)
+    }
+    #[doc = "DQ0, DQ1"]
+    #[inline]
+    pub fn dual(self) -> &'a mut W {
+        self.variant(PROTOCOLW::DUAL)
+    }
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    #[inline]
+    pub fn quad(self) -> &'a mut W {
+        self.variant(PROTOCOLW::QUAD)
     }
     #[doc = r" Writes raw bits to the field"]
     #[inline]

@@ -67,6 +67,12 @@ impl CMD_CODER {
 #[doc = "Possible values of the field `data_proto`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DATA_PROTOR {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
     #[doc = r" Reserved"]
     _Reserved(u8),
 }
@@ -75,6 +81,9 @@ impl DATA_PROTOR {
     #[inline]
     pub fn bits(&self) -> u8 {
         match *self {
+            DATA_PROTOR::SINGLE => 0,
+            DATA_PROTOR::DUAL => 1,
+            DATA_PROTOR::QUAD => 2,
             DATA_PROTOR::_Reserved(bits) => bits,
         }
     }
@@ -83,13 +92,37 @@ impl DATA_PROTOR {
     #[inline]
     pub fn _from(value: u8) -> DATA_PROTOR {
         match value {
+            0 => DATA_PROTOR::SINGLE,
+            1 => DATA_PROTOR::DUAL,
+            2 => DATA_PROTOR::QUAD,
             i => DATA_PROTOR::_Reserved(i),
         }
+    }
+    #[doc = "Checks if the value of the field is `SINGLE`"]
+    #[inline]
+    pub fn is_single(&self) -> bool {
+        *self == DATA_PROTOR::SINGLE
+    }
+    #[doc = "Checks if the value of the field is `DUAL`"]
+    #[inline]
+    pub fn is_dual(&self) -> bool {
+        *self == DATA_PROTOR::DUAL
+    }
+    #[doc = "Checks if the value of the field is `QUAD`"]
+    #[inline]
+    pub fn is_quad(&self) -> bool {
+        *self == DATA_PROTOR::QUAD
     }
 }
 #[doc = "Possible values of the field `addr_proto`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ADDR_PROTOR {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
     #[doc = r" Reserved"]
     _Reserved(u8),
 }
@@ -98,6 +131,9 @@ impl ADDR_PROTOR {
     #[inline]
     pub fn bits(&self) -> u8 {
         match *self {
+            ADDR_PROTOR::SINGLE => 0,
+            ADDR_PROTOR::DUAL => 1,
+            ADDR_PROTOR::QUAD => 2,
             ADDR_PROTOR::_Reserved(bits) => bits,
         }
     }
@@ -106,13 +142,37 @@ impl ADDR_PROTOR {
     #[inline]
     pub fn _from(value: u8) -> ADDR_PROTOR {
         match value {
+            0 => ADDR_PROTOR::SINGLE,
+            1 => ADDR_PROTOR::DUAL,
+            2 => ADDR_PROTOR::QUAD,
             i => ADDR_PROTOR::_Reserved(i),
         }
+    }
+    #[doc = "Checks if the value of the field is `SINGLE`"]
+    #[inline]
+    pub fn is_single(&self) -> bool {
+        *self == ADDR_PROTOR::SINGLE
+    }
+    #[doc = "Checks if the value of the field is `DUAL`"]
+    #[inline]
+    pub fn is_dual(&self) -> bool {
+        *self == ADDR_PROTOR::DUAL
+    }
+    #[doc = "Checks if the value of the field is `QUAD`"]
+    #[inline]
+    pub fn is_quad(&self) -> bool {
+        *self == ADDR_PROTOR::QUAD
     }
 }
 #[doc = "Possible values of the field `cmd_proto`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum CMD_PROTOR {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
     #[doc = r" Reserved"]
     _Reserved(u8),
 }
@@ -121,6 +181,9 @@ impl CMD_PROTOR {
     #[inline]
     pub fn bits(&self) -> u8 {
         match *self {
+            CMD_PROTOR::SINGLE => 0,
+            CMD_PROTOR::DUAL => 1,
+            CMD_PROTOR::QUAD => 2,
             CMD_PROTOR::_Reserved(bits) => bits,
         }
     }
@@ -129,8 +192,26 @@ impl CMD_PROTOR {
     #[inline]
     pub fn _from(value: u8) -> CMD_PROTOR {
         match value {
+            0 => CMD_PROTOR::SINGLE,
+            1 => CMD_PROTOR::DUAL,
+            2 => CMD_PROTOR::QUAD,
             i => CMD_PROTOR::_Reserved(i),
         }
+    }
+    #[doc = "Checks if the value of the field is `SINGLE`"]
+    #[inline]
+    pub fn is_single(&self) -> bool {
+        *self == CMD_PROTOR::SINGLE
+    }
+    #[doc = "Checks if the value of the field is `DUAL`"]
+    #[inline]
+    pub fn is_dual(&self) -> bool {
+        *self == CMD_PROTOR::DUAL
+    }
+    #[doc = "Checks if the value of the field is `QUAD`"]
+    #[inline]
+    pub fn is_quad(&self) -> bool {
+        *self == CMD_PROTOR::QUAD
     }
 }
 #[doc = r" Value of the field"]
@@ -218,13 +299,24 @@ impl<'a> _CMD_CODEW<'a> {
 }
 #[doc = "Values that can be written to the field `data_proto`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum DATA_PROTOW {}
+pub enum DATA_PROTOW {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
+}
 impl DATA_PROTOW {
     #[allow(missing_docs)]
     #[doc(hidden)]
     #[inline]
     pub fn _bits(&self) -> u8 {
-        match *self {}
+        match *self {
+            DATA_PROTOW::SINGLE => 0,
+            DATA_PROTOW::DUAL => 1,
+            DATA_PROTOW::QUAD => 2,
+        }
     }
 }
 #[doc = r" Proxy"]
@@ -236,6 +328,21 @@ impl<'a> _DATA_PROTOW<'a> {
     #[inline]
     pub fn variant(self, variant: DATA_PROTOW) -> &'a mut W {
         unsafe { self.bits(variant._bits()) }
+    }
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    #[inline]
+    pub fn single(self) -> &'a mut W {
+        self.variant(DATA_PROTOW::SINGLE)
+    }
+    #[doc = "DQ0, DQ1"]
+    #[inline]
+    pub fn dual(self) -> &'a mut W {
+        self.variant(DATA_PROTOW::DUAL)
+    }
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    #[inline]
+    pub fn quad(self) -> &'a mut W {
+        self.variant(DATA_PROTOW::QUAD)
     }
     #[doc = r" Writes raw bits to the field"]
     #[inline]
@@ -249,13 +356,24 @@ impl<'a> _DATA_PROTOW<'a> {
 }
 #[doc = "Values that can be written to the field `addr_proto`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum ADDR_PROTOW {}
+pub enum ADDR_PROTOW {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
+}
 impl ADDR_PROTOW {
     #[allow(missing_docs)]
     #[doc(hidden)]
     #[inline]
     pub fn _bits(&self) -> u8 {
-        match *self {}
+        match *self {
+            ADDR_PROTOW::SINGLE => 0,
+            ADDR_PROTOW::DUAL => 1,
+            ADDR_PROTOW::QUAD => 2,
+        }
     }
 }
 #[doc = r" Proxy"]
@@ -267,6 +385,21 @@ impl<'a> _ADDR_PROTOW<'a> {
     #[inline]
     pub fn variant(self, variant: ADDR_PROTOW) -> &'a mut W {
         unsafe { self.bits(variant._bits()) }
+    }
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    #[inline]
+    pub fn single(self) -> &'a mut W {
+        self.variant(ADDR_PROTOW::SINGLE)
+    }
+    #[doc = "DQ0, DQ1"]
+    #[inline]
+    pub fn dual(self) -> &'a mut W {
+        self.variant(ADDR_PROTOW::DUAL)
+    }
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    #[inline]
+    pub fn quad(self) -> &'a mut W {
+        self.variant(ADDR_PROTOW::QUAD)
     }
     #[doc = r" Writes raw bits to the field"]
     #[inline]
@@ -280,13 +413,24 @@ impl<'a> _ADDR_PROTOW<'a> {
 }
 #[doc = "Values that can be written to the field `cmd_proto`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum CMD_PROTOW {}
+pub enum CMD_PROTOW {
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    SINGLE,
+    #[doc = "DQ0, DQ1"]
+    DUAL,
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    QUAD,
+}
 impl CMD_PROTOW {
     #[allow(missing_docs)]
     #[doc(hidden)]
     #[inline]
     pub fn _bits(&self) -> u8 {
-        match *self {}
+        match *self {
+            CMD_PROTOW::SINGLE => 0,
+            CMD_PROTOW::DUAL => 1,
+            CMD_PROTOW::QUAD => 2,
+        }
     }
 }
 #[doc = r" Proxy"]
@@ -298,6 +442,21 @@ impl<'a> _CMD_PROTOW<'a> {
     #[inline]
     pub fn variant(self, variant: CMD_PROTOW) -> &'a mut W {
         unsafe { self.bits(variant._bits()) }
+    }
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    #[inline]
+    pub fn single(self) -> &'a mut W {
+        self.variant(CMD_PROTOW::SINGLE)
+    }
+    #[doc = "DQ0, DQ1"]
+    #[inline]
+    pub fn dual(self) -> &'a mut W {
+        self.variant(CMD_PROTOW::DUAL)
+    }
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    #[inline]
+    pub fn quad(self) -> &'a mut W {
+        self.variant(CMD_PROTOW::QUAD)
     }
     #[doc = r" Writes raw bits to the field"]
     #[inline]
