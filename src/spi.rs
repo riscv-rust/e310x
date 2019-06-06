@@ -23,13 +23,13 @@
 //! - SS: Pin 26 IOF0
 //! - Interrupt::QSPI0
 
+use core::convert::Infallible;
 pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
 use crate::e310x::{QSPI0, QSPI1, QSPI2};
 use crate::gpio::{IOF0, gpio0};
 use crate::clock::Clocks;
 use crate::time::Hertz;
 use nb;
-use void::Void;
 
 
 /// SPI pins - DO NOT IMPLEMENT THIS TRAIT
@@ -183,9 +183,9 @@ macro_rules! hal {
             }
 
             impl<PINS> embedded_hal::spi::FullDuplex<u8> for Spi<$SPIX, PINS> {
-                type Error = void::Void;
+                type Error = Infallible;
 
-                fn read(&mut self) -> nb::Result<u8, Void> {
+                fn read(&mut self) -> nb::Result<u8, Infallible> {
                     let rxdata = self.spi.rxdata.read();
 
                     if rxdata.empty().bit_is_set() {
@@ -195,7 +195,7 @@ macro_rules! hal {
                     }
                 }
 
-                fn send(&mut self, byte: u8) -> nb::Result<(), Void> {
+                fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
                     let txdata = self.spi.txdata.read();
 
                     if txdata.full().bit_is_set() {
