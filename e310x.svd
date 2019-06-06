@@ -2135,7 +2135,7 @@
       <name>I2C0</name>
       <baseAddress>0x10016000</baseAddress>
       <groupName>I2C</groupName>
-      <description>Inter-Integrated Circuit Master Interface</description>
+      <description>Inter-Integrated Circuit Master Interface (FE310-G002 only)</description>
       <registers>
         <register>
           <!-- TODO -->

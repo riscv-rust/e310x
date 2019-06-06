@@ -255,7 +255,7 @@ impl Deref for PWM0 {
 }
 #[doc = "8-bit timer with 4 cmp"]
 pub mod pwm0;
-#[doc = "Inter-Integrated Circuit Master Interface"]
+#[doc = "Inter-Integrated Circuit Master Interface (FE310-G002 only)"]
 pub struct I2C0 {
     _marker: PhantomData<*const ()>,
 }
@@ -272,7 +272,7 @@ impl Deref for I2C0 {
         unsafe { &*I2C0::ptr() }
     }
 }
-#[doc = "Inter-Integrated Circuit Master Interface"]
+#[doc = "Inter-Integrated Circuit Master Interface (FE310-G002 only)"]
 pub mod i2c0;
 #[doc = "UART1"]
 pub struct UART1 {
