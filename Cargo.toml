@@ -19,4 +19,4 @@ rt = ["riscv-rt"]
 g002 = []
 
 [package.metadata.docs.rs]
-features = ["rt"]
+features = ["rt", "g002"]
