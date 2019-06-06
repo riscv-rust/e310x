@@ -61,8 +61,9 @@ macro_rules! gpio {
         /// GPIO
         pub mod $gpiox {
             use core::marker::PhantomData;
+            use core::convert::Infallible;
 
-            use embedded_hal::digital::{InputPin, OutputPin, StatefulOutputPin,
+            use embedded_hal::digital::v2::{InputPin, OutputPin, StatefulOutputPin,
                                ToggleableOutputPin};
             use e310x::{$gpioy, $GPIOX};
             use super::{IOF0, IOF1, Drive, Floating, GpioExt, Input, Invert,
@@ -353,52 +354,61 @@ macro_rules! gpio {
                 }
 
                 impl<MODE> InputPin for $PXi<Input<MODE>> {
-                    fn is_high(&self) -> bool {
-                        !self.is_low()
+                    type Error = Infallible;
+
+                    fn is_high(&self) -> Result<bool, Infallible> {
+                        Ok(!self.is_low()?)
                     }
 
-                    fn is_low(&self) -> bool {
+                    fn is_low(&self) -> Result<bool, Infallible> {
                         let gpio = unsafe { &*$GPIOX::ptr() };
                         // NOTE unsafe atomic read with no side effects
-                        gpio.value.read().$pxi().bit()
+                        Ok(gpio.value.read().$pxi().bit())
                     }
                 }
 
                 impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
-                    fn is_set_high(&self) -> bool {
-                        !self.is_set_low()
+                    fn is_set_high(&self) -> Result<bool, Infallible> {
+                        Ok(!self.is_set_low()?)
                     }
 
-                    fn is_set_low(&self) -> bool {
+                    fn is_set_low(&self) -> Result<bool, Infallible> {
                         // NOTE unsafe atomic read with no side effects
                         let gpio = unsafe { &*$GPIOX::ptr() };
-                        gpio.value.read().$pxi().bit()
+                        Ok(gpio.value.read().$pxi().bit())
                     }
                 }
 
                 impl<MODE> OutputPin for $PXi<Output<MODE>> {
-                    fn set_high(&mut self) {
+                    type Error = Infallible;
+
+                    fn set_high(&mut self) -> Result<(), Infallible> {
                         // FIXME has to read register first
                         // use atomics
                         let gpio = unsafe { &*$GPIOX::ptr() };
                         gpio.port.modify(|_, w| w.$pxi().bit(true));
+                        Ok(())
                     }
 
-                    fn set_low(&mut self) {
+                    fn set_low(&mut self) -> Result<(), Infallible> {
                         // FIXME: has to read register first
                         // use atomics
                         let gpio = unsafe { &*$GPIOX::ptr() };
                         gpio.port.modify(|_, w| w.$pxi().bit(false));
+                        Ok(())
                     }
                 }
 
                 impl<MODE> ToggleableOutputPin for $PXi<Output<MODE>> {
+                    type Error = Infallible;
+
                     /// Toggles the pin state.
-                    fn toggle(&mut self) {
+                    fn toggle(&mut self) -> Result<(), Infallible> {
                         // FIXME: has to read register first
                         // use atomics
                         let gpio = unsafe { &*$GPIOX::ptr() };
                         gpio.port.modify(|r, w| w.$pxi().bit(!r.$pxi().bit()));
+                        Ok(())
                     }
                 }
             )+
