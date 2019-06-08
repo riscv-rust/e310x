@@ -1,6 +1,6 @@
 [package]
 name = "e310x"
-version = "0.5.0"
+version = "0.5.1"
 repository = "https://github.com/riscv-rust/e310x"
 authors = ["David Craven <david@craven.ch>"]
 categories = ["embedded", "hardware-support", "no-std"]
