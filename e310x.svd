@@ -2138,10 +2138,147 @@
       <description>Inter-Integrated Circuit Master Interface (FE310-G002 only)</description>
       <registers>
         <register>
-          <!-- TODO -->
-          <name>dummy</name>
-          <description>Dummy register: this peripheral is not implemented yet</description>
+          <name>prer_lo</name>
+          <description>Clock Prescale register lo-byte</description>
           <addressOffset>0x00</addressOffset>
+          <fields>
+            <field>
+              <name>value</name>
+              <bitRange>[7:0]</bitRange>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>prer_hi</name>
+          <description>Clock Prescale register hi-byte</description>
+          <addressOffset>0x04</addressOffset>
+          <fields>
+            <field>
+              <name>value</name>
+              <bitRange>[7:0]</bitRange>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ctr</name>
+          <description>Control register</description>
+          <addressOffset>0x08</addressOffset>
+          <fields>
+            <field>
+              <name>en</name>
+              <description>I2C core enable bit</description>
+              <bitRange>[7:7]</bitRange>
+            </field>
+            <field>
+              <name>ien</name>
+              <description>I2C core interrupt enable bit</description>
+              <bitRange>[6:6]</bitRange>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>txr_rxr</name>
+          <description>Transmit register / Receive register</description>
+          <addressOffset>0x0c</addressOffset>
+          <fields>
+            <field>
+              <name>data</name>
+              <bitRange>[7:0]</bitRange>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>cr_sr</name>
+          <description>Command register / Status register</description>
+          <addressOffset>0x10</addressOffset>
+        </register>
+        <!-- TODO: remove this hack -->
+        <register>
+          <name>cr</name>
+          <description>Command register</description>
+          <addressOffset>0x10</addressOffset>
+          <access>write-only</access>
+          <fields>
+            <field>
+              <name>sta</name>
+              <description>Generate (repeated) start condition</description>
+              <bitRange>[7:7]</bitRange>
+            </field>
+            <field>
+              <name>sto</name>
+              <description>Generate stop condition</description>
+              <bitRange>[6:6]</bitRange>
+            </field>
+            <field>
+              <name>rd</name>
+              <description>Read from slave</description>
+              <bitRange>[5:5]</bitRange>
+            </field>
+            <field>
+              <name>wr</name>
+              <description>Write to slave</description>
+              <bitRange>[4:4]</bitRange>
+            </field>
+            <field>
+              <name>ack</name>
+              <description>When a receiver, sent ACK (0) or NACK (1)</description>
+              <bitRange>[3:3]</bitRange>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>ack</name>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>nack</name>
+                  <value>1</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>iack</name>
+              <description>Interrupt acknowledge. When set, clears a pending interrupt</description>
+              <bitRange>[0:0]</bitRange>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>sr</name>
+          <description>Status register</description>
+          <addressOffset>0x10</addressOffset>
+          <access>read-only</access>
+          <alternateRegister>cr</alternateRegister>
+          <fields>
+            <field>
+              <name>rx_ack</name>
+              <description>Received acknowledge from slave.
+                This flag represents acknowledge from the addressed slave.
+                '1' = No acknowledge received
+                '0' = Acknowledge received
+              </description>
+              <bitRange>[7:7]</bitRange>
+            </field>
+            <field>
+              <name>busy</name>
+              <description>I2C bus busy</description>
+              <bitRange>[6:6]</bitRange>
+            </field>
+            <field>
+              <name>al</name>
+              <description>Arbitration lost</description>
+              <bitRange>[5:5]</bitRange>
+            </field>
+            <field>
+              <name>tip</name>
+              <description>Transfer in progress</description>
+              <bitRange>[1:1]</bitRange>
+            </field>
+            <field>
+              <name>if</name>
+              <description>Interrupt Flag. This bit is set when an interrupt is pending, which
+                will cause a processor interrupt request if the IEN bit is set.</description>
+              <bitRange>[0:0]</bitRange>
+            </field>
+          </fields>
         </register>
       </registers>
       <interrupt>
