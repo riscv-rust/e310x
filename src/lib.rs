@@ -8,6 +8,7 @@ extern crate riscv;
 extern crate riscv_rt;
 extern crate vcell;
 
+#[allow(unused)]
 mod common;
 
 pub use common::{
