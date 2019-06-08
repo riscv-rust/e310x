@@ -2138,10 +2138,130 @@
       <description>Inter-Integrated Circuit Master Interface (FE310-G002 only)</description>
       <registers>
         <register>
-          <!-- TODO -->
-          <name>dummy</name>
-          <description>Dummy register: this peripheral is not implemented yet</description>
+          <name>prerlo</name>
+          <description>Clock Prescale register lo-byte</description>
           <addressOffset>0x00</addressOffset>
+          <resetValue>0xff</resetValue>
+          <size>8</size>
+        </register>
+        <register>
+          <name>prerhi</name>
+          <description>Clock Prescale register hi-byte</description>
+          <addressOffset>0x01</addressOffset>
+          <resetValue>0xff</resetValue>
+          <size>8</size>
+        </register>
+        <register>
+          <name>ctr</name>
+          <description>Control register</description>
+          <addressOffset>0x02</addressOffset>
+          <size>8</size>
+          <fields>
+            <field>
+              <name>en</name>
+              <msb>7</msb><lsb>7</lsb>
+              <description>I2C core enable bit</description>
+            </field>
+            <field>
+              <name>ien</name>
+              <msb>6</msb><lsb>6</lsb>
+              <description>I2C core interrupt enable bit</description>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>txr</name>
+          <description>Transmit register</description>
+          <addressOffset>0x03</addressOffset>
+          <size>8</size>
+          <fields>
+            <field><name>data</name><msb>7</msb><lsb>0</lsb></field>
+            <field>
+              <name>rw</name>
+              <msb>0</msb><lsb>0</lsb>
+              <description>In case of a slave address transfer this bit represents the RW bit</description>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>rxr</name>
+          <description>Receive register</description>
+          <addressOffset>0x03</addressOffset>
+          <size>8</size>
+          <fields>
+            <field><name>data</name><msb>7</msb><lsb>0</lsb></field>
+          </fields>
+        </register>
+        <register>
+          <name>cr</name>
+          <description>Command register</description>
+          <addressOffset>0x04</addressOffset>
+          <size>8</size>
+          <fields>
+            <field>
+              <name>sta</name>
+              <msb>7</msb><lsb>7</lsb>
+              <description>generate (repeated) start condition</description>
+            </field>
+            <field>
+              <name>sto</name>
+              <msb>6</msb><lsb>6</lsb>
+              <description>generate stop condition</description>
+            </field>
+            <field>
+              <name>rd</name>
+              <msb>5</msb><lsb>5</lsb>
+              <description>read from slave</description>
+            </field>
+            <field>
+              <name>wr</name>
+              <msb>4</msb><lsb>4</lsb>
+              <description>write to slave</description>
+            </field>
+            <field>
+              <name>ack</name>
+              <msb>3</msb><lsb>3</lsb>
+              <description>when a receiver, sent ACK (ACK = ‘0’) or NACK (ACK = ‘1’)</description>
+            </field>
+            <field>
+              <name>iack</name>
+              <msb>0</msb><lsb>0</lsb>
+              <description>interrupt acknowledge. When set, clears a pending interrupt</description>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>sr</name>
+          <description>Status register</description>
+          <addressOffset>0x04</addressOffset>
+          <size>8</size>
+          <fields>
+            <field>
+              <name>rack</name>
+              <msb>7</msb><lsb>7</lsb>
+              <description>Received acknowledge from slave</description>
+            </field>
+            <field>
+              <name>busy</name>
+              <msb>6</msb><lsb>6</lsb>
+              <description>I2C bus busy</description>
+            </field>
+            <field>
+              <name>al</name>
+              <msb>5</msb><lsb>5</lsb>
+              <description>arbitration lost</description>
+            </field>
+            <field>
+              <name>tip</name>
+              <msb>1</msb><lsb>1</lsb>
+              <description>transfer in progress</description>
+            </field>
+            <field>
+              <name>if</name>
+              <msb>0</msb><lsb>0</lsb>
+              <description>interrupt pending</description>
+            </field>
+          </fields>
         </register>
       </registers>
       <interrupt>
