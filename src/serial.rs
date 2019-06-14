@@ -19,7 +19,8 @@ use core::convert::Infallible;
 use embedded_hal::serial;
 use nb;
 
-use e310x::UART0;
+#[allow(unused_imports)]
+use e310x::{UART0, UART1};
 use crate::clock::Clocks;
 use crate::gpio::{IOF0, gpio0};
 use crate::time::Bps;
@@ -33,6 +34,13 @@ pub unsafe trait RxPin<UART> {}
 
 unsafe impl<T> TxPin<UART0> for gpio0::Pin17<IOF0<T>> {}
 unsafe impl<T> RxPin<UART0> for gpio0::Pin16<IOF0<T>> {}
+
+#[cfg(feature = "g002")]
+mod g002_ims {
+    use super::{TxPin, RxPin, UART1, gpio0, IOF0};
+    unsafe impl<T> TxPin<UART1> for gpio0::Pin18<IOF0<T>> {}
+    unsafe impl<T> RxPin<UART1> for gpio0::Pin23<IOF0<T>> {}
+}
 
 /// Serial abstraction
 pub struct Serial<UART, PINS> {
@@ -159,4 +167,9 @@ macro_rules! hal {
 
 hal! {
     UART0: uart0
+}
+
+#[cfg(feature = "g002")]
+hal! {
+    UART1: uart1
 }
