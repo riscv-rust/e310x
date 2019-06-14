@@ -9,21 +9,22 @@
 //!
 //! # UART1
 //! *Warning:* UART1 pins are not connected to package in FE310-G000
-//! - TX: Pin 25 IOF0
-//! - RX: Pin 24 IOF0
+//! - TX: Pin 18 IOF0
+//! - RX: Pin 23 IOF0
 //! - Interrupt::UART1
 
-use core::marker::PhantomData;
 use core::convert::Infallible;
+use core::ops::Deref;
 
 use embedded_hal::serial;
 use nb;
 
-#[allow(unused_imports)]
-use e310x::{UART0, UART1};
 use crate::clock::Clocks;
-use crate::gpio::{IOF0, gpio0};
+use crate::gpio::{gpio0, IOF0};
 use crate::time::Bps;
+#[allow(unused_imports)]
+use e310x::{uart0, UART0, UART1};
+use core::mem;
 
 // FIXME these should be "closed" traits
 /// TX pin - DO NOT IMPLEMENT THIS TRAIT
@@ -37,10 +38,15 @@ unsafe impl<T> RxPin<UART0> for gpio0::Pin16<IOF0<T>> {}
 
 #[cfg(feature = "g002")]
 mod g002_ims {
-    use super::{TxPin, RxPin, UART1, gpio0, IOF0};
+    use super::{gpio0, RxPin, TxPin, IOF0, UART1};
     unsafe impl<T> TxPin<UART1> for gpio0::Pin18<IOF0<T>> {}
     unsafe impl<T> RxPin<UART1> for gpio0::Pin23<IOF0<T>> {}
 }
+
+#[doc(hidden)]
+pub trait UartX: Deref<Target = uart0::RegisterBlock> {}
+impl UartX for UART0 {}
+impl UartX for UART1 {}
 
 /// Serial abstraction
 pub struct Serial<UART, PINS> {
@@ -50,126 +56,128 @@ pub struct Serial<UART, PINS> {
 
 /// Serial receiver
 pub struct Rx<UART> {
-    _uart: PhantomData<UART>,
+    uart: UART,
 }
 
 /// Serial transmitter
 pub struct Tx<UART> {
-    _uart: PhantomData<UART>,
+    uart: UART,
 }
 
-macro_rules! hal {
-    ($(
-        $UARTX:ident: $uartX:ident
-    )+) => {
-        $(
-            impl<TX, RX> Serial<$UARTX, (TX, RX)> {
-                /// Configures a UART peripheral to provide serial communication
-                pub fn $uartX(
-                    uart: $UARTX,
-                    pins: (TX, RX),
-                    baud_rate: Bps,
-                    clocks: Clocks,
-                ) -> Self
-                where
-                    TX: TxPin<$UARTX>,
-                    RX: RxPin<$UARTX>,
-                {
-                    let div = clocks.tlclk().0 / baud_rate.0 - 1;
-                    unsafe { uart.div.write(|w| w.bits(div)); }
+impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
+    /// Configures a UART peripheral to provide serial communication
+    pub fn new(uart: UART, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
+    where
+        TX: TxPin<UART>,
+        RX: RxPin<UART>,
+    {
+        let div = clocks.tlclk().0 / baud_rate.0 - 1;
+        unsafe {
+            uart.div.write(|w| w.bits(div));
+        }
 
-                    uart.txctrl.write(|w| w.enable().bit(true));
-                    uart.rxctrl.write(|w| w.enable().bit(true));
+        uart.txctrl.write(|w| w.enable().bit(true));
+        uart.rxctrl.write(|w| w.enable().bit(true));
 
-                    Serial { uart, pins }
-                }
+        Serial { uart, pins }
+    }
 
-                /// Starts listening for an interrupt event
-                pub fn listen(self) -> Self {
-                    self.uart.ie.write(|w| w.txwm().bit(false)
-                                       .rxwm().bit(true));
-                    self
-                }
+    /// Starts listening for an interrupt event
+    pub fn listen(self) -> Self {
+        self.uart.ie.write(|w| w.txwm().bit(false).rxwm().bit(true));
+        self
+    }
 
-                /// Stops listening for an interrupt event
-                pub fn unlisten(self) -> Self {
-                    self.uart.ie.write(|w| w.txwm().bit(false)
-                                       .rxwm().bit(false));
-                    self
-                }
+    /// Stops listening for an interrupt event
+    pub fn unlisten(self) -> Self {
+        self.uart
+            .ie
+            .write(|w| w.txwm().bit(false).rxwm().bit(false));
+        self
+    }
 
-                /// Splits the `Serial` abstraction into a transmitter and a
-                /// receiver half
-                pub fn split(self) -> (Tx<$UARTX>, Rx<$UARTX>) {
-                    (
-                        Tx {
-                            _uart: PhantomData,
-                        },
-                        Rx {
-                            _uart: PhantomData,
-                        },
-                    )
-                }
-
-                /// Releases the UART peripheral and associated pins
-                pub fn free(self) -> ($UARTX, (TX, RX)) {
-                    (self.uart, self.pins)
-                }
+    /// Splits the `Serial` abstraction into a transmitter and a
+    /// receiver half
+    pub fn split(self) -> (Tx<UART>, Rx<UART>) {
+        (
+            Tx {
+                uart: unsafe { mem::zeroed() }
+            },
+            Rx {
+                uart: self.uart
             }
+        )
+    }
 
-            impl serial::Read<u8> for Rx<$UARTX> {
-                type Error = Infallible;
-
-                fn read(&mut self) -> nb::Result<u8, Infallible> {
-                    // NOTE(unsafe) atomic read with no side effects
-                    let rxdata = unsafe { (*$UARTX::ptr()).rxdata.read() };
-
-                    if rxdata.empty().bit_is_set() {
-                        Err(::nb::Error::WouldBlock)
-                    } else {
-                        Ok(rxdata.data().bits() as u8)
-                    }
-                }
-            }
-
-            impl serial::Write<u8> for Tx<$UARTX> {
-                type Error = Infallible;
-
-                fn flush(&mut self) -> nb::Result<(), Infallible> {
-                    // NOTE(unsafe) atomic read with no side effects
-                    let txdata = unsafe { (*$UARTX::ptr()).txdata.read() };
-
-                    if txdata.full().bit_is_set() {
-                        Err(nb::Error::WouldBlock)
-                    } else {
-                        Ok(())
-                    }
-                }
-
-                fn write(&mut self, byte: u8) -> nb::Result<(), Infallible> {
-                    // NOTE(unsafe) atomic read with no side effects
-                    let txdata = unsafe { (*$UARTX::ptr()).txdata.read() };
-
-                    if txdata.full().bit_is_set() {
-                        Err(::nb::Error::WouldBlock)
-                    } else {
-                        unsafe {
-                            (*$UARTX::ptr()).txdata
-                                .write(|w| w.data().bits(byte));
-                        }
-                        Ok(())
-                    }
-                }
-            }
-        )+
+    /// Releases the UART peripheral and associated pins
+    pub fn free(self) -> (UART, (TX, RX)) {
+        (self.uart, self.pins)
     }
 }
 
-hal! {
-    UART0: uart0
+impl<UART: UartX> serial::Read<u8> for Rx<UART> {
+    type Error = Infallible;
+
+    fn read(&mut self) -> nb::Result<u8, Infallible> {
+        let rxdata = self.uart.rxdata.read();
+
+        if rxdata.empty().bit_is_set() {
+            Err(::nb::Error::WouldBlock)
+        } else {
+            Ok(rxdata.data().bits() as u8)
+        }
+    }
+}
+
+impl<UART: UartX> serial::Write<u8> for Tx<UART> {
+    type Error = Infallible;
+
+    fn write(&mut self, byte: u8) -> nb::Result<(), Infallible> {
+        let txdata = self.uart.txdata.read();
+
+        if txdata.full().bit_is_set() {
+            Err(::nb::Error::WouldBlock)
+        } else {
+            unsafe {
+                self.uart.txdata.write(|w| w.data().bits(byte));
+            }
+            Ok(())
+        }
+    }
+
+    fn flush(&mut self) -> nb::Result<(), Infallible> {
+        let txdata = self.uart.txdata.read();
+
+        if txdata.full().bit_is_set() {
+            Err(nb::Error::WouldBlock)
+        } else {
+            Ok(())
+        }
+    }
+}
+
+// Backward compatibility
+impl<TX, RX> Serial<UART0, (TX, RX)> {
+    /// Configures a UART peripheral to provide serial communication
+    #[deprecated(note = "Please use Serial::new function instead")]
+    pub fn uart0(uart: UART0, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
+        where
+            TX: TxPin<UART0>,
+            RX: RxPin<UART0>,
+    {
+        Self::new(uart, pins, baud_rate, clocks)
+    }
 }
 
 #[cfg(feature = "g002")]
-hal! {
-    UART1: uart1
+impl<TX, RX> Serial<UART1, (TX, RX)> {
+    /// Configures a UART peripheral to provide serial communication
+    #[deprecated(note = "Please use Serial::new function instead")]
+    pub fn uart1(uart: UART1, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
+        where
+            TX: TxPin<UART1>,
+            RX: RxPin<UART1>,
+    {
+        Self::new(uart, pins, baud_rate, clocks)
+    }
 }
