@@ -93,6 +93,11 @@ impl<I2C, PINS> I2c<I2C, PINS> {
 }
 
 impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
+    fn reset(&self) {
+        // ACK pending interrupt event, clear commands
+        self.write_cr(|w| w.iack().set_bit());
+    }
+
     fn write_cr<F>(&self, f: F)
     where F: FnOnce(&mut i2c0::cr::W) -> &mut i2c0::cr::W
     {
@@ -170,6 +175,8 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
     type Error = Error;
 
     fn read(&mut self, address: u8, buffer: &mut [u8]) -> Result<(), Self::Error> {
+        self.reset();
+
         if self.read_sr().busy().bit_is_set() {
             return Err(Error::InvalidState);
         }
@@ -203,6 +210,8 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
     type Error = Error;
 
     fn write(&mut self, address: u8, bytes: &[u8]) -> Result<(), Self::Error> {
+        self.reset();
+
         if self.read_sr().busy().bit_is_set() {
             return Err(Error::InvalidState);
         }
@@ -233,6 +242,8 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> WriteRead for I2c<I2C, PINS> 
     type Error = Error;
 
     fn write_read(&mut self, address: u8, bytes: &[u8], buffer: &mut [u8]) -> Result<(), Self::Error> {
+        self.reset();
+
         if self.read_sr().busy().bit_is_set() {
             return Err(Error::InvalidState);
         }
