@@ -157,6 +157,7 @@ macro_rules! gpio {
             }
 
             impl PeripheralAccess for $GPIOX {
+                #[inline(always)]
                 fn peripheral() -> &'static e310x::gpio0::RegisterBlock {
                     unsafe { &*$GPIOX::ptr() }
                 }
