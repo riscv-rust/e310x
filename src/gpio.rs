@@ -12,6 +12,8 @@ pub trait GpioExt {
     fn split(self) -> Self::Parts;
 }
 
+/// Unknown mode (type state)
+pub struct Unknown;
 
 /// Input mode (type state)
 pub struct Input<MODE> {
@@ -145,7 +147,7 @@ macro_rules! gpio {
             use embedded_hal::digital::v2::{InputPin, OutputPin, StatefulOutputPin,
                                ToggleableOutputPin};
             use e310x::$GPIOX;
-            use super::{IOF0, IOF1, Drive, Floating, GpioExt, Input, Invert,
+            use super::{Unknown, IOF0, IOF1, Drive, Floating, GpioExt, Input, Invert,
                         NoInvert, Output, PullUp, Regular, PinIndex, PeripheralAccess};
 
             /// GPIO parts for fine grained permission control.
@@ -326,37 +328,40 @@ macro_rules! gpio {
     }
 }
 
+// By default, all GPIOs are in the Unknown state for two reasons:
+// * bootloader may reconfigure some GPIOs
+// * we do not enforce any specific state in `split()`
 gpio!(GPIO0, gpio0, [
-    Pin0: (pin0, 0, Input<Floating>),
-    Pin1: (pin1, 1, Input<Floating>),
-    Pin2: (pin2, 2, Input<Floating>),
-    Pin3: (pin3, 3, Input<Floating>),
-    Pin4: (pin4, 4, Input<Floating>),
-    Pin5: (pin5, 5, Input<Floating>),
-    Pin6: (pin6, 6, Input<Floating>),
-    Pin7: (pin7, 7, Input<Floating>),
-    Pin8: (pin8, 8, Input<Floating>),
-    Pin9: (pin9, 9, Input<Floating>),
-    Pin10: (pin10, 10, Input<Floating>),
-    Pin11: (pin11, 11, Input<Floating>),
-    Pin12: (pin12, 12, Input<Floating>),
-    Pin13: (pin13, 13, Input<Floating>),
-    Pin14: (pin14, 14, Input<Floating>),
-    Pin15: (pin15, 15, Input<Floating>),
-    Pin16: (pin16, 16, Input<Floating>),
-    Pin17: (pin17, 17, Input<Floating>),
-    Pin18: (pin18, 18, Input<Floating>),
-    Pin19: (pin19, 19, Input<Floating>),
-    Pin20: (pin20, 20, Input<Floating>),
-    Pin21: (pin21, 21, Input<Floating>),
-    Pin22: (pin22, 22, Input<Floating>),
-    Pin23: (pin23, 23, Input<Floating>),
-    Pin24: (pin24, 24, Input<Floating>),
-    Pin25: (pin25, 25, Input<Floating>),
-    Pin26: (pin26, 26, Input<Floating>),
-    Pin27: (pin27, 27, Input<Floating>),
-    Pin28: (pin28, 28, Input<Floating>),
-    Pin29: (pin29, 29, Input<Floating>),
-    Pin30: (pin30, 30, Input<Floating>),
-    Pin31: (pin31, 31, Input<Floating>),
+    Pin0: (pin0, 0, Unknown),
+    Pin1: (pin1, 1, Unknown),
+    Pin2: (pin2, 2, Unknown),
+    Pin3: (pin3, 3, Unknown),
+    Pin4: (pin4, 4, Unknown),
+    Pin5: (pin5, 5, Unknown),
+    Pin6: (pin6, 6, Unknown),
+    Pin7: (pin7, 7, Unknown),
+    Pin8: (pin8, 8, Unknown),
+    Pin9: (pin9, 9, Unknown),
+    Pin10: (pin10, 10, Unknown),
+    Pin11: (pin11, 11, Unknown),
+    Pin12: (pin12, 12, Unknown),
+    Pin13: (pin13, 13, Unknown),
+    Pin14: (pin14, 14, Unknown),
+    Pin15: (pin15, 15, Unknown),
+    Pin16: (pin16, 16, Unknown),
+    Pin17: (pin17, 17, Unknown),
+    Pin18: (pin18, 18, Unknown),
+    Pin19: (pin19, 19, Unknown),
+    Pin20: (pin20, 20, Unknown),
+    Pin21: (pin21, 21, Unknown),
+    Pin22: (pin22, 22, Unknown),
+    Pin23: (pin23, 23, Unknown),
+    Pin24: (pin24, 24, Unknown),
+    Pin25: (pin25, 25, Unknown),
+    Pin26: (pin26, 26, Unknown),
+    Pin27: (pin27, 27, Unknown),
+    Pin28: (pin28, 28, Unknown),
+    Pin29: (pin29, 29, Unknown),
+    Pin30: (pin30, 30, Unknown),
+    Pin31: (pin31, 31, Unknown),
 ]);
