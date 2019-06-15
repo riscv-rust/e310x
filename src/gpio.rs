@@ -278,21 +278,22 @@ macro_rules! gpio {
                     type Error = Infallible;
 
                     fn is_high(&self) -> Result<bool, Infallible> {
-                        Ok(!self.is_low()?)
+                        Ok($GPIOX::value(Self::INDEX))
+
                     }
 
                     fn is_low(&self) -> Result<bool, Infallible> {
-                        Ok($GPIOX::value(Self::INDEX))
+                        Ok(!self.is_high()?)
                     }
                 }
 
                 impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
                     fn is_set_high(&self) -> Result<bool, Infallible> {
-                        Ok(!self.is_set_low()?)
+                        Ok($GPIOX::value(Self::INDEX))
                     }
 
                     fn is_set_low(&self) -> Result<bool, Infallible> {
-                        Ok($GPIOX::value(Self::INDEX))
+                        Ok(!self.is_set_high()?)
                     }
                 }
 
