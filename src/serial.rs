@@ -74,10 +74,9 @@ impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
         let div = clocks.tlclk().0 / baud_rate.0 - 1;
         unsafe {
             uart.div.write(|w| w.bits(div));
+            uart.txctrl.write(|w| w.counter().bits(1).enable().bit(true));
+            uart.rxctrl.write(|w| w.enable().bit(true));
         }
-
-        uart.txctrl.write(|w| w.enable().bit(true));
-        uart.rxctrl.write(|w| w.enable().bit(true));
 
         Serial { uart, pins }
     }
@@ -146,12 +145,11 @@ impl<UART: UartX> serial::Write<u8> for Tx<UART> {
     }
 
     fn flush(&mut self) -> nb::Result<(), Infallible> {
-        let txdata = self.uart.txdata.read();
-
-        if txdata.full().bit_is_set() {
-            Err(nb::Error::WouldBlock)
-        } else {
+        if self.uart.ip.read().txwm().bit_is_set() {
+            // FIFO count is below the receive watermark (1)
             Ok(())
+        } else {
+            Err(nb::Error::WouldBlock)
         }
     }
 }
