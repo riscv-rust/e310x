@@ -73,6 +73,7 @@ impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
     {
         let div = clocks.tlclk().0 / baud_rate.0 - 1;
         unsafe {
+            uart.ie.write(|w| w.txwm().bit(false).rxwm().bit(false));
             uart.div.write(|w| w.bits(div));
             uart.txctrl.write(|w| w.counter().bits(1).enable().bit(true));
             uart.rxctrl.write(|w| w.enable().bit(true));
