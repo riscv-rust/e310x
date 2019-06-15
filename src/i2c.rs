@@ -2,6 +2,13 @@
 //!
 //! The SiFive Inter-Integrated Circuit (I2C) Master Interface
 //! is based on OpenCores® I2C Master Core.
+//!
+//! You can use the `I2c` interface with these I2C instances
+//!
+//! # I2C0
+//! - SDA: Pin 12 IOF0
+//! - SCL: Pin 13 IOF0
+//! - Interrupt::I2C0
 
 use e310x::{I2C0, i2c0};
 use core::ops::Deref;
