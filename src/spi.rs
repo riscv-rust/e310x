@@ -207,10 +207,134 @@ impl<SPI: SpiX, PINS> embedded_hal::spi::FullDuplex<u8> for Spi<SPI, PINS> {
     }
 }
 
-impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::transfer::Default<u8> for Spi<SPI, PINS> {}
+impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Transfer<u8> for Spi<SPI, PINS> {
+    type Error = Infallible;
 
-impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::write::Default<u8> for Spi<SPI, PINS> {}
+    fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w[u8], Self::Error> {
+        // Save watermark levels
+        let txmark = self.spi.txmark.read().value().bits();
+        let rxmark = self.spi.rxmark.read().value().bits();
 
+        // Set watermark levels
+        self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
+        self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
+
+        // Ensure that RX FIFO is empty
+        while self.spi.ip.read().rxwm().bit_is_set() {
+            let _ = self.spi.rxdata.read();
+        }
+
+        let mut iwrite = 0;
+        let mut iread = 0;
+        while iwrite < words.len() || iread < words.len() {
+            if iwrite < words.len() && self.spi.txdata.read().full().bit_is_clear() {
+                let byte = unsafe { words.get_unchecked(iwrite) };
+                iwrite += 1;
+                self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
+            }
+
+            if iread < iwrite && self.spi.ip.read().rxwm().bit_is_set() {
+                let byte = self.spi.rxdata.read().data().bits();
+                unsafe { *words.get_unchecked_mut(iread) = byte };
+                iread += 1;
+            }
+        }
+
+        // Restore watermark levels
+        self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
+        self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
+
+        Ok(words)
+    }
+}
+
+impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> {
+    type Error = Infallible;
+
+    fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
+        // Save watermark levels
+        let txmark = self.spi.txmark.read().value().bits();
+        let rxmark = self.spi.rxmark.read().value().bits();
+
+        // Set watermark levels
+        self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
+        self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
+
+        // Ensure that RX FIFO is empty
+        while self.spi.ip.read().rxwm().bit_is_set() {
+            let _ = self.spi.rxdata.read();
+        }
+
+        let mut iwrite = 0;
+        let mut iread = 0;
+        while iwrite < words.len() || iread < words.len() {
+            if iwrite < words.len() && self.spi.txdata.read().full().bit_is_clear() {
+                let byte = unsafe { words.get_unchecked(iwrite) };
+                iwrite += 1;
+                self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
+            }
+
+            if iread < iwrite && self.spi.ip.read().rxwm().bit_is_set() {
+                let _ = self.spi.rxdata.read();
+                iread += 1;
+            }
+        }
+
+        // Restore watermark levels
+        self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
+        self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
+
+        Ok(())
+    }
+}
+
+impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PINS> {
+    type Error = ();
+
+    fn write_iter<WI>(&mut self, words: WI) -> Result<(), Self::Error>
+    where
+        WI: IntoIterator<Item=u8>
+    {
+        let mut iter = words.into_iter();
+
+        // Save watermark levels
+        let txmark = self.spi.txmark.read().value().bits();
+        let rxmark = self.spi.rxmark.read().value().bits();
+
+        // Set watermark levels
+        self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
+        self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
+
+        // Ensure that RX FIFO is empty
+        while self.spi.ip.read().rxwm().bit_is_set() {
+            let _ = self.spi.rxdata.read();
+        }
+
+        let mut read_count = 0;
+        let mut has_data = true;
+        while has_data || read_count > 0 {
+            if has_data && self.spi.txdata.read().full().bit_is_clear() {
+                if let Some(byte) = iter.next() {
+                    self.spi.txdata.write(|w| unsafe { w.data().bits(byte) });
+                    read_count += 1;
+                } else {
+                    has_data = false;
+                }
+            }
+
+            if read_count > 0 && self.spi.ip.read().rxwm().bit_is_set() {
+                let _ = self.spi.rxdata.read();
+                read_count -= 1;
+            }
+        }
+
+        // Restore watermark levels
+        self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
+        self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
+
+        Ok(())
+    }
+}
 
 
 // Backward compatibility
