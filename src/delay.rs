@@ -2,7 +2,7 @@
 
 use embedded_hal::blocking::delay::DelayMs;
 use crate::clint::{MTIME, MTIMECMP};
-use crate::time::Hertz;
+use crate::clock::Clocks;
 use riscv::register::{mie, mip};
 
 /// Machine timer (mtime) as a busyloop delay provider
@@ -45,9 +45,9 @@ pub struct Sleep {
 
 impl Sleep {
     /// Constructs a delay provider using mtimecmp register to sleep
-    pub fn new(mtimecmp: MTIMECMP, clock_freq: Hertz) -> Self {
+    pub fn new(mtimecmp: MTIMECMP, clocks: Clocks) -> Self {
         Sleep {
-            clock_freq: clock_freq.0,
+            clock_freq: clocks.lfclk().0,
             mtimecmp,
         }
     }
