@@ -2,6 +2,7 @@
 
 use embedded_hal::blocking::delay::DelayMs;
 use crate::clint::{MTIME, MTIMECMP};
+use crate::time::Hertz;
 use riscv::register::{mie, mip};
 
 /// Machine timer (mtime) as a busyloop delay provider
@@ -16,7 +17,7 @@ impl Delay {
 
 impl DelayMs<u32> for Delay {
     fn delay_ms(&mut self, ms: u32) {
-        let ticks = (ms as u64) * 65536 / 1000;
+        let ticks = (ms as u64) * 32768 / 1000;
 
         let mtime = MTIME;
         let t = mtime.mtime() + ticks;
@@ -38,28 +39,31 @@ impl DelayMs<u8> for Delay {
 
 /// Machine timer (mtime) as a sleep delay provider using mtimecmp
 pub struct Sleep {
+    clock_freq: u32,
     mtimecmp: MTIMECMP
 }
 
 impl Sleep {
     /// Constructs a delay provider using mtimecmp register to sleep
-    pub fn new(mtimecmp: MTIMECMP) -> Self {
-        unsafe {
-            mie::set_mtimer();
-        }
-
+    pub fn new(mtimecmp: MTIMECMP, clock_freq: Hertz) -> Self {
         Sleep {
-            mtimecmp
+            clock_freq: clock_freq.0,
+            mtimecmp,
         }
     }
 }
 
 impl DelayMs<u32> for Sleep {
     fn delay_ms(&mut self, ms: u32) {
-        let ticks = (ms as u64) * 65536 / 1000;
+        let ticks = (ms as u64) * (self.clock_freq as u64) / 1000;
         let t = MTIME.mtime() + ticks;
 
         self.mtimecmp.set_mtimecmp(t);
+
+        // Enable timer interrupt
+        unsafe {
+            mie::set_mtimer();
+        }
         
         // Wait For Interrupt will put CPU to sleep until an interrupt hits
         // in our case when internal timer mtime value >= mtimecmp value
@@ -74,6 +78,11 @@ impl DelayMs<u32> for Sleep {
             if mip::read().mtimer() {
                 break;
             }
+        }
+
+        // Clear timer interrupt
+        unsafe {
+            mie::clear_mtimer();
         }
     }
 }
