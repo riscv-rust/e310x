@@ -3,7 +3,7 @@
 pub struct RegisterBlock {
     _reserved0: [u8; 128usize],
     #[doc = "0x80 - Backup Register"]
-    pub backup: [BACKUP; 32],
+    pub backup: [BACKUP; 16],
 }
 #[doc = "Backup Register"]
 pub struct BACKUP {

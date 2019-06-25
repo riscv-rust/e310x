@@ -287,7 +287,7 @@
       <description>Backup Registers</description>
       <registers>
         <register>
-          <dim>32</dim>
+          <dim>16</dim>
           <dimIncrement>0x04</dimIncrement>
           <name>backup[%s]</name>
           <description>Backup Register</description>
