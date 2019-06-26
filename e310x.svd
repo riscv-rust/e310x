@@ -311,9 +311,11 @@
           <description>PMU Wake Program Memory</description>
           <addressOffset>0x100</addressOffset>
           <fields>
+            <field><name>isolate</name><msb>9</msb><lsb>9</lsb></field>
             <field><name>hfclkrst</name><msb>8</msb><lsb>8</lsb></field>
             <field><name>corerst</name><msb>7</msb><lsb>7</lsb></field>
-            <field><name>vddpaden</name><msb>5</msb><lsb>5</lsb></field>
+            <field><name>pmu_out_1_en</name><msb>5</msb><lsb>5</lsb></field>
+            <field><name>pmu_out_0_en</name><msb>4</msb><lsb>4</lsb></field>
             <field><name>delay</name><msb>3</msb><lsb>0</lsb></field>
           </fields>
         </register>
@@ -324,9 +326,11 @@
           <description>PMU Sleep Program Memory</description>
           <addressOffset>0x120</addressOffset>
           <fields>
+            <field><name>isolate</name><msb>9</msb><lsb>9</lsb></field>
             <field><name>hfclkrst</name><msb>8</msb><lsb>8</lsb></field>
             <field><name>corerst</name><msb>7</msb><lsb>7</lsb></field>
-            <field><name>vddpaden</name><msb>5</msb><lsb>5</lsb></field>
+            <field><name>pmu_out_1_en</name><msb>5</msb><lsb>5</lsb></field>
+            <field><name>pmu_out_0_en</name><msb>4</msb><lsb>4</lsb></field>
             <field><name>delay</name><msb>3</msb><lsb>0</lsb></field>
           </fields>
         </register>
@@ -371,18 +375,18 @@
               <msb>1</msb><lsb>0</lsb>
               <enumeratedValues>
                 <enumeratedValue>
-                  <name>PowerOn</name>
-                  <description>Power-on wakeup</description>
+                  <name>Reset</name>
+                  <description>Reset wakeup</description>
                   <value>0</value>
                 </enumeratedValue>
                 <enumeratedValue>
-                  <name>External</name>
-                  <description>External wakeup</description>
+                  <name>RTC</name>
+                  <description>RTC wakeup</description>
                   <value>1</value>
                 </enumeratedValue>
                 <enumeratedValue>
-                  <name>Watchdog</name>
-                  <description>Watchdog wakeup</description>
+                  <name>Digital</name>
+                  <description>Digital input wakeup</description>
                   <value>2</value>
                 </enumeratedValue>
               </enumeratedValues>
@@ -403,7 +407,6 @@
           <name>pmukey</name>
           <description>PMU Key Register</description>
           <addressOffset>0x14C</addressOffset>
-          <access>write-only</access>
           <resetValue>0x51F15E</resetValue>
         </register>
       </registers>

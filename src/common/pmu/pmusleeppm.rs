@@ -43,6 +43,27 @@ impl super::PMUSLEEPPM {
     }
 }
 #[doc = r" Value of the field"]
+pub struct ISOLATER {
+    bits: bool,
+}
+impl ISOLATER {
+    #[doc = r" Value of the field as raw bits"]
+    #[inline]
+    pub fn bit(&self) -> bool {
+        self.bits
+    }
+    #[doc = r" Returns `true` if the bit is clear (0)"]
+    #[inline]
+    pub fn bit_is_clear(&self) -> bool {
+        !self.bit()
+    }
+    #[doc = r" Returns `true` if the bit is set (1)"]
+    #[inline]
+    pub fn bit_is_set(&self) -> bool {
+        self.bit()
+    }
+}
+#[doc = r" Value of the field"]
 pub struct HFCLKRSTR {
     bits: bool,
 }
@@ -85,10 +106,31 @@ impl CORERSTR {
     }
 }
 #[doc = r" Value of the field"]
-pub struct VDDPADENR {
+pub struct PMU_OUT_1_ENR {
     bits: bool,
 }
-impl VDDPADENR {
+impl PMU_OUT_1_ENR {
+    #[doc = r" Value of the field as raw bits"]
+    #[inline]
+    pub fn bit(&self) -> bool {
+        self.bits
+    }
+    #[doc = r" Returns `true` if the bit is clear (0)"]
+    #[inline]
+    pub fn bit_is_clear(&self) -> bool {
+        !self.bit()
+    }
+    #[doc = r" Returns `true` if the bit is set (1)"]
+    #[inline]
+    pub fn bit_is_set(&self) -> bool {
+        self.bit()
+    }
+}
+#[doc = r" Value of the field"]
+pub struct PMU_OUT_0_ENR {
+    bits: bool,
+}
+impl PMU_OUT_0_ENR {
     #[doc = r" Value of the field as raw bits"]
     #[inline]
     pub fn bit(&self) -> bool {
@@ -114,6 +156,29 @@ impl DELAYR {
     #[inline]
     pub fn bits(&self) -> u8 {
         self.bits
+    }
+}
+#[doc = r" Proxy"]
+pub struct _ISOLATEW<'a> {
+    w: &'a mut W,
+}
+impl<'a> _ISOLATEW<'a> {
+    #[doc = r" Sets the field bit"]
+    pub fn set_bit(self) -> &'a mut W {
+        self.bit(true)
+    }
+    #[doc = r" Clears the field bit"]
+    pub fn clear_bit(self) -> &'a mut W {
+        self.bit(false)
+    }
+    #[doc = r" Writes raw bits to the field"]
+    #[inline]
+    pub fn bit(self, value: bool) -> &'a mut W {
+        const MASK: bool = true;
+        const OFFSET: u8 = 9;
+        self.w.bits &= !((MASK as u32) << OFFSET);
+        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w
     }
 }
 #[doc = r" Proxy"]
@@ -163,10 +228,10 @@ impl<'a> _CORERSTW<'a> {
     }
 }
 #[doc = r" Proxy"]
-pub struct _VDDPADENW<'a> {
+pub struct _PMU_OUT_1_ENW<'a> {
     w: &'a mut W,
 }
-impl<'a> _VDDPADENW<'a> {
+impl<'a> _PMU_OUT_1_ENW<'a> {
     #[doc = r" Sets the field bit"]
     pub fn set_bit(self) -> &'a mut W {
         self.bit(true)
@@ -180,6 +245,29 @@ impl<'a> _VDDPADENW<'a> {
     pub fn bit(self, value: bool) -> &'a mut W {
         const MASK: bool = true;
         const OFFSET: u8 = 5;
+        self.w.bits &= !((MASK as u32) << OFFSET);
+        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w
+    }
+}
+#[doc = r" Proxy"]
+pub struct _PMU_OUT_0_ENW<'a> {
+    w: &'a mut W,
+}
+impl<'a> _PMU_OUT_0_ENW<'a> {
+    #[doc = r" Sets the field bit"]
+    pub fn set_bit(self) -> &'a mut W {
+        self.bit(true)
+    }
+    #[doc = r" Clears the field bit"]
+    pub fn clear_bit(self) -> &'a mut W {
+        self.bit(false)
+    }
+    #[doc = r" Writes raw bits to the field"]
+    #[inline]
+    pub fn bit(self, value: bool) -> &'a mut W {
+        const MASK: bool = true;
+        const OFFSET: u8 = 4;
         self.w.bits &= !((MASK as u32) << OFFSET);
         self.w.bits |= ((value & MASK) as u32) << OFFSET;
         self.w
@@ -206,6 +294,16 @@ impl R {
     pub fn bits(&self) -> u32 {
         self.bits
     }
+    #[doc = "Bit 9"]
+    #[inline]
+    pub fn isolate(&self) -> ISOLATER {
+        let bits = {
+            const MASK: bool = true;
+            const OFFSET: u8 = 9;
+            ((self.bits >> OFFSET) & MASK as u32) != 0
+        };
+        ISOLATER { bits }
+    }
     #[doc = "Bit 8"]
     #[inline]
     pub fn hfclkrst(&self) -> HFCLKRSTR {
@@ -228,13 +326,23 @@ impl R {
     }
     #[doc = "Bit 5"]
     #[inline]
-    pub fn vddpaden(&self) -> VDDPADENR {
+    pub fn pmu_out_1_en(&self) -> PMU_OUT_1_ENR {
         let bits = {
             const MASK: bool = true;
             const OFFSET: u8 = 5;
             ((self.bits >> OFFSET) & MASK as u32) != 0
         };
-        VDDPADENR { bits }
+        PMU_OUT_1_ENR { bits }
+    }
+    #[doc = "Bit 4"]
+    #[inline]
+    pub fn pmu_out_0_en(&self) -> PMU_OUT_0_ENR {
+        let bits = {
+            const MASK: bool = true;
+            const OFFSET: u8 = 4;
+            ((self.bits >> OFFSET) & MASK as u32) != 0
+        };
+        PMU_OUT_0_ENR { bits }
     }
     #[doc = "Bits 0:3"]
     #[inline]
@@ -259,6 +367,11 @@ impl W {
         self.bits = bits;
         self
     }
+    #[doc = "Bit 9"]
+    #[inline]
+    pub fn isolate(&mut self) -> _ISOLATEW {
+        _ISOLATEW { w: self }
+    }
     #[doc = "Bit 8"]
     #[inline]
     pub fn hfclkrst(&mut self) -> _HFCLKRSTW {
@@ -271,8 +384,13 @@ impl W {
     }
     #[doc = "Bit 5"]
     #[inline]
-    pub fn vddpaden(&mut self) -> _VDDPADENW {
-        _VDDPADENW { w: self }
+    pub fn pmu_out_1_en(&mut self) -> _PMU_OUT_1_ENW {
+        _PMU_OUT_1_ENW { w: self }
+    }
+    #[doc = "Bit 4"]
+    #[inline]
+    pub fn pmu_out_0_en(&mut self) -> _PMU_OUT_0_ENW {
+        _PMU_OUT_0_ENW { w: self }
     }
     #[doc = "Bits 0:3"]
     #[inline]

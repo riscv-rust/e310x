@@ -95,12 +95,12 @@ impl RESETCAUSER {
 #[doc = "Possible values of the field `wakeupcause`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum WAKEUPCAUSER {
-    #[doc = "Power-on wakeup"]
-    POWERON,
-    #[doc = "External wakeup"]
-    EXTERNAL,
-    #[doc = "Watchdog wakeup"]
-    WATCHDOG,
+    #[doc = "Reset wakeup"]
+    RESET,
+    #[doc = "RTC wakeup"]
+    RTC,
+    #[doc = "Digital input wakeup"]
+    DIGITAL,
     #[doc = r" Reserved"]
     _Reserved(u8),
 }
@@ -109,9 +109,9 @@ impl WAKEUPCAUSER {
     #[inline]
     pub fn bits(&self) -> u8 {
         match *self {
-            WAKEUPCAUSER::POWERON => 0,
-            WAKEUPCAUSER::EXTERNAL => 1,
-            WAKEUPCAUSER::WATCHDOG => 2,
+            WAKEUPCAUSER::RESET => 0,
+            WAKEUPCAUSER::RTC => 1,
+            WAKEUPCAUSER::DIGITAL => 2,
             WAKEUPCAUSER::_Reserved(bits) => bits,
         }
     }
@@ -120,26 +120,26 @@ impl WAKEUPCAUSER {
     #[inline]
     pub fn _from(value: u8) -> WAKEUPCAUSER {
         match value {
-            0 => WAKEUPCAUSER::POWERON,
-            1 => WAKEUPCAUSER::EXTERNAL,
-            2 => WAKEUPCAUSER::WATCHDOG,
+            0 => WAKEUPCAUSER::RESET,
+            1 => WAKEUPCAUSER::RTC,
+            2 => WAKEUPCAUSER::DIGITAL,
             i => WAKEUPCAUSER::_Reserved(i),
         }
     }
-    #[doc = "Checks if the value of the field is `POWERON`"]
+    #[doc = "Checks if the value of the field is `RESET`"]
     #[inline]
-    pub fn is_power_on(&self) -> bool {
-        *self == WAKEUPCAUSER::POWERON
+    pub fn is_reset(&self) -> bool {
+        *self == WAKEUPCAUSER::RESET
     }
-    #[doc = "Checks if the value of the field is `EXTERNAL`"]
+    #[doc = "Checks if the value of the field is `RTC`"]
     #[inline]
-    pub fn is_external(&self) -> bool {
-        *self == WAKEUPCAUSER::EXTERNAL
+    pub fn is_rtc(&self) -> bool {
+        *self == WAKEUPCAUSER::RTC
     }
-    #[doc = "Checks if the value of the field is `WATCHDOG`"]
+    #[doc = "Checks if the value of the field is `DIGITAL`"]
     #[inline]
-    pub fn is_watchdog(&self) -> bool {
-        *self == WAKEUPCAUSER::WATCHDOG
+    pub fn is_digital(&self) -> bool {
+        *self == WAKEUPCAUSER::DIGITAL
     }
 }
 #[doc = "Values that can be written to the field `resetcause`"]
@@ -202,12 +202,12 @@ impl<'a> _RESETCAUSEW<'a> {
 #[doc = "Values that can be written to the field `wakeupcause`"]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum WAKEUPCAUSEW {
-    #[doc = "Power-on wakeup"]
-    POWERON,
-    #[doc = "External wakeup"]
-    EXTERNAL,
-    #[doc = "Watchdog wakeup"]
-    WATCHDOG,
+    #[doc = "Reset wakeup"]
+    RESET,
+    #[doc = "RTC wakeup"]
+    RTC,
+    #[doc = "Digital input wakeup"]
+    DIGITAL,
 }
 impl WAKEUPCAUSEW {
     #[allow(missing_docs)]
@@ -215,9 +215,9 @@ impl WAKEUPCAUSEW {
     #[inline]
     pub fn _bits(&self) -> u8 {
         match *self {
-            WAKEUPCAUSEW::POWERON => 0,
-            WAKEUPCAUSEW::EXTERNAL => 1,
-            WAKEUPCAUSEW::WATCHDOG => 2,
+            WAKEUPCAUSEW::RESET => 0,
+            WAKEUPCAUSEW::RTC => 1,
+            WAKEUPCAUSEW::DIGITAL => 2,
         }
     }
 }
@@ -231,20 +231,20 @@ impl<'a> _WAKEUPCAUSEW<'a> {
     pub fn variant(self, variant: WAKEUPCAUSEW) -> &'a mut W {
         unsafe { self.bits(variant._bits()) }
     }
-    #[doc = "Power-on wakeup"]
+    #[doc = "Reset wakeup"]
     #[inline]
-    pub fn power_on(self) -> &'a mut W {
-        self.variant(WAKEUPCAUSEW::POWERON)
+    pub fn reset(self) -> &'a mut W {
+        self.variant(WAKEUPCAUSEW::RESET)
     }
-    #[doc = "External wakeup"]
+    #[doc = "RTC wakeup"]
     #[inline]
-    pub fn external(self) -> &'a mut W {
-        self.variant(WAKEUPCAUSEW::EXTERNAL)
+    pub fn rtc(self) -> &'a mut W {
+        self.variant(WAKEUPCAUSEW::RTC)
     }
-    #[doc = "Watchdog wakeup"]
+    #[doc = "Digital input wakeup"]
     #[inline]
-    pub fn watchdog(self) -> &'a mut W {
-        self.variant(WAKEUPCAUSEW::WATCHDOG)
+    pub fn digital(self) -> &'a mut W {
+        self.variant(WAKEUPCAUSEW::DIGITAL)
     }
     #[doc = r" Writes raw bits to the field"]
     #[inline]
