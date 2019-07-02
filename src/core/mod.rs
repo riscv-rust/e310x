@@ -15,3 +15,20 @@ pub struct CorePeripherals {
     /// Performance counters
     pub counters: counters::PerformanceCounters,
 }
+
+impl CorePeripherals {
+    pub(crate) fn new(clint: e310x::CLINT, plic: e310x::PLIC) -> Self {
+        use plic::PlicExt;
+        Self {
+            clint: clint.into(),
+            plic: plic.split(),
+            counters: counters::PerformanceCounters::new()
+        }
+    }
+
+    /// Steal the peripherals
+    pub unsafe fn steal() -> Self {
+        let p = e310x::Peripherals::steal();
+        Self::new(p.CLINT, p.PLIC)
+    }
+}

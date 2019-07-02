@@ -1,9 +1,10 @@
 //! Device resources available in FE310-G000 and FE310-G002 chip packages
 
+use crate::core::CorePeripherals;
 use crate::gpio::{gpio0::*, GpioExt, Unknown};
 use e310x::{
-    Peripherals, AONCLK, BACKUP, CLINT, GPIO0, OTP, PLIC, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0,
-    QSPI1, RTC, UART0, WDOG,
+    Peripherals, AONCLK, BACKUP, GPIO0, OTP, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0, QSPI1, RTC, UART0,
+    WDOG,
 };
 #[cfg(feature = "g002")]
 use e310x::{I2C0, UART1};
@@ -11,10 +12,6 @@ use e310x::{I2C0, UART1};
 /// Device peripherals available in a 48QFN package, except GPIO0
 #[allow(non_snake_case)]
 pub struct DevicePeripherals {
-    /// CLINT peripheral
-    pub CLINT: CLINT,
-    /// PLIC peripheral
-    pub PLIC: PLIC,
     /// WDOG peripheral
     pub WDOG: WDOG,
     /// RTC peripheral
@@ -124,6 +121,9 @@ impl From<GPIO0> for DeviceGpioPins {
 
 /// Device resources available in a 48QFN package
 pub struct DeviceResources {
+    /// Core peripherals
+    pub core_peripherals: CorePeripherals,
+
     /// Device peripherals
     pub peripherals: DevicePeripherals,
 
@@ -134,8 +134,6 @@ pub struct DeviceResources {
 impl From<Peripherals> for DeviceResources {
     fn from(p: Peripherals) -> Self {
         let peripherals = DevicePeripherals {
-            CLINT: p.CLINT,
-            PLIC: p.PLIC,
             WDOG: p.WDOG,
             RTC: p.RTC,
             AONCLK: p.AONCLK,
@@ -160,6 +158,7 @@ impl From<Peripherals> for DeviceResources {
         };
 
         DeviceResources {
+            core_peripherals: CorePeripherals::new(p.CLINT, p.PLIC),
             peripherals,
             pins: p.GPIO0.into(),
         }
