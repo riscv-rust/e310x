@@ -1,9 +1,12 @@
 //! Device resources available in FE310-G000 and FE310-G002 chip packages
 
-use e310x::{Peripherals, CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0, GPIO0};
+use crate::gpio::{gpio0::*, GpioExt, Unknown};
+use e310x::{
+    Peripherals, AONCLK, BACKUP, CLINT, GPIO0, OTP, PLIC, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0,
+    QSPI1, RTC, UART0, WDOG,
+};
 #[cfg(feature = "g002")]
 use e310x::{I2C0, UART1};
-use crate::gpio::{GpioExt, gpio0::*, Unknown};
 
 /// Device peripherals available in a 48QFN package, except GPIO0
 #[allow(non_snake_case)]
@@ -114,7 +117,7 @@ impl From<GPIO0> for DeviceGpioPins {
             pin20: parts.pin20,
             pin21: parts.pin21,
             pin22: parts.pin22,
-            pin23: parts.pin23
+            pin23: parts.pin23,
         }
     }
 }
