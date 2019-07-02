@@ -83,8 +83,10 @@ impl MTIMECMP {
 
     /// Write mtimecmp and mtimecmph registers.
     pub fn set_mtimecmp(&mut self, value: u64) {
-        self.set_mtimecmp_hi((value >> 32) as u32);
-        self.set_mtimecmp_lo(value as u32);
+        // Volume II: RISC-V Privileged Architectures V1.10 p.31, figure 3.15
+        self.set_mtimecmp_lo(0xffff_ffff); // No smaller than old value
+        self.set_mtimecmp_hi((value >> 32) as u32); // New value
+        self.set_mtimecmp_lo(value as u32); // New value
     }
 }
 
