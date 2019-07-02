@@ -1,6 +1,6 @@
 //! Device resources available in FE310-G000 and FE310-G002 chip packages
 
-use e310x::{CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0, GPIO0};
+use e310x::{Peripherals, CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0, GPIO0};
 #[cfg(feature = "g002")]
 use e310x::{I2C0, UART1};
 use crate::gpio::{GpioExt, gpio0::*, Unknown};
@@ -128,8 +128,8 @@ pub struct DeviceResources {
     pub pins: DeviceGpioPins,
 }
 
-impl DeviceResources {
-    fn construct(p: e310x::Peripherals) -> Self {
+impl From<Peripherals> for DeviceResources {
+    fn from(p: Peripherals) -> Self {
         let peripherals = DevicePeripherals {
             CLINT: p.CLINT,
             PLIC: p.PLIC,
@@ -161,15 +161,17 @@ impl DeviceResources {
             pins: p.GPIO0.into(),
         }
     }
+}
 
+impl DeviceResources {
     /// Returns all the device resources *once*
     #[inline]
     pub fn take() -> Option<Self> {
-        e310x::Peripherals::take().map(DeviceResources::construct)
+        e310x::Peripherals::take().map(DeviceResources::from)
     }
 
     /// Unchecked version of `DeviceResources::take`
     pub unsafe fn steal() -> Self {
-        DeviceResources::construct(e310x::Peripherals::steal())
+        e310x::Peripherals::steal().into()
     }
 }
