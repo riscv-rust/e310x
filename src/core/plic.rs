@@ -1,4 +1,4 @@
-//! Plic
+//! Platform-Level Interrupt Controller
 use core::marker::PhantomData;
 use riscv::register::{mie, mip};
 use riscv::interrupt::Nr;

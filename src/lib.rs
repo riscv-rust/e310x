@@ -13,7 +13,6 @@ pub mod clock;
 pub mod delay;
 pub mod gpio;
 pub mod device;
-pub mod plic;
 pub mod prelude;
 pub mod rtc;
 pub mod serial;
