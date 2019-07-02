@@ -1,13 +1,13 @@
 //! Device resources
 
 use e310x::{
-    CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2
+    CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0
 };
 #[cfg(feature = "g002")]
 use e310x::{I2C0, UART1};
 use crate::gpio::{GpioExt, gpio0};
 
-/// All the peripherals except GPIO
+/// All the peripherals except GPIO0 and QSPI2
 #[allow(non_snake_case)]
 pub struct Peripherals {
     /// CLINT peripheral
@@ -35,6 +35,8 @@ pub struct Peripherals {
     /// UART1 peripheral
     pub UART1: UART1,
 
+    /// QSPI0 peripheral
+    pub QSPI0: QSPI0,
     /// QSPI1 peripheral
     pub QSPI1: QSPI1,
 
@@ -76,6 +78,7 @@ impl DeviceResources {
             #[cfg(feature = "g002")]
             UART1: p.UART1,
 
+            QSPI0: p.QSPI0,
             QSPI1: p.QSPI1,
 
             #[cfg(feature = "g002")]
