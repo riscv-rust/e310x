@@ -68,14 +68,8 @@ pub struct IrqRtc;
 /// Uart0 interrupt (type state)
 pub struct IrqUart0;
 
-/// PlicExt trait extends `PLIC` peripheral.
-pub trait PlicExt {
-    /// Splits the `PLIC` peripheral into parts.
-    fn split(self) -> PlicParts;
-}
-
 /// Parts of `PLIC` peripheral for fine grained permissions.
-pub struct PlicParts {
+pub struct Plic {
     /// Opaque mext register
     pub mext: MEXT,
     /// Opaque threshold register
@@ -90,15 +84,9 @@ pub struct PlicParts {
     pub uart0: INTERRUPT<IrqUart0>,
 }
 
-impl PlicExt for PLIC {
-    fn split(self) -> PlicParts {
-        // Disable all interrupts by default
-        unsafe {
-            self.enable[0].write(|w| w.bits(0));
-            self.enable[1].write(|w| w.bits(0));
-        }
-
-        PlicParts {
+impl From<PLIC> for Plic {
+    fn from(_: PLIC) -> Self {
+        Plic {
             mext: MEXT { _0: () },
             threshold: THRESHOLD { _0: () },
             claim: CLAIM { _0: () },
@@ -123,6 +111,7 @@ impl PlicExt for PLIC {
         }
     }
 }
+
 
 /// Opaque MEXT register.
 pub struct MEXT {
