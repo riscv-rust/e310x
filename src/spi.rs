@@ -27,7 +27,6 @@ use core::convert::Infallible;
 use core::ops::Deref;
 pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
 use crate::e310x::{QSPI0, QSPI1, QSPI2, qspi0};
-use crate::gpio::{IOF0, gpio0};
 use crate::clock::Clocks;
 use crate::time::Hertz;
 use nb;
@@ -36,6 +35,7 @@ use nb;
 /// SPI pins - DO NOT IMPLEMENT THIS TRAIT
 ///
 /// This trait is implemented for pin tuples (), (MOSI, MISO, SCK) and (MOSI, MISO, SCK, SS)
+/// and combinations without MOSI/MISO
 pub trait Pins<SPI> {
     #[doc(hidden)]
     const CS_INDEX: Option<u32>;
@@ -47,33 +47,53 @@ impl Pins<QSPI0> for () {
 }
 
 /* SPI1 pins */
-impl<T> Pins<QSPI1> for (gpio0::Pin3<IOF0<T>>, gpio0::Pin4<IOF0<T>>, gpio0::Pin5<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = None;
-}
+mod spi1_impl {
+    use crate::gpio::{NoInvert, IOF0};
+    use crate::gpio::gpio0;
+    use super::{Pins, QSPI1};
 
-impl<T> Pins<QSPI1> for (gpio0::Pin3<IOF0<T>>, gpio0::Pin4<IOF0<T>>, gpio0::Pin5<IOF0<T>>, gpio0::Pin2<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = Some(0);
-}
+    type MOSI = gpio0::Pin3<IOF0<NoInvert>>;
+    type MISO = gpio0::Pin4<IOF0<NoInvert>>;
+    type SCK = gpio0::Pin5<IOF0<NoInvert>>;
+    type SS0 = gpio0::Pin2<IOF0<NoInvert>>;
+    type SS1 = gpio0::Pin8<IOF0<NoInvert>>;
+    type SS2 = gpio0::Pin9<IOF0<NoInvert>>;
+    type SS3 = gpio0::Pin10<IOF0<NoInvert>>;
 
-impl<T> Pins<QSPI1> for (gpio0::Pin3<IOF0<T>>, gpio0::Pin4<IOF0<T>>, gpio0::Pin5<IOF0<T>>, gpio0::Pin8<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = Some(1);
-}
-
-impl<T> Pins<QSPI1> for (gpio0::Pin3<IOF0<T>>, gpio0::Pin4<IOF0<T>>, gpio0::Pin5<IOF0<T>>, gpio0::Pin9<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = Some(2);
-}
-
-impl<T> Pins<QSPI1> for (gpio0::Pin3<IOF0<T>>, gpio0::Pin4<IOF0<T>>, gpio0::Pin5<IOF0<T>>, gpio0::Pin10<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = Some(3);
+    impl Pins<QSPI1> for (MOSI, MISO, SCK) { const CS_INDEX: Option<u32> = None; }
+    impl Pins<QSPI1> for (MOSI, (),   SCK) { const CS_INDEX: Option<u32> = None; }
+    impl Pins<QSPI1> for ((),   MISO, SCK) { const CS_INDEX: Option<u32> = None; }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
+    impl Pins<QSPI1> for (MOSI, (),   SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
+    impl Pins<QSPI1> for ((),   MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS1) { const CS_INDEX: Option<u32> = Some(1); }
+    impl Pins<QSPI1> for (MOSI, (),   SCK, SS1) { const CS_INDEX: Option<u32> = Some(1); }
+    impl Pins<QSPI1> for ((),   MISO, SCK, SS1) { const CS_INDEX: Option<u32> = Some(1); }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS2) { const CS_INDEX: Option<u32> = Some(2); }
+    impl Pins<QSPI1> for (MOSI, (),   SCK, SS2) { const CS_INDEX: Option<u32> = Some(2); }
+    impl Pins<QSPI1> for ((),   MISO, SCK, SS2) { const CS_INDEX: Option<u32> = Some(2); }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS3) { const CS_INDEX: Option<u32> = Some(3); }
+    impl Pins<QSPI1> for (MOSI, (),   SCK, SS3) { const CS_INDEX: Option<u32> = Some(3); }
+    impl Pins<QSPI1> for ((),   MISO, SCK, SS3) { const CS_INDEX: Option<u32> = Some(3); }
 }
 
 /* SPI2 pins */
-impl<T> Pins<QSPI2> for (gpio0::Pin27<IOF0<T>>, gpio0::Pin28<IOF0<T>>, gpio0::Pin29<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = None;
-}
+mod spi2_impl {
+    use crate::gpio::{NoInvert, IOF0};
+    use crate::gpio::gpio0;
+    use super::{Pins, QSPI2};
 
-impl<T> Pins<QSPI2> for (gpio0::Pin27<IOF0<T>>, gpio0::Pin28<IOF0<T>>, gpio0::Pin29<IOF0<T>>, gpio0::Pin26<IOF0<T>>) {
-    const CS_INDEX: Option<u32> = Some(0);
+    type MOSI = gpio0::Pin27<IOF0<NoInvert>>;
+    type MISO = gpio0::Pin28<IOF0<NoInvert>>;
+    type SCK = gpio0::Pin29<IOF0<NoInvert>>;
+    type SS0 = gpio0::Pin26<IOF0<NoInvert>>;
+
+    impl Pins<QSPI2> for (MOSI, MISO, SCK) { const CS_INDEX: Option<u32> = None; }
+    impl Pins<QSPI2> for (MOSI, (),   SCK) { const CS_INDEX: Option<u32> = None; }
+    impl Pins<QSPI2> for ((),   MISO, SCK) { const CS_INDEX: Option<u32> = None; }
+    impl Pins<QSPI2> for (MOSI, MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
+    impl Pins<QSPI2> for (MOSI, (),   SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
+    impl Pins<QSPI2> for ((),   MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
 }
 
 
