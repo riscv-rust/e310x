@@ -25,4 +25,4 @@ pub mod wdog;
 #[cfg(feature = "g002")]
 pub mod i2c;
 
-pub use resources::{Peripherals, DeviceResources};
+pub use resources::DeviceResources;

@@ -1,15 +1,13 @@
 //! Device resources
 
-use e310x::{
-    CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0
-};
+use e310x::{CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0, GPIO0};
 #[cfg(feature = "g002")]
 use e310x::{I2C0, UART1};
-use crate::gpio::{GpioExt, gpio0};
+use crate::gpio::{GpioExt, gpio0::*, Unknown};
 
-/// All the peripherals except GPIO0 and QSPI2
+/// Device peripherals available in a 48QFN package, except GPIO0
 #[allow(non_snake_case)]
-pub struct Peripherals {
+pub struct DevicePeripherals {
     /// CLINT peripheral
     pub CLINT: CLINT,
     /// PLIC peripheral
@@ -52,18 +50,87 @@ pub struct Peripherals {
     pub PWM2: PWM2,
 }
 
+/// Device GPIO pins available in a 48QFN package
+pub struct DeviceGpioPins {
+    /// GPIO 0, package pin 25
+    pub pin0: Pin0<Unknown>,
+    /// GPIO 1, package pin 26
+    pub pin1: Pin1<Unknown>,
+    /// GPIO 2, package pin 27
+    pub pin2: Pin2<Unknown>,
+    /// GPIO 3, package pin 28
+    pub pin3: Pin3<Unknown>,
+    /// GPIO 4, package pin 29
+    pub pin4: Pin4<Unknown>,
+    /// GPIO 5, package pin 31
+    pub pin5: Pin5<Unknown>,
+    /// GPIO 9, package pin 33
+    pub pin9: Pin9<Unknown>,
+    /// GPIO 10, package pin 34
+    pub pin10: Pin10<Unknown>,
+    /// GPIO 11, package pin 35
+    pub pin11: Pin11<Unknown>,
+    /// GPIO 12, package pin 36
+    pub pin12: Pin12<Unknown>,
+    /// GPIO 13, package pin 37
+    pub pin13: Pin13<Unknown>,
+    /// GPIO 16, package pin 38
+    pub pin16: Pin16<Unknown>,
+    /// GPIO 17, package pin 39
+    pub pin17: Pin17<Unknown>,
+    /// GPIO 18, package pin 40
+    pub pin18: Pin18<Unknown>,
+    /// GPIO 19, package pin 41
+    pub pin19: Pin19<Unknown>,
+    /// GPIO 20, package pin 42
+    pub pin20: Pin20<Unknown>,
+    /// GPIO 21, package pin 43
+    pub pin21: Pin21<Unknown>,
+    /// GPIO 22, package pin 44
+    pub pin22: Pin22<Unknown>,
+    /// GPIO 23, package pin 45
+    pub pin23: Pin23<Unknown>,
+}
+
+impl From<GPIO0> for DeviceGpioPins {
+    fn from(gpio: GPIO0) -> Self {
+        let parts = gpio.split();
+        DeviceGpioPins {
+            pin0: parts.pin0,
+            pin1: parts.pin1,
+            pin2: parts.pin2,
+            pin3: parts.pin3,
+            pin4: parts.pin4,
+            pin5: parts.pin5,
+            pin9: parts.pin9,
+            pin10: parts.pin10,
+            pin11: parts.pin11,
+            pin12: parts.pin12,
+            pin13: parts.pin13,
+            pin16: parts.pin16,
+            pin17: parts.pin17,
+            pin18: parts.pin18,
+            pin19: parts.pin19,
+            pin20: parts.pin20,
+            pin21: parts.pin21,
+            pin22: parts.pin22,
+            pin23: parts.pin23
+        }
+    }
+}
+
 /// Device resources
 pub struct DeviceResources {
     /// Device peripherals
-    pub peripherals: Peripherals,
+    pub peripherals: DevicePeripherals,
 
-    /// Device pins
-    pub pins: gpio0::Parts,
+    /// Device GPIO pins
+    pub pins: DeviceGpioPins,
 }
 
 impl DeviceResources {
     fn construct(p: e310x::Peripherals) -> Self {
-        let peripherals = Peripherals {
+        let peripherals = DevicePeripherals {
             CLINT: p.CLINT,
             PLIC: p.PLIC,
             WDOG: p.WDOG,
@@ -91,7 +158,7 @@ impl DeviceResources {
 
         DeviceResources {
             peripherals,
-            pins: p.GPIO0.split(),
+            pins: p.GPIO0.into(),
         }
     }
 
