@@ -7,7 +7,6 @@ pub use embedded_hal::digital::v2::{
     StatefulOutputPin as _embedded_hal_digital_v2_StatefulOutputPin,
     ToggleableOutputPin as _embedded_hal_digital_v2_ToggleableOutputPin,
 };
-pub use crate::clint::ClintExt as _e310x_hal_clint_ClintExt;
 pub use crate::clock::PrciExt as _e310x_hal_clock_PrciExt;
 pub use crate::clock::AonExt as _e310x_hal_clock_AonExt;
 pub use crate::gpio::GpioExt as _e310x_hal_gpio_GpioExt;

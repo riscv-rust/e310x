@@ -1,7 +1,8 @@
 //! Clock configuration
 use e310x::{PRCI, AONCLK};
-use crate::clint::{MCYCLE, MTIME};
+use crate::clint::MTIME;
 use riscv::interrupt;
+use riscv::register::mcycle;
 use crate::time::Hertz;
 
 
@@ -385,19 +386,19 @@ impl Clocks {
     }
 
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
-    fn _measure_coreclk(&self, min_ticks: u64, mcycle: &MCYCLE) -> Hertz {
+    fn _measure_coreclk(&self, min_ticks: u64) -> Hertz {
         let mtime = MTIME;
         interrupt::free(|_| {
             // Don't start measuring until we see an mtime tick
             while mtime.mtime() == mtime.mtime() {}
 
-            let start_cycle = mcycle.mcycle();
+            let start_cycle = mcycle::read64();
             let start_time = mtime.mtime();
 
             // Wait for min_ticks to pass
             while start_time + min_ticks > mtime.mtime() {}
 
-            let end_cycle = mcycle.mcycle();
+            let end_cycle = mcycle::read64();
             let end_time = mtime.mtime();
 
             let delta_cycle: u64 = end_cycle - start_cycle;
@@ -411,10 +412,10 @@ impl Clocks {
     }
 
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
-    pub fn measure_coreclk(&self, mcycle: &MCYCLE) -> Hertz {
+    pub fn measure_coreclk(&self) -> Hertz {
         // warm up I$
-        self._measure_coreclk(1, mcycle);
+        self._measure_coreclk(1);
         // measure for real
-        self._measure_coreclk(10, mcycle)
+        self._measure_coreclk(10)
     }
 }

@@ -1,6 +1,5 @@
-//! Clint
+//! Core-Local Interruptor
 
-use riscv::register::{mcycle, mcycleh, minstret, minstreth, mie, mip};
 use e310x::CLINT;
 
 macro_rules! read64 {
@@ -15,16 +14,27 @@ macro_rules! read64 {
     }
 }
 
-/// ClintExt trait extends the CLINT peripheral.
-pub trait ClintExt {
-    /// The parts to split the GPIO into.
-    type Parts;
-
-    /// Splits the GPIO block into independent pins and registers.
-    fn split(self) -> Self::Parts;
+/// Opaque msip register
+pub struct MSIP {
+    _0: (),
 }
 
-/// Opaque MTIME register
+impl MSIP {
+    /// Set msip register value
+    pub fn set_value(&mut self, value: bool) {
+        unsafe {
+            (*CLINT::ptr()).msip.write(|w| {
+                if value {
+                    w.bits(1)
+                } else {
+                    w.bits(0)
+                }
+            })
+        }
+    }
+}
+
+/// Opaque mtime register
 pub struct MTIME;
 
 impl MTIME {
@@ -46,7 +56,7 @@ impl MTIME {
     }
 }
 
-/// Opaque MTIMECMP register
+/// Opaque mtimecmp register
 pub struct MTIMECMP {
     _0: (),
 }
@@ -90,100 +100,22 @@ impl MTIMECMP {
     }
 }
 
-/// Opaque mcycle register
-pub struct MCYCLE {
-    _0: (),
-}
-
-impl MCYCLE {
-    /// Read mcycle register.
-    #[inline]
-    pub fn mcycle_lo(&self) -> u32 {
-        mcycle::read() as u32
-    }
-
-    /// Read mcycleh register.
-    #[inline]
-    pub fn mcycle_hi(&self) -> u32 {
-        mcycleh::read() as u32
-    }
-
-    /// Read mcycle and mcycleh registers.
-    pub fn mcycle(&self) -> u64 {
-        read64!(mcycleh::read(), mcycle::read())
-    }
-}
-
-/// Opaque minstret register.
-pub struct MINSTRET {
-    _0: (),
-}
-
-impl MINSTRET {
-    /// Read minstret register.
-    #[inline]
-    pub fn minstret_lo(&self) -> u32 {
-        minstret::read() as u32
-    }
-
-    /// Read minstreth register.
-    #[inline]
-    pub fn minstret_hi(&self) -> u32 {
-        minstreth::read() as u32
-    }
-
-    /// Read minstret and minstreth registers.
-    pub fn minstret(&self) -> u64 {
-        read64!(self.minstret_hi(), self.minstret_lo())
-    }
-}
-
-/// Opaque mtimer interrupt handling.
-pub struct MTIMER {
-    _0: (),
-}
-
-impl MTIMER {
-    /// Enable Machine-Timer interrupt.
-    pub fn enable(&mut self) {
-        unsafe { mie::set_mtimer() };
-    }
-
-    /// Disable Machine-Timer interrupt.
-    pub fn disable(&mut self) {
-        unsafe { mie::clear_mtimer(); }
-    }
-
-    /// Check if the Machine-Timer is interrupt pending.
-    pub fn is_pending(&self) -> bool {
-        mip::read().mtimer()
-    }
-}
-
-/// Parts of CLINT peripheral for fine grained permission control.
-pub struct ClintParts {
+/// Core-Local Interruptor abstraction
+pub struct Clint {
+    /// Opaque msip register
+    pub msip: MSIP,
     /// Opaque mtimecmp register
     pub mtimecmp: MTIMECMP,
     /// Opaque mtime register
     pub mtime: MTIME,
-    /// Opaque mcycle register
-    pub mcycle: MCYCLE,
-    /// Opaque minstret register
-    pub minstret: MINSTRET,
-    /// Opaque mtimer register
-    pub mtimer: MTIMER,
 }
 
-impl ClintExt for CLINT {
-    type Parts = ClintParts;
-
-    fn split(self) -> ClintParts {
-        ClintParts {
+impl From<CLINT> for Clint {
+    fn from(_: CLINT) -> Self {
+        Clint {
+            msip: MSIP { _0: () },
             mtimecmp: MTIMECMP { _0: () },
-            mtime: MTIME,
-            mcycle: MCYCLE { _0: () },
-            minstret: MINSTRET { _0: () },
-            mtimer: MTIMER { _0: () },
+            mtime: MTIME
         }
     }
 }
