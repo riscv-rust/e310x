@@ -56,6 +56,8 @@ pub struct PerformanceCounters {
     pub mhpmcounter3: MHPMCOUNTER3,
     /// 40-bit mhpmcounter4 counter
     pub mhpmcounter4: MHPMCOUNTER4,
+
+    // TODO: mhpmevent3, mhpmevent4
 }
 
 impl PerformanceCounters {
