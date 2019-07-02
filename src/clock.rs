@@ -75,10 +75,19 @@ impl CoreClk {
     pub(crate) fn freeze(self) -> Hertz {
         // Assume `psdclkbypass_n` is not used
 
+        // Temporarily switch to the internal oscillator
+        let prci = unsafe { &*PRCI::ptr() };
+        let hfrosc_freq = self.configure_hfrosc();
+        // Switch to HFROSC, bypass PLL
+        prci.pllcfg.modify(|_, w| w
+            .sel().bit(false)
+            .bypass().bit(true)
+        );
+
         if let Some(freq) = self.hfxosc {
             self.configure_with_external(freq)
         } else {
-            self.configure_with_internal()
+            self.configure_with_internal(hfrosc_freq)
         }
     }
 
@@ -122,10 +131,8 @@ impl CoreClk {
     }
 
     /// Configures clock generation system with internal oscillator
-    fn configure_with_internal(self) -> Hertz {
+    fn configure_with_internal(self, hfrosc_freq: Hertz) -> Hertz {
         let prci = unsafe { &*PRCI::ptr() };
-
-        let hfrosc_freq = self.configure_hfrosc();
 
         let freq;
         if hfrosc_freq.0 == self.coreclk.0 {
