@@ -1,6 +1,6 @@
 //! # Serial Peripheral Interface
 //!
-//! You can use the `FullDuplex` interface with these SPI instances
+//! You can use the `Spi` interface with these SPI instances
 //!
 //! # QSPI0
 //! - Interrupt::QSPI0
