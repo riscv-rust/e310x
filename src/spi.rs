@@ -10,13 +10,13 @@
 //! - MISO: Pin 4 IOF0
 //! - SCK: Pin 5 IOF0
 //! - SS0: Pin 2 IOF0
-//! - SS1: Pin 8 IOF0
+//! - SS1: Pin 8 IOF0 (not connected to package in FE310)
 //! - SS2: Pin 9 IOF0
 //! - SS3: Pin 10 IOF0
 //! - Interrupt::QSPI1
 //!
 //! # QSPI2
-//! *Warning:* QSPI2 pins are not connected to package in FE310-G000
+//! *Warning:* QSPI2 pins are not connected to package in FE310
 //! - MOSI: Pin 27 IOF0
 //! - MISO: Pin 28 IOF0
 //! - SCK: Pin 29 IOF0
