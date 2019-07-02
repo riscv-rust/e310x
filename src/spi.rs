@@ -309,7 +309,7 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
 }
 
 impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PINS> {
-    type Error = ();
+    type Error = Infallible;
 
     fn write_iter<WI>(&mut self, words: WI) -> Result<(), Self::Error>
     where
