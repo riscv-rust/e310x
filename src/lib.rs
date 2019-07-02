@@ -8,7 +8,7 @@
 
 pub use e310x;
 
-pub mod clint;
+pub mod core;
 pub mod clock;
 pub mod delay;
 pub mod gpio;

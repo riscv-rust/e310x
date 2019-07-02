@@ -1,6 +1,6 @@
 //! Clock configuration
 use e310x::{PRCI, AONCLK};
-use crate::clint::MTIME;
+use crate::core::clint::MTIME;
 use riscv::interrupt;
 use riscv::register::mcycle;
 use crate::time::Hertz;

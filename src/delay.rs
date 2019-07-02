@@ -1,7 +1,7 @@
 //! # Delays
 
 use embedded_hal::blocking::delay::DelayMs;
-use crate::clint::{MTIME, MTIMECMP};
+use crate::core::clint::{MTIME, MTIMECMP};
 use crate::clock::Clocks;
 use riscv::register::{mie, mip};
 
