@@ -1,4 +1,4 @@
-//! Device resources
+//! Device resources available in FE310-G000 and FE310-G002 chip packages
 
 use e310x::{CLINT, PLIC, WDOG, RTC, AONCLK, BACKUP, PMU, PRCI, OTP, UART0, PWM0, QSPI1, PWM1, PWM2, QSPI0, GPIO0};
 #[cfg(feature = "g002")]
@@ -30,7 +30,7 @@ pub struct DevicePeripherals {
     /// UART0 peripheral
     pub UART0: UART0,
     #[cfg(feature = "g002")]
-    /// UART1 peripheral
+    /// UART1 peripheral (FE310-G002 only)
     pub UART1: UART1,
 
     /// QSPI0 peripheral
@@ -39,7 +39,7 @@ pub struct DevicePeripherals {
     pub QSPI1: QSPI1,
 
     #[cfg(feature = "g002")]
-    /// I2C0 peripheral
+    /// I2C0 peripheral (FE310-G002 only)
     pub I2C0: I2C0,
 
     /// PWM0 peripheral
@@ -119,7 +119,7 @@ impl From<GPIO0> for DeviceGpioPins {
     }
 }
 
-/// Device resources
+/// Device resources available in a 48QFN package
 pub struct DeviceResources {
     /// Device peripherals
     pub peripherals: DevicePeripherals,
