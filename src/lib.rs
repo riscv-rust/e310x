@@ -12,7 +12,7 @@ pub mod clint;
 pub mod clock;
 pub mod delay;
 pub mod gpio;
-pub mod resources;
+pub mod device;
 pub mod plic;
 pub mod prelude;
 pub mod rtc;
@@ -25,4 +25,4 @@ pub mod wdog;
 #[cfg(feature = "g002")]
 pub mod i2c;
 
-pub use resources::DeviceResources;
+pub use device::DeviceResources;
