@@ -272,13 +272,20 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
     type Error = Infallible;
 
     fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
-        // Save watermark levels
+        // Save watermark levels and csmode
         let txmark = self.spi.txmark.read().value().bits();
         let rxmark = self.spi.rxmark.read().value().bits();
+        let csmode = self.spi.csmode.read().bits();
+        let new_csmode = if csmode == 3 {
+            3 // Disable hardware control of the CS pin
+        } else {
+            2 // Keep CS continuously asserted after the initial frame
+        };
 
-        // Set watermark levels
+        // Set watermark levels and csmode
         self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
         self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
+        self.spi.csmode.write(|w| unsafe { w.bits(new_csmode) });
 
         // Ensure that RX FIFO is empty
         while self.spi.ip.read().rxwm().bit_is_set() {
@@ -300,9 +307,10 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
             }
         }
 
-        // Restore watermark levels
+        // Restore watermark levels and csmode
         self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
         self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
+        self.spi.csmode.write(|w| unsafe { w.bits(csmode) });
 
         Ok(())
     }
