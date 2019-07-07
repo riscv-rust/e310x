@@ -407,7 +407,6 @@
           <name>pmukey</name>
           <description>PMU Key Register</description>
           <addressOffset>0x14C</addressOffset>
-          <resetValue>0x51F15E</resetValue>
         </register>
       </registers>
     </peripheral>
