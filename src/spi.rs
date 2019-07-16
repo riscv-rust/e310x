@@ -211,7 +211,7 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         }
     }
 
-    /// Finishes transfer by deasserting CS
+    /// Finishes transfer by deasserting CS (only for hardware-controlled CS)
     pub fn end_transfer(&mut self) {
         self.cs_mode_word()
     }
