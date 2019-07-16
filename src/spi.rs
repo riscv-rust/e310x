@@ -21,7 +21,7 @@
 //! - MISO: Pin 28 IOF0
 //! - SCK: Pin 29 IOF0
 //! - SS: Pin 26 IOF0
-//! - Interrupt::QSPI0
+//! - Interrupt::QSPI2
 
 use core::convert::Infallible;
 use core::ops::Deref;
