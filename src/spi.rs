@@ -122,7 +122,7 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         let cs_mode = if let Some(cs_index) = PINS::CS_INDEX {
             spi.csid.write(|w| unsafe { w.bits(cs_index) });
 
-            0 // AUTO: Assert/de-assert CS at the beginning/end of each frame
+            2 // AUTO: Assert/de-assert CS at the beginning/end of each frame
         } else {
             3 // OFF: Disable hardware control of the CS pin
         };
@@ -194,6 +194,20 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
     /// Stops listening for receive watermark interrupt event
     pub fn unlisten_rx_wm(&mut self) {
         self.spi.ie.write(|w| w.rxwm().clear_bit())
+    }
+
+    /// Set AUTO CS mode to per-word operation
+    pub fn cs_mode_word(&mut self) {
+        if self.spi.csmode.read().bits() != 3 {
+            self.spi.csmode.write(|w| unsafe { w.bits(0) });
+        }
+    }
+
+    /// Set AUTO CS mode to per-frame operation
+    pub fn cs_mode_frame(&mut self) {
+        if self.spi.csmode.read().bits() != 3 {
+            self.spi.csmode.write(|w| unsafe { w.bits(2) });
+        }
     }
 
     /// Releases the SPI peripheral and associated pins
@@ -276,16 +290,11 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
         let txmark = self.spi.txmark.read().value().bits();
         let rxmark = self.spi.rxmark.read().value().bits();
         let csmode = self.spi.csmode.read().bits();
-        let new_csmode = if csmode == 3 {
-            3 // Disable hardware control of the CS pin
-        } else {
-            2 // Keep CS continuously asserted after the initial frame
-        };
 
         // Set watermark levels and csmode
         self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
         self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
-        self.spi.csmode.write(|w| unsafe { w.bits(new_csmode) });
+        self.spi.csmode.write(|w| unsafe { w.bits(csmode) });
 
         // Ensure that RX FIFO is empty
         while self.spi.ip.read().rxwm().bit_is_set() {
