@@ -112,6 +112,7 @@ pub struct Spi<SPI, PINS> {
 
 impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
     /// Configures the SPI peripheral to operate in full duplex master mode
+    /// Defaults to using AUTO CS in FRAME mode if PINS configuration allows it
     pub fn new(spi: SPI, pins: PINS, mode: Mode, freq: Hertz, clocks: Clocks) -> Self
     where
         PINS: Pins<SPI>
