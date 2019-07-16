@@ -211,6 +211,11 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         }
     }
 
+    /// Finishes transfer by deasserting CS
+    pub fn end_transfer(&mut self) {
+        self.cs_mode_word()
+    }
+
     /// Releases the SPI peripheral and associated pins
     pub fn free(self) -> (SPI, PINS) {
         (self.spi, self.pins)
@@ -259,6 +264,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Transfer<u8> for Spi<SPI, PIN
             let _ = self.spi.rxdata.read();
         }
 
+        self.cs_mode_frame();
+
         let mut iwrite = 0;
         let mut iread = 0;
         while iwrite < words.len() || iread < words.len() {
@@ -274,6 +281,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Transfer<u8> for Spi<SPI, PIN
                 iread += 1;
             }
         }
+
+        self.cs_mode_word();
 
         // Restore watermark levels
         self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
@@ -300,6 +309,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
             let _ = self.spi.rxdata.read();
         }
 
+        self.cs_mode_frame();
+
         let mut iwrite = 0;
         let mut iread = 0;
         while iwrite < words.len() || iread < words.len() {
@@ -314,6 +325,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
                 iread += 1;
             }
         }
+
+        self.cs_mode_word();
 
         // Restore watermark levels
         self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
@@ -345,6 +358,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PI
             let _ = self.spi.rxdata.read();
         }
 
+        self.cs_mode_frame();
+
         let mut read_count = 0;
         let mut has_data = true;
         while has_data || read_count > 0 {
@@ -362,6 +377,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PI
                 read_count -= 1;
             }
         }
+
+        self.cs_mode_word();
 
         // Restore watermark levels
         self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
