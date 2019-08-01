@@ -84,11 +84,14 @@ impl PMUCfg {
     ///
     /// Puts device to sleep for N seconds, allowing wake-up button to wake it up as well
     ///
+    /// # Arguments
+    /// 
     /// *sleep_time* - the amount of time to sleep for in seconds
     ///
-    /// *Performs following changes to RTC*
-    /// - enables RTC clock to be always on
-    /// - sets scale to 1/s
+    /// # Notes
+    /// 
+    /// - enables RTC to be always on
+    /// - sets RTC scale to 1/s
     ///
     pub fn sleep(self, sleep_time: u32) {
         unsafe {
