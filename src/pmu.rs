@@ -45,6 +45,26 @@ const DEFAULT_WAKE_PROGRAM: [u32; 8] = [
     0x030, 0x030, 0x030, 0x030,
 ];
 
+///
+/// Enumeration of device reset causes
+/// 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ResetCause {
+    PowerOn,
+    External,
+    WatchDog,
+}
+
+///
+/// Enumeration of device wakeup causes
+///
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum WakeupCause {
+    Reset(ResetCause),
+    RTC,
+    Digital,
+}
+
 pub trait PMUExt {
     fn configure(&self) -> PMUCfg;
 }
@@ -61,6 +81,11 @@ pub struct PMUCfg;
 pub enum BackupError {
     DataTooLarge,
     DataMisaligned,
+}
+
+#[derive(Debug)]
+pub enum CauseError {
+    InvalidCause,
 }
 
 impl PMUCfg {
@@ -225,6 +250,43 @@ impl PMUCfg {
             for i in 0..(*backup).backup.len() {
                 (*backup).backup[i].write(|w| w.bits(0u32));
             }
+        }
+    }
+
+    ///
+    /// Returns an enumified version of the Wakeup and Reset causes from the pmucause register
+    /// 
+    /// # Returns
+    /// 
+    /// * `Result<WakeupCause, CauseError>` - the cause enum is returned on success
+    /// 
+    /// # Errors
+    /// 
+    /// * `CauseError::InvalidCause` - returned if an unknown wakeup or reset cause is encountered
+    /// 
+    pub fn wakeup_cause(&self) -> Result<WakeupCause, CauseError> {
+        unsafe {
+            let pmu = PMU::ptr();
+
+            let pmu_cause = (*pmu).pmucause.read();
+            let wakeup_cause = pmu_cause.wakeupcause();
+            if wakeup_cause.is_rtc() {
+                return Ok(WakeupCause::RTC)
+            } else if wakeup_cause.is_digital() {
+                return Ok(WakeupCause::Digital)
+            } else if wakeup_cause.is_reset() {
+                let reset_cause = pmu_cause.resetcause();
+
+                if reset_cause.is_power_on() {
+                    return Ok(WakeupCause::Reset(ResetCause::PowerOn))
+                } else if reset_cause.is_external() {
+                    return Ok(WakeupCause::Reset(ResetCause::External))
+                } else if reset_cause.is_watchdog() {
+                    return Ok(WakeupCause::Reset(ResetCause::WatchDog))
+                }
+            }
+
+            Err(CauseError::InvalidCause)
         }
     }
 }
