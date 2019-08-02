@@ -166,7 +166,7 @@ impl PMUCfg {
     }
 
     ///
-    /// Stores user data `UD` to backup registers.
+    /// Restores user data `UD` from backup registers.
     ///
     /// # Arguments
     ///
