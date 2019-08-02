@@ -147,7 +147,7 @@ impl PMUCfg {
     ///
     /// # Arguments
     ///
-    /// * `user_data` - the user data to store. *MUST* have alignment of at least 4 and fit into the backup registerss
+    /// * `user_data` - the user data to store. *MUST* have alignment of at least 4 and fit into the backup registers
     ///
     /// # Returns
     /// 
@@ -195,7 +195,7 @@ impl PMUCfg {
     ///
     /// # Arguments
     ///
-    /// * `user_data` - the user data to restore to. *MUST* have alignment of at least 4 and fit into the backup registerss
+    /// * `user_data` - the user data to restore to. *MUST* have alignment of at least 4 and fit into the backup registers
     ///
     /// # Returns
     /// 
