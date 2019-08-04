@@ -50,8 +50,11 @@ const DEFAULT_WAKE_PROGRAM: [u32; 8] = [
 /// 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ResetCause {
+    /// Reset due to power on
     PowerOn,
+    /// Reset due to external input (button)
     External,
+    /// Reset due to watchdog
     WatchDog,
 }
 
@@ -60,51 +63,38 @@ pub enum ResetCause {
 ///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WakeupCause {
+    /// Wake up due to reset (see ResetCause)
     Reset(ResetCause),
+    /// Wake up due to RTC clock
     RTC,
+    /// Wake up due to digital input (button)
     Digital,
 }
 
-pub trait PMUExt {
-    fn configure(&self) -> PMUCfg;
-}
-
-impl PMUExt for PMU {
-    fn configure(&self) -> PMUCfg {
-        PMUCfg
-    }
-}
-
-pub struct PMUCfg;
-
+///
+/// Errors for user data backup procedures
+/// 
 #[derive(Debug)]
 pub enum BackupError {
-    DataTooLarge,
+    /// Emitted when user data is larger than backup registers capacity
+    DataTooLarge, 
+    /// Emitted when user data is not aligned to 4 bytes or more
     DataMisaligned,
 }
 
+///
+/// Wakeup/Reset cause errors
+/// 
 #[derive(Debug)]
 pub enum CauseError {
     InvalidCause,
 }
 
-impl PMUCfg {
+pub trait PMUExt {
     ///
     /// Resets SLEEP and WAKE programs on the PMU to defaults
     ///
-    pub fn load_default_programs(&self) {
-        unsafe {
-            let pmu = PMU::ptr();
-
-            for i in 0..8 {
-                (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
-                (*pmu).pmusleeppm[i].write(|w| w.bits(DEFAULT_SLEEP_PROGRAM[i]));
-
-                (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
-                (*pmu).pmuwakepm[i].write(|w| w.bits(DEFAULT_WAKE_PROGRAM[i]));
-            }
-        }
-    }
+    fn load_default_programs(&self);
 
     ///
     /// Puts device to sleep for N seconds, allowing wake-up button to wake it up as well
@@ -118,7 +108,87 @@ impl PMUCfg {
     /// - enables RTC to be always on
     /// - sets RTC scale to 1/s
     ///
-    pub fn sleep(self, sleep_time: u32) {
+    fn sleep(self, sleep_time: u32);
+
+    ///
+    /// Stores user data `UD` to backup registers.
+    ///
+    /// # Arguments
+    ///
+    /// * `user_data` - the user data to store. *MUST* have alignment of at least 4 and fit into the backup registers
+    ///
+    /// # Returns
+    /// 
+    /// * `Result<UD, BackupError>` - the stored `user_data` is returned on success
+    /// 
+    /// # Errors
+    ///
+    /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
+    /// * `BackupError::DataMisaligned` - returned if `user_data` is not aligned to at least 4 bytes
+    ///
+    /// # Notes
+    ///
+    /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
+    ///
+    fn store_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>;
+
+    ///
+    /// Restores user data `UD` from backup registers.
+    ///
+    /// # Arguments
+    ///
+    /// * `user_data` - the user data to restore to. *MUST* have alignment of at least 4 and fit into the backup registers
+    ///
+    /// # Returns
+    /// 
+    /// * `Result<UD, BackupError>` - the restored `user_data` is returned on success
+    /// 
+    /// # Errors
+    ///
+    /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
+    /// * `BackupError::DataMisaligned` - returned if `user_data` is not aligned to at least 4 bytes
+    ///
+    /// # Notes
+    ///
+    /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
+    ///
+    fn restore_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>;
+
+    ///
+    /// Clears all backup registers by setting each to zero
+    ///
+    fn clear_backup(&self);
+
+    ///
+    /// Returns an enumified version of the Wakeup and Reset causes from the pmucause register
+    /// 
+    /// # Returns
+    /// 
+    /// * `Result<WakeupCause, CauseError>` - the cause enum is returned on success
+    /// 
+    /// # Errors
+    /// 
+    /// * `CauseError::InvalidCause` - returned if an unknown wakeup or reset cause is encountered
+    /// 
+    fn wakeup_cause(&self) -> Result<WakeupCause, CauseError>;
+}
+
+impl PMUExt for PMU {
+    fn load_default_programs(&self) {
+        unsafe {
+            let pmu = PMU::ptr();
+
+            for i in 0..8 {
+                (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
+                (*pmu).pmusleeppm[i].write(|w| w.bits(DEFAULT_SLEEP_PROGRAM[i]));
+
+                (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
+                (*pmu).pmuwakepm[i].write(|w| w.bits(DEFAULT_WAKE_PROGRAM[i]));
+            }
+        }
+    }
+
+    fn sleep(self, sleep_time: u32) {
         unsafe {
             let pmu = PMU::ptr();
             let rtc = RTC::ptr();
@@ -142,27 +212,7 @@ impl PMUCfg {
         }
     }
 
-    ///
-    /// Stores user data `UD` to backup registers.
-    ///
-    /// # Arguments
-    ///
-    /// * `user_data` - the user data to store. *MUST* have alignment of at least 4 and fit into the backup registers
-    ///
-    /// # Returns
-    /// 
-    /// * `Result<UD, BackupError>` - the stored `user_data` is returned on success
-    /// 
-    /// # Errors
-    ///
-    /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
-    /// * `BackupError::DataMisaligned` - returned if `user_data` is not aligned to at least 4 bytes
-    ///
-    /// # Notes
-    ///
-    /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
-    ///
-    pub fn store_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>
+    fn store_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>
     where
         UD: Sized,
     {
@@ -190,27 +240,7 @@ impl PMUCfg {
         }
     }
 
-    ///
-    /// Restores user data `UD` from backup registers.
-    ///
-    /// # Arguments
-    ///
-    /// * `user_data` - the user data to restore to. *MUST* have alignment of at least 4 and fit into the backup registers
-    ///
-    /// # Returns
-    /// 
-    /// * `Result<UD, BackupError>` - the restored `user_data` is returned on success
-    /// 
-    /// # Errors
-    ///
-    /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
-    /// * `BackupError::DataMisaligned` - returned if `user_data` is not aligned to at least 4 bytes
-    ///
-    /// # Notes
-    ///
-    /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
-    ///
-    pub fn restore_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>
+    fn restore_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>
     where
         UD: Sized,
     {
@@ -240,10 +270,7 @@ impl PMUCfg {
         }
     }
 
-    ///
-    /// Clears all backup registers by setting each to zero
-    ///
-    pub fn clear_backup(self) {
+    fn clear_backup(&self) {
         unsafe {
             let backup = BACKUP::ptr();
 
@@ -253,18 +280,7 @@ impl PMUCfg {
         }
     }
 
-    ///
-    /// Returns an enumified version of the Wakeup and Reset causes from the pmucause register
-    /// 
-    /// # Returns
-    /// 
-    /// * `Result<WakeupCause, CauseError>` - the cause enum is returned on success
-    /// 
-    /// # Errors
-    /// 
-    /// * `CauseError::InvalidCause` - returned if an unknown wakeup or reset cause is encountered
-    /// 
-    pub fn wakeup_cause(&self) -> Result<WakeupCause, CauseError> {
+    fn wakeup_cause(&self) -> Result<WakeupCause, CauseError> {
         unsafe {
             let pmu = PMU::ptr();
 
