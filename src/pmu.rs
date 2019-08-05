@@ -2,6 +2,9 @@
 #![allow(missing_docs)]
 use e310x::{BACKUP, PMU, RTC};
 
+/// Backup register size in bytes
+const BACKUP_REGISTER_BYTES: usize = 4usize;
+
 /// value required written to pmukey register before writing to other PMU registers
 pub const PMU_KEY_VAL: u32 = 0x51F15E;
 
@@ -213,17 +216,19 @@ impl PMUExt for PMU {
             let backup = BACKUP::ptr();
             let ud_size = core::mem::size_of::<UD>();
 
-            if ud_size > (*backup).backup.len() {
+            if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
                 return Err(BackupError::DataTooLarge);
             }
 
-            if ud_size % 4 != 0 {
+            if ud_size % BACKUP_REGISTER_BYTES != 0 {
                 return Err(BackupError::DataMisaligned);
             }
 
+            let reg_count = ud_size / BACKUP_REGISTER_BYTES;
+
             let ptr = &user_data as *const _;
             let ptr_u32 = ptr as *const u32;
-            let sliced = core::slice::from_raw_parts(ptr_u32, ud_size);
+            let sliced = core::slice::from_raw_parts(ptr_u32, reg_count);
 
             for i in 0..sliced.len() {
                 (*backup).backup[i].write(|w| w.bits(sliced[i]));
@@ -245,11 +250,11 @@ impl PMUExt for PMU {
                 return Err(BackupError::DataTooLarge);
             }
 
-            if ud_size % 4 != 0 {
+            if ud_size % BACKUP_REGISTER_BYTES != 0 {
                 return Err(BackupError::DataMisaligned);
             }
 
-            let reg_count = ud_size / 4;
+            let reg_count = ud_size / BACKUP_REGISTER_BYTES;
 
             let ptr = &user_data as *const _;
             let ptr_u32 = ptr as *mut u32;
