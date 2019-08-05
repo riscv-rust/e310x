@@ -176,39 +176,32 @@ pub trait PMUExt {
 impl PMUExt for PMU {
     fn load_default_programs(&self) {
         unsafe {
-            let pmu = PMU::ptr();
-
             for i in 0..8 {
-                (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
-                (*pmu).pmusleeppm[i].write(|w| w.bits(DEFAULT_SLEEP_PROGRAM[i]));
+                self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
+                self.pmusleeppm[i].write(|w| w.bits(DEFAULT_SLEEP_PROGRAM[i]));
 
-                (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
-                (*pmu).pmuwakepm[i].write(|w| w.bits(DEFAULT_WAKE_PROGRAM[i]));
+                self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
+                self.pmuwakepm[i].write(|w| w.bits(DEFAULT_WAKE_PROGRAM[i]));
             }
         }
     }
 
     fn sleep(self, sleep_time: u32) {
         unsafe {
-            let pmu = PMU::ptr();
             let rtc = RTC::ptr();
 
             // set interrupt source to RTC enabled, each pmu register needs key set before write
-            (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
-            (*pmu)
-                .pmuie
-                .write(|w| w.rtc().set_bit().dwakeup().set_bit());
+            self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
+            self.pmuie.write(|w| w.rtc().set_bit().dwakeup().set_bit());
             // set RTC clock scale to once per second for easy calculation
-            (*rtc)
-                .rtccfg
-                .write(|w| w.enalways().set_bit().scale().bits(15));
+            (*rtc).rtccfg.write(|w| w.enalways().set_bit().scale().bits(15));
             // get current RTC clock value scaled
             let rtc_now = (*rtc).rtcs.read().bits();
             // set RTC clock comparator
             (*rtc).rtccmp.write(|w| w.bits(rtc_now + sleep_time));
             // go to sleep for sleep_time seconds, need to set pmukey here as well
-            (*pmu).pmukey.write(|w| w.bits(PMU_KEY_VAL));
-            (*pmu).pmusleep.write(|w| w.sleep().set_bit());
+            self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
+            self.pmusleep.write(|w| w.sleep().set_bit());
         }
     }
 
@@ -281,28 +274,24 @@ impl PMUExt for PMU {
     }
 
     fn wakeup_cause(&self) -> Result<WakeupCause, CauseError> {
-        unsafe {
-            let pmu = PMU::ptr();
+        let pmu_cause = self.pmucause.read();
+        let wakeup_cause = pmu_cause.wakeupcause();
+        if wakeup_cause.is_rtc() {
+            return Ok(WakeupCause::RTC)
+        } else if wakeup_cause.is_digital() {
+            return Ok(WakeupCause::Digital)
+        } else if wakeup_cause.is_reset() {
+            let reset_cause = pmu_cause.resetcause();
 
-            let pmu_cause = (*pmu).pmucause.read();
-            let wakeup_cause = pmu_cause.wakeupcause();
-            if wakeup_cause.is_rtc() {
-                return Ok(WakeupCause::RTC)
-            } else if wakeup_cause.is_digital() {
-                return Ok(WakeupCause::Digital)
-            } else if wakeup_cause.is_reset() {
-                let reset_cause = pmu_cause.resetcause();
-
-                if reset_cause.is_power_on() {
-                    return Ok(WakeupCause::Reset(ResetCause::PowerOn))
-                } else if reset_cause.is_external() {
-                    return Ok(WakeupCause::Reset(ResetCause::External))
-                } else if reset_cause.is_watchdog() {
-                    return Ok(WakeupCause::Reset(ResetCause::WatchDog))
-                }
+            if reset_cause.is_power_on() {
+                return Ok(WakeupCause::Reset(ResetCause::PowerOn))
+            } else if reset_cause.is_external() {
+                return Ok(WakeupCause::Reset(ResetCause::External))
+            } else if reset_cause.is_watchdog() {
+                return Ok(WakeupCause::Reset(ResetCause::WatchDog))
             }
-
-            Err(CauseError::InvalidCause)
         }
+
+        Err(CauseError::InvalidCause)
     }
 }
