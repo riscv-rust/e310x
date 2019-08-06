@@ -81,8 +81,8 @@ pub enum WakeupCause {
 pub enum BackupError {
     /// Emitted when user data is larger than backup registers capacity
     DataTooLarge, 
-    /// Emitted when user data is not aligned to 4 bytes or more
-    DataMisaligned,
+    /// Emitted when user data size is not divisible by 4 bytes
+    DataSizeInvalid,
 }
 
 ///
@@ -118,29 +118,29 @@ pub trait PMUExt {
     ///
     /// # Arguments
     ///
-    /// * `user_data` - the user data to store. *MUST* have alignment of at least 4 and fit into the backup registers
+    /// * `user_data` - reference to the user data to store. `user_data` size must by divisible by 4 bytes
     ///
     /// # Returns
     /// 
-    /// * `Result<UD, BackupError>` - the stored `user_data` is returned on success
+    /// * `Result<(), BackupError>` - `()` is returned on success
     /// 
     /// # Errors
     ///
     /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
-    /// * `BackupError::DataMisaligned` - returned if `user_data` is not aligned to at least 4 bytes
+    /// * `BackupError::DataSizeInvalid` - returned if `user_data` size is not divisible by 4 bytes
     ///
     /// # Notes
     ///
     /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
     ///
-    fn store_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>;
+    fn store_backup<UD>(&self, user_data: &UD) -> Result<(), BackupError>;
 
     ///
     /// Restores user data `UD` from backup registers.
     ///
     /// # Arguments
     ///
-    /// * `user_data` - the user data to restore to. *MUST* have alignment of at least 4 and fit into the backup registers
+    /// * `user_data` - the user data to restore to. `user_data` size must by divisible by 4 bytes
     ///
     /// # Returns
     /// 
@@ -149,8 +149,7 @@ pub trait PMUExt {
     /// # Errors
     ///
     /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
-    /// * `BackupError::DataMisaligned` - returned if `user_data` is not aligned to at least 4 bytes
-    ///
+    /// * `BackupError::DataSizeInvalid` - returned if `user_data` size is not divisible by 4 bytes    ///
     /// # Notes
     ///
     /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
@@ -208,7 +207,7 @@ impl PMUExt for PMU {
         }
     }
 
-    fn store_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>
+    fn store_backup<UD>(&self, user_data: &UD) -> Result<(), BackupError>
     where
         UD: Sized,
     {
@@ -221,12 +220,12 @@ impl PMUExt for PMU {
             }
 
             if ud_size % BACKUP_REGISTER_BYTES != 0 {
-                return Err(BackupError::DataMisaligned);
+                return Err(BackupError::DataSizeInvalid);
             }
 
             let reg_count = ud_size / BACKUP_REGISTER_BYTES;
 
-            let ptr = &user_data as *const _;
+            let ptr = user_data as *const _;
             let ptr_u32 = ptr as *const u32;
             let sliced = core::slice::from_raw_parts(ptr_u32, reg_count);
 
@@ -234,7 +233,7 @@ impl PMUExt for PMU {
                 (*backup).backup[i].write(|w| w.bits(sliced[i]));
             }
 
-            Ok(user_data)
+            Ok(())
         }
     }
 
@@ -251,7 +250,7 @@ impl PMUExt for PMU {
             }
 
             if ud_size % BACKUP_REGISTER_BYTES != 0 {
-                return Err(BackupError::DataMisaligned);
+                return Err(BackupError::DataSizeInvalid);
             }
 
             let reg_count = ud_size / BACKUP_REGISTER_BYTES;
