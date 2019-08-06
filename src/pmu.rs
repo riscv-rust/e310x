@@ -246,7 +246,7 @@ impl PMUExt for PMU {
             let backup = BACKUP::ptr();
             let ud_size = core::mem::size_of::<UD>();
 
-            if ud_size > (*backup).backup.len() {
+            if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
                 return Err(BackupError::DataTooLarge);
             }
 
