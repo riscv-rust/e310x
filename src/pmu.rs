@@ -3,7 +3,7 @@
 use e310x::{BACKUP, PMU, RTC};
 
 /// Backup register size in bytes
-const BACKUP_REGISTER_BYTES: usize = 4usize;
+const BACKUP_REGISTER_BYTES: usize = 4;
 
 /// value required written to pmukey register before writing to other PMU registers
 pub const PMU_KEY_VAL: u32 = 0x51F15E;
