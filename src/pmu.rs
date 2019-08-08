@@ -136,6 +136,8 @@ pub trait PMUExt {
     /// 
     /// `user_data` must be divisible by 4 bytes.
     /// 
+    /// **The data is only guaranteed to be consistent when program is compiled with the same version of the compiler on store/restore.**
+    /// 
     /// `#[repr(align(4))]` can be used to enforce a minimum alignment of 4 bytes for `user_data`
     ///
     /// # Arguments
@@ -161,6 +163,8 @@ pub trait PMUExt {
     /// `user_data` value must not contain un-serializable types such as pointers or references.
     /// 
     /// `user_data` must be divisible by 4 bytes.
+    /// 
+    /// **The data is only guaranteed to be consistent when program is compiled with the same version of the compiler on store/restore.**
     /// 
     /// `#[repr(align(4))]` can be used to enforce a minimum alignment of 4 bytes for `user_data`
     /// 
