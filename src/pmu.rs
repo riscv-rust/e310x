@@ -28,7 +28,7 @@ const DEFAULT_WAKE_PROGRAM: [u32; 8] = [
     0x030, 0x030, 0x030, 0x030,
 ];
 
-// Hifive1-revB programs
+// HiFive1 Rev B programs
 #[cfg(feature = "g002")]
 const DEFAULT_SLEEP_PROGRAM: [u32; 8] = [
     0x2F0, // assert corerst
