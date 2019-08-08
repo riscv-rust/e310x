@@ -8,7 +8,7 @@ const BACKUP_REGISTER_BYTES: usize = 4;
 /// value required written to pmukey register before writing to other PMU registers
 pub const PMU_KEY_VAL: u32 = 0x51F15E;
 
-// Hifive1-revA programs
+// HiFive1 (Rev A) programs
 #[cfg(not(feature = "g002"))]
 const DEFAULT_SLEEP_PROGRAM: [u32; 8] = [
     0x0F0, // assert corerst
@@ -28,7 +28,7 @@ const DEFAULT_WAKE_PROGRAM: [u32; 8] = [
     0x030, 0x030, 0x030, 0x030,
 ];
 
-// Hifive1-revB programs
+// HiFive1 Rev B programs
 #[cfg(feature = "g002")]
 const DEFAULT_SLEEP_PROGRAM: [u32; 8] = [
     0x2F0, // assert corerst
