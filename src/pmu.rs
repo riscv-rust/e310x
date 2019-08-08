@@ -90,6 +90,7 @@ pub enum BackupError {
 /// 
 #[derive(Debug)]
 pub enum CauseError {
+    /// Emitted if an unknown wakeup or reset cause is encountered
     InvalidCause,
 }
 
@@ -271,8 +272,8 @@ impl PMUExt for PMU {
         unsafe {
             let backup = BACKUP::ptr();
 
-            for i in 0..(*backup).backup.len() {
-                (*backup).backup[i].write(|w| w.bits(0u32));
+            for backup_r in &(*backup).backup {
+                backup_r.write(|w| w.bits(0u32));
             }
         }
     }
