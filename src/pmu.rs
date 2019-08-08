@@ -115,7 +115,28 @@ pub trait PMUExt {
     fn sleep(self, sleep_time: u32);
 
     ///
+    /// Returns an enumified version of the Wakeup and Reset causes from the pmucause register
+    /// 
+    /// # Returns
+    /// 
+    /// * `Result<WakeupCause, CauseError>` - the cause enum is returned on success
+    /// 
+    /// # Errors
+    /// 
+    /// * `CauseError::InvalidCause` - returned if an unknown wakeup or reset cause is encountered
+    /// 
+    fn wakeup_cause(&self) -> Result<WakeupCause, CauseError>;
+
+    ///
     /// Stores user data `UD` to backup registers.
+    /// 
+    /// # *WARNING*
+    /// 
+    /// `user_data` value must not contain un-serializable types such as pointers or references.
+    /// 
+    /// `user_data` must be divisible by 4 bytes.
+    /// 
+    /// `#[repr(align(4))]` can be used to enforce a minimum alignment of 4 bytes for `user_data`
     ///
     /// # Arguments
     ///
@@ -130,50 +151,38 @@ pub trait PMUExt {
     /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
     /// * `BackupError::DataSizeInvalid` - returned if `user_data` size is not divisible by 4 bytes
     ///
-    /// # Notes
-    ///
-    /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
-    ///
-    fn store_backup<UD>(&self, user_data: &UD) -> Result<(), BackupError>;
+    unsafe fn store_backup<UD>(&self, user_data: &UD) -> Result<(), BackupError>;
 
     ///
     /// Restores user data `UD` from backup registers.
     ///
+    /// # *WARNING*
+    /// 
+    /// `user_data` value must not contain un-serializable types such as pointers or references.
+    /// 
+    /// `user_data` must be divisible by 4 bytes.
+    /// 
+    /// `#[repr(align(4))]` can be used to enforce a minimum alignment of 4 bytes for `user_data`
+    /// 
     /// # Arguments
     ///
     /// * `user_data` - the user data to restore to. `user_data` size must by divisible by 4 bytes
     ///
     /// # Returns
     /// 
-    /// * `Result<UD, BackupError>` - the restored `user_data` is returned on success
+    /// * `Result<(), BackupError>` - `()` is returned on success
     /// 
     /// # Errors
     ///
     /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
     /// * `BackupError::DataSizeInvalid` - returned if `user_data` size is not divisible by 4 bytes    ///
-    /// # Notes
-    ///
-    /// You can use `#[repr(align(4))]` to enforce a minimum alignment of 4 bytes for `user_data`
-    ///
-    fn restore_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>;
+    /// 
+    unsafe fn restore_backup<UD>(&self, user_data: &mut UD) -> Result<(), BackupError>;
 
     ///
     /// Clears all backup registers by setting each to zero
     ///
     fn clear_backup(&self);
-
-    ///
-    /// Returns an enumified version of the Wakeup and Reset causes from the pmucause register
-    /// 
-    /// # Returns
-    /// 
-    /// * `Result<WakeupCause, CauseError>` - the cause enum is returned on success
-    /// 
-    /// # Errors
-    /// 
-    /// * `CauseError::InvalidCause` - returned if an unknown wakeup or reset cause is encountered
-    /// 
-    fn wakeup_cause(&self) -> Result<WakeupCause, CauseError>;
 }
 
 impl PMUExt for PMU {
@@ -208,76 +217,6 @@ impl PMUExt for PMU {
         }
     }
 
-    fn store_backup<UD>(&self, user_data: &UD) -> Result<(), BackupError>
-    where
-        UD: Sized,
-    {
-        unsafe {
-            let backup = BACKUP::ptr();
-            let ud_size = core::mem::size_of::<UD>();
-
-            if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
-                return Err(BackupError::DataTooLarge);
-            }
-
-            if ud_size % BACKUP_REGISTER_BYTES != 0 {
-                return Err(BackupError::DataSizeInvalid);
-            }
-
-            let reg_count = ud_size / BACKUP_REGISTER_BYTES;
-
-            let ptr = user_data as *const _;
-            let ptr_u32 = ptr as *const u32;
-            let sliced = core::slice::from_raw_parts(ptr_u32, reg_count);
-
-            for i in 0..sliced.len() {
-                (*backup).backup[i].write(|w| w.bits(sliced[i]));
-            }
-
-            Ok(())
-        }
-    }
-
-    fn restore_backup<UD>(&self, user_data: UD) -> Result<UD, BackupError>
-    where
-        UD: Sized,
-    {
-        unsafe {
-            let backup = BACKUP::ptr();
-            let ud_size = core::mem::size_of::<UD>();
-
-            if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
-                return Err(BackupError::DataTooLarge);
-            }
-
-            if ud_size % BACKUP_REGISTER_BYTES != 0 {
-                return Err(BackupError::DataSizeInvalid);
-            }
-
-            let reg_count = ud_size / BACKUP_REGISTER_BYTES;
-
-            let ptr = &user_data as *const _;
-            let ptr_u32 = ptr as *mut u32;
-            let sliced = core::slice::from_raw_parts_mut(ptr_u32, reg_count);
-
-            for i in 0..sliced.len() {
-                sliced[i] = (*backup).backup[i].read().bits();
-            }
-
-            Ok(user_data)
-        }
-    }
-
-    fn clear_backup(&self) {
-        unsafe {
-            let backup = BACKUP::ptr();
-
-            for backup_r in &(*backup).backup {
-                backup_r.write(|w| w.bits(0u32));
-            }
-        }
-    }
-
     fn wakeup_cause(&self) -> Result<WakeupCause, CauseError> {
         let pmu_cause = self.pmucause.read();
         let wakeup_cause = pmu_cause.wakeupcause();
@@ -298,5 +237,71 @@ impl PMUExt for PMU {
         }
 
         Err(CauseError::InvalidCause)
+    }
+
+    unsafe fn store_backup<UD>(&self, user_data: &UD) -> Result<(), BackupError>
+    where
+        UD: Sized,
+    {
+        let backup = BACKUP::ptr();
+        let ud_size = core::mem::size_of::<UD>();
+
+        if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
+            return Err(BackupError::DataTooLarge);
+        }
+
+        if ud_size % BACKUP_REGISTER_BYTES != 0 {
+            return Err(BackupError::DataSizeInvalid);
+        }
+
+        let reg_count = ud_size / BACKUP_REGISTER_BYTES;
+
+        let ptr = user_data as *const _;
+        let ptr_u32 = ptr as *const u32;
+        let sliced = core::slice::from_raw_parts(ptr_u32, reg_count);
+
+        for i in 0..sliced.len() {
+            (*backup).backup[i].write(|w| w.bits(sliced[i]));
+        }
+
+        Ok(())
+    }
+
+    unsafe fn restore_backup<UD>(&self, user_data: &mut UD) -> Result<(), BackupError>
+    where
+        UD: Sized,
+    {
+        let backup = BACKUP::ptr();
+        let ud_size = core::mem::size_of::<UD>();
+
+        if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
+            return Err(BackupError::DataTooLarge);
+        }
+
+        if ud_size % BACKUP_REGISTER_BYTES != 0 {
+            return Err(BackupError::DataSizeInvalid);
+        }
+
+        let reg_count = ud_size / BACKUP_REGISTER_BYTES;
+
+        let ptr = user_data as *const _;
+        let ptr_u32 = ptr as *mut u32;
+        let sliced = core::slice::from_raw_parts_mut(ptr_u32, reg_count);
+
+        for i in 0..sliced.len() {
+            sliced[i] = (*backup).backup[i].read().bits();
+        }
+
+        Ok(())
+    }
+
+    fn clear_backup(&self) {
+        unsafe {
+            let backup = BACKUP::ptr();
+
+            for backup_r in &(*backup).backup {
+                backup_r.write(|w| w.bits(0u32));
+            }
+        }
     }
 }
