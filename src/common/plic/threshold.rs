@@ -1,269 +1,179 @@
-#[doc = r" Value read from the register"]
-pub struct R {
-    bits: u32,
-}
-#[doc = r" Value to write to the register"]
-pub struct W {
-    bits: u32,
-}
-impl super::THRESHOLD {
-    #[doc = r" Modifies the contents of the register"]
-    #[inline]
-    pub fn modify<F>(&self, f: F)
-    where
-        for<'w> F: FnOnce(&R, &'w mut W) -> &'w mut W,
-    {
-        let bits = self.register.get();
-        let r = R { bits };
-        let mut w = W { bits };
-        f(&r, &mut w);
-        self.register.set(w.bits);
-    }
-    #[doc = r" Reads the contents of the register"]
-    #[inline]
-    pub fn read(&self) -> R {
-        R {
-            bits: self.register.get(),
-        }
-    }
-    #[doc = r" Writes to the register"]
-    #[inline]
-    pub fn write<F>(&self, f: F)
-    where
-        F: FnOnce(&mut W) -> &mut W,
-    {
-        let mut w = W::reset_value();
-        f(&mut w);
-        self.register.set(w.bits);
-    }
-    #[doc = r" Writes the reset value to the register"]
-    #[inline]
-    pub fn reset(&self) {
-        self.write(|w| w)
+#[doc = "Reader of register threshold"]
+pub type R = crate::R<u32, super::THRESHOLD>;
+#[doc = "Writer for register threshold"]
+pub type W = crate::W<u32, super::THRESHOLD>;
+#[doc = "Register threshold `reset()`'s with value 0"]
+impl crate::ResetValue for super::THRESHOLD {
+    type Type = u32;
+    #[inline(always)]
+    fn reset_value() -> Self::Type {
+        0
     }
 }
-#[doc = "Possible values of the field `priority`"]
+#[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum PRIORITYR {
-    #[doc = "Never interrupt"]
+pub enum PRIORITY_A {
+    #[doc = "0: Never interrupt"]
     NEVER,
-    #[doc = "Priority 1"]
+    #[doc = "1: Priority 1"]
     P1,
-    #[doc = "Priority 2"]
+    #[doc = "2: Priority 2"]
     P2,
-    #[doc = "Priority 3"]
+    #[doc = "3: Priority 3"]
     P3,
-    #[doc = "Priority 4"]
+    #[doc = "4: Priority 4"]
     P4,
-    #[doc = "Priority 5"]
+    #[doc = "5: Priority 5"]
     P5,
-    #[doc = "Priority 6"]
+    #[doc = "6: Priority 6"]
     P6,
-    #[doc = "Priority 7"]
+    #[doc = "7: Priority 7"]
     P7,
 }
-impl PRIORITYR {
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u8 {
-        match *self {
-            PRIORITYR::NEVER => 0,
-            PRIORITYR::P1 => 1,
-            PRIORITYR::P2 => 2,
-            PRIORITYR::P3 => 3,
-            PRIORITYR::P4 => 4,
-            PRIORITYR::P5 => 5,
-            PRIORITYR::P6 => 6,
-            PRIORITYR::P7 => 7,
+impl From<PRIORITY_A> for u8 {
+    #[inline(always)]
+    fn from(variant: PRIORITY_A) -> Self {
+        match variant {
+            PRIORITY_A::NEVER => 0,
+            PRIORITY_A::P1 => 1,
+            PRIORITY_A::P2 => 2,
+            PRIORITY_A::P3 => 3,
+            PRIORITY_A::P4 => 4,
+            PRIORITY_A::P5 => 5,
+            PRIORITY_A::P6 => 6,
+            PRIORITY_A::P7 => 7,
         }
     }
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _from(value: u8) -> PRIORITYR {
-        match value {
-            0 => PRIORITYR::NEVER,
-            1 => PRIORITYR::P1,
-            2 => PRIORITYR::P2,
-            3 => PRIORITYR::P3,
-            4 => PRIORITYR::P4,
-            5 => PRIORITYR::P5,
-            6 => PRIORITYR::P6,
-            7 => PRIORITYR::P7,
+}
+#[doc = "Reader of field `priority`"]
+pub type PRIORITY_R = crate::R<u8, PRIORITY_A>;
+impl PRIORITY_R {
+    #[doc = r"Get enumerated values variant"]
+    #[inline(always)]
+    pub fn variant(&self) -> PRIORITY_A {
+        match self.bits {
+            0 => PRIORITY_A::NEVER,
+            1 => PRIORITY_A::P1,
+            2 => PRIORITY_A::P2,
+            3 => PRIORITY_A::P3,
+            4 => PRIORITY_A::P4,
+            5 => PRIORITY_A::P5,
+            6 => PRIORITY_A::P6,
+            7 => PRIORITY_A::P7,
             _ => unreachable!(),
         }
     }
     #[doc = "Checks if the value of the field is `NEVER`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_never(&self) -> bool {
-        *self == PRIORITYR::NEVER
+        *self == PRIORITY_A::NEVER
     }
     #[doc = "Checks if the value of the field is `P1`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p1(&self) -> bool {
-        *self == PRIORITYR::P1
+        *self == PRIORITY_A::P1
     }
     #[doc = "Checks if the value of the field is `P2`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p2(&self) -> bool {
-        *self == PRIORITYR::P2
+        *self == PRIORITY_A::P2
     }
     #[doc = "Checks if the value of the field is `P3`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p3(&self) -> bool {
-        *self == PRIORITYR::P3
+        *self == PRIORITY_A::P3
     }
     #[doc = "Checks if the value of the field is `P4`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p4(&self) -> bool {
-        *self == PRIORITYR::P4
+        *self == PRIORITY_A::P4
     }
     #[doc = "Checks if the value of the field is `P5`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p5(&self) -> bool {
-        *self == PRIORITYR::P5
+        *self == PRIORITY_A::P5
     }
     #[doc = "Checks if the value of the field is `P6`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p6(&self) -> bool {
-        *self == PRIORITYR::P6
+        *self == PRIORITY_A::P6
     }
     #[doc = "Checks if the value of the field is `P7`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_p7(&self) -> bool {
-        *self == PRIORITYR::P7
+        *self == PRIORITY_A::P7
     }
 }
-#[doc = "Values that can be written to the field `priority`"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum PRIORITYW {
-    #[doc = "Never interrupt"]
-    NEVER,
-    #[doc = "Priority 1"]
-    P1,
-    #[doc = "Priority 2"]
-    P2,
-    #[doc = "Priority 3"]
-    P3,
-    #[doc = "Priority 4"]
-    P4,
-    #[doc = "Priority 5"]
-    P5,
-    #[doc = "Priority 6"]
-    P6,
-    #[doc = "Priority 7"]
-    P7,
-}
-impl PRIORITYW {
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _bits(&self) -> u8 {
-        match *self {
-            PRIORITYW::NEVER => 0,
-            PRIORITYW::P1 => 1,
-            PRIORITYW::P2 => 2,
-            PRIORITYW::P3 => 3,
-            PRIORITYW::P4 => 4,
-            PRIORITYW::P5 => 5,
-            PRIORITYW::P6 => 6,
-            PRIORITYW::P7 => 7,
-        }
-    }
-}
-#[doc = r" Proxy"]
-pub struct _PRIORITYW<'a> {
+#[doc = "Write proxy for field `priority`"]
+pub struct PRIORITY_W<'a> {
     w: &'a mut W,
 }
-impl<'a> _PRIORITYW<'a> {
-    #[doc = r" Writes `variant` to the field"]
-    #[inline]
-    pub fn variant(self, variant: PRIORITYW) -> &'a mut W {
+impl<'a> PRIORITY_W<'a> {
+    #[doc = r"Writes `variant` to the field"]
+    #[inline(always)]
+    pub fn variant(self, variant: PRIORITY_A) -> &'a mut W {
         {
-            self.bits(variant._bits())
+            self.bits(variant.into())
         }
     }
     #[doc = "Never interrupt"]
-    #[inline]
+    #[inline(always)]
     pub fn never(self) -> &'a mut W {
-        self.variant(PRIORITYW::NEVER)
+        self.variant(PRIORITY_A::NEVER)
     }
     #[doc = "Priority 1"]
-    #[inline]
+    #[inline(always)]
     pub fn p1(self) -> &'a mut W {
-        self.variant(PRIORITYW::P1)
+        self.variant(PRIORITY_A::P1)
     }
     #[doc = "Priority 2"]
-    #[inline]
+    #[inline(always)]
     pub fn p2(self) -> &'a mut W {
-        self.variant(PRIORITYW::P2)
+        self.variant(PRIORITY_A::P2)
     }
     #[doc = "Priority 3"]
-    #[inline]
+    #[inline(always)]
     pub fn p3(self) -> &'a mut W {
-        self.variant(PRIORITYW::P3)
+        self.variant(PRIORITY_A::P3)
     }
     #[doc = "Priority 4"]
-    #[inline]
+    #[inline(always)]
     pub fn p4(self) -> &'a mut W {
-        self.variant(PRIORITYW::P4)
+        self.variant(PRIORITY_A::P4)
     }
     #[doc = "Priority 5"]
-    #[inline]
+    #[inline(always)]
     pub fn p5(self) -> &'a mut W {
-        self.variant(PRIORITYW::P5)
+        self.variant(PRIORITY_A::P5)
     }
     #[doc = "Priority 6"]
-    #[inline]
+    #[inline(always)]
     pub fn p6(self) -> &'a mut W {
-        self.variant(PRIORITYW::P6)
+        self.variant(PRIORITY_A::P6)
     }
     #[doc = "Priority 7"]
-    #[inline]
+    #[inline(always)]
     pub fn p7(self) -> &'a mut W {
-        self.variant(PRIORITYW::P7)
+        self.variant(PRIORITY_A::P7)
     }
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
     pub fn bits(self, value: u8) -> &'a mut W {
-        const MASK: u8 = 7;
-        const OFFSET: u8 = 0;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w.bits = (self.w.bits & !0x07) | ((value as u32) & 0x07);
         self.w
     }
 }
 impl R {
-    #[doc = r" Value of the register as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u32 {
-        self.bits
-    }
     #[doc = "Bits 0:2"]
-    #[inline]
-    pub fn priority(&self) -> PRIORITYR {
-        PRIORITYR::_from({
-            const MASK: u8 = 7;
-            const OFFSET: u8 = 0;
-            ((self.bits >> OFFSET) & MASK as u32) as u8
-        })
+    #[inline(always)]
+    pub fn priority(&self) -> PRIORITY_R {
+        PRIORITY_R::new((self.bits & 0x07) as u8)
     }
 }
 impl W {
-    #[doc = r" Reset value of the register"]
-    #[inline]
-    pub fn reset_value() -> W {
-        W { bits: 0 }
-    }
-    #[doc = r" Writes raw bits to the register"]
-    #[inline]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.bits = bits;
-        self
-    }
     #[doc = "Bits 0:2"]
-    #[inline]
-    pub fn priority(&mut self) -> _PRIORITYW {
-        _PRIORITYW { w: self }
+    #[inline(always)]
+    pub fn priority(&mut self) -> PRIORITY_W {
+        PRIORITY_W { w: self }
     }
 }

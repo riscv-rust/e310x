@@ -1,466 +1,308 @@
-#[doc = r" Value read from the register"]
-pub struct R {
-    bits: u32,
-}
-#[doc = r" Value to write to the register"]
-pub struct W {
-    bits: u32,
-}
-impl super::FMT {
-    #[doc = r" Modifies the contents of the register"]
-    #[inline]
-    pub fn modify<F>(&self, f: F)
-    where
-        for<'w> F: FnOnce(&R, &'w mut W) -> &'w mut W,
-    {
-        let bits = self.register.get();
-        let r = R { bits };
-        let mut w = W { bits };
-        f(&r, &mut w);
-        self.register.set(w.bits);
-    }
-    #[doc = r" Reads the contents of the register"]
-    #[inline]
-    pub fn read(&self) -> R {
-        R {
-            bits: self.register.get(),
-        }
-    }
-    #[doc = r" Writes to the register"]
-    #[inline]
-    pub fn write<F>(&self, f: F)
-    where
-        F: FnOnce(&mut W) -> &mut W,
-    {
-        let mut w = W::reset_value();
-        f(&mut w);
-        self.register.set(w.bits);
-    }
-    #[doc = r" Writes the reset value to the register"]
-    #[inline]
-    pub fn reset(&self) {
-        self.write(|w| w)
+#[doc = "Reader of register fmt"]
+pub type R = crate::R<u32, super::FMT>;
+#[doc = "Writer for register fmt"]
+pub type W = crate::W<u32, super::FMT>;
+#[doc = "Register fmt `reset()`'s with value 0"]
+impl crate::ResetValue for super::FMT {
+    type Type = u32;
+    #[inline(always)]
+    fn reset_value() -> Self::Type {
+        0
     }
 }
-#[doc = r" Value of the field"]
-pub struct LENGTHR {
-    bits: u8,
+#[doc = "Reader of field `length`"]
+pub type LENGTH_R = crate::R<u8, u8>;
+#[doc = "Write proxy for field `length`"]
+pub struct LENGTH_W<'a> {
+    w: &'a mut W,
 }
-impl LENGTHR {
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u8 {
-        self.bits
+impl<'a> LENGTH_W<'a> {
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
+    pub unsafe fn bits(self, value: u8) -> &'a mut W {
+        self.w.bits = (self.w.bits & !(0x0f << 16)) | (((value as u32) & 0x0f) << 16);
+        self.w
     }
 }
-#[doc = "Possible values of the field `direction`"]
+#[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum DIRECTIONR {
-    #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
+pub enum DIRECTION_A {
+    #[doc = "0: \n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
     RX,
-    #[doc = "The receive FIFO is not populated."]
+    #[doc = "1: The receive FIFO is not populated."]
     TX,
 }
-impl DIRECTIONR {
-    #[doc = r" Returns `true` if the bit is clear (0)"]
-    #[inline]
-    pub fn bit_is_clear(&self) -> bool {
-        !self.bit()
-    }
-    #[doc = r" Returns `true` if the bit is set (1)"]
-    #[inline]
-    pub fn bit_is_set(&self) -> bool {
-        self.bit()
-    }
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bit(&self) -> bool {
-        match *self {
-            DIRECTIONR::RX => false,
-            DIRECTIONR::TX => true,
+impl From<DIRECTION_A> for bool {
+    #[inline(always)]
+    fn from(variant: DIRECTION_A) -> Self {
+        match variant {
+            DIRECTION_A::RX => false,
+            DIRECTION_A::TX => true,
         }
     }
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _from(value: bool) -> DIRECTIONR {
-        match value {
-            false => DIRECTIONR::RX,
-            true => DIRECTIONR::TX,
+}
+#[doc = "Reader of field `direction`"]
+pub type DIRECTION_R = crate::R<bool, DIRECTION_A>;
+impl DIRECTION_R {
+    #[doc = r"Get enumerated values variant"]
+    #[inline(always)]
+    pub fn variant(&self) -> DIRECTION_A {
+        match self.bits {
+            false => DIRECTION_A::RX,
+            true => DIRECTION_A::TX,
         }
     }
     #[doc = "Checks if the value of the field is `RX`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_rx(&self) -> bool {
-        *self == DIRECTIONR::RX
+        *self == DIRECTION_A::RX
     }
     #[doc = "Checks if the value of the field is `TX`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_tx(&self) -> bool {
-        *self == DIRECTIONR::TX
+        *self == DIRECTION_A::TX
     }
 }
-#[doc = "Possible values of the field `endian`"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum ENDIANR {
-    #[doc = "Transmit MSB first."]
-    BIG,
-    #[doc = "Transmit LSB first."]
-    LITTLE,
-}
-impl ENDIANR {
-    #[doc = r" Returns `true` if the bit is clear (0)"]
-    #[inline]
-    pub fn bit_is_clear(&self) -> bool {
-        !self.bit()
-    }
-    #[doc = r" Returns `true` if the bit is set (1)"]
-    #[inline]
-    pub fn bit_is_set(&self) -> bool {
-        self.bit()
-    }
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bit(&self) -> bool {
-        match *self {
-            ENDIANR::BIG => false,
-            ENDIANR::LITTLE => true,
-        }
-    }
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _from(value: bool) -> ENDIANR {
-        match value {
-            false => ENDIANR::BIG,
-            true => ENDIANR::LITTLE,
-        }
-    }
-    #[doc = "Checks if the value of the field is `BIG`"]
-    #[inline]
-    pub fn is_big(&self) -> bool {
-        *self == ENDIANR::BIG
-    }
-    #[doc = "Checks if the value of the field is `LITTLE`"]
-    #[inline]
-    pub fn is_little(&self) -> bool {
-        *self == ENDIANR::LITTLE
-    }
-}
-#[doc = "Possible values of the field `protocol`"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum PROTOCOLR {
-    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
-    SINGLE,
-    #[doc = "DQ0, DQ1"]
-    DUAL,
-    #[doc = "DQ0, DQ1, DQ2, DQ3"]
-    QUAD,
-    #[doc = r" Reserved"]
-    _Reserved(u8),
-}
-impl PROTOCOLR {
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u8 {
-        match *self {
-            PROTOCOLR::SINGLE => 0,
-            PROTOCOLR::DUAL => 1,
-            PROTOCOLR::QUAD => 2,
-            PROTOCOLR::_Reserved(bits) => bits,
-        }
-    }
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _from(value: u8) -> PROTOCOLR {
-        match value {
-            0 => PROTOCOLR::SINGLE,
-            1 => PROTOCOLR::DUAL,
-            2 => PROTOCOLR::QUAD,
-            i => PROTOCOLR::_Reserved(i),
-        }
-    }
-    #[doc = "Checks if the value of the field is `SINGLE`"]
-    #[inline]
-    pub fn is_single(&self) -> bool {
-        *self == PROTOCOLR::SINGLE
-    }
-    #[doc = "Checks if the value of the field is `DUAL`"]
-    #[inline]
-    pub fn is_dual(&self) -> bool {
-        *self == PROTOCOLR::DUAL
-    }
-    #[doc = "Checks if the value of the field is `QUAD`"]
-    #[inline]
-    pub fn is_quad(&self) -> bool {
-        *self == PROTOCOLR::QUAD
-    }
-}
-#[doc = r" Proxy"]
-pub struct _LENGTHW<'a> {
+#[doc = "Write proxy for field `direction`"]
+pub struct DIRECTION_W<'a> {
     w: &'a mut W,
 }
-impl<'a> _LENGTHW<'a> {
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
-    pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        const MASK: u8 = 15;
-        const OFFSET: u8 = 16;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
-        self.w
-    }
-}
-#[doc = "Values that can be written to the field `direction`"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum DIRECTIONW {
-    #[doc = "\n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
-    RX,
-    #[doc = "The receive FIFO is not populated."]
-    TX,
-}
-impl DIRECTIONW {
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _bits(&self) -> bool {
-        match *self {
-            DIRECTIONW::RX => false,
-            DIRECTIONW::TX => true,
-        }
-    }
-}
-#[doc = r" Proxy"]
-pub struct _DIRECTIONW<'a> {
-    w: &'a mut W,
-}
-impl<'a> _DIRECTIONW<'a> {
-    #[doc = r" Writes `variant` to the field"]
-    #[inline]
-    pub fn variant(self, variant: DIRECTIONW) -> &'a mut W {
+impl<'a> DIRECTION_W<'a> {
+    #[doc = r"Writes `variant` to the field"]
+    #[inline(always)]
+    pub fn variant(self, variant: DIRECTION_A) -> &'a mut W {
         {
-            self.bit(variant._bits())
+            self.bit(variant.into())
         }
     }
     #[doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal."]
-    #[inline]
+    #[inline(always)]
     pub fn rx(self) -> &'a mut W {
-        self.variant(DIRECTIONW::RX)
+        self.variant(DIRECTION_A::RX)
     }
     #[doc = "The receive FIFO is not populated."]
-    #[inline]
+    #[inline(always)]
     pub fn tx(self) -> &'a mut W {
-        self.variant(DIRECTIONW::TX)
+        self.variant(DIRECTION_A::TX)
     }
-    #[doc = r" Sets the field bit"]
+    #[doc = r"Sets the field bit"]
+    #[inline(always)]
     pub fn set_bit(self) -> &'a mut W {
         self.bit(true)
     }
-    #[doc = r" Clears the field bit"]
+    #[doc = r"Clears the field bit"]
+    #[inline(always)]
     pub fn clear_bit(self) -> &'a mut W {
         self.bit(false)
     }
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        const MASK: bool = true;
-        const OFFSET: u8 = 3;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w.bits = (self.w.bits & !(0x01 << 3)) | (((value as u32) & 0x01) << 3);
         self.w
     }
 }
-#[doc = "Values that can be written to the field `endian`"]
+#[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum ENDIANW {
-    #[doc = "Transmit MSB first."]
+pub enum ENDIAN_A {
+    #[doc = "0: Transmit MSB first."]
     BIG,
-    #[doc = "Transmit LSB first."]
+    #[doc = "1: Transmit LSB first."]
     LITTLE,
 }
-impl ENDIANW {
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _bits(&self) -> bool {
-        match *self {
-            ENDIANW::BIG => false,
-            ENDIANW::LITTLE => true,
+impl From<ENDIAN_A> for bool {
+    #[inline(always)]
+    fn from(variant: ENDIAN_A) -> Self {
+        match variant {
+            ENDIAN_A::BIG => false,
+            ENDIAN_A::LITTLE => true,
         }
     }
 }
-#[doc = r" Proxy"]
-pub struct _ENDIANW<'a> {
+#[doc = "Reader of field `endian`"]
+pub type ENDIAN_R = crate::R<bool, ENDIAN_A>;
+impl ENDIAN_R {
+    #[doc = r"Get enumerated values variant"]
+    #[inline(always)]
+    pub fn variant(&self) -> ENDIAN_A {
+        match self.bits {
+            false => ENDIAN_A::BIG,
+            true => ENDIAN_A::LITTLE,
+        }
+    }
+    #[doc = "Checks if the value of the field is `BIG`"]
+    #[inline(always)]
+    pub fn is_big(&self) -> bool {
+        *self == ENDIAN_A::BIG
+    }
+    #[doc = "Checks if the value of the field is `LITTLE`"]
+    #[inline(always)]
+    pub fn is_little(&self) -> bool {
+        *self == ENDIAN_A::LITTLE
+    }
+}
+#[doc = "Write proxy for field `endian`"]
+pub struct ENDIAN_W<'a> {
     w: &'a mut W,
 }
-impl<'a> _ENDIANW<'a> {
-    #[doc = r" Writes `variant` to the field"]
-    #[inline]
-    pub fn variant(self, variant: ENDIANW) -> &'a mut W {
+impl<'a> ENDIAN_W<'a> {
+    #[doc = r"Writes `variant` to the field"]
+    #[inline(always)]
+    pub fn variant(self, variant: ENDIAN_A) -> &'a mut W {
         {
-            self.bit(variant._bits())
+            self.bit(variant.into())
         }
     }
     #[doc = "Transmit MSB first."]
-    #[inline]
+    #[inline(always)]
     pub fn big(self) -> &'a mut W {
-        self.variant(ENDIANW::BIG)
+        self.variant(ENDIAN_A::BIG)
     }
     #[doc = "Transmit LSB first."]
-    #[inline]
+    #[inline(always)]
     pub fn little(self) -> &'a mut W {
-        self.variant(ENDIANW::LITTLE)
+        self.variant(ENDIAN_A::LITTLE)
     }
-    #[doc = r" Sets the field bit"]
+    #[doc = r"Sets the field bit"]
+    #[inline(always)]
     pub fn set_bit(self) -> &'a mut W {
         self.bit(true)
     }
-    #[doc = r" Clears the field bit"]
+    #[doc = r"Clears the field bit"]
+    #[inline(always)]
     pub fn clear_bit(self) -> &'a mut W {
         self.bit(false)
     }
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        const MASK: bool = true;
-        const OFFSET: u8 = 2;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w.bits = (self.w.bits & !(0x01 << 2)) | (((value as u32) & 0x01) << 2);
         self.w
     }
 }
-#[doc = "Values that can be written to the field `protocol`"]
+#[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum PROTOCOLW {
-    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+pub enum PROTOCOL_A {
+    #[doc = "0: DQ0 (MOSI), DQ1 (MISO)"]
     SINGLE,
-    #[doc = "DQ0, DQ1"]
+    #[doc = "1: DQ0, DQ1"]
     DUAL,
-    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    #[doc = "2: DQ0, DQ1, DQ2, DQ3"]
     QUAD,
 }
-impl PROTOCOLW {
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _bits(&self) -> u8 {
-        match *self {
-            PROTOCOLW::SINGLE => 0,
-            PROTOCOLW::DUAL => 1,
-            PROTOCOLW::QUAD => 2,
+impl From<PROTOCOL_A> for u8 {
+    #[inline(always)]
+    fn from(variant: PROTOCOL_A) -> Self {
+        match variant {
+            PROTOCOL_A::SINGLE => 0,
+            PROTOCOL_A::DUAL => 1,
+            PROTOCOL_A::QUAD => 2,
         }
     }
 }
-#[doc = r" Proxy"]
-pub struct _PROTOCOLW<'a> {
+#[doc = "Reader of field `protocol`"]
+pub type PROTOCOL_R = crate::R<u8, PROTOCOL_A>;
+impl PROTOCOL_R {
+    #[doc = r"Get enumerated values variant"]
+    #[inline(always)]
+    pub fn variant(&self) -> crate::Variant<u8, PROTOCOL_A> {
+        use crate::Variant::*;
+        match self.bits {
+            0 => Val(PROTOCOL_A::SINGLE),
+            1 => Val(PROTOCOL_A::DUAL),
+            2 => Val(PROTOCOL_A::QUAD),
+            i => Res(i),
+        }
+    }
+    #[doc = "Checks if the value of the field is `SINGLE`"]
+    #[inline(always)]
+    pub fn is_single(&self) -> bool {
+        *self == PROTOCOL_A::SINGLE
+    }
+    #[doc = "Checks if the value of the field is `DUAL`"]
+    #[inline(always)]
+    pub fn is_dual(&self) -> bool {
+        *self == PROTOCOL_A::DUAL
+    }
+    #[doc = "Checks if the value of the field is `QUAD`"]
+    #[inline(always)]
+    pub fn is_quad(&self) -> bool {
+        *self == PROTOCOL_A::QUAD
+    }
+}
+#[doc = "Write proxy for field `protocol`"]
+pub struct PROTOCOL_W<'a> {
     w: &'a mut W,
 }
-impl<'a> _PROTOCOLW<'a> {
-    #[doc = r" Writes `variant` to the field"]
-    #[inline]
-    pub fn variant(self, variant: PROTOCOLW) -> &'a mut W {
-        unsafe { self.bits(variant._bits()) }
+impl<'a> PROTOCOL_W<'a> {
+    #[doc = r"Writes `variant` to the field"]
+    #[inline(always)]
+    pub fn variant(self, variant: PROTOCOL_A) -> &'a mut W {
+        unsafe { self.bits(variant.into()) }
     }
     #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
-    #[inline]
+    #[inline(always)]
     pub fn single(self) -> &'a mut W {
-        self.variant(PROTOCOLW::SINGLE)
+        self.variant(PROTOCOL_A::SINGLE)
     }
     #[doc = "DQ0, DQ1"]
-    #[inline]
+    #[inline(always)]
     pub fn dual(self) -> &'a mut W {
-        self.variant(PROTOCOLW::DUAL)
+        self.variant(PROTOCOL_A::DUAL)
     }
     #[doc = "DQ0, DQ1, DQ2, DQ3"]
-    #[inline]
+    #[inline(always)]
     pub fn quad(self) -> &'a mut W {
-        self.variant(PROTOCOLW::QUAD)
+        self.variant(PROTOCOL_A::QUAD)
     }
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
     pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        const MASK: u8 = 3;
-        const OFFSET: u8 = 0;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w.bits = (self.w.bits & !0x03) | ((value as u32) & 0x03);
         self.w
     }
 }
 impl R {
-    #[doc = r" Value of the register as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u32 {
-        self.bits
-    }
     #[doc = "Bits 16:19"]
-    #[inline]
-    pub fn length(&self) -> LENGTHR {
-        let bits = {
-            const MASK: u8 = 15;
-            const OFFSET: u8 = 16;
-            ((self.bits >> OFFSET) & MASK as u32) as u8
-        };
-        LENGTHR { bits }
+    #[inline(always)]
+    pub fn length(&self) -> LENGTH_R {
+        LENGTH_R::new(((self.bits >> 16) & 0x0f) as u8)
     }
     #[doc = "Bit 3"]
-    #[inline]
-    pub fn direction(&self) -> DIRECTIONR {
-        DIRECTIONR::_from({
-            const MASK: bool = true;
-            const OFFSET: u8 = 3;
-            ((self.bits >> OFFSET) & MASK as u32) != 0
-        })
+    #[inline(always)]
+    pub fn direction(&self) -> DIRECTION_R {
+        DIRECTION_R::new(((self.bits >> 3) & 0x01) != 0)
     }
     #[doc = "Bit 2"]
-    #[inline]
-    pub fn endian(&self) -> ENDIANR {
-        ENDIANR::_from({
-            const MASK: bool = true;
-            const OFFSET: u8 = 2;
-            ((self.bits >> OFFSET) & MASK as u32) != 0
-        })
+    #[inline(always)]
+    pub fn endian(&self) -> ENDIAN_R {
+        ENDIAN_R::new(((self.bits >> 2) & 0x01) != 0)
     }
     #[doc = "Bits 0:1"]
-    #[inline]
-    pub fn protocol(&self) -> PROTOCOLR {
-        PROTOCOLR::_from({
-            const MASK: u8 = 3;
-            const OFFSET: u8 = 0;
-            ((self.bits >> OFFSET) & MASK as u32) as u8
-        })
+    #[inline(always)]
+    pub fn protocol(&self) -> PROTOCOL_R {
+        PROTOCOL_R::new((self.bits & 0x03) as u8)
     }
 }
 impl W {
-    #[doc = r" Reset value of the register"]
-    #[inline]
-    pub fn reset_value() -> W {
-        W { bits: 0 }
-    }
-    #[doc = r" Writes raw bits to the register"]
-    #[inline]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.bits = bits;
-        self
-    }
     #[doc = "Bits 16:19"]
-    #[inline]
-    pub fn length(&mut self) -> _LENGTHW {
-        _LENGTHW { w: self }
+    #[inline(always)]
+    pub fn length(&mut self) -> LENGTH_W {
+        LENGTH_W { w: self }
     }
     #[doc = "Bit 3"]
-    #[inline]
-    pub fn direction(&mut self) -> _DIRECTIONW {
-        _DIRECTIONW { w: self }
+    #[inline(always)]
+    pub fn direction(&mut self) -> DIRECTION_W {
+        DIRECTION_W { w: self }
     }
     #[doc = "Bit 2"]
-    #[inline]
-    pub fn endian(&mut self) -> _ENDIANW {
-        _ENDIANW { w: self }
+    #[inline(always)]
+    pub fn endian(&mut self) -> ENDIAN_W {
+        ENDIAN_W { w: self }
     }
     #[doc = "Bits 0:1"]
-    #[inline]
-    pub fn protocol(&mut self) -> _PROTOCOLW {
-        _PROTOCOLW { w: self }
+    #[inline(always)]
+    pub fn protocol(&mut self) -> PROTOCOL_W {
+        PROTOCOL_W { w: self }
     }
 }

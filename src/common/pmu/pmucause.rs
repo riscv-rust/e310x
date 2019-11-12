@@ -1,306 +1,200 @@
-#[doc = r" Value read from the register"]
-pub struct R {
-    bits: u32,
-}
-#[doc = r" Value to write to the register"]
-pub struct W {
-    bits: u32,
-}
-impl super::PMUCAUSE {
-    #[doc = r" Modifies the contents of the register"]
-    #[inline]
-    pub fn modify<F>(&self, f: F)
-    where
-        for<'w> F: FnOnce(&R, &'w mut W) -> &'w mut W,
-    {
-        let bits = self.register.get();
-        let r = R { bits };
-        let mut w = W { bits };
-        f(&r, &mut w);
-        self.register.set(w.bits);
-    }
-    #[doc = r" Reads the contents of the register"]
-    #[inline]
-    pub fn read(&self) -> R {
-        R {
-            bits: self.register.get(),
-        }
-    }
-    #[doc = r" Writes to the register"]
-    #[inline]
-    pub fn write<F>(&self, f: F)
-    where
-        F: FnOnce(&mut W) -> &mut W,
-    {
-        let mut w = W::reset_value();
-        f(&mut w);
-        self.register.set(w.bits);
-    }
-    #[doc = r" Writes the reset value to the register"]
-    #[inline]
-    pub fn reset(&self) {
-        self.write(|w| w)
+#[doc = "Reader of register pmucause"]
+pub type R = crate::R<u32, super::PMUCAUSE>;
+#[doc = "Writer for register pmucause"]
+pub type W = crate::W<u32, super::PMUCAUSE>;
+#[doc = "Register pmucause `reset()`'s with value 0"]
+impl crate::ResetValue for super::PMUCAUSE {
+    type Type = u32;
+    #[inline(always)]
+    fn reset_value() -> Self::Type {
+        0
     }
 }
-#[doc = "Possible values of the field `resetcause`"]
+#[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum RESETCAUSER {
-    #[doc = "Power-on reset"]
+pub enum RESETCAUSE_A {
+    #[doc = "0: Power-on reset"]
     POWERON,
-    #[doc = "External reset"]
+    #[doc = "1: External reset"]
     EXTERNAL,
-    #[doc = "Watchdog reset"]
+    #[doc = "2: Watchdog reset"]
     WATCHDOG,
-    #[doc = r" Reserved"]
-    _Reserved(u8),
 }
-impl RESETCAUSER {
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u8 {
-        match *self {
-            RESETCAUSER::POWERON => 0,
-            RESETCAUSER::EXTERNAL => 1,
-            RESETCAUSER::WATCHDOG => 2,
-            RESETCAUSER::_Reserved(bits) => bits,
+impl From<RESETCAUSE_A> for u8 {
+    #[inline(always)]
+    fn from(variant: RESETCAUSE_A) -> Self {
+        match variant {
+            RESETCAUSE_A::POWERON => 0,
+            RESETCAUSE_A::EXTERNAL => 1,
+            RESETCAUSE_A::WATCHDOG => 2,
         }
     }
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _from(value: u8) -> RESETCAUSER {
-        match value {
-            0 => RESETCAUSER::POWERON,
-            1 => RESETCAUSER::EXTERNAL,
-            2 => RESETCAUSER::WATCHDOG,
-            i => RESETCAUSER::_Reserved(i),
+}
+#[doc = "Reader of field `resetcause`"]
+pub type RESETCAUSE_R = crate::R<u8, RESETCAUSE_A>;
+impl RESETCAUSE_R {
+    #[doc = r"Get enumerated values variant"]
+    #[inline(always)]
+    pub fn variant(&self) -> crate::Variant<u8, RESETCAUSE_A> {
+        use crate::Variant::*;
+        match self.bits {
+            0 => Val(RESETCAUSE_A::POWERON),
+            1 => Val(RESETCAUSE_A::EXTERNAL),
+            2 => Val(RESETCAUSE_A::WATCHDOG),
+            i => Res(i),
         }
     }
     #[doc = "Checks if the value of the field is `POWERON`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_power_on(&self) -> bool {
-        *self == RESETCAUSER::POWERON
+        *self == RESETCAUSE_A::POWERON
     }
     #[doc = "Checks if the value of the field is `EXTERNAL`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_external(&self) -> bool {
-        *self == RESETCAUSER::EXTERNAL
+        *self == RESETCAUSE_A::EXTERNAL
     }
     #[doc = "Checks if the value of the field is `WATCHDOG`"]
-    #[inline]
+    #[inline(always)]
     pub fn is_watchdog(&self) -> bool {
-        *self == RESETCAUSER::WATCHDOG
+        *self == RESETCAUSE_A::WATCHDOG
     }
 }
-#[doc = "Possible values of the field `wakeupcause`"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum WAKEUPCAUSER {
-    #[doc = "Reset wakeup"]
-    RESET,
-    #[doc = "RTC wakeup"]
-    RTC,
-    #[doc = "Digital input wakeup"]
-    DIGITAL,
-    #[doc = r" Reserved"]
-    _Reserved(u8),
-}
-impl WAKEUPCAUSER {
-    #[doc = r" Value of the field as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u8 {
-        match *self {
-            WAKEUPCAUSER::RESET => 0,
-            WAKEUPCAUSER::RTC => 1,
-            WAKEUPCAUSER::DIGITAL => 2,
-            WAKEUPCAUSER::_Reserved(bits) => bits,
-        }
-    }
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _from(value: u8) -> WAKEUPCAUSER {
-        match value {
-            0 => WAKEUPCAUSER::RESET,
-            1 => WAKEUPCAUSER::RTC,
-            2 => WAKEUPCAUSER::DIGITAL,
-            i => WAKEUPCAUSER::_Reserved(i),
-        }
-    }
-    #[doc = "Checks if the value of the field is `RESET`"]
-    #[inline]
-    pub fn is_reset(&self) -> bool {
-        *self == WAKEUPCAUSER::RESET
-    }
-    #[doc = "Checks if the value of the field is `RTC`"]
-    #[inline]
-    pub fn is_rtc(&self) -> bool {
-        *self == WAKEUPCAUSER::RTC
-    }
-    #[doc = "Checks if the value of the field is `DIGITAL`"]
-    #[inline]
-    pub fn is_digital(&self) -> bool {
-        *self == WAKEUPCAUSER::DIGITAL
-    }
-}
-#[doc = "Values that can be written to the field `resetcause`"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum RESETCAUSEW {
-    #[doc = "Power-on reset"]
-    POWERON,
-    #[doc = "External reset"]
-    EXTERNAL,
-    #[doc = "Watchdog reset"]
-    WATCHDOG,
-}
-impl RESETCAUSEW {
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _bits(&self) -> u8 {
-        match *self {
-            RESETCAUSEW::POWERON => 0,
-            RESETCAUSEW::EXTERNAL => 1,
-            RESETCAUSEW::WATCHDOG => 2,
-        }
-    }
-}
-#[doc = r" Proxy"]
-pub struct _RESETCAUSEW<'a> {
+#[doc = "Write proxy for field `resetcause`"]
+pub struct RESETCAUSE_W<'a> {
     w: &'a mut W,
 }
-impl<'a> _RESETCAUSEW<'a> {
-    #[doc = r" Writes `variant` to the field"]
-    #[inline]
-    pub fn variant(self, variant: RESETCAUSEW) -> &'a mut W {
-        unsafe { self.bits(variant._bits()) }
+impl<'a> RESETCAUSE_W<'a> {
+    #[doc = r"Writes `variant` to the field"]
+    #[inline(always)]
+    pub fn variant(self, variant: RESETCAUSE_A) -> &'a mut W {
+        unsafe { self.bits(variant.into()) }
     }
     #[doc = "Power-on reset"]
-    #[inline]
+    #[inline(always)]
     pub fn power_on(self) -> &'a mut W {
-        self.variant(RESETCAUSEW::POWERON)
+        self.variant(RESETCAUSE_A::POWERON)
     }
     #[doc = "External reset"]
-    #[inline]
+    #[inline(always)]
     pub fn external(self) -> &'a mut W {
-        self.variant(RESETCAUSEW::EXTERNAL)
+        self.variant(RESETCAUSE_A::EXTERNAL)
     }
     #[doc = "Watchdog reset"]
-    #[inline]
+    #[inline(always)]
     pub fn watchdog(self) -> &'a mut W {
-        self.variant(RESETCAUSEW::WATCHDOG)
+        self.variant(RESETCAUSE_A::WATCHDOG)
     }
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
     pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        const MASK: u8 = 3;
-        const OFFSET: u8 = 8;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w.bits = (self.w.bits & !(0x03 << 8)) | (((value as u32) & 0x03) << 8);
         self.w
     }
 }
-#[doc = "Values that can be written to the field `wakeupcause`"]
+#[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum WAKEUPCAUSEW {
-    #[doc = "Reset wakeup"]
+pub enum WAKEUPCAUSE_A {
+    #[doc = "0: Reset wakeup"]
     RESET,
-    #[doc = "RTC wakeup"]
+    #[doc = "1: RTC wakeup"]
     RTC,
-    #[doc = "Digital input wakeup"]
+    #[doc = "2: Digital input wakeup"]
     DIGITAL,
 }
-impl WAKEUPCAUSEW {
-    #[allow(missing_docs)]
-    #[doc(hidden)]
-    #[inline]
-    pub fn _bits(&self) -> u8 {
-        match *self {
-            WAKEUPCAUSEW::RESET => 0,
-            WAKEUPCAUSEW::RTC => 1,
-            WAKEUPCAUSEW::DIGITAL => 2,
+impl From<WAKEUPCAUSE_A> for u8 {
+    #[inline(always)]
+    fn from(variant: WAKEUPCAUSE_A) -> Self {
+        match variant {
+            WAKEUPCAUSE_A::RESET => 0,
+            WAKEUPCAUSE_A::RTC => 1,
+            WAKEUPCAUSE_A::DIGITAL => 2,
         }
     }
 }
-#[doc = r" Proxy"]
-pub struct _WAKEUPCAUSEW<'a> {
+#[doc = "Reader of field `wakeupcause`"]
+pub type WAKEUPCAUSE_R = crate::R<u8, WAKEUPCAUSE_A>;
+impl WAKEUPCAUSE_R {
+    #[doc = r"Get enumerated values variant"]
+    #[inline(always)]
+    pub fn variant(&self) -> crate::Variant<u8, WAKEUPCAUSE_A> {
+        use crate::Variant::*;
+        match self.bits {
+            0 => Val(WAKEUPCAUSE_A::RESET),
+            1 => Val(WAKEUPCAUSE_A::RTC),
+            2 => Val(WAKEUPCAUSE_A::DIGITAL),
+            i => Res(i),
+        }
+    }
+    #[doc = "Checks if the value of the field is `RESET`"]
+    #[inline(always)]
+    pub fn is_reset(&self) -> bool {
+        *self == WAKEUPCAUSE_A::RESET
+    }
+    #[doc = "Checks if the value of the field is `RTC`"]
+    #[inline(always)]
+    pub fn is_rtc(&self) -> bool {
+        *self == WAKEUPCAUSE_A::RTC
+    }
+    #[doc = "Checks if the value of the field is `DIGITAL`"]
+    #[inline(always)]
+    pub fn is_digital(&self) -> bool {
+        *self == WAKEUPCAUSE_A::DIGITAL
+    }
+}
+#[doc = "Write proxy for field `wakeupcause`"]
+pub struct WAKEUPCAUSE_W<'a> {
     w: &'a mut W,
 }
-impl<'a> _WAKEUPCAUSEW<'a> {
-    #[doc = r" Writes `variant` to the field"]
-    #[inline]
-    pub fn variant(self, variant: WAKEUPCAUSEW) -> &'a mut W {
-        unsafe { self.bits(variant._bits()) }
+impl<'a> WAKEUPCAUSE_W<'a> {
+    #[doc = r"Writes `variant` to the field"]
+    #[inline(always)]
+    pub fn variant(self, variant: WAKEUPCAUSE_A) -> &'a mut W {
+        unsafe { self.bits(variant.into()) }
     }
     #[doc = "Reset wakeup"]
-    #[inline]
+    #[inline(always)]
     pub fn reset(self) -> &'a mut W {
-        self.variant(WAKEUPCAUSEW::RESET)
+        self.variant(WAKEUPCAUSE_A::RESET)
     }
     #[doc = "RTC wakeup"]
-    #[inline]
+    #[inline(always)]
     pub fn rtc(self) -> &'a mut W {
-        self.variant(WAKEUPCAUSEW::RTC)
+        self.variant(WAKEUPCAUSE_A::RTC)
     }
     #[doc = "Digital input wakeup"]
-    #[inline]
+    #[inline(always)]
     pub fn digital(self) -> &'a mut W {
-        self.variant(WAKEUPCAUSEW::DIGITAL)
+        self.variant(WAKEUPCAUSE_A::DIGITAL)
     }
-    #[doc = r" Writes raw bits to the field"]
-    #[inline]
+    #[doc = r"Writes raw bits to the field"]
+    #[inline(always)]
     pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        const MASK: u8 = 3;
-        const OFFSET: u8 = 0;
-        self.w.bits &= !((MASK as u32) << OFFSET);
-        self.w.bits |= ((value & MASK) as u32) << OFFSET;
+        self.w.bits = (self.w.bits & !0x03) | ((value as u32) & 0x03);
         self.w
     }
 }
 impl R {
-    #[doc = r" Value of the register as raw bits"]
-    #[inline]
-    pub fn bits(&self) -> u32 {
-        self.bits
-    }
     #[doc = "Bits 8:9"]
-    #[inline]
-    pub fn resetcause(&self) -> RESETCAUSER {
-        RESETCAUSER::_from({
-            const MASK: u8 = 3;
-            const OFFSET: u8 = 8;
-            ((self.bits >> OFFSET) & MASK as u32) as u8
-        })
+    #[inline(always)]
+    pub fn resetcause(&self) -> RESETCAUSE_R {
+        RESETCAUSE_R::new(((self.bits >> 8) & 0x03) as u8)
     }
     #[doc = "Bits 0:1"]
-    #[inline]
-    pub fn wakeupcause(&self) -> WAKEUPCAUSER {
-        WAKEUPCAUSER::_from({
-            const MASK: u8 = 3;
-            const OFFSET: u8 = 0;
-            ((self.bits >> OFFSET) & MASK as u32) as u8
-        })
+    #[inline(always)]
+    pub fn wakeupcause(&self) -> WAKEUPCAUSE_R {
+        WAKEUPCAUSE_R::new((self.bits & 0x03) as u8)
     }
 }
 impl W {
-    #[doc = r" Reset value of the register"]
-    #[inline]
-    pub fn reset_value() -> W {
-        W { bits: 0 }
-    }
-    #[doc = r" Writes raw bits to the register"]
-    #[inline]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.bits = bits;
-        self
-    }
     #[doc = "Bits 8:9"]
-    #[inline]
-    pub fn resetcause(&mut self) -> _RESETCAUSEW {
-        _RESETCAUSEW { w: self }
+    #[inline(always)]
+    pub fn resetcause(&mut self) -> RESETCAUSE_W {
+        RESETCAUSE_W { w: self }
     }
     #[doc = "Bits 0:1"]
-    #[inline]
-    pub fn wakeupcause(&mut self) -> _WAKEUPCAUSEW {
-        _WAKEUPCAUSEW { w: self }
+    #[inline(always)]
+    pub fn wakeupcause(&mut self) -> WAKEUPCAUSE_W {
+        WAKEUPCAUSE_W { w: self }
     }
 }

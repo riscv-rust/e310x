@@ -14,5 +14,9 @@ cargo fmt
 rustfmt src/common/mod.rs
 
 # Strip crate-level things
-tail -n+6 src/common/mod.rs > src/common/_mod.rs
-mv src/common/_mod.rs src/common/mod.rs
+tail -n+20 src/common/mod.rs > src/common/_mod.rs
+echo -en "use core::marker::PhantomData;\nuse core::ops::Deref;\n" > src/common/mod.rs
+cat src/common/_mod.rs >> src/common/mod.rs
+rm src/common/_mod.rs
+mv src/common/generic.rs src/
+mv src/common/interrupt.rs src/

@@ -1,4 +1,4 @@
-#[doc = r" Enumeration of all the interrupts"]
+#[doc = r"Enumeration of all the interrupts"]
 #[derive(Copy, Clone, Debug)]
 pub enum Interrupt {
     #[doc = "1 - WATCHDOG"]
@@ -106,7 +106,7 @@ pub enum Interrupt {
     #[doc = "52 - I2C0"]
     I2C0,
 }
-unsafe impl ::bare_metal::Nr for Interrupt {
+unsafe impl bare_metal::Nr for Interrupt {
     #[inline]
     fn nr(&self) -> u8 {
         match *self {

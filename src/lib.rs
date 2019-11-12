@@ -1,5 +1,6 @@
-#![doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.14.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.14.0/svd2rust/#peripheral-api"]
+#![doc = "Peripheral access API for FE310 microcontrollers (generated using svd2rust v0.16.1)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.16.1/svd2rust/#peripheral-api"]
 #![deny(missing_docs)]
+#![deny(warnings)]
 #![allow(non_camel_case_types)]
 #![no_std]
 extern crate bare_metal;
@@ -7,22 +8,24 @@ extern crate riscv;
 #[cfg(feature = "rt")]
 extern crate riscv_rt;
 extern crate vcell;
+#[doc(hidden)]
+pub mod interrupt;
+pub use self::interrupt::Interrupt;
+#[allow(unused_imports)]
+use generic::*;
+#[doc = r"Common register and bit access and modify traits"]
+pub mod generic;
 
 #[allow(unused)]
 mod common;
 
 pub use common::{
-    aonclk, backup, clint, gpio0, otp, plic, pmu, prci, pwm0, qspi0, rtc, uart0, wdog, Interrupt,
-    AONCLK, BACKUP, CLINT, GPIO0, OTP, PLIC, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0, QSPI1, QSPI2, RTC,
-    UART0, UART1, WDOG,
+    aonclk, backup, clint, gpio0, otp, plic, pmu, prci, pwm0, qspi0, rtc, uart0, wdog, AONCLK,
+    BACKUP, CLINT, GPIO0, OTP, PLIC, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0, QSPI1, QSPI2, RTC, UART0,
+    UART1, WDOG,
 };
 #[cfg(feature = "g002")]
 pub use common::{i2c0, I2C0};
-
-#[doc(hidden)]
-pub mod interrupt {
-    pub use super::common::interrupt::Interrupt;
-}
 
 /// All the peripherals
 #[allow(non_snake_case)]

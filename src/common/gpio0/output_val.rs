@@ -1,9 +1,9 @@
-#[doc = "Reader of register rise_ip"]
-pub type R = crate::R<u32, super::RISE_IP>;
-#[doc = "Writer for register rise_ip"]
-pub type W = crate::W<u32, super::RISE_IP>;
-#[doc = "Register rise_ip `reset()`'s with value 0"]
-impl crate::ResetValue for super::RISE_IP {
+#[doc = "Reader of register output_val"]
+pub type R = crate::R<u32, super::OUTPUT_VAL>;
+#[doc = "Writer for register output_val"]
+pub type W = crate::W<u32, super::OUTPUT_VAL>;
+#[doc = "Register output_val `reset()`'s with value 0"]
+impl crate::ResetValue for super::OUTPUT_VAL {
     type Type = u32;
     #[inline(always)]
     fn reset_value() -> Self::Type {
