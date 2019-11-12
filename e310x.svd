@@ -608,7 +608,7 @@
 
       <registers>
         <register>
-          <name>value</name>
+          <name>input_val</name>
           <description>Pin value.</description>
           <addressOffset>0x000</addressOffset>
           <fields>
@@ -725,7 +725,7 @@
           </fields>
         </register>
         <register>
-          <name>port</name>
+          <name>output_val</name>
           <description>Output Port Value Register</description>
           <addressOffset>0x00C</addressOffset>
           <fields>
