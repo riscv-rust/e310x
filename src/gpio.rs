@@ -73,9 +73,9 @@ fn atomic_set_bit(r: &AtomicU32, index: usize, bit: bool) {
 trait PeripheralAccess {
     fn peripheral() -> &'static e310x::gpio0::RegisterBlock;
 
-    fn value(index: usize) -> bool {
+    fn input_value(index: usize) -> bool {
         let p = Self::peripheral();
-        (p.value.read().bits() >> (index & 31) & 1) != 0
+        (p.input_val.read().bits() >> (index & 31) & 1) != 0
     }
 
     fn set_input_en(index: usize, bit: bool) {
@@ -90,15 +90,15 @@ trait PeripheralAccess {
         atomic_set_bit(r, index, bit);
     }
 
-    fn set_port(index: usize, bit: bool) {
+    fn set_output_value(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.port) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val) };
         atomic_set_bit(r, index, bit);
     }
 
-    fn toggle_port(index: usize) {
+    fn toggle_pin(index: usize) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.port) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val) };
         let mask = 1 << (index & 31);
         r.fetch_xor(mask, Ordering::SeqCst);
     }
@@ -281,7 +281,7 @@ macro_rules! gpio {
                     type Error = Infallible;
 
                     fn is_high(&self) -> Result<bool, Infallible> {
-                        Ok($GPIOX::value(Self::INDEX))
+                        Ok($GPIOX::input_value(Self::INDEX))
 
                     }
 
@@ -292,7 +292,7 @@ macro_rules! gpio {
 
                 impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
                     fn is_set_high(&self) -> Result<bool, Infallible> {
-                        Ok($GPIOX::value(Self::INDEX))
+                        Ok($GPIOX::input_value(Self::INDEX))
                     }
 
                     fn is_set_low(&self) -> Result<bool, Infallible> {
@@ -304,12 +304,12 @@ macro_rules! gpio {
                     type Error = Infallible;
 
                     fn set_high(&mut self) -> Result<(), Infallible> {
-                        $GPIOX::set_port(Self::INDEX, true);
+                        $GPIOX::set_output_value(Self::INDEX, true);
                         Ok(())
                     }
 
                     fn set_low(&mut self) -> Result<(), Infallible> {
-                        $GPIOX::set_port(Self::INDEX, false);
+                        $GPIOX::set_output_value(Self::INDEX, false);
                         Ok(())
                     }
                 }
@@ -319,7 +319,7 @@ macro_rules! gpio {
 
                     /// Toggles the pin state.
                     fn toggle(&mut self) -> Result<(), Infallible> {
-                        $GPIOX::toggle_port(Self::INDEX);
+                        $GPIOX::toggle_pin(Self::INDEX);
                         Ok(())
                     }
                 }
