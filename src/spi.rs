@@ -26,7 +26,7 @@
 use core::convert::Infallible;
 use core::ops::Deref;
 pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
-use crate::e310x::{QSPI0, QSPI1, QSPI2, qspi0};
+use e310x::{QSPI0, QSPI1, QSPI2, qspi0};
 use crate::clock::Clocks;
 use crate::time::Hertz;
 use nb;
@@ -251,18 +251,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Transfer<u8> for Spi<SPI, PIN
     type Error = Infallible;
 
     fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w[u8], Self::Error> {
-        // Save watermark levels
-        let txmark = self.spi.txmark.read().value().bits();
-        let rxmark = self.spi.rxmark.read().value().bits();
-
-        // Set watermark levels
-        self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
-
         // Ensure that RX FIFO is empty
-        while self.spi.ip.read().rxwm().bit_is_set() {
-            let _ = self.spi.rxdata.read();
-        }
+        while self.spi.rxdata.read().empty().bit_is_clear() { }
 
         self.cs_mode_frame();
 
@@ -275,18 +265,16 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Transfer<u8> for Spi<SPI, PIN
                 self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
             }
 
-            if iread < iwrite && self.spi.ip.read().rxwm().bit_is_set() {
-                let byte = self.spi.rxdata.read().data().bits();
-                unsafe { *words.get_unchecked_mut(iread) = byte };
-                iread += 1;
+            if iread < iwrite {
+                let data = self.spi.rxdata.read();
+                if data.empty().bit_is_clear() {
+                    unsafe { *words.get_unchecked_mut(iread) = data.data().bits() };
+                    iread += 1;
+                }
             }
         }
 
         self.cs_mode_word();
-
-        // Restore watermark levels
-        self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
 
         Ok(words)
     }
@@ -296,18 +284,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
     type Error = Infallible;
 
     fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
-        // Save watermark levels
-        let txmark = self.spi.txmark.read().value().bits();
-        let rxmark = self.spi.rxmark.read().value().bits();
-
-        // Set watermark levels
-        self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
-
         // Ensure that RX FIFO is empty
-        while self.spi.ip.read().rxwm().bit_is_set() {
-            let _ = self.spi.rxdata.read();
-        }
+        while self.spi.rxdata.read().empty().bit_is_clear() { }
 
         self.cs_mode_frame();
 
@@ -320,17 +298,15 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
                 self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
             }
 
-            if iread < iwrite && self.spi.ip.read().rxwm().bit_is_set() {
-                let _ = self.spi.rxdata.read();
-                iread += 1;
+            if iread < iwrite {
+                // Read and discard byte, if any
+                if self.spi.rxdata.read().empty().bit_is_clear() {
+                    iread += 1;
+                }
             }
         }
 
         self.cs_mode_word();
-
-        // Restore watermark levels
-        self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
 
         Ok(())
     }
@@ -345,18 +321,8 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PI
     {
         let mut iter = words.into_iter();
 
-        // Save watermark levels
-        let txmark = self.spi.txmark.read().value().bits();
-        let rxmark = self.spi.rxmark.read().value().bits();
-
-        // Set watermark levels
-        self.spi.txmark.write(|w| unsafe { w.value().bits(1) });
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(0) });
-
         // Ensure that RX FIFO is empty
-        while self.spi.ip.read().rxwm().bit_is_set() {
-            let _ = self.spi.rxdata.read();
-        }
+        while self.spi.rxdata.read().empty().bit_is_clear() { }
 
         self.cs_mode_frame();
 
@@ -372,17 +338,15 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PI
                 }
             }
 
-            if read_count > 0 && self.spi.ip.read().rxwm().bit_is_set() {
-                let _ = self.spi.rxdata.read();
-                read_count -= 1;
+            if read_count > 0 {
+                // Read and discard byte, if any
+                if self.spi.rxdata.read().empty().bit_is_clear() {
+                    read_count -= 1;
+                }
             }
         }
 
         self.cs_mode_word();
-
-        // Restore watermark levels
-        self.spi.txmark.write(|w| unsafe { w.value().bits(txmark) });
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(rxmark) });
 
         Ok(())
     }
