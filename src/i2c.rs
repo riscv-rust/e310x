@@ -108,7 +108,7 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
     fn write_cr<F>(&self, f: F)
     where F: FnOnce(&mut i2c0::cr::W) -> &mut i2c0::cr::W
     {
-        self.i2c.cr_sr.write(|w| unsafe {
+        self.i2c.cr().write(|w| unsafe {
             let mut value: u32 = 0;
             f(mem::transmute(&mut value));
             w.bits(value)
@@ -117,7 +117,7 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
 
     fn read_sr(&self) -> i2c0::sr::R {
         unsafe {
-            mem::transmute(self.i2c.cr_sr.read())
+            mem::transmute(self.i2c.sr().read())
         }
     }
 
