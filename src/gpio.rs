@@ -75,7 +75,7 @@ trait PeripheralAccess {
 
     fn value(index: usize) -> bool {
         let p = Self::peripheral();
-        (p.value.read().bits() >> (index & 31)) != 0
+        (p.value.read().bits() >> (index & 31) & 1) != 0
     }
 
     fn set_input_en(index: usize, bit: bool) {
