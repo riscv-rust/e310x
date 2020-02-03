@@ -12,22 +12,19 @@ impl crate::ResetValue for super::PMUCAUSE {
 }
 #[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum RESETCAUSE_A {
     #[doc = "0: Power-on reset"]
-    POWERON,
+    POWERON = 0,
     #[doc = "1: External reset"]
-    EXTERNAL,
+    EXTERNAL = 1,
     #[doc = "2: Watchdog reset"]
-    WATCHDOG,
+    WATCHDOG = 2,
 }
 impl From<RESETCAUSE_A> for u8 {
     #[inline(always)]
     fn from(variant: RESETCAUSE_A) -> Self {
-        match variant {
-            RESETCAUSE_A::POWERON => 0,
-            RESETCAUSE_A::EXTERNAL => 1,
-            RESETCAUSE_A::WATCHDOG => 2,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `resetcause`"]
@@ -94,22 +91,19 @@ impl<'a> RESETCAUSE_W<'a> {
 }
 #[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum WAKEUPCAUSE_A {
     #[doc = "0: Reset wakeup"]
-    RESET,
+    RESET = 0,
     #[doc = "1: RTC wakeup"]
-    RTC,
+    RTC = 1,
     #[doc = "2: Digital input wakeup"]
-    DIGITAL,
+    DIGITAL = 2,
 }
 impl From<WAKEUPCAUSE_A> for u8 {
     #[inline(always)]
     fn from(variant: WAKEUPCAUSE_A) -> Self {
-        match variant {
-            WAKEUPCAUSE_A::RESET => 0,
-            WAKEUPCAUSE_A::RTC => 1,
-            WAKEUPCAUSE_A::DIGITAL => 2,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `wakeupcause`"]

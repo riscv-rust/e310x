@@ -14,6 +14,7 @@ impl CLINT {
 }
 impl Deref for CLINT {
     type Target = clint::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*CLINT::ptr() }
     }
@@ -34,6 +35,7 @@ impl PLIC {
 }
 impl Deref for PLIC {
     type Target = plic::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*PLIC::ptr() }
     }
@@ -54,6 +56,7 @@ impl WDOG {
 }
 impl Deref for WDOG {
     type Target = wdog::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*WDOG::ptr() }
     }
@@ -74,6 +77,7 @@ impl RTC {
 }
 impl Deref for RTC {
     type Target = rtc::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*RTC::ptr() }
     }
@@ -94,6 +98,7 @@ impl AONCLK {
 }
 impl Deref for AONCLK {
     type Target = aonclk::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*AONCLK::ptr() }
     }
@@ -114,6 +119,7 @@ impl BACKUP {
 }
 impl Deref for BACKUP {
     type Target = backup::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*BACKUP::ptr() }
     }
@@ -134,6 +140,7 @@ impl PMU {
 }
 impl Deref for PMU {
     type Target = pmu::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*PMU::ptr() }
     }
@@ -154,6 +161,7 @@ impl PRCI {
 }
 impl Deref for PRCI {
     type Target = prci::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*PRCI::ptr() }
     }
@@ -174,6 +182,7 @@ impl OTP {
 }
 impl Deref for OTP {
     type Target = otp::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*OTP::ptr() }
     }
@@ -194,6 +203,7 @@ impl GPIO0 {
 }
 impl Deref for GPIO0 {
     type Target = gpio0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*GPIO0::ptr() }
     }
@@ -214,6 +224,7 @@ impl UART0 {
 }
 impl Deref for UART0 {
     type Target = uart0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*UART0::ptr() }
     }
@@ -234,6 +245,7 @@ impl QSPI0 {
 }
 impl Deref for QSPI0 {
     type Target = qspi0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*QSPI0::ptr() }
     }
@@ -254,6 +266,7 @@ impl PWM0 {
 }
 impl Deref for PWM0 {
     type Target = pwm0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*PWM0::ptr() }
     }
@@ -274,6 +287,7 @@ impl I2C0 {
 }
 impl Deref for I2C0 {
     type Target = i2c0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*I2C0::ptr() }
     }
@@ -294,6 +308,7 @@ impl UART1 {
 }
 impl Deref for UART1 {
     type Target = uart0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*UART1::ptr() }
     }
@@ -312,6 +327,7 @@ impl QSPI1 {
 }
 impl Deref for QSPI1 {
     type Target = qspi0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*QSPI1::ptr() }
     }
@@ -330,6 +346,7 @@ impl PWM1 {
 }
 impl Deref for PWM1 {
     type Target = pwm0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*PWM1::ptr() }
     }
@@ -348,6 +365,7 @@ impl QSPI2 {
 }
 impl Deref for QSPI2 {
     type Target = qspi0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*QSPI2::ptr() }
     }
@@ -366,6 +384,7 @@ impl PWM2 {
 }
 impl Deref for PWM2 {
     type Target = pwm0::RegisterBlock;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         unsafe { &*PWM2::ptr() }
     }
@@ -427,6 +446,7 @@ impl Peripherals {
         })
     }
     #[doc = r"Unchecked version of `Peripherals::take`"]
+    #[inline]
     pub unsafe fn steal() -> Self {
         DEVICE_PERIPHERALS = true;
         Peripherals {

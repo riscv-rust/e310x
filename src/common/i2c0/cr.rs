@@ -100,17 +100,14 @@ impl<'a> WR_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ACK_AW {
     #[doc = "0: `0`"]
-    ACK,
+    ACK = 0,
     #[doc = "1: `1`"]
-    NACK,
+    NACK = 1,
 }
 impl From<ACK_AW> for bool {
     #[inline(always)]
     fn from(variant: ACK_AW) -> Self {
-        match variant {
-            ACK_AW::ACK => false,
-            ACK_AW::NACK => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Write proxy for field `ack`"]

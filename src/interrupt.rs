@@ -1,168 +1,116 @@
 #[doc = r"Enumeration of all the interrupts"]
 #[derive(Copy, Clone, Debug)]
+#[repr(u8)]
 pub enum Interrupt {
     #[doc = "1 - WATCHDOG"]
-    WATCHDOG,
+    WATCHDOG = 1,
     #[doc = "2 - RTC"]
-    RTC,
+    RTC = 2,
     #[doc = "3 - UART0"]
-    UART0,
+    UART0 = 3,
     #[doc = "4 - UART1"]
-    UART1,
+    UART1 = 4,
     #[doc = "5 - QSPI0"]
-    QSPI0,
+    QSPI0 = 5,
     #[doc = "6 - QSPI1"]
-    QSPI1,
+    QSPI1 = 6,
     #[doc = "7 - QSPI2"]
-    QSPI2,
+    QSPI2 = 7,
     #[doc = "8 - GPIO0"]
-    GPIO0,
+    GPIO0 = 8,
     #[doc = "9 - GPIO1"]
-    GPIO1,
+    GPIO1 = 9,
     #[doc = "10 - GPIO2"]
-    GPIO2,
+    GPIO2 = 10,
     #[doc = "11 - GPIO3"]
-    GPIO3,
+    GPIO3 = 11,
     #[doc = "12 - GPIO4"]
-    GPIO4,
+    GPIO4 = 12,
     #[doc = "13 - GPIO5"]
-    GPIO5,
+    GPIO5 = 13,
     #[doc = "14 - GPIO6"]
-    GPIO6,
+    GPIO6 = 14,
     #[doc = "15 - GPIO7"]
-    GPIO7,
+    GPIO7 = 15,
     #[doc = "16 - GPIO8"]
-    GPIO8,
+    GPIO8 = 16,
     #[doc = "17 - GPIO9"]
-    GPIO9,
+    GPIO9 = 17,
     #[doc = "18 - GPIO10"]
-    GPIO10,
+    GPIO10 = 18,
     #[doc = "19 - GPIO11"]
-    GPIO11,
+    GPIO11 = 19,
     #[doc = "20 - GPIO12"]
-    GPIO12,
+    GPIO12 = 20,
     #[doc = "21 - GPIO13"]
-    GPIO13,
+    GPIO13 = 21,
     #[doc = "22 - GPIO14"]
-    GPIO14,
+    GPIO14 = 22,
     #[doc = "23 - GPIO15"]
-    GPIO15,
+    GPIO15 = 23,
     #[doc = "24 - GPIO16"]
-    GPIO16,
+    GPIO16 = 24,
     #[doc = "25 - GPIO17"]
-    GPIO17,
+    GPIO17 = 25,
     #[doc = "26 - GPIO18"]
-    GPIO18,
+    GPIO18 = 26,
     #[doc = "27 - GPIO19"]
-    GPIO19,
+    GPIO19 = 27,
     #[doc = "28 - GPIO20"]
-    GPIO20,
+    GPIO20 = 28,
     #[doc = "29 - GPIO21"]
-    GPIO21,
+    GPIO21 = 29,
     #[doc = "30 - GPIO22"]
-    GPIO22,
+    GPIO22 = 30,
     #[doc = "31 - GPIO23"]
-    GPIO23,
+    GPIO23 = 31,
     #[doc = "32 - GPIO24"]
-    GPIO24,
+    GPIO24 = 32,
     #[doc = "33 - GPIO25"]
-    GPIO25,
+    GPIO25 = 33,
     #[doc = "34 - GPIO26"]
-    GPIO26,
+    GPIO26 = 34,
     #[doc = "35 - GPIO27"]
-    GPIO27,
+    GPIO27 = 35,
     #[doc = "36 - GPIO28"]
-    GPIO28,
+    GPIO28 = 36,
     #[doc = "37 - GPIO29"]
-    GPIO29,
+    GPIO29 = 37,
     #[doc = "38 - GPIO30"]
-    GPIO30,
+    GPIO30 = 38,
     #[doc = "39 - GPIO31"]
-    GPIO31,
+    GPIO31 = 39,
     #[doc = "40 - PWM0CMP0"]
-    PWM0CMP0,
+    PWM0CMP0 = 40,
     #[doc = "41 - PWM0CMP1"]
-    PWM0CMP1,
+    PWM0CMP1 = 41,
     #[doc = "42 - PWM0CMP2"]
-    PWM0CMP2,
+    PWM0CMP2 = 42,
     #[doc = "43 - PWM0CMP3"]
-    PWM0CMP3,
+    PWM0CMP3 = 43,
     #[doc = "44 - PWM1CMP0"]
-    PWM1CMP0,
+    PWM1CMP0 = 44,
     #[doc = "45 - PWM1CMP1"]
-    PWM1CMP1,
+    PWM1CMP1 = 45,
     #[doc = "46 - PWM1CMP2"]
-    PWM1CMP2,
+    PWM1CMP2 = 46,
     #[doc = "47 - PWM1CMP3"]
-    PWM1CMP3,
+    PWM1CMP3 = 47,
     #[doc = "48 - PWM2CMP0"]
-    PWM2CMP0,
+    PWM2CMP0 = 48,
     #[doc = "49 - PWM2CMP1"]
-    PWM2CMP1,
+    PWM2CMP1 = 49,
     #[doc = "50 - PWM2CMP2"]
-    PWM2CMP2,
+    PWM2CMP2 = 50,
     #[doc = "51 - PWM2CMP3"]
-    PWM2CMP3,
+    PWM2CMP3 = 51,
     #[doc = "52 - I2C0"]
-    I2C0,
+    I2C0 = 52,
 }
 unsafe impl bare_metal::Nr for Interrupt {
-    #[inline]
+    #[inline(always)]
     fn nr(&self) -> u8 {
-        match *self {
-            Interrupt::WATCHDOG => 1,
-            Interrupt::RTC => 2,
-            Interrupt::UART0 => 3,
-            Interrupt::UART1 => 4,
-            Interrupt::QSPI0 => 5,
-            Interrupt::QSPI1 => 6,
-            Interrupt::QSPI2 => 7,
-            Interrupt::GPIO0 => 8,
-            Interrupt::GPIO1 => 9,
-            Interrupt::GPIO2 => 10,
-            Interrupt::GPIO3 => 11,
-            Interrupt::GPIO4 => 12,
-            Interrupt::GPIO5 => 13,
-            Interrupt::GPIO6 => 14,
-            Interrupt::GPIO7 => 15,
-            Interrupt::GPIO8 => 16,
-            Interrupt::GPIO9 => 17,
-            Interrupt::GPIO10 => 18,
-            Interrupt::GPIO11 => 19,
-            Interrupt::GPIO12 => 20,
-            Interrupt::GPIO13 => 21,
-            Interrupt::GPIO14 => 22,
-            Interrupt::GPIO15 => 23,
-            Interrupt::GPIO16 => 24,
-            Interrupt::GPIO17 => 25,
-            Interrupt::GPIO18 => 26,
-            Interrupt::GPIO19 => 27,
-            Interrupt::GPIO20 => 28,
-            Interrupt::GPIO21 => 29,
-            Interrupt::GPIO22 => 30,
-            Interrupt::GPIO23 => 31,
-            Interrupt::GPIO24 => 32,
-            Interrupt::GPIO25 => 33,
-            Interrupt::GPIO26 => 34,
-            Interrupt::GPIO27 => 35,
-            Interrupt::GPIO28 => 36,
-            Interrupt::GPIO29 => 37,
-            Interrupt::GPIO30 => 38,
-            Interrupt::GPIO31 => 39,
-            Interrupt::PWM0CMP0 => 40,
-            Interrupt::PWM0CMP1 => 41,
-            Interrupt::PWM0CMP2 => 42,
-            Interrupt::PWM0CMP3 => 43,
-            Interrupt::PWM1CMP0 => 44,
-            Interrupt::PWM1CMP1 => 45,
-            Interrupt::PWM1CMP2 => 46,
-            Interrupt::PWM1CMP3 => 47,
-            Interrupt::PWM2CMP0 => 48,
-            Interrupt::PWM2CMP1 => 49,
-            Interrupt::PWM2CMP2 => 50,
-            Interrupt::PWM2CMP3 => 51,
-            Interrupt::I2C0 => 52,
-        }
+        *self as u8
     }
 }
 #[derive(Debug, Copy, Clone)]

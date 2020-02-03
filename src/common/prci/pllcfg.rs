@@ -108,22 +108,19 @@ impl<'a> SEL_W<'a> {
 }
 #[doc = "\n\nValue on reset: 1"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum PLLQ_A {
     #[doc = "1: `1`"]
-    Q2,
+    Q2 = 1,
     #[doc = "2: `10`"]
-    Q4,
+    Q4 = 2,
     #[doc = "3: `11`"]
-    Q8,
+    Q8 = 3,
 }
 impl From<PLLQ_A> for u8 {
     #[inline(always)]
     fn from(variant: PLLQ_A) -> Self {
-        match variant {
-            PLLQ_A::Q2 => 1,
-            PLLQ_A::Q4 => 2,
-            PLLQ_A::Q8 => 3,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `pllq`"]
@@ -204,25 +201,21 @@ impl<'a> PLLF_W<'a> {
 }
 #[doc = "\n\nValue on reset: 1"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum PLLR_A {
     #[doc = "0: `0`"]
-    R1,
+    R1 = 0,
     #[doc = "1: `1`"]
-    R2,
+    R2 = 1,
     #[doc = "2: `10`"]
-    R3,
+    R3 = 2,
     #[doc = "3: `11`"]
-    R4,
+    R4 = 3,
 }
 impl From<PLLR_A> for u8 {
     #[inline(always)]
     fn from(variant: PLLR_A) -> Self {
-        match variant {
-            PLLR_A::R1 => 0,
-            PLLR_A::R2 => 1,
-            PLLR_A::R3 => 2,
-            PLLR_A::R4 => 3,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `pllr`"]

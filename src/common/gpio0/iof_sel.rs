@@ -14,17 +14,14 @@ impl crate::ResetValue for super::IOF_SEL {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN0_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM0_0,
+    PWM0_0 = 1,
 }
 impl From<PIN0_A> for bool {
     #[inline(always)]
     fn from(variant: PIN0_A) -> Self {
-        match variant {
-            PIN0_A::IOF0 => false,
-            PIN0_A::PWM0_0 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin0`"]
@@ -92,17 +89,14 @@ impl<'a> PIN0_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN1_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM0_1,
+    PWM0_1 = 1,
 }
 impl From<PIN1_A> for bool {
     #[inline(always)]
     fn from(variant: PIN1_A) -> Self {
-        match variant {
-            PIN1_A::IOF0 => false,
-            PIN1_A::PWM0_1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin1`"]
@@ -170,17 +164,14 @@ impl<'a> PIN1_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN2_A {
     #[doc = "0: `0`"]
-    QSPI1_SS0,
+    QSPI1_SS0 = 0,
     #[doc = "1: `1`"]
-    PWM0_2,
+    PWM0_2 = 1,
 }
 impl From<PIN2_A> for bool {
     #[inline(always)]
     fn from(variant: PIN2_A) -> Self {
-        match variant {
-            PIN2_A::QSPI1_SS0 => false,
-            PIN2_A::PWM0_2 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin2`"]
@@ -248,17 +239,14 @@ impl<'a> PIN2_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN3_A {
     #[doc = "0: `0`"]
-    QSPI1_SD0,
+    QSPI1_SD0 = 0,
     #[doc = "1: `1`"]
-    PWM0_3,
+    PWM0_3 = 1,
 }
 impl From<PIN3_A> for bool {
     #[inline(always)]
     fn from(variant: PIN3_A) -> Self {
-        match variant {
-            PIN3_A::QSPI1_SD0 => false,
-            PIN3_A::PWM0_3 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin3`"]
@@ -326,17 +314,14 @@ impl<'a> PIN3_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN4_A {
     #[doc = "0: `0`"]
-    QSPI1_SD1,
+    QSPI1_SD1 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN4_A> for bool {
     #[inline(always)]
     fn from(variant: PIN4_A) -> Self {
-        match variant {
-            PIN4_A::QSPI1_SD1 => false,
-            PIN4_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin4`"]
@@ -404,17 +389,14 @@ impl<'a> PIN4_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN5_A {
     #[doc = "0: `0`"]
-    QSPI1_SCK,
+    QSPI1_SCK = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN5_A> for bool {
     #[inline(always)]
     fn from(variant: PIN5_A) -> Self {
-        match variant {
-            PIN5_A::QSPI1_SCK => false,
-            PIN5_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin5`"]
@@ -482,17 +464,14 @@ impl<'a> PIN5_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN6_A {
     #[doc = "0: `0`"]
-    QSPI1_SD2,
+    QSPI1_SD2 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN6_A> for bool {
     #[inline(always)]
     fn from(variant: PIN6_A) -> Self {
-        match variant {
-            PIN6_A::QSPI1_SD2 => false,
-            PIN6_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin6`"]
@@ -560,17 +539,14 @@ impl<'a> PIN6_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN7_A {
     #[doc = "0: `0`"]
-    QSPI1_SD3,
+    QSPI1_SD3 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN7_A> for bool {
     #[inline(always)]
     fn from(variant: PIN7_A) -> Self {
-        match variant {
-            PIN7_A::QSPI1_SD3 => false,
-            PIN7_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin7`"]
@@ -638,17 +614,14 @@ impl<'a> PIN7_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN8_A {
     #[doc = "0: `0`"]
-    QSPI1_SS1,
+    QSPI1_SS1 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN8_A> for bool {
     #[inline(always)]
     fn from(variant: PIN8_A) -> Self {
-        match variant {
-            PIN8_A::QSPI1_SS1 => false,
-            PIN8_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin8`"]
@@ -716,17 +689,14 @@ impl<'a> PIN8_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN9_A {
     #[doc = "0: `0`"]
-    QSPI1_SS2,
+    QSPI1_SS2 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN9_A> for bool {
     #[inline(always)]
     fn from(variant: PIN9_A) -> Self {
-        match variant {
-            PIN9_A::QSPI1_SS2 => false,
-            PIN9_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin9`"]
@@ -794,17 +764,14 @@ impl<'a> PIN9_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN10_A {
     #[doc = "0: `0`"]
-    QSPI1_SS3,
+    QSPI1_SS3 = 0,
     #[doc = "1: `1`"]
-    PWM2_0,
+    PWM2_0 = 1,
 }
 impl From<PIN10_A> for bool {
     #[inline(always)]
     fn from(variant: PIN10_A) -> Self {
-        match variant {
-            PIN10_A::QSPI1_SS3 => false,
-            PIN10_A::PWM2_0 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin10`"]
@@ -872,17 +839,14 @@ impl<'a> PIN10_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN11_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM2_1,
+    PWM2_1 = 1,
 }
 impl From<PIN11_A> for bool {
     #[inline(always)]
     fn from(variant: PIN11_A) -> Self {
-        match variant {
-            PIN11_A::IOF0 => false,
-            PIN11_A::PWM2_1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin11`"]
@@ -950,17 +914,14 @@ impl<'a> PIN11_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN12_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM2_2,
+    PWM2_2 = 1,
 }
 impl From<PIN12_A> for bool {
     #[inline(always)]
     fn from(variant: PIN12_A) -> Self {
-        match variant {
-            PIN12_A::IOF0 => false,
-            PIN12_A::PWM2_2 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin12`"]
@@ -1028,17 +989,14 @@ impl<'a> PIN12_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN13_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM2_3,
+    PWM2_3 = 1,
 }
 impl From<PIN13_A> for bool {
     #[inline(always)]
     fn from(variant: PIN13_A) -> Self {
-        match variant {
-            PIN13_A::IOF0 => false,
-            PIN13_A::PWM2_3 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin13`"]
@@ -1106,17 +1064,14 @@ impl<'a> PIN13_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN14_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN14_A> for bool {
     #[inline(always)]
     fn from(variant: PIN14_A) -> Self {
-        match variant {
-            PIN14_A::IOF0 => false,
-            PIN14_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin14`"]
@@ -1184,17 +1139,14 @@ impl<'a> PIN14_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN15_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN15_A> for bool {
     #[inline(always)]
     fn from(variant: PIN15_A) -> Self {
-        match variant {
-            PIN15_A::IOF0 => false,
-            PIN15_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin15`"]
@@ -1262,17 +1214,14 @@ impl<'a> PIN15_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN16_A {
     #[doc = "0: `0`"]
-    UART0_RX,
+    UART0_RX = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN16_A> for bool {
     #[inline(always)]
     fn from(variant: PIN16_A) -> Self {
-        match variant {
-            PIN16_A::UART0_RX => false,
-            PIN16_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin16`"]
@@ -1340,17 +1289,14 @@ impl<'a> PIN16_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN17_A {
     #[doc = "0: `0`"]
-    UART0_TX,
+    UART0_TX = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN17_A> for bool {
     #[inline(always)]
     fn from(variant: PIN17_A) -> Self {
-        match variant {
-            PIN17_A::UART0_TX => false,
-            PIN17_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin17`"]
@@ -1418,17 +1364,14 @@ impl<'a> PIN17_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN18_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN18_A> for bool {
     #[inline(always)]
     fn from(variant: PIN18_A) -> Self {
-        match variant {
-            PIN18_A::IOF0 => false,
-            PIN18_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin18`"]
@@ -1496,17 +1439,14 @@ impl<'a> PIN18_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN19_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM1_1,
+    PWM1_1 = 1,
 }
 impl From<PIN19_A> for bool {
     #[inline(always)]
     fn from(variant: PIN19_A) -> Self {
-        match variant {
-            PIN19_A::IOF0 => false,
-            PIN19_A::PWM1_1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin19`"]
@@ -1574,17 +1514,14 @@ impl<'a> PIN19_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN20_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM1_0,
+    PWM1_0 = 1,
 }
 impl From<PIN20_A> for bool {
     #[inline(always)]
     fn from(variant: PIN20_A) -> Self {
-        match variant {
-            PIN20_A::IOF0 => false,
-            PIN20_A::PWM1_0 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin20`"]
@@ -1652,17 +1589,14 @@ impl<'a> PIN20_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN21_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM1_2,
+    PWM1_2 = 1,
 }
 impl From<PIN21_A> for bool {
     #[inline(always)]
     fn from(variant: PIN21_A) -> Self {
-        match variant {
-            PIN21_A::IOF0 => false,
-            PIN21_A::PWM1_2 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin21`"]
@@ -1730,17 +1664,14 @@ impl<'a> PIN21_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN22_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    PWM1_3,
+    PWM1_3 = 1,
 }
 impl From<PIN22_A> for bool {
     #[inline(always)]
     fn from(variant: PIN22_A) -> Self {
-        match variant {
-            PIN22_A::IOF0 => false,
-            PIN22_A::PWM1_3 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin22`"]
@@ -1808,17 +1739,14 @@ impl<'a> PIN22_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN23_A {
     #[doc = "0: `0`"]
-    IOF0,
+    IOF0 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN23_A> for bool {
     #[inline(always)]
     fn from(variant: PIN23_A) -> Self {
-        match variant {
-            PIN23_A::IOF0 => false,
-            PIN23_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin23`"]
@@ -1886,17 +1814,14 @@ impl<'a> PIN23_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN24_A {
     #[doc = "0: `0`"]
-    UART1_RX,
+    UART1_RX = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN24_A> for bool {
     #[inline(always)]
     fn from(variant: PIN24_A) -> Self {
-        match variant {
-            PIN24_A::UART1_RX => false,
-            PIN24_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin24`"]
@@ -1964,17 +1889,14 @@ impl<'a> PIN24_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN25_A {
     #[doc = "0: `0`"]
-    UART1_TX,
+    UART1_TX = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN25_A> for bool {
     #[inline(always)]
     fn from(variant: PIN25_A) -> Self {
-        match variant {
-            PIN25_A::UART1_TX => false,
-            PIN25_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin25`"]
@@ -2042,17 +1964,14 @@ impl<'a> PIN25_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN26_A {
     #[doc = "0: `0`"]
-    QSPI2_SS,
+    QSPI2_SS = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN26_A> for bool {
     #[inline(always)]
     fn from(variant: PIN26_A) -> Self {
-        match variant {
-            PIN26_A::QSPI2_SS => false,
-            PIN26_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin26`"]
@@ -2120,17 +2039,14 @@ impl<'a> PIN26_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN27_A {
     #[doc = "0: `0`"]
-    QSPI2_SD0,
+    QSPI2_SD0 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN27_A> for bool {
     #[inline(always)]
     fn from(variant: PIN27_A) -> Self {
-        match variant {
-            PIN27_A::QSPI2_SD0 => false,
-            PIN27_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin27`"]
@@ -2198,17 +2114,14 @@ impl<'a> PIN27_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN28_A {
     #[doc = "0: `0`"]
-    QSPI2_SD1,
+    QSPI2_SD1 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN28_A> for bool {
     #[inline(always)]
     fn from(variant: PIN28_A) -> Self {
-        match variant {
-            PIN28_A::QSPI2_SD1 => false,
-            PIN28_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin28`"]
@@ -2276,17 +2189,14 @@ impl<'a> PIN28_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN29_A {
     #[doc = "0: `0`"]
-    QSPI2_SCK,
+    QSPI2_SCK = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN29_A> for bool {
     #[inline(always)]
     fn from(variant: PIN29_A) -> Self {
-        match variant {
-            PIN29_A::QSPI2_SCK => false,
-            PIN29_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin29`"]
@@ -2354,17 +2264,14 @@ impl<'a> PIN29_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN30_A {
     #[doc = "0: `0`"]
-    QSPI2_SD2,
+    QSPI2_SD2 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN30_A> for bool {
     #[inline(always)]
     fn from(variant: PIN30_A) -> Self {
-        match variant {
-            PIN30_A::QSPI2_SD2 => false,
-            PIN30_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin30`"]
@@ -2432,17 +2339,14 @@ impl<'a> PIN30_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PIN31_A {
     #[doc = "0: `0`"]
-    QSPI2_SD3,
+    QSPI2_SD3 = 0,
     #[doc = "1: `1`"]
-    IOF1,
+    IOF1 = 1,
 }
 impl From<PIN31_A> for bool {
     #[inline(always)]
     fn from(variant: PIN31_A) -> Self {
-        match variant {
-            PIN31_A::QSPI2_SD3 => false,
-            PIN31_A::IOF1 => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `pin31`"]

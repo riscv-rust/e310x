@@ -40,22 +40,19 @@ impl<'a> CMD_CODE_W<'a> {
 }
 #[doc = "Protocol for receiving data bytes\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum DATA_PROTO_A {
     #[doc = "0: DQ0 (MOSI), DQ1 (MISO)"]
-    SINGLE,
+    SINGLE = 0,
     #[doc = "1: DQ0, DQ1"]
-    DUAL,
+    DUAL = 1,
     #[doc = "2: DQ0, DQ1, DQ2, DQ3"]
-    QUAD,
+    QUAD = 2,
 }
 impl From<DATA_PROTO_A> for u8 {
     #[inline(always)]
     fn from(variant: DATA_PROTO_A) -> Self {
-        match variant {
-            DATA_PROTO_A::SINGLE => 0,
-            DATA_PROTO_A::DUAL => 1,
-            DATA_PROTO_A::QUAD => 2,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `data_proto`"]
@@ -122,22 +119,19 @@ impl<'a> DATA_PROTO_W<'a> {
 }
 #[doc = "Protocol for transmitting address and padding\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum ADDR_PROTO_A {
     #[doc = "0: DQ0 (MOSI), DQ1 (MISO)"]
-    SINGLE,
+    SINGLE = 0,
     #[doc = "1: DQ0, DQ1"]
-    DUAL,
+    DUAL = 1,
     #[doc = "2: DQ0, DQ1, DQ2, DQ3"]
-    QUAD,
+    QUAD = 2,
 }
 impl From<ADDR_PROTO_A> for u8 {
     #[inline(always)]
     fn from(variant: ADDR_PROTO_A) -> Self {
-        match variant {
-            ADDR_PROTO_A::SINGLE => 0,
-            ADDR_PROTO_A::DUAL => 1,
-            ADDR_PROTO_A::QUAD => 2,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `addr_proto`"]
@@ -204,22 +198,19 @@ impl<'a> ADDR_PROTO_W<'a> {
 }
 #[doc = "Protocol for transmitting command\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum CMD_PROTO_A {
     #[doc = "0: DQ0 (MOSI), DQ1 (MISO)"]
-    SINGLE,
+    SINGLE = 0,
     #[doc = "1: DQ0, DQ1"]
-    DUAL,
+    DUAL = 1,
     #[doc = "2: DQ0, DQ1, DQ2, DQ3"]
-    QUAD,
+    QUAD = 2,
 }
 impl From<CMD_PROTO_A> for u8 {
     #[inline(always)]
     fn from(variant: CMD_PROTO_A) -> Self {
-        match variant {
-            CMD_PROTO_A::SINGLE => 0,
-            CMD_PROTO_A::DUAL => 1,
-            CMD_PROTO_A::QUAD => 2,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `cmd_proto`"]

@@ -17,7 +17,7 @@ pub struct RegisterBlock {
     #[doc = "0x20 - Watchdog Compare Register"]
     pub wdogcmp: WDOGCMP,
 }
-#[doc = "Watchdog Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [wdogcfg](wdogcfg) module"]
+#[doc = "Watchdog Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogcfg](wdogcfg) module"]
 pub type WDOGCFG = crate::Reg<u32, _WDOGCFG>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -28,7 +28,7 @@ impl crate::Readable for WDOGCFG {}
 impl crate::Writable for WDOGCFG {}
 #[doc = "Watchdog Configuration Register"]
 pub mod wdogcfg;
-#[doc = "Watchdog Counter Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [wdogcount](wdogcount) module"]
+#[doc = "Watchdog Counter Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogcount](wdogcount) module"]
 pub type WDOGCOUNT = crate::Reg<u32, _WDOGCOUNT>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -39,7 +39,7 @@ impl crate::Readable for WDOGCOUNT {}
 impl crate::Writable for WDOGCOUNT {}
 #[doc = "Watchdog Counter Register"]
 pub mod wdogcount;
-#[doc = "Watchdog Scaled Counter Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [wdogs](wdogs) module"]
+#[doc = "Watchdog Scaled Counter Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogs](wdogs) module"]
 pub type WDOGS = crate::Reg<u32, _WDOGS>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -50,7 +50,7 @@ impl crate::Readable for WDOGS {}
 impl crate::Writable for WDOGS {}
 #[doc = "Watchdog Scaled Counter Register"]
 pub mod wdogs;
-#[doc = "Watchdog Feed Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [wdogfeed](wdogfeed) module"]
+#[doc = "Watchdog Feed Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogfeed](wdogfeed) module"]
 pub type WDOGFEED = crate::Reg<u32, _WDOGFEED>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -61,7 +61,7 @@ impl crate::Readable for WDOGFEED {}
 impl crate::Writable for WDOGFEED {}
 #[doc = "Watchdog Feed Register"]
 pub mod wdogfeed;
-#[doc = "Watchdog Key Register\n\nThis register you can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [wdogkey](wdogkey) module"]
+#[doc = "Watchdog Key Register\n\nThis register you can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogkey](wdogkey) module"]
 pub type WDOGKEY = crate::Reg<u32, _WDOGKEY>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -70,7 +70,7 @@ pub struct _WDOGKEY;
 impl crate::Writable for WDOGKEY {}
 #[doc = "Watchdog Key Register"]
 pub mod wdogkey;
-#[doc = "Watchdog Compare Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [wdogcmp](wdogcmp) module"]
+#[doc = "Watchdog Compare Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogcmp](wdogcmp) module"]
 pub type WDOGCMP = crate::Reg<u32, _WDOGCMP>;
 #[allow(missing_docs)]
 #[doc(hidden)]

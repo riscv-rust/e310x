@@ -2,7 +2,8 @@
 pub type R = crate::R<u32, super::PMUSLEEPPM>;
 #[doc = "Writer for register pmusleeppm[%s]"]
 pub type W = crate::W<u32, super::PMUSLEEPPM>;
-#[doc = "Register pmusleeppm[%s] `reset()`'s with value 0"]
+#[doc = "Register pmusleeppm[%s]
+`reset()`'s with value 0"]
 impl crate::ResetValue for super::PMUSLEEPPM {
     type Type = u32;
     #[inline(always)]

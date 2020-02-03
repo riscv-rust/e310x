@@ -14,7 +14,7 @@ pub struct RegisterBlock {
     #[doc = "0xbffc - Timer register"]
     pub mtimeh: MTIMEH,
 }
-#[doc = "Hart 0 software interrupt register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [msip](msip) module"]
+#[doc = "Hart 0 software interrupt register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [msip](msip) module"]
 pub type MSIP = crate::Reg<u32, _MSIP>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -25,7 +25,7 @@ impl crate::Readable for MSIP {}
 impl crate::Writable for MSIP {}
 #[doc = "Hart 0 software interrupt register"]
 pub mod msip;
-#[doc = "Hart 0 time comparator register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [mtimecmp](mtimecmp) module"]
+#[doc = "Hart 0 time comparator register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mtimecmp](mtimecmp) module"]
 pub type MTIMECMP = crate::Reg<u32, _MTIMECMP>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -36,7 +36,7 @@ impl crate::Readable for MTIMECMP {}
 impl crate::Writable for MTIMECMP {}
 #[doc = "Hart 0 time comparator register"]
 pub mod mtimecmp;
-#[doc = "Hart 0 time comparator register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [mtimecmph](mtimecmph) module"]
+#[doc = "Hart 0 time comparator register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mtimecmph](mtimecmph) module"]
 pub type MTIMECMPH = crate::Reg<u32, _MTIMECMPH>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -47,7 +47,7 @@ impl crate::Readable for MTIMECMPH {}
 impl crate::Writable for MTIMECMPH {}
 #[doc = "Hart 0 time comparator register"]
 pub mod mtimecmph;
-#[doc = "Timer register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [mtime](mtime) module"]
+#[doc = "Timer register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mtime](mtime) module"]
 pub type MTIME = crate::Reg<u32, _MTIME>;
 #[allow(missing_docs)]
 #[doc(hidden)]
@@ -58,7 +58,7 @@ impl crate::Readable for MTIME {}
 impl crate::Writable for MTIME {}
 #[doc = "Timer register"]
 pub mod mtime;
-#[doc = "Timer register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about avaliable fields see [mtimeh](mtimeh) module"]
+#[doc = "Timer register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mtimeh](mtimeh) module"]
 pub type MTIMEH = crate::Reg<u32, _MTIMEH>;
 #[allow(missing_docs)]
 #[doc(hidden)]

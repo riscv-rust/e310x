@@ -12,37 +12,29 @@ impl crate::ResetValue for super::THRESHOLD {
 }
 #[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum PRIORITY_A {
     #[doc = "0: Never interrupt"]
-    NEVER,
+    NEVER = 0,
     #[doc = "1: Priority 1"]
-    P1,
+    P1 = 1,
     #[doc = "2: Priority 2"]
-    P2,
+    P2 = 2,
     #[doc = "3: Priority 3"]
-    P3,
+    P3 = 3,
     #[doc = "4: Priority 4"]
-    P4,
+    P4 = 4,
     #[doc = "5: Priority 5"]
-    P5,
+    P5 = 5,
     #[doc = "6: Priority 6"]
-    P6,
+    P6 = 6,
     #[doc = "7: Priority 7"]
-    P7,
+    P7 = 7,
 }
 impl From<PRIORITY_A> for u8 {
     #[inline(always)]
     fn from(variant: PRIORITY_A) -> Self {
-        match variant {
-            PRIORITY_A::NEVER => 0,
-            PRIORITY_A::P1 => 1,
-            PRIORITY_A::P2 => 2,
-            PRIORITY_A::P3 => 3,
-            PRIORITY_A::P4 => 4,
-            PRIORITY_A::P5 => 5,
-            PRIORITY_A::P6 => 6,
-            PRIORITY_A::P7 => 7,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `priority`"]

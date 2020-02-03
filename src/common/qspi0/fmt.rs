@@ -28,17 +28,14 @@ impl<'a> LENGTH_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DIRECTION_A {
     #[doc = "0: \n                    For dual and quad protocols, the DQ pins are tri-stated. For\n                    the single protocol, the DQ0 pin is driven with the transmit\n                    data as normal.\n                  "]
-    RX,
+    RX = 0,
     #[doc = "1: The receive FIFO is not populated."]
-    TX,
+    TX = 1,
 }
 impl From<DIRECTION_A> for bool {
     #[inline(always)]
     fn from(variant: DIRECTION_A) -> Self {
-        match variant {
-            DIRECTION_A::RX => false,
-            DIRECTION_A::TX => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `direction`"]
@@ -106,17 +103,14 @@ impl<'a> DIRECTION_W<'a> {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ENDIAN_A {
     #[doc = "0: Transmit MSB first."]
-    BIG,
+    BIG = 0,
     #[doc = "1: Transmit LSB first."]
-    LITTLE,
+    LITTLE = 1,
 }
 impl From<ENDIAN_A> for bool {
     #[inline(always)]
     fn from(variant: ENDIAN_A) -> Self {
-        match variant {
-            ENDIAN_A::BIG => false,
-            ENDIAN_A::LITTLE => true,
-        }
+        variant as u8 != 0
     }
 }
 #[doc = "Reader of field `endian`"]
@@ -182,22 +176,19 @@ impl<'a> ENDIAN_W<'a> {
 }
 #[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(u8)]
 pub enum PROTOCOL_A {
     #[doc = "0: DQ0 (MOSI), DQ1 (MISO)"]
-    SINGLE,
+    SINGLE = 0,
     #[doc = "1: DQ0, DQ1"]
-    DUAL,
+    DUAL = 1,
     #[doc = "2: DQ0, DQ1, DQ2, DQ3"]
-    QUAD,
+    QUAD = 2,
 }
 impl From<PROTOCOL_A> for u8 {
     #[inline(always)]
     fn from(variant: PROTOCOL_A) -> Self {
-        match variant {
-            PROTOCOL_A::SINGLE => 0,
-            PROTOCOL_A::DUAL => 1,
-            PROTOCOL_A::QUAD => 2,
-        }
+        variant as _
     }
 }
 #[doc = "Reader of field `protocol`"]
