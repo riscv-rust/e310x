@@ -1746,27 +1746,34 @@
           <name>csmode</name>
           <description>Chip Select Mode Register</description>
           <addressOffset>0x18</addressOffset>
-          <enumeratedValues>
-            <enumeratedValue>
-              <name>Auto</name>
-              <description>
-                Assert/de-assert CS at the beginning/end of each frame.
-              </description>
-              <value>0</value>
-            </enumeratedValue>
-            <enumeratedValue>
-              <name>Hold</name>
-              <description>
-                Keep CS continuously asserted after the initial frame.
-              </description>
-              <value>2</value>
-            </enumeratedValue>
-            <enumeratedValue>
-              <name>Off</name>
-              <description>Disable hardware control of the CS pin.</description>
-              <value>3</value>
-            </enumeratedValue>
-          </enumeratedValues>
+          <fields>
+            <field>
+              <name>mode</name>
+              <description>Chip select mode</description>
+              <msb>1</msb><lsb>0</lsb>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>Auto</name>
+                  <description>
+                    Assert/de-assert CS at the beginning/end of each frame.
+                  </description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Hold</name>
+                  <description>
+                    Keep CS continuously asserted after the initial frame.
+                  </description>
+                  <value>2</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Off</name>
+                  <description>Disable hardware control of the CS pin.</description>
+                  <value>3</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
         </register>
         <register>
           <name>delay0</name>
