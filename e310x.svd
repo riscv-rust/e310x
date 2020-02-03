@@ -67,36 +67,14 @@
           <name>priority[%s]</name>
           <description>Interrupt Priority Register</description>
           <addressOffset>0x000000</addressOffset>
-          <enumeratedValues derivedFrom="threshold">
-          </enumeratedValues>
-        </register>
-        <register>
-          <dim>2</dim>
-          <dimIncrement>0x04</dimIncrement>
-          <name>pending[%s]</name>
-          <description>Interrupt Pending Register</description>
-          <addressOffset>0x001000</addressOffset>
-        </register>
-        <register>
-          <dim>2</dim>
-          <dimIncrement>0x04</dimIncrement>
-          <name>enable[%s]</name>
-          <description>Interrupt Enable Register</description>
-          <addressOffset>0x002000</addressOffset>
-        </register>
-        <register>
-          <name>threshold</name>
-          <description>Priority Threshold Register</description>
-          <addressOffset>0x200000</addressOffset>
           <fields>
             <field>
               <name>priority</name>
               <msb>2</msb><lsb>0</lsb>
               <enumeratedValues>
-                <name>Priority</name>
                 <enumeratedValue>
-                  <name>Never</name>
-                  <description>Never interrupt</description>
+                  <name>P0</name>
+                  <description>Priority 0 (never interrupt)</description>
                   <value>0</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -132,6 +110,73 @@
                 <enumeratedValue>
                   <name>P7</name>
                   <description>Priority 7</description>
+                  <value>7</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <dim>2</dim>
+          <dimIncrement>0x04</dimIncrement>
+          <name>pending[%s]</name>
+          <description>Interrupt Pending Register</description>
+          <addressOffset>0x001000</addressOffset>
+        </register>
+        <register>
+          <dim>2</dim>
+          <dimIncrement>0x04</dimIncrement>
+          <name>enable[%s]</name>
+          <description>Interrupt Enable Register</description>
+          <addressOffset>0x002000</addressOffset>
+        </register>
+        <register>
+          <name>threshold</name>
+          <description>Priority Threshold Register</description>
+          <addressOffset>0x200000</addressOffset>
+          <fields>
+            <field>
+              <name>priority</name>
+              <msb>2</msb><lsb>0</lsb>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>P0</name>
+                  <description>Allow interrupts with priority > 0</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P1</name>
+                  <description>Allow interrupts with priority > 1</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P2</name>
+                  <description>Allow interrupts with priority > 2</description>
+                  <value>2</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P3</name>
+                  <description>Allow interrupts with priority > 3</description>
+                  <value>3</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P4</name>
+                  <description>Allow interrupts with priority > 4</description>
+                  <value>4</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P5</name>
+                  <description>Allow interrupts with priority > 5</description>
+                  <value>5</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P6</name>
+                  <description>Allow interrupts with priority > 6</description>
+                  <value>6</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>P7</name>
+                  <description>Mask all interrupts</description>
                   <value>7</value>
                 </enumeratedValue>
               </enumeratedValues>

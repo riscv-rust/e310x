@@ -14,21 +14,21 @@ impl crate::ResetValue for super::THRESHOLD {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[repr(u8)]
 pub enum PRIORITY_A {
-    #[doc = "0: Never interrupt"]
-    NEVER = 0,
-    #[doc = "1: Priority 1"]
+    #[doc = "0: Allow interrupts with priority > 0"]
+    P0 = 0,
+    #[doc = "1: Allow interrupts with priority > 1"]
     P1 = 1,
-    #[doc = "2: Priority 2"]
+    #[doc = "2: Allow interrupts with priority > 2"]
     P2 = 2,
-    #[doc = "3: Priority 3"]
+    #[doc = "3: Allow interrupts with priority > 3"]
     P3 = 3,
-    #[doc = "4: Priority 4"]
+    #[doc = "4: Allow interrupts with priority > 4"]
     P4 = 4,
-    #[doc = "5: Priority 5"]
+    #[doc = "5: Allow interrupts with priority > 5"]
     P5 = 5,
-    #[doc = "6: Priority 6"]
+    #[doc = "6: Allow interrupts with priority > 6"]
     P6 = 6,
-    #[doc = "7: Priority 7"]
+    #[doc = "7: Mask all interrupts"]
     P7 = 7,
 }
 impl From<PRIORITY_A> for u8 {
@@ -44,7 +44,7 @@ impl PRIORITY_R {
     #[inline(always)]
     pub fn variant(&self) -> PRIORITY_A {
         match self.bits {
-            0 => PRIORITY_A::NEVER,
+            0 => PRIORITY_A::P0,
             1 => PRIORITY_A::P1,
             2 => PRIORITY_A::P2,
             3 => PRIORITY_A::P3,
@@ -55,10 +55,10 @@ impl PRIORITY_R {
             _ => unreachable!(),
         }
     }
-    #[doc = "Checks if the value of the field is `NEVER`"]
+    #[doc = "Checks if the value of the field is `P0`"]
     #[inline(always)]
-    pub fn is_never(&self) -> bool {
-        *self == PRIORITY_A::NEVER
+    pub fn is_p0(&self) -> bool {
+        *self == PRIORITY_A::P0
     }
     #[doc = "Checks if the value of the field is `P1`"]
     #[inline(always)]
@@ -108,42 +108,42 @@ impl<'a> PRIORITY_W<'a> {
             self.bits(variant.into())
         }
     }
-    #[doc = "Never interrupt"]
+    #[doc = "Allow interrupts with priority > 0"]
     #[inline(always)]
-    pub fn never(self) -> &'a mut W {
-        self.variant(PRIORITY_A::NEVER)
+    pub fn p0(self) -> &'a mut W {
+        self.variant(PRIORITY_A::P0)
     }
-    #[doc = "Priority 1"]
+    #[doc = "Allow interrupts with priority > 1"]
     #[inline(always)]
     pub fn p1(self) -> &'a mut W {
         self.variant(PRIORITY_A::P1)
     }
-    #[doc = "Priority 2"]
+    #[doc = "Allow interrupts with priority > 2"]
     #[inline(always)]
     pub fn p2(self) -> &'a mut W {
         self.variant(PRIORITY_A::P2)
     }
-    #[doc = "Priority 3"]
+    #[doc = "Allow interrupts with priority > 3"]
     #[inline(always)]
     pub fn p3(self) -> &'a mut W {
         self.variant(PRIORITY_A::P3)
     }
-    #[doc = "Priority 4"]
+    #[doc = "Allow interrupts with priority > 4"]
     #[inline(always)]
     pub fn p4(self) -> &'a mut W {
         self.variant(PRIORITY_A::P4)
     }
-    #[doc = "Priority 5"]
+    #[doc = "Allow interrupts with priority > 5"]
     #[inline(always)]
     pub fn p5(self) -> &'a mut W {
         self.variant(PRIORITY_A::P5)
     }
-    #[doc = "Priority 6"]
+    #[doc = "Allow interrupts with priority > 6"]
     #[inline(always)]
     pub fn p6(self) -> &'a mut W {
         self.variant(PRIORITY_A::P6)
     }
-    #[doc = "Priority 7"]
+    #[doc = "Mask all interrupts"]
     #[inline(always)]
     pub fn p7(self) -> &'a mut W {
         self.variant(PRIORITY_A::P7)
