@@ -62,7 +62,7 @@
       <description>Platform Level Interrupt Control</description>
       <registers>
         <register>
-          <dim>52</dim>
+          <dim>53</dim>
           <dimIncrement>0x04</dimIncrement>
           <name>priority[%s]</name>
           <description>Interrupt Priority Register</description>

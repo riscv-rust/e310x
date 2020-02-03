@@ -2,8 +2,8 @@
 #[repr(C)]
 pub struct RegisterBlock {
     #[doc = "0x00 - Interrupt Priority Register"]
-    pub priority: [PRIORITY; 52],
-    _reserved1: [u8; 3888usize],
+    pub priority: [PRIORITY; 53],
+    _reserved1: [u8; 3884usize],
     #[doc = "0x1000 - Interrupt Pending Register"]
     pub pending: [PENDING; 2],
     _reserved2: [u8; 4088usize],
