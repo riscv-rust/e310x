@@ -2122,7 +2122,7 @@
         <register>
           <name>count</name>
           <description>Counter Register</description>
-          <addressOffset>0x04</addressOffset>
+          <addressOffset>0x08</addressOffset>
         </register>
 
         <register>

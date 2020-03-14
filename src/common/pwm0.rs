@@ -3,9 +3,10 @@
 pub struct RegisterBlock {
     #[doc = "0x00 - PWM Configuration Register"]
     pub cfg: CFG,
-    #[doc = "0x04 - Counter Register"]
+    _reserved1: [u8; 4usize],
+    #[doc = "0x08 - Counter Register"]
     pub count: COUNT,
-    _reserved2: [u8; 8usize],
+    _reserved2: [u8; 4usize],
     #[doc = "0x10 - Scaled Halfword Counter Register"]
     pub pwms: PWMS,
     _reserved3: [u8; 12usize],
