@@ -45,12 +45,12 @@ impl Rtc {
 
     #[inline]
     pub fn rtc_lo(&self) -> u32 {
-        unsafe { (*RTC::ptr()).rtchi.read().bits() }
+        unsafe { (*RTC::ptr()).rtclo.read().bits() }
     }
 
     #[inline]
     pub fn rtc_hi(&self) -> u32 {
-        unsafe { (*RTC::ptr()).rtclo.read().bits() }
+        unsafe { (*RTC::ptr()).rtchi.read().bits() }
     }
 
     pub fn rtc(&self) -> u64 {
