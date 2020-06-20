@@ -181,7 +181,7 @@ const FLAG_WRITE: u8 = 0;
 impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
     type Error = Error;
 
-    fn read(&mut self, address: u8, buffer: &mut [u8]) -> Result<(), Self::Error> {
+    fn try_read(&mut self, address: u8, buffer: &mut [u8]) -> Result<(), Self::Error> {
         self.reset();
 
         if self.read_sr().busy().bit_is_set() {
@@ -216,7 +216,7 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
 impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
     type Error = Error;
 
-    fn write(&mut self, address: u8, bytes: &[u8]) -> Result<(), Self::Error> {
+    fn try_write(&mut self, address: u8, bytes: &[u8]) -> Result<(), Self::Error> {
         self.reset();
 
         if self.read_sr().busy().bit_is_set() {
@@ -248,7 +248,7 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
 impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> WriteRead for I2c<I2C, PINS> {
     type Error = Error;
 
-    fn write_read(&mut self, address: u8, bytes: &[u8], buffer: &mut [u8]) -> Result<(), Self::Error> {
+    fn try_write_read(&mut self, address: u8, bytes: &[u8], buffer: &mut [u8]) -> Result<(), Self::Error> {
         self.reset();
 
         if self.read_sr().busy().bit_is_set() {
@@ -256,9 +256,9 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> WriteRead for I2c<I2C, PINS> 
         }
 
         if !bytes.is_empty() && buffer.is_empty() {
-            self.write(address, bytes)
+            self.try_write(address, bytes)
         } else if !buffer.is_empty() && bytes.is_empty() {
-            self.read(address, buffer)
+            self.try_read(address, buffer)
         } else if bytes.is_empty() && buffer.is_empty() {
             Ok(())
         } else {

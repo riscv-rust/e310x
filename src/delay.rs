@@ -4,6 +4,7 @@ use embedded_hal::blocking::delay::DelayMs;
 use crate::core::clint::{MTIME, MTIMECMP};
 use crate::clock::Clocks;
 use riscv::register::{mie, mip};
+use core::convert::Infallible;
 
 /// Machine timer (mtime) as a busyloop delay provider
 pub struct Delay;
@@ -16,24 +17,31 @@ impl Delay {
 }
 
 impl DelayMs<u32> for Delay {
-    fn delay_ms(&mut self, ms: u32) {
+    type Error = Infallible;
+
+    fn try_delay_ms(&mut self, ms: u32) -> Result<(), Infallible> {
         let ticks = (ms as u64) * 32768 / 1000;
 
         let mtime = MTIME;
         let t = mtime.mtime() + ticks;
         while mtime.mtime() < t { }
+        Ok(())
     }
 }
 
 impl DelayMs<u16> for Delay {
-    fn delay_ms(&mut self, ms: u16) {
-        self.delay_ms(u32::from(ms));
+    type Error = Infallible;
+
+    fn try_delay_ms(&mut self, ms: u16) -> Result<(), Infallible> {
+        self.try_delay_ms(u32::from(ms))
     }
 }
 
 impl DelayMs<u8> for Delay {
-    fn delay_ms(&mut self, ms: u8) {
-        self.delay_ms(u32::from(ms));
+    type Error = Infallible;
+
+    fn try_delay_ms(&mut self, ms: u8) -> Result<(), Infallible> {
+        self.try_delay_ms(u32::from(ms))
     }
 }
 
@@ -54,7 +62,9 @@ impl Sleep {
 }
 
 impl DelayMs<u32> for Sleep {
-    fn delay_ms(&mut self, ms: u32) {
+    type Error = Infallible;
+
+    fn try_delay_ms(&mut self, ms: u32) -> Result<(), Infallible> {
         let ticks = (ms as u64) * (self.clock_freq as u64) / 1000;
         let t = MTIME.mtime() + ticks;
 
@@ -84,17 +94,23 @@ impl DelayMs<u32> for Sleep {
         unsafe {
             mie::clear_mtimer();
         }
+
+        Ok(())
     }
 }
 
 impl DelayMs<u16> for Sleep {
-    fn delay_ms(&mut self, ms: u16) {
-        self.delay_ms(u32::from(ms));
+    type Error = Infallible;
+
+    fn try_delay_ms(&mut self, ms: u16) -> Result<(), Infallible> {
+        self.try_delay_ms(u32::from(ms))
     }
 }
 
 impl DelayMs<u8> for Sleep {
-    fn delay_ms(&mut self, ms: u8) {
-        self.delay_ms(u32::from(ms));
+    type Error = Infallible;
+
+    fn try_delay_ms(&mut self, ms: u8) -> Result<(), Infallible> {
+        self.try_delay_ms(u32::from(ms))
     }
 }
