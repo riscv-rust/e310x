@@ -49,24 +49,24 @@ impl<'a> DATA_W<'a> {
     }
 }
 impl R {
-    #[doc = "Bit 31"]
+    #[doc = "Bit 31 - FIFO full flag"]
     #[inline(always)]
     pub fn full(&self) -> FULL_R {
         FULL_R::new(((self.bits >> 31) & 0x01) != 0)
     }
-    #[doc = "Bits 0:7"]
+    #[doc = "Bits 0:7 - Transmit data"]
     #[inline(always)]
     pub fn data(&self) -> DATA_R {
         DATA_R::new((self.bits & 0xff) as u8)
     }
 }
 impl W {
-    #[doc = "Bit 31"]
+    #[doc = "Bit 31 - FIFO full flag"]
     #[inline(always)]
     pub fn full(&mut self) -> FULL_W {
         FULL_W { w: self }
     }
-    #[doc = "Bits 0:7"]
+    #[doc = "Bits 0:7 - Transmit data"]
     #[inline(always)]
     pub fn data(&mut self) -> DATA_W {
         DATA_W { w: self }

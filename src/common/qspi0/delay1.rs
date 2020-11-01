@@ -39,24 +39,24 @@ impl<'a> INTERCS_W<'a> {
     }
 }
 impl R {
-    #[doc = "Bits 16:23"]
+    #[doc = "Bits 16:23 - Maximum interframe delay"]
     #[inline(always)]
     pub fn interxfr(&self) -> INTERXFR_R {
         INTERXFR_R::new(((self.bits >> 16) & 0xff) as u8)
     }
-    #[doc = "Bits 0:7"]
+    #[doc = "Bits 0:7 - Minimum CS inactive time"]
     #[inline(always)]
     pub fn intercs(&self) -> INTERCS_R {
         INTERCS_R::new((self.bits & 0xff) as u8)
     }
 }
 impl W {
-    #[doc = "Bits 16:23"]
+    #[doc = "Bits 16:23 - Maximum interframe delay"]
     #[inline(always)]
     pub fn interxfr(&mut self) -> INTERXFR_W {
         INTERXFR_W { w: self }
     }
-    #[doc = "Bits 0:7"]
+    #[doc = "Bits 0:7 - Minimum CS inactive time"]
     #[inline(always)]
     pub fn intercs(&mut self) -> INTERCS_W {
         INTERCS_W { w: self }

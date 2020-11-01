@@ -1760,20 +1760,32 @@
 
       <registers>
         <register>
-          <name>div</name>
+          <name>sckdiv</name>
           <description>Serial Clock Divisor Register</description>
           <addressOffset>0x00</addressOffset>
           <fields>
-            <field><name>value</name><msb>11</msb><lsb>0</lsb></field>
+            <field>
+              <name>div</name>
+              <description>Divisor for serial clock</description>
+              <msb>11</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
-          <name>mode</name>
+          <name>sckmode</name>
           <description>Serial Clock Mode Register</description>
           <addressOffset>0x04</addressOffset>
           <fields>
-            <field><name>polarity</name><msb>1</msb><lsb>1</lsb></field>
-            <field><name>phase</name><msb>0</msb><lsb>0</lsb></field>
+            <field>
+              <name>pol</name>
+              <description>Serial clock polarity</description>
+              <msb>1</msb><lsb>1</lsb>
+            </field>
+            <field>
+              <name>pha</name>
+              <description>Serial clock phase</description>
+              <msb>0</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -1825,8 +1837,16 @@
           <description>Delay Control 0 Register</description>
           <addressOffset>0x28</addressOffset>
           <fields>
-            <field><name>sckcs</name><msb>23</msb><lsb>16</lsb></field>
-            <field><name>cssck</name><msb>7</msb><lsb>0</lsb></field>
+            <field>
+              <name>sckcs</name>
+              <description>SCK to CS Delay</description>
+              <msb>23</msb><lsb>16</lsb>
+            </field>
+            <field>
+              <name>cssck</name>
+              <description>CS to SCK Delay</description>
+              <msb>7</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -1834,8 +1854,16 @@
           <description>Delay Control 1 Register</description>
           <addressOffset>0x2C</addressOffset>
           <fields>
-            <field><name>interxfr</name><msb>23</msb><lsb>16</lsb></field>
-            <field><name>intercs</name><msb>7</msb><lsb>0</lsb></field>
+            <field>
+              <name>interxfr</name>
+              <description>Maximum interframe delay</description>
+              <msb>23</msb><lsb>16</lsb>
+            </field>
+            <field>
+              <name>intercs</name>
+              <description>Minimum CS inactive time</description>
+              <msb>7</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -1843,9 +1871,14 @@
           <description>Frame Format Register</description>
           <addressOffset>0x40</addressOffset>
           <fields>
-            <field><name>length</name><msb>19</msb><lsb>16</lsb></field>
             <field>
-              <name>direction</name>
+              <name>len</name>
+              <description>Number of bits per frame</description>
+              <msb>19</msb><lsb>16</lsb>
+            </field>
+            <field>
+              <name>dir</name>
+              <description>SPI I/O direction</description>
               <msb>3</msb><lsb>3</lsb>
               <enumeratedValues>
                 <enumeratedValue>
@@ -1866,6 +1899,7 @@
             </field>
             <field>
               <name>endian</name>
+              <description>SPI endianness</description>
               <msb>2</msb><lsb>2</lsb>
               <enumeratedValues>
                 <enumeratedValue>
@@ -1881,7 +1915,8 @@
               </enumeratedValues>
             </field>
             <field>
-              <name>protocol</name>
+              <name>proto</name>
+              <description>SPI protocol</description>
               <msb>1</msb><lsb>0</lsb>
               <enumeratedValues>
                 <enumeratedValue>
@@ -1908,8 +1943,16 @@
           <description>Transmit Data Register</description>
           <addressOffset>0x48</addressOffset>
           <fields>
-            <field><name>full</name><msb>31</msb><lsb>31</lsb></field>
-            <field><name>data</name><msb>7</msb><lsb>0</lsb></field>
+            <field>
+              <name>full</name>
+              <description>FIFO full flag</description>
+              <msb>31</msb><lsb>31</lsb>
+            </field>
+            <field>
+              <name>data</name>
+              <description>Transmit data</description>
+              <msb>7</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -1917,8 +1960,16 @@
           <description>Receive Data Register</description>
           <addressOffset>0x4C</addressOffset>
           <fields>
-            <field><name>empty</name><msb>31</msb><lsb>31</lsb></field>
-            <field><name>data</name><msb>7</msb><lsb>0</lsb></field>
+            <field>
+              <name>empty</name>
+              <description>FIFO empty flag</description>
+              <msb>31</msb><lsb>31</lsb>
+            </field>
+            <field>
+              <name>data</name>
+              <description>Received data</description>
+              <msb>7</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -1926,7 +1977,11 @@
           <description>Transmit Watermark Register</description>
           <addressOffset>0x50</addressOffset>
           <fields>
-            <field><name>value</name><msb>2</msb><lsb>0</lsb></field>
+            <field>
+              <name>txmark</name>
+              <description>Transmit watermark</description>
+              <msb>2</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -1934,7 +1989,11 @@
           <description>Receive Watermark Register</description>
           <addressOffset>0x54</addressOffset>
           <fields>
-            <field><name>value</name><msb>2</msb><lsb>0</lsb></field>
+            <field>
+              <name>rxmark</name>
+              <description>Receive watermark</description>
+              <msb>2</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
 
@@ -1943,7 +2002,11 @@
           <description>SPI Flash Interface Control Register</description>
           <addressOffset>0x60</addressOffset>
           <fields>
-            <field><name>enable</name><msb>0</msb><lsb>0</lsb></field>
+            <field>
+              <name>en</name>
+              <description>SPI Flash Mode Select</description>
+              <msb>0</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -2058,8 +2121,16 @@
           <description>SPI Interrupt Enable Register</description>
           <addressOffset>0x70</addressOffset>
           <fields>
-            <field><name>rxwm</name><msb>1</msb><lsb>1</lsb></field>
-            <field><name>txwm</name><msb>0</msb><lsb>0</lsb></field>
+            <field>
+              <name>rxwm</name>
+              <description>Receive watermark enable</description>
+              <msb>1</msb><lsb>1</lsb>
+            </field>
+            <field>
+              <name>txwm</name>
+              <description>Transmit watermark enable</description>
+              <msb>0</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
         <register>
@@ -2067,8 +2138,16 @@
           <description>SPI Interrupt Pending Register</description>
           <addressOffset>0x74</addressOffset>
           <fields>
-            <field><name>rxwm</name><msb>1</msb><lsb>1</lsb></field>
-            <field><name>txwm</name><msb>0</msb><lsb>0</lsb></field>
+            <field>
+              <name>rxwm</name>
+              <description>Receive watermark enable</description>
+              <msb>1</msb><lsb>1</lsb>
+            </field>
+            <field>
+              <name>txwm</name>
+              <description>Transmit watermark enable</description>
+              <msb>0</msb><lsb>0</lsb>
+            </field>
           </fields>
         </register>
       </registers>

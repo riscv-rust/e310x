@@ -39,24 +39,24 @@ impl<'a> CSSCK_W<'a> {
     }
 }
 impl R {
-    #[doc = "Bits 16:23"]
+    #[doc = "Bits 16:23 - SCK to CS Delay"]
     #[inline(always)]
     pub fn sckcs(&self) -> SCKCS_R {
         SCKCS_R::new(((self.bits >> 16) & 0xff) as u8)
     }
-    #[doc = "Bits 0:7"]
+    #[doc = "Bits 0:7 - CS to SCK Delay"]
     #[inline(always)]
     pub fn cssck(&self) -> CSSCK_R {
         CSSCK_R::new((self.bits & 0xff) as u8)
     }
 }
 impl W {
-    #[doc = "Bits 16:23"]
+    #[doc = "Bits 16:23 - SCK to CS Delay"]
     #[inline(always)]
     pub fn sckcs(&mut self) -> SCKCS_W {
         SCKCS_W { w: self }
     }
-    #[doc = "Bits 0:7"]
+    #[doc = "Bits 0:7 - CS to SCK Delay"]
     #[inline(always)]
     pub fn cssck(&mut self) -> CSSCK_W {
         CSSCK_W { w: self }

@@ -1,22 +1,22 @@
-#[doc = "Reader of register mode"]
-pub type R = crate::R<u32, super::MODE>;
-#[doc = "Writer for register mode"]
-pub type W = crate::W<u32, super::MODE>;
-#[doc = "Register mode `reset()`'s with value 0"]
-impl crate::ResetValue for super::MODE {
+#[doc = "Reader of register sckmode"]
+pub type R = crate::R<u32, super::SCKMODE>;
+#[doc = "Writer for register sckmode"]
+pub type W = crate::W<u32, super::SCKMODE>;
+#[doc = "Register sckmode `reset()`'s with value 0"]
+impl crate::ResetValue for super::SCKMODE {
     type Type = u32;
     #[inline(always)]
     fn reset_value() -> Self::Type {
         0
     }
 }
-#[doc = "Reader of field `polarity`"]
-pub type POLARITY_R = crate::R<bool, bool>;
-#[doc = "Write proxy for field `polarity`"]
-pub struct POLARITY_W<'a> {
+#[doc = "Reader of field `pol`"]
+pub type POL_R = crate::R<bool, bool>;
+#[doc = "Write proxy for field `pol`"]
+pub struct POL_W<'a> {
     w: &'a mut W,
 }
-impl<'a> POLARITY_W<'a> {
+impl<'a> POL_W<'a> {
     #[doc = r"Sets the field bit"]
     #[inline(always)]
     pub fn set_bit(self) -> &'a mut W {
@@ -34,13 +34,13 @@ impl<'a> POLARITY_W<'a> {
         self.w
     }
 }
-#[doc = "Reader of field `phase`"]
-pub type PHASE_R = crate::R<bool, bool>;
-#[doc = "Write proxy for field `phase`"]
-pub struct PHASE_W<'a> {
+#[doc = "Reader of field `pha`"]
+pub type PHA_R = crate::R<bool, bool>;
+#[doc = "Write proxy for field `pha`"]
+pub struct PHA_W<'a> {
     w: &'a mut W,
 }
-impl<'a> PHASE_W<'a> {
+impl<'a> PHA_W<'a> {
     #[doc = r"Sets the field bit"]
     #[inline(always)]
     pub fn set_bit(self) -> &'a mut W {
@@ -59,26 +59,26 @@ impl<'a> PHASE_W<'a> {
     }
 }
 impl R {
-    #[doc = "Bit 1"]
+    #[doc = "Bit 1 - Serial clock polarity"]
     #[inline(always)]
-    pub fn polarity(&self) -> POLARITY_R {
-        POLARITY_R::new(((self.bits >> 1) & 0x01) != 0)
+    pub fn pol(&self) -> POL_R {
+        POL_R::new(((self.bits >> 1) & 0x01) != 0)
     }
-    #[doc = "Bit 0"]
+    #[doc = "Bit 0 - Serial clock phase"]
     #[inline(always)]
-    pub fn phase(&self) -> PHASE_R {
-        PHASE_R::new((self.bits & 0x01) != 0)
+    pub fn pha(&self) -> PHA_R {
+        PHA_R::new((self.bits & 0x01) != 0)
     }
 }
 impl W {
-    #[doc = "Bit 1"]
+    #[doc = "Bit 1 - Serial clock polarity"]
     #[inline(always)]
-    pub fn polarity(&mut self) -> POLARITY_W {
-        POLARITY_W { w: self }
+    pub fn pol(&mut self) -> POL_W {
+        POL_W { w: self }
     }
-    #[doc = "Bit 0"]
+    #[doc = "Bit 0 - Serial clock phase"]
     #[inline(always)]
-    pub fn phase(&mut self) -> PHASE_W {
-        PHASE_W { w: self }
+    pub fn pha(&mut self) -> PHA_W {
+        PHA_W { w: self }
     }
 }

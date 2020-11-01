@@ -2,9 +2,9 @@
 #[repr(C)]
 pub struct RegisterBlock {
     #[doc = "0x00 - Serial Clock Divisor Register"]
-    pub div: DIV,
+    pub sckdiv: SCKDIV,
     #[doc = "0x04 - Serial Clock Mode Register"]
-    pub mode: MODE,
+    pub sckmode: SCKMODE,
     _reserved2: [u8; 8usize],
     #[doc = "0x10 - Chip Select ID Register"]
     pub csid: CSID,
@@ -40,28 +40,28 @@ pub struct RegisterBlock {
     #[doc = "0x74 - SPI Interrupt Pending Register"]
     pub ip: IP,
 }
-#[doc = "Serial Clock Divisor Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [div](div) module"]
-pub type DIV = crate::Reg<u32, _DIV>;
+#[doc = "Serial Clock Divisor Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [sckdiv](sckdiv) module"]
+pub type SCKDIV = crate::Reg<u32, _SCKDIV>;
 #[allow(missing_docs)]
 #[doc(hidden)]
-pub struct _DIV;
-#[doc = "`read()` method returns [div::R](div::R) reader structure"]
-impl crate::Readable for DIV {}
-#[doc = "`write(|w| ..)` method takes [div::W](div::W) writer structure"]
-impl crate::Writable for DIV {}
+pub struct _SCKDIV;
+#[doc = "`read()` method returns [sckdiv::R](sckdiv::R) reader structure"]
+impl crate::Readable for SCKDIV {}
+#[doc = "`write(|w| ..)` method takes [sckdiv::W](sckdiv::W) writer structure"]
+impl crate::Writable for SCKDIV {}
 #[doc = "Serial Clock Divisor Register"]
-pub mod div;
-#[doc = "Serial Clock Mode Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mode](mode) module"]
-pub type MODE = crate::Reg<u32, _MODE>;
+pub mod sckdiv;
+#[doc = "Serial Clock Mode Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [sckmode](sckmode) module"]
+pub type SCKMODE = crate::Reg<u32, _SCKMODE>;
 #[allow(missing_docs)]
 #[doc(hidden)]
-pub struct _MODE;
-#[doc = "`read()` method returns [mode::R](mode::R) reader structure"]
-impl crate::Readable for MODE {}
-#[doc = "`write(|w| ..)` method takes [mode::W](mode::W) writer structure"]
-impl crate::Writable for MODE {}
+pub struct _SCKMODE;
+#[doc = "`read()` method returns [sckmode::R](sckmode::R) reader structure"]
+impl crate::Readable for SCKMODE {}
+#[doc = "`write(|w| ..)` method takes [sckmode::W](sckmode::W) writer structure"]
+impl crate::Writable for SCKMODE {}
 #[doc = "Serial Clock Mode Register"]
-pub mod mode;
+pub mod sckmode;
 #[doc = "Chip Select ID Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [csid](csid) module"]
 pub type CSID = crate::Reg<u32, _CSID>;
 #[allow(missing_docs)]

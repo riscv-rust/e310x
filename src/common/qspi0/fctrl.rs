@@ -10,13 +10,13 @@ impl crate::ResetValue for super::FCTRL {
         0
     }
 }
-#[doc = "Reader of field `enable`"]
-pub type ENABLE_R = crate::R<bool, bool>;
-#[doc = "Write proxy for field `enable`"]
-pub struct ENABLE_W<'a> {
+#[doc = "Reader of field `en`"]
+pub type EN_R = crate::R<bool, bool>;
+#[doc = "Write proxy for field `en`"]
+pub struct EN_W<'a> {
     w: &'a mut W,
 }
-impl<'a> ENABLE_W<'a> {
+impl<'a> EN_W<'a> {
     #[doc = r"Sets the field bit"]
     #[inline(always)]
     pub fn set_bit(self) -> &'a mut W {
@@ -35,16 +35,16 @@ impl<'a> ENABLE_W<'a> {
     }
 }
 impl R {
-    #[doc = "Bit 0"]
+    #[doc = "Bit 0 - SPI Flash Mode Select"]
     #[inline(always)]
-    pub fn enable(&self) -> ENABLE_R {
-        ENABLE_R::new((self.bits & 0x01) != 0)
+    pub fn en(&self) -> EN_R {
+        EN_R::new((self.bits & 0x01) != 0)
     }
 }
 impl W {
-    #[doc = "Bit 0"]
+    #[doc = "Bit 0 - SPI Flash Mode Select"]
     #[inline(always)]
-    pub fn enable(&mut self) -> ENABLE_W {
-        ENABLE_W { w: self }
+    pub fn en(&mut self) -> EN_W {
+        EN_W { w: self }
     }
 }

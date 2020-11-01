@@ -59,24 +59,24 @@ impl<'a> TXWM_W<'a> {
     }
 }
 impl R {
-    #[doc = "Bit 1"]
+    #[doc = "Bit 1 - Receive watermark enable"]
     #[inline(always)]
     pub fn rxwm(&self) -> RXWM_R {
         RXWM_R::new(((self.bits >> 1) & 0x01) != 0)
     }
-    #[doc = "Bit 0"]
+    #[doc = "Bit 0 - Transmit watermark enable"]
     #[inline(always)]
     pub fn txwm(&self) -> TXWM_R {
         TXWM_R::new((self.bits & 0x01) != 0)
     }
 }
 impl W {
-    #[doc = "Bit 1"]
+    #[doc = "Bit 1 - Receive watermark enable"]
     #[inline(always)]
     pub fn rxwm(&mut self) -> RXWM_W {
         RXWM_W { w: self }
     }
-    #[doc = "Bit 0"]
+    #[doc = "Bit 0 - Transmit watermark enable"]
     #[inline(always)]
     pub fn txwm(&mut self) -> TXWM_W {
         TXWM_W { w: self }
