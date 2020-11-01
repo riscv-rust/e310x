@@ -118,7 +118,8 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         PINS: Pins<SPI>
     {
         let div = clocks.tlclk().0 / (2 * freq.0) - 1;
-        spi.div.write(|w| unsafe { w.bits(div) });
+        assert!(div <= 0xfff);
+        spi.sckdiv.write(|w| unsafe { w.div().bits(div as u16) });
 
         let cs_mode = if let Some(cs_index) = PINS::CS_INDEX {
             spi.csid.write(|w| unsafe { w.bits(cs_index) });
@@ -135,21 +136,21 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         // Set SPI mode
         let phase = mode.phase == Phase::CaptureOnSecondTransition;
         let polarity = mode.polarity == Polarity::IdleHigh;
-        spi.mode.write(|w| w
-            .phase().bit(phase)
-            .polarity().bit(polarity)
+        spi.sckmode.write(|w| w
+            .pha().bit(phase)
+            .pol().bit(polarity)
         );
 
         spi.fmt.write(|w| unsafe { w
-            .protocol().bits(0) // Single
+            .proto().bits(0) // Single
             .endian().clear_bit() // Transmit most-significant bit (MSB) first
-            .direction().rx()
-            .length().bits(8)
+            .dir().rx()
+            .len().bits(8)
         });
 
         // Set watermark levels
-        spi.txmark.write(|w| unsafe { w.value().bits(1) });
-        spi.rxmark.write(|w| unsafe { w.value().bits(0) });
+        spi.txmark.write(|w| unsafe { w.txmark().bits(1) });
+        spi.rxmark.write(|w| unsafe { w.rxmark().bits(0) });
 
         spi.delay0.reset();
         spi.delay1.reset();
@@ -159,12 +160,12 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
 
     /// Sets transmit watermark level
     pub fn set_tx_watermark(&mut self, value: u8) {
-        self.spi.txmark.write(|w| unsafe { w.value().bits(value) });
+        self.spi.txmark.write(|w| unsafe { w.txmark().bits(value) });
     }
 
     /// Sets receive watermark level
     pub fn set_rx_watermark(&mut self, value: u8) {
-        self.spi.rxmark.write(|w| unsafe { w.value().bits(value) });
+        self.spi.rxmark.write(|w| unsafe { w.rxmark().bits(value) });
     }
 
     /// Returns transmit watermark event status
