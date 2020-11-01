@@ -343,9 +343,9 @@ impl AonClk {
             // Configure LFROSC
             aonclk.lfrosccfg.write(|w| {
                 unsafe {
-                    w.bits(trim << 16) // TODO: replace this with trim()
-                     .div().bits(div)
-                     .enable().bit(true)
+                    w.trim().bits(trim);
+                    w.div().bits(div);
+                    w.enable().bit(true)
                 }
             });
 
