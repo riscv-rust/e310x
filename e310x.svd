@@ -2034,7 +2034,7 @@
             </field>
             <field>
               <name>pad_cnt</name>
-              <msb>0</msb><lsb>0</lsb>
+              <msb>7</msb><lsb>4</lsb>
               <description>Number of dummy cycles</description>
               <resetValue>0x0</resetValue>
             </field>

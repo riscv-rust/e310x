@@ -276,26 +276,16 @@ impl<'a> CMD_PROTO_W<'a> {
     }
 }
 #[doc = "Reader of field `pad_cnt`"]
-pub type PAD_CNT_R = crate::R<bool, bool>;
+pub type PAD_CNT_R = crate::R<u8, u8>;
 #[doc = "Write proxy for field `pad_cnt`"]
 pub struct PAD_CNT_W<'a> {
     w: &'a mut W,
 }
 impl<'a> PAD_CNT_W<'a> {
-    #[doc = r"Sets the field bit"]
-    #[inline(always)]
-    pub fn set_bit(self) -> &'a mut W {
-        self.bit(true)
-    }
-    #[doc = r"Clears the field bit"]
-    #[inline(always)]
-    pub fn clear_bit(self) -> &'a mut W {
-        self.bit(false)
-    }
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
-    pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !0x01) | ((value as u32) & 0x01);
+    pub unsafe fn bits(self, value: u8) -> &'a mut W {
+        self.w.bits = (self.w.bits & !(0x0f << 4)) | (((value as u32) & 0x0f) << 4);
         self.w
     }
 }
@@ -363,10 +353,10 @@ impl R {
     pub fn cmd_proto(&self) -> CMD_PROTO_R {
         CMD_PROTO_R::new(((self.bits >> 8) & 0x03) as u8)
     }
-    #[doc = "Bit 0 - Number of dummy cycles"]
+    #[doc = "Bits 4:7 - Number of dummy cycles"]
     #[inline(always)]
     pub fn pad_cnt(&self) -> PAD_CNT_R {
-        PAD_CNT_R::new((self.bits & 0x01) != 0)
+        PAD_CNT_R::new(((self.bits >> 4) & 0x0f) as u8)
     }
     #[doc = "Bits 1:3 - Number of address bytes (0 to 4)"]
     #[inline(always)]
@@ -405,7 +395,7 @@ impl W {
     pub fn cmd_proto(&mut self) -> CMD_PROTO_W {
         CMD_PROTO_W { w: self }
     }
-    #[doc = "Bit 0 - Number of dummy cycles"]
+    #[doc = "Bits 4:7 - Number of dummy cycles"]
     #[inline(always)]
     pub fn pad_cnt(&mut self) -> PAD_CNT_W {
         PAD_CNT_W { w: self }
