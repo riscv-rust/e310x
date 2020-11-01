@@ -12,8 +12,8 @@ edition = "2018"
 [dependencies]
 embedded-hal = { version = "0.2.3", features = ["unproven"] }
 nb = "0.1.2"
-riscv = "0.5.4"
-e310x = { version = "0.8.0", features = ["rt"] }
+riscv = "0.6.0"
+e310x = { version = "0.9.0", features = ["rt"] }
 
 [features]
 g002 = ["e310x/g002"]
