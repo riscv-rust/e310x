@@ -50,7 +50,7 @@ const DEFAULT_WAKE_PROGRAM: [u32; 8] = [
 
 ///
 /// Enumeration of device reset causes
-/// 
+///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ResetCause {
     /// Reset due to power on
@@ -76,18 +76,18 @@ pub enum WakeupCause {
 
 ///
 /// Errors for user data backup procedures
-/// 
+///
 #[derive(Debug)]
 pub enum BackupError {
     /// Emitted when user data is larger than backup registers capacity
-    DataTooLarge, 
+    DataTooLarge,
     /// Emitted when user data size is not divisible by 4 bytes
     DataSizeInvalid,
 }
 
 ///
 /// Wakeup/Reset cause errors
-/// 
+///
 #[derive(Debug)]
 pub enum CauseError {
     /// Emitted if an unknown wakeup or reset cause is encountered
@@ -104,11 +104,11 @@ pub trait PMUExt {
     /// Puts device to sleep for N seconds, allowing wake-up button to wake it up as well
     ///
     /// # Arguments
-    /// 
+    ///
     /// *sleep_time* - the amount of time to sleep for in seconds
     ///
     /// # Notes
-    /// 
+    ///
     /// - enables RTC to be always on
     /// - sets RTC scale to 1/s
     ///
@@ -116,28 +116,28 @@ pub trait PMUExt {
 
     ///
     /// Returns an enumified version of the Wakeup and Reset causes from the pmucause register
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// * `Result<WakeupCause, CauseError>` - the cause enum is returned on success
-    /// 
+    ///
     /// # Errors
-    /// 
+    ///
     /// * `CauseError::InvalidCause` - returned if an unknown wakeup or reset cause is encountered
-    /// 
+    ///
     fn wakeup_cause(&self) -> Result<WakeupCause, CauseError>;
 
     ///
     /// Stores user data `UD` to backup registers.
-    /// 
+    ///
     /// # *WARNING*
-    /// 
+    ///
     /// `user_data` value must not contain un-serializable types such as pointers or references.
-    /// 
+    ///
     /// `user_data` size must be divisible by 4 bytes.
-    /// 
+    ///
     /// **The data is only guaranteed to be consistent when program is compiled with the same version of the compiler on store/restore.**
-    /// 
+    ///
     /// `#[repr(align(4))]` can be used to enforce a minimum alignment of 4 bytes for `user_data`
     ///
     /// # Arguments
@@ -145,9 +145,9 @@ pub trait PMUExt {
     /// * `user_data` - reference to the user data to store. `user_data` size must by divisible by 4 bytes
     ///
     /// # Returns
-    /// 
+    ///
     /// * `Result<(), BackupError>` - `()` is returned on success
-    /// 
+    ///
     /// # Errors
     ///
     /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
@@ -159,28 +159,28 @@ pub trait PMUExt {
     /// Restores user data `UD` from backup registers.
     ///
     /// # *WARNING*
-    /// 
+    ///
     /// `user_data` value must not contain un-serializable types such as pointers or references.
-    /// 
+    ///
     /// `user_data` size must be divisible by 4 bytes.
-    /// 
+    ///
     /// **The data is only guaranteed to be consistent when program is compiled with the same version of the compiler on store/restore.**
-    /// 
+    ///
     /// `#[repr(align(4))]` can be used to enforce a minimum alignment of 4 bytes for `user_data`
-    /// 
+    ///
     /// # Arguments
     ///
     /// * `user_data` - the user data to restore to. `user_data` size must by divisible by 4 bytes
     ///
     /// # Returns
-    /// 
+    ///
     /// * `Result<(), BackupError>` - `()` is returned on success
-    /// 
+    ///
     /// # Errors
     ///
     /// * `BackupError::DataTooLarge` - returned if `user_data` cannot fit into backup registers
     /// * `BackupError::DataSizeInvalid` - returned if `user_data` size is not divisible by 4 bytes    ///
-    /// 
+    ///
     unsafe fn restore_backup<UD>(&self, user_data: &mut UD) -> Result<(), BackupError>;
 
     ///
@@ -210,7 +210,9 @@ impl PMUExt for PMU {
             self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
             self.pmuie.write(|w| w.rtc().set_bit().dwakeup().set_bit());
             // set RTC clock scale to once per second for easy calculation
-            (*rtc).rtccfg.write(|w| w.enalways().set_bit().scale().bits(15));
+            (*rtc)
+                .rtccfg
+                .write(|w| w.enalways().set_bit().scale().bits(15));
             // get current RTC clock value scaled
             let rtc_now = (*rtc).rtcs.read().bits();
             // set RTC clock comparator
@@ -225,18 +227,18 @@ impl PMUExt for PMU {
         let pmu_cause = self.pmucause.read();
         let wakeup_cause = pmu_cause.wakeupcause();
         if wakeup_cause.is_rtc() {
-            return Ok(WakeupCause::RTC)
+            return Ok(WakeupCause::RTC);
         } else if wakeup_cause.is_digital() {
-            return Ok(WakeupCause::Digital)
+            return Ok(WakeupCause::Digital);
         } else if wakeup_cause.is_reset() {
             let reset_cause = pmu_cause.resetcause();
 
             if reset_cause.is_power_on() {
-                return Ok(WakeupCause::Reset(ResetCause::PowerOn))
+                return Ok(WakeupCause::Reset(ResetCause::PowerOn));
             } else if reset_cause.is_external() {
-                return Ok(WakeupCause::Reset(ResetCause::External))
+                return Ok(WakeupCause::Reset(ResetCause::External));
             } else if reset_cause.is_watchdog() {
-                return Ok(WakeupCause::Reset(ResetCause::WatchDog))
+                return Ok(WakeupCause::Reset(ResetCause::WatchDog));
             }
         }
 

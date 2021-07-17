@@ -10,12 +10,12 @@
 //! - SCL: Pin 13 IOF0
 //! - Interrupt::I2C0
 
-use e310x::{I2C0, i2c0};
-use core::ops::Deref;
-use core::mem;
+use crate::clock::Clocks;
 use crate::gpio::{gpio0, IOF0};
 use crate::time::Bps;
-use crate::clock::Clocks;
+use core::mem;
+use core::ops::Deref;
+use e310x::{i2c0, I2C0};
 use embedded_hal::blocking::i2c::{Read, Write, WriteRead};
 
 /// SDA pin - DO NOT IMPLEMENT THIS TRAIT
@@ -23,8 +23,8 @@ pub unsafe trait SdaPin<I2C> {}
 /// SCL pin - DO NOT IMPLEMENT THIS TRAIT
 pub unsafe trait SclPin<I2C> {}
 
-unsafe impl<T> SdaPin<I2C0> for gpio0::Pin12<IOF0<T>> { }
-unsafe impl<T> SclPin<I2C0> for gpio0::Pin13<IOF0<T>> { }
+unsafe impl<T> SdaPin<I2C0> for gpio0::Pin12<IOF0<T>> {}
+unsafe impl<T> SclPin<I2C0> for gpio0::Pin13<IOF0<T>> {}
 
 /// I2C error
 #[derive(Debug, Eq, PartialEq)]
@@ -51,7 +51,6 @@ pub enum Speed {
     Custom(Bps),
 }
 
-
 /// I2C abstraction
 pub struct I2c<I2C, PINS> {
     i2c: I2C,
@@ -61,7 +60,10 @@ pub struct I2c<I2C, PINS> {
 impl<SDA, SCL> I2c<I2C0, (SDA, SCL)> {
     /// Configures an I2C peripheral
     pub fn new(i2c: I2C0, sda: SDA, scl: SCL, speed: Speed, clocks: Clocks) -> Self
-    where SDA: SdaPin<I2C0>, SCL: SclPin<I2C0> {
+    where
+        SDA: SdaPin<I2C0>,
+        SCL: SclPin<I2C0>,
+    {
         // Calculate prescaler value
         let desired_speed = match speed {
             Speed::Normal => 100_000,
@@ -79,15 +81,17 @@ impl<SDA, SCL> I2c<I2C0, (SDA, SCL)> {
         // Set prescaler
         let prescaler_lo = (prescaler & 0xff) as u8;
         let prescaler_hi = ((prescaler >> 8) & 0xff) as u8;
-        i2c.prer_lo.write(|w| unsafe { w.value().bits(prescaler_lo) });
-        i2c.prer_hi.write(|w| unsafe { w.value().bits(prescaler_hi) });
+        i2c.prer_lo
+            .write(|w| unsafe { w.value().bits(prescaler_lo) });
+        i2c.prer_hi
+            .write(|w| unsafe { w.value().bits(prescaler_hi) });
 
         // Turn on i2c
         i2c.ctr.write(|w| w.en().set_bit());
 
         Self {
             i2c,
-            pins: (sda, scl)
+            pins: (sda, scl),
         }
     }
 }
@@ -99,14 +103,15 @@ impl<I2C, PINS> I2c<I2C, PINS> {
     }
 }
 
-impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
+impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
     fn reset(&self) {
         // ACK pending interrupt event, clear commands
         self.write_cr(|w| w.iack().set_bit());
     }
 
     fn write_cr<F>(&self, f: F)
-    where F: FnOnce(&mut i2c0::cr::W) -> &mut i2c0::cr::W
+    where
+        F: FnOnce(&mut i2c0::cr::W) -> &mut i2c0::cr::W,
     {
         self.i2c.cr().write(|w| unsafe {
             let mut value: u32 = 0;
@@ -116,15 +121,11 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
     }
 
     fn read_sr(&self) -> i2c0::sr::R {
-        unsafe {
-            mem::transmute(self.i2c.sr().read())
-        }
+        unsafe { mem::transmute(self.i2c.sr().read()) }
     }
 
     fn write_byte(&self, byte: u8) {
-        self.i2c.txr_rxr.write(|w| unsafe {
-            w.data().bits(byte)
-        });
+        self.i2c.txr_rxr.write(|w| unsafe { w.data().bits(byte) });
     }
 
     fn read_byte(&self) -> u8 {
@@ -171,14 +172,14 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
     }
 
     fn wait_for_complete(&self) {
-        while self.read_sr().busy().bit_is_set() { }
+        while self.read_sr().busy().bit_is_set() {}
     }
 }
 
 const FLAG_READ: u8 = 1;
 const FLAG_WRITE: u8 = 0;
 
-impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
+impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
     type Error = Error;
 
     fn read(&mut self, address: u8, buffer: &mut [u8]) -> Result<(), Self::Error> {
@@ -213,7 +214,7 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
     }
 }
 
-impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
+impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
     type Error = Error;
 
     fn write(&mut self, address: u8, bytes: &[u8]) -> Result<(), Self::Error> {
@@ -245,10 +246,15 @@ impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
     }
 }
 
-impl<I2C: Deref<Target=i2c0::RegisterBlock>, PINS> WriteRead for I2c<I2C, PINS> {
+impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> WriteRead for I2c<I2C, PINS> {
     type Error = Error;
 
-    fn write_read(&mut self, address: u8, bytes: &[u8], buffer: &mut [u8]) -> Result<(), Self::Error> {
+    fn write_read(
+        &mut self,
+        address: u8,
+        bytes: &[u8],
+        buffer: &mut [u8],
+    ) -> Result<(), Self::Error> {
         self.reset();
 
         if self.read_sr().busy().bit_is_set() {

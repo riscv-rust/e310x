@@ -1,9 +1,9 @@
 //! Platform-Level Interrupt Controller
 use core::marker::PhantomData;
-use riscv::register::{mie, mip};
-use riscv::interrupt::Nr;
-use e310x::PLIC;
 use e310x::Interrupt;
+use e310x::PLIC;
+use riscv::interrupt::Nr;
+use riscv::register::{mie, mip};
 
 /// Priority of a plic::Interrupt.
 #[derive(Clone, Copy)]
@@ -107,11 +107,10 @@ impl From<PLIC> for Plic {
                 mask: 1 << (Interrupt::UART0 as u8),
                 priority_offset: Interrupt::UART0 as usize,
                 _marker: PhantomData,
-            }
+            },
         }
     }
 }
-
 
 /// Opaque MEXT register.
 pub struct MEXT {
@@ -206,8 +205,7 @@ impl<IRQ> INTERRUPT<IRQ> {
     pub fn enable(&mut self) {
         // NOTE: should use atomic operations
         unsafe {
-            (*PLIC::ptr()).enable[self.offset]
-                .modify(|r, w| w.bits(r.bits() | self.mask));
+            (*PLIC::ptr()).enable[self.offset].modify(|r, w| w.bits(r.bits() | self.mask));
         }
     }
 
@@ -216,35 +214,28 @@ impl<IRQ> INTERRUPT<IRQ> {
     pub fn disable(&mut self) {
         // NOTE: should use atomic operations
         unsafe {
-            (*PLIC::ptr()).enable[self.offset]
-                .modify(|r, w| w.bits(r.bits() & !self.mask));
+            (*PLIC::ptr()).enable[self.offset].modify(|r, w| w.bits(r.bits() & !self.mask));
         }
     }
 
     /// Returns true when IRQ interrupt is pending.
     pub fn is_pending(&self) -> bool {
         // NOTE: Atomic write without side effects.
-        let pending = unsafe {
-            (*PLIC::ptr()).pending[self.offset].read()
-        };
+        let pending = unsafe { (*PLIC::ptr()).pending[self.offset].read() };
         pending.bits() & self.mask == self.mask
     }
 
     /// Returns true when WDOG interrupt is enabled.
     pub fn is_enabled(&self) -> bool {
         // NOTE: Atomic write without side effects.
-        let enabled = unsafe {
-            (*PLIC::ptr()).enable[self.offset].read()
-        };
+        let enabled = unsafe { (*PLIC::ptr()).enable[self.offset].read() };
         enabled.bits() & self.mask == self.mask
     }
 
     /// Returns the priority of the IRQ interrupt.
     pub fn priority(&self) -> Priority {
         // NOTE: Atomic read without side effects.
-        let priority = unsafe {
-            (*PLIC::ptr()).priority[self.priority_offset].read()
-        };
+        let priority = unsafe { (*PLIC::ptr()).priority[self.priority_offset].read() };
         Priority::from(priority.bits()).unwrap()
     }
 
@@ -252,8 +243,7 @@ impl<IRQ> INTERRUPT<IRQ> {
     pub fn set_priority(&mut self, priority: Priority) {
         // NOTE: Atomic write without side effects.
         unsafe {
-            (*PLIC::ptr()).priority[self.priority_offset]
-                .write(|w| w.bits(priority as u32));
+            (*PLIC::ptr()).priority[self.priority_offset].write(|w| w.bits(priority as u32));
         }
     }
 }

@@ -23,14 +23,13 @@
 //! - SS: Pin 26 IOF0
 //! - Interrupt::QSPI2
 
-use core::convert::Infallible;
-use core::ops::Deref;
-pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
-use e310x::{QSPI0, QSPI1, QSPI2, qspi0};
 use crate::clock::Clocks;
 use crate::time::Hertz;
+use core::convert::Infallible;
+use core::ops::Deref;
+use e310x::{qspi0, QSPI0, QSPI1, QSPI2};
+pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
 use nb;
-
 
 /// SPI pins - DO NOT IMPLEMENT THIS TRAIT
 ///
@@ -48,9 +47,9 @@ impl Pins<QSPI0> for () {
 
 /* SPI1 pins */
 mod spi1_impl {
-    use crate::gpio::{NoInvert, IOF0};
-    use crate::gpio::gpio0;
     use super::{Pins, QSPI1};
+    use crate::gpio::gpio0;
+    use crate::gpio::{NoInvert, IOF0};
 
     type MOSI = gpio0::Pin3<IOF0<NoInvert>>;
     type MISO = gpio0::Pin4<IOF0<NoInvert>>;
@@ -60,49 +59,89 @@ mod spi1_impl {
     type SS2 = gpio0::Pin9<IOF0<NoInvert>>;
     type SS3 = gpio0::Pin10<IOF0<NoInvert>>;
 
-    impl Pins<QSPI1> for (MOSI, MISO, SCK) { const CS_INDEX: Option<u32> = None; }
-    impl Pins<QSPI1> for (MOSI, (),   SCK) { const CS_INDEX: Option<u32> = None; }
-    impl Pins<QSPI1> for ((),   MISO, SCK) { const CS_INDEX: Option<u32> = None; }
-    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
-    impl Pins<QSPI1> for (MOSI, (),   SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
-    impl Pins<QSPI1> for ((),   MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
-    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS1) { const CS_INDEX: Option<u32> = Some(1); }
-    impl Pins<QSPI1> for (MOSI, (),   SCK, SS1) { const CS_INDEX: Option<u32> = Some(1); }
-    impl Pins<QSPI1> for ((),   MISO, SCK, SS1) { const CS_INDEX: Option<u32> = Some(1); }
-    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS2) { const CS_INDEX: Option<u32> = Some(2); }
-    impl Pins<QSPI1> for (MOSI, (),   SCK, SS2) { const CS_INDEX: Option<u32> = Some(2); }
-    impl Pins<QSPI1> for ((),   MISO, SCK, SS2) { const CS_INDEX: Option<u32> = Some(2); }
-    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS3) { const CS_INDEX: Option<u32> = Some(3); }
-    impl Pins<QSPI1> for (MOSI, (),   SCK, SS3) { const CS_INDEX: Option<u32> = Some(3); }
-    impl Pins<QSPI1> for ((),   MISO, SCK, SS3) { const CS_INDEX: Option<u32> = Some(3); }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK) {
+        const CS_INDEX: Option<u32> = None;
+    }
+    impl Pins<QSPI1> for (MOSI, (), SCK) {
+        const CS_INDEX: Option<u32> = None;
+    }
+    impl Pins<QSPI1> for ((), MISO, SCK) {
+        const CS_INDEX: Option<u32> = None;
+    }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS0) {
+        const CS_INDEX: Option<u32> = Some(0);
+    }
+    impl Pins<QSPI1> for (MOSI, (), SCK, SS0) {
+        const CS_INDEX: Option<u32> = Some(0);
+    }
+    impl Pins<QSPI1> for ((), MISO, SCK, SS0) {
+        const CS_INDEX: Option<u32> = Some(0);
+    }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS1) {
+        const CS_INDEX: Option<u32> = Some(1);
+    }
+    impl Pins<QSPI1> for (MOSI, (), SCK, SS1) {
+        const CS_INDEX: Option<u32> = Some(1);
+    }
+    impl Pins<QSPI1> for ((), MISO, SCK, SS1) {
+        const CS_INDEX: Option<u32> = Some(1);
+    }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS2) {
+        const CS_INDEX: Option<u32> = Some(2);
+    }
+    impl Pins<QSPI1> for (MOSI, (), SCK, SS2) {
+        const CS_INDEX: Option<u32> = Some(2);
+    }
+    impl Pins<QSPI1> for ((), MISO, SCK, SS2) {
+        const CS_INDEX: Option<u32> = Some(2);
+    }
+    impl Pins<QSPI1> for (MOSI, MISO, SCK, SS3) {
+        const CS_INDEX: Option<u32> = Some(3);
+    }
+    impl Pins<QSPI1> for (MOSI, (), SCK, SS3) {
+        const CS_INDEX: Option<u32> = Some(3);
+    }
+    impl Pins<QSPI1> for ((), MISO, SCK, SS3) {
+        const CS_INDEX: Option<u32> = Some(3);
+    }
 }
 
 /* SPI2 pins */
 mod spi2_impl {
-    use crate::gpio::{NoInvert, IOF0};
-    use crate::gpio::gpio0;
     use super::{Pins, QSPI2};
+    use crate::gpio::gpio0;
+    use crate::gpio::{NoInvert, IOF0};
 
     type MOSI = gpio0::Pin27<IOF0<NoInvert>>;
     type MISO = gpio0::Pin28<IOF0<NoInvert>>;
     type SCK = gpio0::Pin29<IOF0<NoInvert>>;
     type SS0 = gpio0::Pin26<IOF0<NoInvert>>;
 
-    impl Pins<QSPI2> for (MOSI, MISO, SCK) { const CS_INDEX: Option<u32> = None; }
-    impl Pins<QSPI2> for (MOSI, (),   SCK) { const CS_INDEX: Option<u32> = None; }
-    impl Pins<QSPI2> for ((),   MISO, SCK) { const CS_INDEX: Option<u32> = None; }
-    impl Pins<QSPI2> for (MOSI, MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
-    impl Pins<QSPI2> for (MOSI, (),   SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
-    impl Pins<QSPI2> for ((),   MISO, SCK, SS0) { const CS_INDEX: Option<u32> = Some(0); }
+    impl Pins<QSPI2> for (MOSI, MISO, SCK) {
+        const CS_INDEX: Option<u32> = None;
+    }
+    impl Pins<QSPI2> for (MOSI, (), SCK) {
+        const CS_INDEX: Option<u32> = None;
+    }
+    impl Pins<QSPI2> for ((), MISO, SCK) {
+        const CS_INDEX: Option<u32> = None;
+    }
+    impl Pins<QSPI2> for (MOSI, MISO, SCK, SS0) {
+        const CS_INDEX: Option<u32> = Some(0);
+    }
+    impl Pins<QSPI2> for (MOSI, (), SCK, SS0) {
+        const CS_INDEX: Option<u32> = Some(0);
+    }
+    impl Pins<QSPI2> for ((), MISO, SCK, SS0) {
+        const CS_INDEX: Option<u32> = Some(0);
+    }
 }
-
 
 #[doc(hidden)]
 pub trait SpiX: Deref<Target = qspi0::RegisterBlock> {}
 impl SpiX for QSPI0 {}
 impl SpiX for QSPI1 {}
 impl SpiX for QSPI2 {}
-
 
 /// SPI abstraction
 pub struct Spi<SPI, PINS> {
@@ -115,7 +154,7 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
     /// Defaults to using AUTO CS in FRAME mode if PINS configuration allows it
     pub fn new(spi: SPI, pins: PINS, mode: Mode, freq: Hertz, clocks: Clocks) -> Self
     where
-        PINS: Pins<SPI>
+        PINS: Pins<SPI>,
     {
         let div = clocks.tlclk().0 / (2 * freq.0) - 1;
         assert!(div <= 0xfff);
@@ -136,16 +175,18 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         // Set SPI mode
         let phase = mode.phase == Phase::CaptureOnSecondTransition;
         let polarity = mode.polarity == Polarity::IdleHigh;
-        spi.sckmode.write(|w| w
-            .pha().bit(phase)
-            .pol().bit(polarity)
-        );
+        spi.sckmode
+            .write(|w| w.pha().bit(phase).pol().bit(polarity));
 
-        spi.fmt.write(|w| unsafe { w
-            .proto().bits(0) // Single
-            .endian().clear_bit() // Transmit most-significant bit (MSB) first
-            .dir().rx()
-            .len().bits(8)
+        spi.fmt.write(|w| unsafe {
+            w.proto()
+                .bits(0) // Single
+                .endian()
+                .clear_bit() // Transmit most-significant bit (MSB) first
+                .dir()
+                .rx()
+                .len()
+                .bits(8)
         });
 
         // Set watermark levels
@@ -251,9 +292,9 @@ impl<SPI: SpiX, PINS> embedded_hal::spi::FullDuplex<u8> for Spi<SPI, PINS> {
 impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Transfer<u8> for Spi<SPI, PINS> {
     type Error = Infallible;
 
-    fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w[u8], Self::Error> {
+    fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w [u8], Self::Error> {
         // Ensure that RX FIFO is empty
-        while self.spi.rxdata.read().empty().bit_is_clear() { }
+        while self.spi.rxdata.read().empty().bit_is_clear() {}
 
         self.cs_mode_frame();
 
@@ -286,7 +327,7 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::Write<u8> for Spi<SPI, PINS> 
 
     fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
         // Ensure that RX FIFO is empty
-        while self.spi.rxdata.read().empty().bit_is_clear() { }
+        while self.spi.rxdata.read().empty().bit_is_clear() {}
 
         self.cs_mode_frame();
 
@@ -318,12 +359,12 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PI
 
     fn write_iter<WI>(&mut self, words: WI) -> Result<(), Self::Error>
     where
-        WI: IntoIterator<Item=u8>
+        WI: IntoIterator<Item = u8>,
     {
         let mut iter = words.into_iter();
 
         // Ensure that RX FIFO is empty
-        while self.spi.rxdata.read().empty().bit_is_clear() { }
+        while self.spi.rxdata.read().empty().bit_is_clear() {}
 
         self.cs_mode_frame();
 
@@ -353,14 +394,13 @@ impl<SPI: SpiX, PINS> embedded_hal::blocking::spi::WriteIter<u8> for Spi<SPI, PI
     }
 }
 
-
 // Backward compatibility
 impl<PINS> Spi<QSPI0, PINS> {
     /// Configures the SPI peripheral to operate in full duplex master mode
     #[deprecated(note = "Please use Spi::new function instead")]
     pub fn spi0(spi: QSPI0, pins: PINS, mode: Mode, freq: Hertz, clocks: Clocks) -> Self
     where
-        PINS: Pins<QSPI0>
+        PINS: Pins<QSPI0>,
     {
         Self::new(spi, pins, mode, freq, clocks)
     }
@@ -370,8 +410,8 @@ impl<PINS> Spi<QSPI1, PINS> {
     /// Configures the SPI peripheral to operate in full duplex master mode
     #[deprecated(note = "Please use Spi::new function instead")]
     pub fn spi1(spi: QSPI1, pins: PINS, mode: Mode, freq: Hertz, clocks: Clocks) -> Self
-        where
-            PINS: Pins<QSPI1>
+    where
+        PINS: Pins<QSPI1>,
     {
         Self::new(spi, pins, mode, freq, clocks)
     }
@@ -381,8 +421,8 @@ impl<PINS> Spi<QSPI2, PINS> {
     /// Configures the SPI peripheral to operate in full duplex master mode
     #[deprecated(note = "Please use Spi::new function instead")]
     pub fn spi2(spi: QSPI2, pins: PINS, mode: Mode, freq: Hertz, clocks: Clocks) -> Self
-        where
-            PINS: Pins<QSPI2>
+    where
+        PINS: Pins<QSPI2>,
     {
         Self::new(spi, pins, mode, freq, clocks)
     }

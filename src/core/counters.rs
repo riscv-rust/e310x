@@ -1,6 +1,6 @@
 //! Performance counters
 
-use riscv::register::{mcycle, minstret, mhpmcounter3, mhpmcounter4};
+use riscv::register::{mcycle, mhpmcounter3, mhpmcounter4, minstret};
 
 /// Opaque mcycle register
 pub struct MCYCLE;
@@ -56,7 +56,6 @@ pub struct PerformanceCounters {
     pub mhpmcounter3: MHPMCOUNTER3,
     /// 40-bit mhpmcounter4 counter
     pub mhpmcounter4: MHPMCOUNTER4,
-
     // TODO: mhpmevent3, mhpmevent4
 }
 
@@ -66,7 +65,7 @@ impl PerformanceCounters {
             mcycle: MCYCLE,
             minstret: MINSTRET,
             mhpmcounter3: MHPMCOUNTER3,
-            mhpmcounter4: MHPMCOUNTER4
+            mhpmcounter4: MHPMCOUNTER4,
         }
     }
 }

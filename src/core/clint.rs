@@ -11,7 +11,7 @@ macro_rules! read64 {
                 return ((hi as u64) << 32) | lo as u64;
             }
         }
-    }
+    };
 }
 
 /// Opaque msip register
@@ -23,13 +23,9 @@ impl MSIP {
     /// Set msip register value
     pub fn set_value(&mut self, value: bool) {
         unsafe {
-            (*CLINT::ptr()).msip.write(|w| {
-                if value {
-                    w.bits(1)
-                } else {
-                    w.bits(0)
-                }
-            })
+            (*CLINT::ptr())
+                .msip
+                .write(|w| if value { w.bits(1) } else { w.bits(0) })
         }
     }
 }
@@ -115,7 +111,7 @@ impl From<CLINT> for Clint {
         Clint {
             msip: MSIP { _0: () },
             mtimecmp: MTIMECMP { _0: () },
-            mtime: MTIME
+            mtime: MTIME,
         }
     }
 }

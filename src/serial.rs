@@ -22,9 +22,9 @@ use nb;
 use crate::clock::Clocks;
 use crate::gpio::{gpio0, IOF0};
 use crate::time::Bps;
+use core::mem;
 #[allow(unused_imports)]
 use e310x::{uart0, UART0, UART1};
-use core::mem;
 
 // FIXME these should be "closed" traits
 /// TX pin - DO NOT IMPLEMENT THIS TRAIT
@@ -75,7 +75,8 @@ impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
         unsafe {
             uart.ie.write(|w| w.txwm().bit(false).rxwm().bit(false));
             uart.div.write(|w| w.bits(div));
-            uart.txctrl.write(|w| w.counter().bits(1).enable().bit(true));
+            uart.txctrl
+                .write(|w| w.counter().bits(1).enable().bit(true));
             uart.rxctrl.write(|w| w.enable().bit(true));
         }
 
@@ -101,11 +102,9 @@ impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
     pub fn split(self) -> (Tx<UART>, Rx<UART>) {
         (
             Tx {
-                uart: unsafe { mem::zeroed() }
+                uart: unsafe { mem::zeroed() },
             },
-            Rx {
-                uart: self.uart
-            }
+            Rx { uart: self.uart },
         )
     }
 
@@ -160,9 +159,9 @@ impl<TX, RX> Serial<UART0, (TX, RX)> {
     /// Configures a UART peripheral to provide serial communication
     #[deprecated(note = "Please use Serial::new function instead")]
     pub fn uart0(uart: UART0, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
-        where
-            TX: TxPin<UART0>,
-            RX: RxPin<UART0>,
+    where
+        TX: TxPin<UART0>,
+        RX: RxPin<UART0>,
     {
         Self::new(uart, pins, baud_rate, clocks)
     }
@@ -173,9 +172,9 @@ impl<TX, RX> Serial<UART1, (TX, RX)> {
     /// Configures a UART peripheral to provide serial communication
     #[deprecated(note = "Please use Serial::new function instead")]
     pub fn uart1(uart: UART1, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
-        where
-            TX: TxPin<UART1>,
-            RX: RxPin<UART1>,
+    where
+        TX: TxPin<UART1>,
+        RX: RxPin<UART1>,
     {
         Self::new(uart, pins, baud_rate, clocks)
     }

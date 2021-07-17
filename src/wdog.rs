@@ -57,12 +57,18 @@ impl WdogCfg {
     pub fn freeze(self) -> Wdog {
         unsafe {
             (*WDOG::ptr()).wdogkey.write(|w| w.bits(0x51F15E));
-            (*WDOG::ptr()).wdogcfg.write(|w| w
-                                         .scale().bits(self.scale)
-                                         .rsten().bit(self.reset)
-                                         .zerocmp().bit(self.zero_cmp)
-                                         .enalways().bit(self.enable)
-                                         .encoreawake().bit(self.awake));
+            (*WDOG::ptr()).wdogcfg.write(|w| {
+                w.scale()
+                    .bits(self.scale)
+                    .rsten()
+                    .bit(self.reset)
+                    .zerocmp()
+                    .bit(self.zero_cmp)
+                    .enalways()
+                    .bit(self.enable)
+                    .encoreawake()
+                    .bit(self.awake)
+            });
         }
         Wdog { _0: () }
     }
