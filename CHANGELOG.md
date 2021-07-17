@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.9.2] - 2021-07-17
+
+### Changed
+
+- Fixed `e310x-hal::delay::Delay` timing typo with extra 0
+
 ## [v0.9.1] - 2021-07-15
 
 ### Added
