@@ -1,0 +1,77 @@
+on:
+  push:
+    branches: [ staging, trying, master ]
+  pull_request:
+
+name: Continuous integration
+
+jobs:
+  ci-linux:
+    runs-on: ubuntu-20.04
+    continue-on-error: ${{ matrix.experimental || false }}
+    strategy:
+      matrix:
+        # All generated code should be running on stable now, MRSV is 1.42.0
+        rust: [nightly, stable, 1.42.0]
+
+        include:
+          # Nightly is only for reference and allowed to fail
+          - rust: nightly
+            experimental: true
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+      - name: Install all Rust targets for ${{ matrix.rust }}
+        run: rustup target install --toolchain=${{ matrix.rust }} x86_64-unknown-linux-gnu riscv32imac-unknown-none-elf riscv64imac-unknown-none-elf riscv64gc-unknown-none-elf
+      - name: Run CI script for x86_64-unknown-linux-gnu under ${{ matrix.rust }}
+        run: |
+          TARGET=x86_64-unknown-linux-gnu cargo check
+          TARGET=x86_64-unknown-linux-gnu cargo check --features rt
+          TARGET=x86_64-unknown-linux-gnu cargo check --features g002
+          TARGET=x86_64-unknown-linux-gnu cargo check --features g002,rt
+      - name: Run CI script for riscv32imac-unknown-none-elf under ${{ matrix.rust }}
+        run: |
+          TARGET=riscv32imac-unknown-none-elf cargo check
+          TARGET=riscv32imac-unknown-none-elf cargo check --features rt
+          TARGET=riscv32imac-unknown-none-elf cargo check --features g002
+          TARGET=riscv32imac-unknown-none-elf cargo check --features g002,rt
+      - name: Run CI script for riscv64imac-unknown-none-elf under ${{ matrix.rust }}
+        run: |
+          TARGET=riscv64imac-unknown-none-elf cargo check
+          TARGET=riscv64imac-unknown-none-elf cargo check --features rt
+          TARGET=riscv64imac-unknown-none-elf cargo check --features g002
+          TARGET=riscv64imac-unknown-none-elf cargo check --features g002,rt
+      - name: Run CI script for riscv64gc-unknown-none-elf under ${{ matrix.rust }}
+        run: |
+          TARGET=riscv64gc-unknown-none-elf cargo check
+          TARGET=riscv64gc-unknown-none-elf cargo check --features rt
+          TARGET=riscv64gc-unknown-none-elf cargo check --features g002
+          TARGET=riscv64gc-unknown-none-elf cargo check --features g002,rt
+
+  # On macOS and Windows, we at least make sure that the crate builds and links.
+  build-other:
+    strategy:
+      matrix:
+        os:
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Build crate for host OS
+        run: |
+          cargo build
+          cargo build --features rt
+          cargo build --features g002
+          cargo build --features g002,rt
