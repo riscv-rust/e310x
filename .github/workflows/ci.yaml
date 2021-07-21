@@ -28,30 +28,12 @@ jobs:
           override: true
       - name: Install all Rust targets for ${{ matrix.rust }}
         run: rustup target install --toolchain=${{ matrix.rust }} x86_64-unknown-linux-gnu riscv32imac-unknown-none-elf riscv64imac-unknown-none-elf riscv64gc-unknown-none-elf
-      - name: Run CI script for x86_64-unknown-linux-gnu under ${{ matrix.rust }}
-        run: |
-          cargo check --target x86_64-unknown-linux-gnu
-          cargo check --target x86_64-unknown-linux-gnu --features rt
-          cargo check --target x86_64-unknown-linux-gnu --features g002
-          cargo check --target x86_64-unknown-linux-gnu --features g002,rt
       - name: Run CI script for riscv32imac-unknown-none-elf under ${{ matrix.rust }}
         run: |
-          cargo check --target riscv32imac-unknown-none-elf
-          cargo check --target riscv32imac-unknown-none-elf --features rt
-          cargo check --target riscv32imac-unknown-none-elf --features g002
-          cargo check --target riscv32imac-unknown-none-elf --features g002,rt
-      - name: Run CI script for riscv64imac-unknown-none-elf under ${{ matrix.rust }}
-        run: |
-          cargo check --target riscv64imac-unknown-none-elf
-          cargo check --target riscv64imac-unknown-none-elf --features rt
-          cargo check --target riscv64imac-unknown-none-elf --features g002
-          cargo check --target riscv64imac-unknown-none-elf --features g002,rt
-      - name: Run CI script for riscv64gc-unknown-none-elf under ${{ matrix.rust }}
-        run: |
-          cargo check --target riscv64gc-unknown-none-elf
-          cargo check --target riscv64gc-unknown-none-elf --features rt
-          cargo check --target riscv64gc-unknown-none-elf --features g002
-          cargo check --target riscv64gc-unknown-none-elf --features g002,rt
+          TARGET=riscv32imac-unknown-none-elf cargo check
+          TARGET=riscv32imac-unknown-none-elf cargo check --features rt
+          TARGET=riscv32imac-unknown-none-elf cargo check --features g002
+          TARGET=riscv32imac-unknown-none-elf cargo check --features g002,rt
 
   # On macOS and Windows, we at least make sure that the crate builds and links.
   build-other:
