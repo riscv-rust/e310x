@@ -49,9 +49,9 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+      - name: Install Rust targets
+        run: rustup target install riscv32imac-unknown-none-elf
       - name: Build crate for host OS
         run: |
-          cargo build
-          cargo build --features rt
-          cargo build --features g002
-          cargo build --features g002,rt
+          cargo build --target riscv32imac-unknown-none-elf
+          cargo build --target riscv32imac-unknown-none-elf --features g002
