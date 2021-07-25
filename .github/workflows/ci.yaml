@@ -26,14 +26,12 @@ jobs:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
-      - name: Install all Rust targets for ${{ matrix.rust }}
-        run: rustup target install --toolchain=${{ matrix.rust }} x86_64-unknown-linux-gnu riscv32imac-unknown-none-elf riscv64imac-unknown-none-elf riscv64gc-unknown-none-elf
-      - name: Run CI script for riscv32imac-unknown-none-elf under ${{ matrix.rust }}
+      - name: Install Rust targets
+        run: rustup target install --toolchain=${{ matrix.rust }} riscv32imac-unknown-none-elf
+      - name: Build crate for riscv32imac-unknown-none-elf
         run: |
-          TARGET=riscv32imac-unknown-none-elf cargo check
-          TARGET=riscv32imac-unknown-none-elf cargo check --features rt
-          TARGET=riscv32imac-unknown-none-elf cargo check --features g002
-          TARGET=riscv32imac-unknown-none-elf cargo check --features g002,rt
+          cargo build --target riscv32imac-unknown-none-elf
+          cargo build --target riscv32imac-unknown-none-elf --features g002
 
   # On macOS and Windows, we at least make sure that the crate builds and links.
   build-other:
@@ -51,9 +49,9 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
-      - name: Build crate for host OS
+      - name: Install Rust targets
+        run: rustup target install riscv32imac-unknown-none-elf
+      - name: Build crate for riscv32imac-unknown-none-elf
         run: |
-          cargo build
-          cargo build --features rt
-          cargo build --features g002
-          cargo build --features g002,rt
+          cargo build --target riscv32imac-unknown-none-elf
+          cargo build --target riscv32imac-unknown-none-elf --features g002
