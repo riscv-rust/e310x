@@ -28,7 +28,7 @@ jobs:
           override: true
       - name: Install Rust targets
         run: rustup target install --toolchain=${{ matrix.rust }} riscv32imac-unknown-none-elf
-      - name: Run build for riscv32imac-unknown-none-elf
+      - name: Build crate for riscv32imac-unknown-none-elf
         run: |
           cargo build --target riscv32imac-unknown-none-elf
           cargo build --target riscv32imac-unknown-none-elf --features g002
@@ -51,7 +51,7 @@ jobs:
           override: true
       - name: Install Rust targets
         run: rustup target install riscv32imac-unknown-none-elf
-      - name: Build crate for host OS
+      - name: Build crate for riscv32imac-unknown-none-elf
         run: |
           cargo build --target riscv32imac-unknown-none-elf
           cargo build --target riscv32imac-unknown-none-elf --features g002
