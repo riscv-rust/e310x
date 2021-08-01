@@ -27,13 +27,24 @@ impl DelayUs<u32> for Delay {
     }
 }
 
+// This is a workaround to allow `delay_us(42)` construction without specifying a type.
+impl DelayUs<i32> for Delay {
+    #[inline(always)]
+    fn delay_us(&mut self, us: i32) {
+        assert!(us >= 0);
+        self.delay_us(us as u32);
+    }
+}
+
 impl DelayUs<u16> for Delay {
+    #[inline(always)]
     fn delay_us(&mut self, us: u16) {
         self.delay_ms(u32::from(us));
     }
 }
 
 impl DelayUs<u8> for Delay {
+    #[inline(always)]
     fn delay_us(&mut self, us: u8) {
         self.delay_ms(u32::from(us));
     }
@@ -45,13 +56,24 @@ impl DelayMs<u32> for Delay {
     }
 }
 
+// This is a workaround to allow `delay_ms(42)` construction without specifying a type.
+impl DelayMs<i32> for Delay {
+    #[inline(always)]
+    fn delay_ms(&mut self, ms: i32) {
+        assert!(ms >= 0);
+        self.delay_ms(ms as u32);
+    }
+}
+
 impl DelayMs<u16> for Delay {
+    #[inline(always)]
     fn delay_ms(&mut self, ms: u16) {
         self.delay_ms(u32::from(ms));
     }
 }
 
 impl DelayMs<u8> for Delay {
+    #[inline(always)]
     fn delay_ms(&mut self, ms: u8) {
         self.delay_ms(u32::from(ms));
     }
@@ -107,13 +129,24 @@ impl DelayMs<u32> for Sleep {
     }
 }
 
+// This is a workaround to allow `delay_ms(42)` construction without specifying a type.
+impl DelayMs<i32> for Sleep {
+    #[inline(always)]
+    fn delay_ms(&mut self, ms: i32) {
+        assert!(ms >= 0);
+        self.delay_ms(ms as u32);
+    }
+}
+
 impl DelayMs<u16> for Sleep {
+    #[inline(always)]
     fn delay_ms(&mut self, ms: u16) {
         self.delay_ms(u32::from(ms));
     }
 }
 
 impl DelayMs<u8> for Sleep {
+    #[inline(always)]
     fn delay_ms(&mut self, ms: u8) {
         self.delay_ms(u32::from(ms));
     }
