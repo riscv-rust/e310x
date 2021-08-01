@@ -27,6 +27,7 @@ use crate::clock::Clocks;
 use crate::time::Hertz;
 use core::convert::Infallible;
 use core::ops::Deref;
+use e310x::qspi0::csmode::MODE_A;
 use e310x::{qspi0, QSPI0, QSPI1, QSPI2};
 pub use embedded_hal::spi::{Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
 use nb;
@@ -163,11 +164,11 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         let cs_mode = if let Some(cs_index) = PINS::CS_INDEX {
             spi.csid.write(|w| unsafe { w.bits(cs_index) });
 
-            2 // AUTO: Assert/de-assert CS at the beginning/end of each frame
+            MODE_A::HOLD // Keep CS continuously asserted after the initial frame
         } else {
-            3 // OFF: Disable hardware control of the CS pin
+            MODE_A::OFF // Disable hardware control of the CS pin
         };
-        spi.csmode.write(|w| unsafe { w.bits(cs_mode) });
+        spi.csmode.write(|w| w.mode().variant(cs_mode));
 
         // Set CS pin polarity to high
         spi.csdef.reset();
@@ -179,14 +180,10 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
             .write(|w| w.pha().bit(phase).pol().bit(polarity));
 
         spi.fmt.write(|w| unsafe {
-            w.proto()
-                .bits(0) // Single
-                .endian()
-                .clear_bit() // Transmit most-significant bit (MSB) first
-                .dir()
-                .rx()
-                .len()
-                .bits(8)
+            w.proto().single();
+            w.endian().big(); // Transmit most-significant bit (MSB) first
+            w.dir().rx();
+            w.len().bits(8)
         });
 
         // Set watermark levels
@@ -241,15 +238,15 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
 
     /// Set AUTO CS mode to per-word operation
     pub fn cs_mode_word(&mut self) {
-        if self.spi.csmode.read().bits() != 3 {
-            self.spi.csmode.write(|w| unsafe { w.bits(0) });
+        if !self.spi.csmode.read().mode().is_off() {
+            self.spi.csmode.write(|w| w.mode().auto());
         }
     }
 
     /// Set AUTO CS mode to per-frame operation
     pub fn cs_mode_frame(&mut self) {
-        if self.spi.csmode.read().bits() != 3 {
-            self.spi.csmode.write(|w| unsafe { w.bits(2) });
+        if !self.spi.csmode.read().mode().is_off() {
+            self.spi.csmode.write(|w| w.mode().hold());
         }
     }
 
