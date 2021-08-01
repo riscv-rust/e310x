@@ -243,7 +243,7 @@ impl<SPI: SpiX, PINS> Spi<SPI, PINS> {
         }
     }
 
-    /// Set AUTO CS mode to per-frame operation
+    /// Set HOLD CS mode to per-frame operation
     pub fn cs_mode_frame(&mut self) {
         if !self.spi.csmode.read().mode().is_off() {
             self.spi.csmode.write(|w| w.mode().hold());
