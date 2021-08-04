@@ -1,13 +1,37 @@
-#[doc = "Reader of register csmode"]
-pub type R = crate::R<u32, super::CSMODE>;
-#[doc = "Writer for register csmode"]
-pub type W = crate::W<u32, super::CSMODE>;
-#[doc = "Register csmode `reset()`'s with value 0"]
-impl crate::ResetValue for super::CSMODE {
-    type Type = u32;
+#[doc = "Register `csmode` reader"]
+pub struct R(crate::R<CSMODE_SPEC>);
+impl core::ops::Deref for R {
+    type Target = crate::R<CSMODE_SPEC>;
     #[inline(always)]
-    fn reset_value() -> Self::Type {
-        0
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl From<crate::R<CSMODE_SPEC>> for R {
+    #[inline(always)]
+    fn from(reader: crate::R<CSMODE_SPEC>) -> Self {
+        R(reader)
+    }
+}
+#[doc = "Register `csmode` writer"]
+pub struct W(crate::W<CSMODE_SPEC>);
+impl core::ops::Deref for W {
+    type Target = crate::W<CSMODE_SPEC>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl core::ops::DerefMut for W {
+    #[inline(always)]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+impl From<crate::W<CSMODE_SPEC>> for W {
+    #[inline(always)]
+    fn from(writer: crate::W<CSMODE_SPEC>) -> Self {
+        W(writer)
     }
 }
 #[doc = "Chip select mode\n\nValue on reset: 0"]
@@ -27,37 +51,46 @@ impl From<MODE_A> for u8 {
         variant as _
     }
 }
-#[doc = "Reader of field `mode`"]
-pub type MODE_R = crate::R<u8, MODE_A>;
+#[doc = "Field `mode` reader - Chip select mode"]
+pub struct MODE_R(crate::FieldReader<u8, MODE_A>);
 impl MODE_R {
+    pub(crate) fn new(bits: u8) -> Self {
+        MODE_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> crate::Variant<u8, MODE_A> {
-        use crate::Variant::*;
+    pub fn variant(&self) -> Option<MODE_A> {
         match self.bits {
-            0 => Val(MODE_A::AUTO),
-            2 => Val(MODE_A::HOLD),
-            3 => Val(MODE_A::OFF),
-            i => Res(i),
+            0 => Some(MODE_A::AUTO),
+            2 => Some(MODE_A::HOLD),
+            3 => Some(MODE_A::OFF),
+            _ => None,
         }
     }
     #[doc = "Checks if the value of the field is `AUTO`"]
     #[inline(always)]
     pub fn is_auto(&self) -> bool {
-        *self == MODE_A::AUTO
+        **self == MODE_A::AUTO
     }
     #[doc = "Checks if the value of the field is `HOLD`"]
     #[inline(always)]
     pub fn is_hold(&self) -> bool {
-        *self == MODE_A::HOLD
+        **self == MODE_A::HOLD
     }
     #[doc = "Checks if the value of the field is `OFF`"]
     #[inline(always)]
     pub fn is_off(&self) -> bool {
-        *self == MODE_A::OFF
+        **self == MODE_A::OFF
     }
 }
-#[doc = "Write proxy for field `mode`"]
+impl core::ops::Deref for MODE_R {
+    type Target = crate::FieldReader<u8, MODE_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `mode` writer - Chip select mode"]
 pub struct MODE_W<'a> {
     w: &'a mut W,
 }
@@ -85,7 +118,7 @@ impl<'a> MODE_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        self.w.bits = (self.w.bits & !0x03) | ((value as u32) & 0x03);
+        self.w.bits = (self.w.bits & !0x03) | (value as u32 & 0x03);
         self.w
     }
 }
@@ -101,5 +134,31 @@ impl W {
     #[inline(always)]
     pub fn mode(&mut self) -> MODE_W {
         MODE_W { w: self }
+    }
+    #[doc = "Writes raw bits to the register."]
+    #[inline(always)]
+    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
+        self.0.bits(bits);
+        self
+    }
+}
+#[doc = "Chip Select Mode Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [csmode](index.html) module"]
+pub struct CSMODE_SPEC;
+impl crate::RegisterSpec for CSMODE_SPEC {
+    type Ux = u32;
+}
+#[doc = "`read()` method returns [csmode::R](R) reader structure"]
+impl crate::Readable for CSMODE_SPEC {
+    type Reader = R;
+}
+#[doc = "`write(|w| ..)` method takes [csmode::W](W) writer structure"]
+impl crate::Writable for CSMODE_SPEC {
+    type Writer = W;
+}
+#[doc = "`reset()` method sets csmode to value 0"]
+impl crate::Resettable for CSMODE_SPEC {
+    #[inline(always)]
+    fn reset_value() -> Self::Ux {
+        0
     }
 }

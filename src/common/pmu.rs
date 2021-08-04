@@ -1,81 +1,41 @@
 #[doc = r"Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
-    _reserved0: [u8; 256usize],
-    #[doc = "0x100 - PMU Wake Program Memory"]
-    pub pmuwakepm: [PMUWAKEPM; 8],
-    #[doc = "0x120 - PMU Sleep Program Memory"]
-    pub pmusleeppm: [PMUSLEEPPM; 8],
+    _reserved0: [u8; 0x0100],
+    #[doc = "0x100..0x120 - PMU Wake Program Memory"]
+    pub pmuwakepm: [crate::Reg<pmuwakepm::PMUWAKEPM_SPEC>; 8],
+    #[doc = "0x120..0x140 - PMU Sleep Program Memory"]
+    pub pmusleeppm: [crate::Reg<pmusleeppm::PMUSLEEPPM_SPEC>; 8],
     #[doc = "0x140 - PMU Interrupt Enable Register"]
-    pub pmuie: PMUIE,
+    pub pmuie: crate::Reg<pmuie::PMUIE_SPEC>,
     #[doc = "0x144 - PMU Cause Register"]
-    pub pmucause: PMUCAUSE,
+    pub pmucause: crate::Reg<pmucause::PMUCAUSE_SPEC>,
     #[doc = "0x148 - PMU Sleep Register"]
-    pub pmusleep: PMUSLEEP,
+    pub pmusleep: crate::Reg<pmusleep::PMUSLEEP_SPEC>,
     #[doc = "0x14c - PMU Key Register"]
-    pub pmukey: PMUKEY,
+    pub pmukey: crate::Reg<pmukey::PMUKEY_SPEC>,
 }
-#[doc = "PMU Wake Program Memory\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pmuwakepm](pmuwakepm) module"]
-pub type PMUWAKEPM = crate::Reg<u32, _PMUWAKEPM>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _PMUWAKEPM;
-#[doc = "`read()` method returns [pmuwakepm::R](pmuwakepm::R) reader structure"]
-impl crate::Readable for PMUWAKEPM {}
-#[doc = "`write(|w| ..)` method takes [pmuwakepm::W](pmuwakepm::W) writer structure"]
-impl crate::Writable for PMUWAKEPM {}
+#[doc = "pmuwakepm register accessor: an alias for `Reg<PMUWAKEPM_SPEC>`"]
+pub type PMUWAKEPM = crate::Reg<pmuwakepm::PMUWAKEPM_SPEC>;
 #[doc = "PMU Wake Program Memory"]
 pub mod pmuwakepm;
-#[doc = "PMU Sleep Program Memory\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pmusleeppm](pmusleeppm) module"]
-pub type PMUSLEEPPM = crate::Reg<u32, _PMUSLEEPPM>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _PMUSLEEPPM;
-#[doc = "`read()` method returns [pmusleeppm::R](pmusleeppm::R) reader structure"]
-impl crate::Readable for PMUSLEEPPM {}
-#[doc = "`write(|w| ..)` method takes [pmusleeppm::W](pmusleeppm::W) writer structure"]
-impl crate::Writable for PMUSLEEPPM {}
+#[doc = "pmusleeppm register accessor: an alias for `Reg<PMUSLEEPPM_SPEC>`"]
+pub type PMUSLEEPPM = crate::Reg<pmusleeppm::PMUSLEEPPM_SPEC>;
 #[doc = "PMU Sleep Program Memory"]
 pub mod pmusleeppm;
-#[doc = "PMU Interrupt Enable Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pmuie](pmuie) module"]
-pub type PMUIE = crate::Reg<u32, _PMUIE>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _PMUIE;
-#[doc = "`read()` method returns [pmuie::R](pmuie::R) reader structure"]
-impl crate::Readable for PMUIE {}
-#[doc = "`write(|w| ..)` method takes [pmuie::W](pmuie::W) writer structure"]
-impl crate::Writable for PMUIE {}
+#[doc = "pmuie register accessor: an alias for `Reg<PMUIE_SPEC>`"]
+pub type PMUIE = crate::Reg<pmuie::PMUIE_SPEC>;
 #[doc = "PMU Interrupt Enable Register"]
 pub mod pmuie;
-#[doc = "PMU Cause Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pmucause](pmucause) module"]
-pub type PMUCAUSE = crate::Reg<u32, _PMUCAUSE>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _PMUCAUSE;
-#[doc = "`read()` method returns [pmucause::R](pmucause::R) reader structure"]
-impl crate::Readable for PMUCAUSE {}
-#[doc = "`write(|w| ..)` method takes [pmucause::W](pmucause::W) writer structure"]
-impl crate::Writable for PMUCAUSE {}
+#[doc = "pmucause register accessor: an alias for `Reg<PMUCAUSE_SPEC>`"]
+pub type PMUCAUSE = crate::Reg<pmucause::PMUCAUSE_SPEC>;
 #[doc = "PMU Cause Register"]
 pub mod pmucause;
-#[doc = "PMU Sleep Register\n\nThis register you can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pmusleep](pmusleep) module"]
-pub type PMUSLEEP = crate::Reg<u32, _PMUSLEEP>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _PMUSLEEP;
-#[doc = "`write(|w| ..)` method takes [pmusleep::W](pmusleep::W) writer structure"]
-impl crate::Writable for PMUSLEEP {}
+#[doc = "pmusleep register accessor: an alias for `Reg<PMUSLEEP_SPEC>`"]
+pub type PMUSLEEP = crate::Reg<pmusleep::PMUSLEEP_SPEC>;
 #[doc = "PMU Sleep Register"]
 pub mod pmusleep;
-#[doc = "PMU Key Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pmukey](pmukey) module"]
-pub type PMUKEY = crate::Reg<u32, _PMUKEY>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _PMUKEY;
-#[doc = "`read()` method returns [pmukey::R](pmukey::R) reader structure"]
-impl crate::Readable for PMUKEY {}
-#[doc = "`write(|w| ..)` method takes [pmukey::W](pmukey::W) writer structure"]
-impl crate::Writable for PMUKEY {}
+#[doc = "pmukey register accessor: an alias for `Reg<PMUKEY_SPEC>`"]
+pub type PMUKEY = crate::Reg<pmukey::PMUKEY_SPEC>;
 #[doc = "PMU Key Register"]
 pub mod pmukey;

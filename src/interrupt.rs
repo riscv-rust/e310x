@@ -1,6 +1,6 @@
-#[doc = r"Enumeration of all the interrupts"]
-#[derive(Copy, Clone, Debug)]
-#[repr(u8)]
+#[doc = r"Enumeration of all the interrupts."]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[repr(u16)]
 pub enum Interrupt {
     #[doc = "1 - WATCHDOG"]
     WATCHDOG = 1,
@@ -106,12 +106,6 @@ pub enum Interrupt {
     PWM2CMP3 = 51,
     #[doc = "52 - I2C0"]
     I2C0 = 52,
-}
-unsafe impl bare_metal::Nr for Interrupt {
-    #[inline(always)]
-    fn nr(&self) -> u8 {
-        *self as u8
-    }
 }
 #[derive(Debug, Copy, Clone)]
 pub struct TryFromInterruptError(());
