@@ -1836,6 +1836,7 @@
           <name>delay0</name>
           <description>Delay Control 0 Register</description>
           <addressOffset>0x28</addressOffset>
+          <resetValue>0x00010001</resetValue>
           <fields>
             <field>
               <name>sckcs</name>
@@ -1853,6 +1854,7 @@
           <name>delay1</name>
           <description>Delay Control 1 Register</description>
           <addressOffset>0x2C</addressOffset>
+          <resetValue>0x00000001</resetValue>
           <fields>
             <field>
               <name>interxfr</name>
