@@ -1854,7 +1854,7 @@
           <name>delay1</name>
           <description>Delay Control 1 Register</description>
           <addressOffset>0x2C</addressOffset>
-          <resetValue>0x0001</resetValue>
+          <resetValue>0x00000001</resetValue>
           <fields>
             <field>
               <name>interxfr</name>
