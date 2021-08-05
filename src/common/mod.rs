@@ -6,17 +6,24 @@ pub struct CLINT {
 }
 unsafe impl Send for CLINT {}
 impl CLINT {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const clint::RegisterBlock = 0x0200_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const clint::RegisterBlock {
-        0x0200_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for CLINT {
     type Target = clint::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*CLINT::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for CLINT {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("CLINT").finish()
     }
 }
 #[doc = "Coreplex Local Interrupts"]
@@ -27,17 +34,24 @@ pub struct PLIC {
 }
 unsafe impl Send for PLIC {}
 impl PLIC {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const plic::RegisterBlock = 0x0c00_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const plic::RegisterBlock {
-        0x0c00_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for PLIC {
     type Target = plic::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*PLIC::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for PLIC {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("PLIC").finish()
     }
 }
 #[doc = "Platform Level Interrupt Control"]
@@ -48,17 +62,24 @@ pub struct WDOG {
 }
 unsafe impl Send for WDOG {}
 impl WDOG {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const wdog::RegisterBlock = 0x1000_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const wdog::RegisterBlock {
-        0x1000_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for WDOG {
     type Target = wdog::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*WDOG::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for WDOG {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("WDOG").finish()
     }
 }
 #[doc = "Watchdog"]
@@ -69,17 +90,24 @@ pub struct RTC {
 }
 unsafe impl Send for RTC {}
 impl RTC {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const rtc::RegisterBlock = 0x1000_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const rtc::RegisterBlock {
-        0x1000_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for RTC {
     type Target = rtc::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*RTC::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for RTC {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("RTC").finish()
     }
 }
 #[doc = "Watchdog"]
@@ -90,17 +118,24 @@ pub struct AONCLK {
 }
 unsafe impl Send for AONCLK {}
 impl AONCLK {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const aonclk::RegisterBlock = 0x1000_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const aonclk::RegisterBlock {
-        0x1000_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for AONCLK {
     type Target = aonclk::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*AONCLK::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for AONCLK {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("AONCLK").finish()
     }
 }
 #[doc = "Always-On Clock Configuration"]
@@ -111,17 +146,24 @@ pub struct BACKUP {
 }
 unsafe impl Send for BACKUP {}
 impl BACKUP {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const backup::RegisterBlock = 0x1000_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const backup::RegisterBlock {
-        0x1000_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for BACKUP {
     type Target = backup::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*BACKUP::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for BACKUP {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("BACKUP").finish()
     }
 }
 #[doc = "Backup Registers"]
@@ -132,17 +174,24 @@ pub struct PMU {
 }
 unsafe impl Send for PMU {}
 impl PMU {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const pmu::RegisterBlock = 0x1000_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const pmu::RegisterBlock {
-        0x1000_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for PMU {
     type Target = pmu::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*PMU::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for PMU {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("PMU").finish()
     }
 }
 #[doc = "PMU"]
@@ -153,17 +202,24 @@ pub struct PRCI {
 }
 unsafe impl Send for PRCI {}
 impl PRCI {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const prci::RegisterBlock = 0x1000_8000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const prci::RegisterBlock {
-        0x1000_8000 as *const _
+        Self::PTR
     }
 }
 impl Deref for PRCI {
     type Target = prci::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*PRCI::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for PRCI {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("PRCI").finish()
     }
 }
 #[doc = "Power Reset Clock Interrupts"]
@@ -174,17 +230,24 @@ pub struct OTP {
 }
 unsafe impl Send for OTP {}
 impl OTP {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const otp::RegisterBlock = 0x1001_0000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const otp::RegisterBlock {
-        0x1001_0000 as *const _
+        Self::PTR
     }
 }
 impl Deref for OTP {
     type Target = otp::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*OTP::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for OTP {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("OTP").finish()
     }
 }
 #[doc = "One Time Programmable Memory"]
@@ -195,17 +258,24 @@ pub struct GPIO0 {
 }
 unsafe impl Send for GPIO0 {}
 impl GPIO0 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const gpio0::RegisterBlock = 0x1001_2000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const gpio0::RegisterBlock {
-        0x1001_2000 as *const _
+        Self::PTR
     }
 }
 impl Deref for GPIO0 {
     type Target = gpio0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*GPIO0::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for GPIO0 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("GPIO0").finish()
     }
 }
 #[doc = "General Purpose Input Output"]
@@ -216,17 +286,24 @@ pub struct UART0 {
 }
 unsafe impl Send for UART0 {}
 impl UART0 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const uart0::RegisterBlock = 0x1001_3000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const uart0::RegisterBlock {
-        0x1001_3000 as *const _
+        Self::PTR
     }
 }
 impl Deref for UART0 {
     type Target = uart0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*UART0::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for UART0 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("UART0").finish()
     }
 }
 #[doc = "Universal Asynchronous Receiver Transmitter"]
@@ -237,17 +314,24 @@ pub struct QSPI0 {
 }
 unsafe impl Send for QSPI0 {}
 impl QSPI0 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const qspi0::RegisterBlock = 0x1001_4000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const qspi0::RegisterBlock {
-        0x1001_4000 as *const _
+        Self::PTR
     }
 }
 impl Deref for QSPI0 {
     type Target = qspi0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*QSPI0::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for QSPI0 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("QSPI0").finish()
     }
 }
 #[doc = "Quad Serial Peripheral Interface"]
@@ -258,17 +342,24 @@ pub struct PWM0 {
 }
 unsafe impl Send for PWM0 {}
 impl PWM0 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const pwm0::RegisterBlock = 0x1001_5000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const pwm0::RegisterBlock {
-        0x1001_5000 as *const _
+        Self::PTR
     }
 }
 impl Deref for PWM0 {
     type Target = pwm0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*PWM0::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for PWM0 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("PWM0").finish()
     }
 }
 #[doc = "8-bit timer with 4 cmp"]
@@ -279,17 +370,24 @@ pub struct I2C0 {
 }
 unsafe impl Send for I2C0 {}
 impl I2C0 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const i2c0::RegisterBlock = 0x1001_6000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const i2c0::RegisterBlock {
-        0x1001_6000 as *const _
+        Self::PTR
     }
 }
 impl Deref for I2C0 {
     type Target = i2c0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*I2C0::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for I2C0 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("I2C0").finish()
     }
 }
 #[doc = "Inter-Integrated Circuit Master Interface (FE310-G002 only)"]
@@ -300,17 +398,24 @@ pub struct UART1 {
 }
 unsafe impl Send for UART1 {}
 impl UART1 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const uart0::RegisterBlock = 0x1002_3000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const uart0::RegisterBlock {
-        0x1002_3000 as *const _
+        Self::PTR
     }
 }
 impl Deref for UART1 {
     type Target = uart0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*UART1::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for UART1 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("UART1").finish()
     }
 }
 #[doc = "Quad Serial Peripheral Interface"]
@@ -319,17 +424,24 @@ pub struct QSPI1 {
 }
 unsafe impl Send for QSPI1 {}
 impl QSPI1 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const qspi0::RegisterBlock = 0x1002_4000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const qspi0::RegisterBlock {
-        0x1002_4000 as *const _
+        Self::PTR
     }
 }
 impl Deref for QSPI1 {
     type Target = qspi0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*QSPI1::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for QSPI1 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("QSPI1").finish()
     }
 }
 #[doc = "8-bit timer with 4 cmp"]
@@ -338,17 +450,24 @@ pub struct PWM1 {
 }
 unsafe impl Send for PWM1 {}
 impl PWM1 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const pwm0::RegisterBlock = 0x1002_5000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const pwm0::RegisterBlock {
-        0x1002_5000 as *const _
+        Self::PTR
     }
 }
 impl Deref for PWM1 {
     type Target = pwm0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*PWM1::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for PWM1 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("PWM1").finish()
     }
 }
 #[doc = "Quad Serial Peripheral Interface"]
@@ -357,17 +476,24 @@ pub struct QSPI2 {
 }
 unsafe impl Send for QSPI2 {}
 impl QSPI2 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const qspi0::RegisterBlock = 0x1003_4000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const qspi0::RegisterBlock {
-        0x1003_4000 as *const _
+        Self::PTR
     }
 }
 impl Deref for QSPI2 {
     type Target = qspi0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*QSPI2::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for QSPI2 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("QSPI2").finish()
     }
 }
 #[doc = "8-bit timer with 4 cmp"]
@@ -376,17 +502,24 @@ pub struct PWM2 {
 }
 unsafe impl Send for PWM2 {}
 impl PWM2 {
-    #[doc = r"Returns a pointer to the register block"]
+    #[doc = r"Pointer to the register block"]
+    pub const PTR: *const pwm0::RegisterBlock = 0x1003_5000 as *const _;
+    #[doc = r"Return the pointer to the register block"]
     #[inline(always)]
     pub const fn ptr() -> *const pwm0::RegisterBlock {
-        0x1003_5000 as *const _
+        Self::PTR
     }
 }
 impl Deref for PWM2 {
     type Target = pwm0::RegisterBlock;
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        unsafe { &*PWM2::ptr() }
+        unsafe { &*Self::PTR }
+    }
+}
+impl core::fmt::Debug for PWM2 {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        f.debug_struct("PWM2").finish()
     }
 }
 #[no_mangle]

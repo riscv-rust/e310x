@@ -1,72 +1,37 @@
 #[doc = r"Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
-    _reserved0: [u8; 64usize],
+    _reserved0: [u8; 0x40],
     #[doc = "0x40 - RTC Configuration Register"]
-    pub rtccfg: RTCCFG,
-    _reserved1: [u8; 4usize],
+    pub rtccfg: crate::Reg<rtccfg::RTCCFG_SPEC>,
+    _reserved1: [u8; 0x04],
     #[doc = "0x48 - RTC Counter Low Register"]
-    pub rtclo: RTCLO,
+    pub rtclo: crate::Reg<rtclo::RTCLO_SPEC>,
     #[doc = "0x4c - RTC Counter High Register"]
-    pub rtchi: RTCHI,
+    pub rtchi: crate::Reg<rtchi::RTCHI_SPEC>,
     #[doc = "0x50 - RTC Scaled Counter Register"]
-    pub rtcs: RTCS,
-    _reserved4: [u8; 12usize],
+    pub rtcs: crate::Reg<rtcs::RTCS_SPEC>,
+    _reserved4: [u8; 0x0c],
     #[doc = "0x60 - RTC Compare Register"]
-    pub rtccmp: RTCCMP,
+    pub rtccmp: crate::Reg<rtccmp::RTCCMP_SPEC>,
 }
-#[doc = "RTC Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rtccfg](rtccfg) module"]
-pub type RTCCFG = crate::Reg<u32, _RTCCFG>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _RTCCFG;
-#[doc = "`read()` method returns [rtccfg::R](rtccfg::R) reader structure"]
-impl crate::Readable for RTCCFG {}
-#[doc = "`write(|w| ..)` method takes [rtccfg::W](rtccfg::W) writer structure"]
-impl crate::Writable for RTCCFG {}
+#[doc = "rtccfg register accessor: an alias for `Reg<RTCCFG_SPEC>`"]
+pub type RTCCFG = crate::Reg<rtccfg::RTCCFG_SPEC>;
 #[doc = "RTC Configuration Register"]
 pub mod rtccfg;
-#[doc = "RTC Counter Low Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rtclo](rtclo) module"]
-pub type RTCLO = crate::Reg<u32, _RTCLO>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _RTCLO;
-#[doc = "`read()` method returns [rtclo::R](rtclo::R) reader structure"]
-impl crate::Readable for RTCLO {}
-#[doc = "`write(|w| ..)` method takes [rtclo::W](rtclo::W) writer structure"]
-impl crate::Writable for RTCLO {}
+#[doc = "rtclo register accessor: an alias for `Reg<RTCLO_SPEC>`"]
+pub type RTCLO = crate::Reg<rtclo::RTCLO_SPEC>;
 #[doc = "RTC Counter Low Register"]
 pub mod rtclo;
-#[doc = "RTC Counter High Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rtchi](rtchi) module"]
-pub type RTCHI = crate::Reg<u32, _RTCHI>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _RTCHI;
-#[doc = "`read()` method returns [rtchi::R](rtchi::R) reader structure"]
-impl crate::Readable for RTCHI {}
-#[doc = "`write(|w| ..)` method takes [rtchi::W](rtchi::W) writer structure"]
-impl crate::Writable for RTCHI {}
+#[doc = "rtchi register accessor: an alias for `Reg<RTCHI_SPEC>`"]
+pub type RTCHI = crate::Reg<rtchi::RTCHI_SPEC>;
 #[doc = "RTC Counter High Register"]
 pub mod rtchi;
-#[doc = "RTC Scaled Counter Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rtcs](rtcs) module"]
-pub type RTCS = crate::Reg<u32, _RTCS>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _RTCS;
-#[doc = "`read()` method returns [rtcs::R](rtcs::R) reader structure"]
-impl crate::Readable for RTCS {}
-#[doc = "`write(|w| ..)` method takes [rtcs::W](rtcs::W) writer structure"]
-impl crate::Writable for RTCS {}
+#[doc = "rtcs register accessor: an alias for `Reg<RTCS_SPEC>`"]
+pub type RTCS = crate::Reg<rtcs::RTCS_SPEC>;
 #[doc = "RTC Scaled Counter Register"]
 pub mod rtcs;
-#[doc = "RTC Compare Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rtccmp](rtccmp) module"]
-pub type RTCCMP = crate::Reg<u32, _RTCCMP>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _RTCCMP;
-#[doc = "`read()` method returns [rtccmp::R](rtccmp::R) reader structure"]
-impl crate::Readable for RTCCMP {}
-#[doc = "`write(|w| ..)` method takes [rtccmp::W](rtccmp::W) writer structure"]
-impl crate::Writable for RTCCMP {}
+#[doc = "rtccmp register accessor: an alias for `Reg<RTCCMP_SPEC>`"]
+pub type RTCCMP = crate::Reg<rtccmp::RTCCMP_SPEC>;
 #[doc = "RTC Compare Register"]
 pub mod rtccmp;

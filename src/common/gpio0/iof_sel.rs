@@ -1,13 +1,37 @@
-#[doc = "Reader of register iof_sel"]
-pub type R = crate::R<u32, super::IOF_SEL>;
-#[doc = "Writer for register iof_sel"]
-pub type W = crate::W<u32, super::IOF_SEL>;
-#[doc = "Register iof_sel `reset()`'s with value 0"]
-impl crate::ResetValue for super::IOF_SEL {
-    type Type = u32;
+#[doc = "Register `iof_sel` reader"]
+pub struct R(crate::R<IOF_SEL_SPEC>);
+impl core::ops::Deref for R {
+    type Target = crate::R<IOF_SEL_SPEC>;
     #[inline(always)]
-    fn reset_value() -> Self::Type {
-        0
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl From<crate::R<IOF_SEL_SPEC>> for R {
+    #[inline(always)]
+    fn from(reader: crate::R<IOF_SEL_SPEC>) -> Self {
+        R(reader)
+    }
+}
+#[doc = "Register `iof_sel` writer"]
+pub struct W(crate::W<IOF_SEL_SPEC>);
+impl core::ops::Deref for W {
+    type Target = crate::W<IOF_SEL_SPEC>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl core::ops::DerefMut for W {
+    #[inline(always)]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+impl From<crate::W<IOF_SEL_SPEC>> for W {
+    #[inline(always)]
+    fn from(writer: crate::W<IOF_SEL_SPEC>) -> Self {
+        W(writer)
     }
 }
 #[doc = "\n\nValue on reset: 0"]
@@ -24,9 +48,12 @@ impl From<PIN0_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin0`"]
-pub type PIN0_R = crate::R<bool, PIN0_A>;
+#[doc = "Field `pin0` reader - "]
+pub struct PIN0_R(crate::FieldReader<bool, PIN0_A>);
 impl PIN0_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN0_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN0_A {
@@ -38,15 +65,22 @@ impl PIN0_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN0_A::IOF0
+        **self == PIN0_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM0_0`"]
     #[inline(always)]
     pub fn is_pwm0_0(&self) -> bool {
-        *self == PIN0_A::PWM0_0
+        **self == PIN0_A::PWM0_0
     }
 }
-#[doc = "Write proxy for field `pin0`"]
+impl core::ops::Deref for PIN0_R {
+    type Target = crate::FieldReader<bool, PIN0_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin0` writer - "]
 pub struct PIN0_W<'a> {
     w: &'a mut W,
 }
@@ -54,9 +88,7 @@ impl<'a> PIN0_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN0_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -81,7 +113,7 @@ impl<'a> PIN0_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !0x01) | ((value as u32) & 0x01);
+        self.w.bits = (self.w.bits & !0x01) | (value as u32 & 0x01);
         self.w
     }
 }
@@ -99,9 +131,12 @@ impl From<PIN1_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin1`"]
-pub type PIN1_R = crate::R<bool, PIN1_A>;
+#[doc = "Field `pin1` reader - "]
+pub struct PIN1_R(crate::FieldReader<bool, PIN1_A>);
 impl PIN1_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN1_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN1_A {
@@ -113,15 +148,22 @@ impl PIN1_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN1_A::IOF0
+        **self == PIN1_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM0_1`"]
     #[inline(always)]
     pub fn is_pwm0_1(&self) -> bool {
-        *self == PIN1_A::PWM0_1
+        **self == PIN1_A::PWM0_1
     }
 }
-#[doc = "Write proxy for field `pin1`"]
+impl core::ops::Deref for PIN1_R {
+    type Target = crate::FieldReader<bool, PIN1_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin1` writer - "]
 pub struct PIN1_W<'a> {
     w: &'a mut W,
 }
@@ -129,9 +171,7 @@ impl<'a> PIN1_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN1_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -156,7 +196,7 @@ impl<'a> PIN1_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 1)) | (((value as u32) & 0x01) << 1);
+        self.w.bits = (self.w.bits & !(0x01 << 1)) | ((value as u32 & 0x01) << 1);
         self.w
     }
 }
@@ -174,9 +214,12 @@ impl From<PIN2_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin2`"]
-pub type PIN2_R = crate::R<bool, PIN2_A>;
+#[doc = "Field `pin2` reader - "]
+pub struct PIN2_R(crate::FieldReader<bool, PIN2_A>);
 impl PIN2_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN2_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN2_A {
@@ -188,15 +231,22 @@ impl PIN2_R {
     #[doc = "Checks if the value of the field is `QSPI1_SS0`"]
     #[inline(always)]
     pub fn is_qspi1_ss0(&self) -> bool {
-        *self == PIN2_A::QSPI1_SS0
+        **self == PIN2_A::QSPI1_SS0
     }
     #[doc = "Checks if the value of the field is `PWM0_2`"]
     #[inline(always)]
     pub fn is_pwm0_2(&self) -> bool {
-        *self == PIN2_A::PWM0_2
+        **self == PIN2_A::PWM0_2
     }
 }
-#[doc = "Write proxy for field `pin2`"]
+impl core::ops::Deref for PIN2_R {
+    type Target = crate::FieldReader<bool, PIN2_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin2` writer - "]
 pub struct PIN2_W<'a> {
     w: &'a mut W,
 }
@@ -204,9 +254,7 @@ impl<'a> PIN2_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN2_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -231,7 +279,7 @@ impl<'a> PIN2_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 2)) | (((value as u32) & 0x01) << 2);
+        self.w.bits = (self.w.bits & !(0x01 << 2)) | ((value as u32 & 0x01) << 2);
         self.w
     }
 }
@@ -249,9 +297,12 @@ impl From<PIN3_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin3`"]
-pub type PIN3_R = crate::R<bool, PIN3_A>;
+#[doc = "Field `pin3` reader - "]
+pub struct PIN3_R(crate::FieldReader<bool, PIN3_A>);
 impl PIN3_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN3_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN3_A {
@@ -263,15 +314,22 @@ impl PIN3_R {
     #[doc = "Checks if the value of the field is `QSPI1_SD0`"]
     #[inline(always)]
     pub fn is_qspi1_sd0(&self) -> bool {
-        *self == PIN3_A::QSPI1_SD0
+        **self == PIN3_A::QSPI1_SD0
     }
     #[doc = "Checks if the value of the field is `PWM0_3`"]
     #[inline(always)]
     pub fn is_pwm0_3(&self) -> bool {
-        *self == PIN3_A::PWM0_3
+        **self == PIN3_A::PWM0_3
     }
 }
-#[doc = "Write proxy for field `pin3`"]
+impl core::ops::Deref for PIN3_R {
+    type Target = crate::FieldReader<bool, PIN3_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin3` writer - "]
 pub struct PIN3_W<'a> {
     w: &'a mut W,
 }
@@ -279,9 +337,7 @@ impl<'a> PIN3_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN3_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -306,7 +362,7 @@ impl<'a> PIN3_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 3)) | (((value as u32) & 0x01) << 3);
+        self.w.bits = (self.w.bits & !(0x01 << 3)) | ((value as u32 & 0x01) << 3);
         self.w
     }
 }
@@ -324,9 +380,12 @@ impl From<PIN4_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin4`"]
-pub type PIN4_R = crate::R<bool, PIN4_A>;
+#[doc = "Field `pin4` reader - "]
+pub struct PIN4_R(crate::FieldReader<bool, PIN4_A>);
 impl PIN4_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN4_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN4_A {
@@ -338,15 +397,22 @@ impl PIN4_R {
     #[doc = "Checks if the value of the field is `QSPI1_SD1`"]
     #[inline(always)]
     pub fn is_qspi1_sd1(&self) -> bool {
-        *self == PIN4_A::QSPI1_SD1
+        **self == PIN4_A::QSPI1_SD1
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN4_A::IOF1
+        **self == PIN4_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin4`"]
+impl core::ops::Deref for PIN4_R {
+    type Target = crate::FieldReader<bool, PIN4_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin4` writer - "]
 pub struct PIN4_W<'a> {
     w: &'a mut W,
 }
@@ -354,9 +420,7 @@ impl<'a> PIN4_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN4_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -381,7 +445,7 @@ impl<'a> PIN4_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 4)) | (((value as u32) & 0x01) << 4);
+        self.w.bits = (self.w.bits & !(0x01 << 4)) | ((value as u32 & 0x01) << 4);
         self.w
     }
 }
@@ -399,9 +463,12 @@ impl From<PIN5_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin5`"]
-pub type PIN5_R = crate::R<bool, PIN5_A>;
+#[doc = "Field `pin5` reader - "]
+pub struct PIN5_R(crate::FieldReader<bool, PIN5_A>);
 impl PIN5_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN5_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN5_A {
@@ -413,15 +480,22 @@ impl PIN5_R {
     #[doc = "Checks if the value of the field is `QSPI1_SCK`"]
     #[inline(always)]
     pub fn is_qspi1_sck(&self) -> bool {
-        *self == PIN5_A::QSPI1_SCK
+        **self == PIN5_A::QSPI1_SCK
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN5_A::IOF1
+        **self == PIN5_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin5`"]
+impl core::ops::Deref for PIN5_R {
+    type Target = crate::FieldReader<bool, PIN5_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin5` writer - "]
 pub struct PIN5_W<'a> {
     w: &'a mut W,
 }
@@ -429,9 +503,7 @@ impl<'a> PIN5_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN5_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -456,7 +528,7 @@ impl<'a> PIN5_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 5)) | (((value as u32) & 0x01) << 5);
+        self.w.bits = (self.w.bits & !(0x01 << 5)) | ((value as u32 & 0x01) << 5);
         self.w
     }
 }
@@ -474,9 +546,12 @@ impl From<PIN6_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin6`"]
-pub type PIN6_R = crate::R<bool, PIN6_A>;
+#[doc = "Field `pin6` reader - "]
+pub struct PIN6_R(crate::FieldReader<bool, PIN6_A>);
 impl PIN6_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN6_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN6_A {
@@ -488,15 +563,22 @@ impl PIN6_R {
     #[doc = "Checks if the value of the field is `QSPI1_SD2`"]
     #[inline(always)]
     pub fn is_qspi1_sd2(&self) -> bool {
-        *self == PIN6_A::QSPI1_SD2
+        **self == PIN6_A::QSPI1_SD2
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN6_A::IOF1
+        **self == PIN6_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin6`"]
+impl core::ops::Deref for PIN6_R {
+    type Target = crate::FieldReader<bool, PIN6_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin6` writer - "]
 pub struct PIN6_W<'a> {
     w: &'a mut W,
 }
@@ -504,9 +586,7 @@ impl<'a> PIN6_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN6_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -531,7 +611,7 @@ impl<'a> PIN6_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 6)) | (((value as u32) & 0x01) << 6);
+        self.w.bits = (self.w.bits & !(0x01 << 6)) | ((value as u32 & 0x01) << 6);
         self.w
     }
 }
@@ -549,9 +629,12 @@ impl From<PIN7_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin7`"]
-pub type PIN7_R = crate::R<bool, PIN7_A>;
+#[doc = "Field `pin7` reader - "]
+pub struct PIN7_R(crate::FieldReader<bool, PIN7_A>);
 impl PIN7_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN7_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN7_A {
@@ -563,15 +646,22 @@ impl PIN7_R {
     #[doc = "Checks if the value of the field is `QSPI1_SD3`"]
     #[inline(always)]
     pub fn is_qspi1_sd3(&self) -> bool {
-        *self == PIN7_A::QSPI1_SD3
+        **self == PIN7_A::QSPI1_SD3
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN7_A::IOF1
+        **self == PIN7_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin7`"]
+impl core::ops::Deref for PIN7_R {
+    type Target = crate::FieldReader<bool, PIN7_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin7` writer - "]
 pub struct PIN7_W<'a> {
     w: &'a mut W,
 }
@@ -579,9 +669,7 @@ impl<'a> PIN7_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN7_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -606,7 +694,7 @@ impl<'a> PIN7_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 7)) | (((value as u32) & 0x01) << 7);
+        self.w.bits = (self.w.bits & !(0x01 << 7)) | ((value as u32 & 0x01) << 7);
         self.w
     }
 }
@@ -624,9 +712,12 @@ impl From<PIN8_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin8`"]
-pub type PIN8_R = crate::R<bool, PIN8_A>;
+#[doc = "Field `pin8` reader - "]
+pub struct PIN8_R(crate::FieldReader<bool, PIN8_A>);
 impl PIN8_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN8_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN8_A {
@@ -638,15 +729,22 @@ impl PIN8_R {
     #[doc = "Checks if the value of the field is `QSPI1_SS1`"]
     #[inline(always)]
     pub fn is_qspi1_ss1(&self) -> bool {
-        *self == PIN8_A::QSPI1_SS1
+        **self == PIN8_A::QSPI1_SS1
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN8_A::IOF1
+        **self == PIN8_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin8`"]
+impl core::ops::Deref for PIN8_R {
+    type Target = crate::FieldReader<bool, PIN8_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin8` writer - "]
 pub struct PIN8_W<'a> {
     w: &'a mut W,
 }
@@ -654,9 +752,7 @@ impl<'a> PIN8_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN8_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -681,7 +777,7 @@ impl<'a> PIN8_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 8)) | (((value as u32) & 0x01) << 8);
+        self.w.bits = (self.w.bits & !(0x01 << 8)) | ((value as u32 & 0x01) << 8);
         self.w
     }
 }
@@ -699,9 +795,12 @@ impl From<PIN9_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin9`"]
-pub type PIN9_R = crate::R<bool, PIN9_A>;
+#[doc = "Field `pin9` reader - "]
+pub struct PIN9_R(crate::FieldReader<bool, PIN9_A>);
 impl PIN9_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN9_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN9_A {
@@ -713,15 +812,22 @@ impl PIN9_R {
     #[doc = "Checks if the value of the field is `QSPI1_SS2`"]
     #[inline(always)]
     pub fn is_qspi1_ss2(&self) -> bool {
-        *self == PIN9_A::QSPI1_SS2
+        **self == PIN9_A::QSPI1_SS2
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN9_A::IOF1
+        **self == PIN9_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin9`"]
+impl core::ops::Deref for PIN9_R {
+    type Target = crate::FieldReader<bool, PIN9_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin9` writer - "]
 pub struct PIN9_W<'a> {
     w: &'a mut W,
 }
@@ -729,9 +835,7 @@ impl<'a> PIN9_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN9_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -756,7 +860,7 @@ impl<'a> PIN9_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 9)) | (((value as u32) & 0x01) << 9);
+        self.w.bits = (self.w.bits & !(0x01 << 9)) | ((value as u32 & 0x01) << 9);
         self.w
     }
 }
@@ -774,9 +878,12 @@ impl From<PIN10_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin10`"]
-pub type PIN10_R = crate::R<bool, PIN10_A>;
+#[doc = "Field `pin10` reader - "]
+pub struct PIN10_R(crate::FieldReader<bool, PIN10_A>);
 impl PIN10_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN10_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN10_A {
@@ -788,15 +895,22 @@ impl PIN10_R {
     #[doc = "Checks if the value of the field is `QSPI1_SS3`"]
     #[inline(always)]
     pub fn is_qspi1_ss3(&self) -> bool {
-        *self == PIN10_A::QSPI1_SS3
+        **self == PIN10_A::QSPI1_SS3
     }
     #[doc = "Checks if the value of the field is `PWM2_0`"]
     #[inline(always)]
     pub fn is_pwm2_0(&self) -> bool {
-        *self == PIN10_A::PWM2_0
+        **self == PIN10_A::PWM2_0
     }
 }
-#[doc = "Write proxy for field `pin10`"]
+impl core::ops::Deref for PIN10_R {
+    type Target = crate::FieldReader<bool, PIN10_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin10` writer - "]
 pub struct PIN10_W<'a> {
     w: &'a mut W,
 }
@@ -804,9 +918,7 @@ impl<'a> PIN10_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN10_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -831,7 +943,7 @@ impl<'a> PIN10_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 10)) | (((value as u32) & 0x01) << 10);
+        self.w.bits = (self.w.bits & !(0x01 << 10)) | ((value as u32 & 0x01) << 10);
         self.w
     }
 }
@@ -849,9 +961,12 @@ impl From<PIN11_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin11`"]
-pub type PIN11_R = crate::R<bool, PIN11_A>;
+#[doc = "Field `pin11` reader - "]
+pub struct PIN11_R(crate::FieldReader<bool, PIN11_A>);
 impl PIN11_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN11_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN11_A {
@@ -863,15 +978,22 @@ impl PIN11_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN11_A::IOF0
+        **self == PIN11_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM2_1`"]
     #[inline(always)]
     pub fn is_pwm2_1(&self) -> bool {
-        *self == PIN11_A::PWM2_1
+        **self == PIN11_A::PWM2_1
     }
 }
-#[doc = "Write proxy for field `pin11`"]
+impl core::ops::Deref for PIN11_R {
+    type Target = crate::FieldReader<bool, PIN11_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin11` writer - "]
 pub struct PIN11_W<'a> {
     w: &'a mut W,
 }
@@ -879,9 +1001,7 @@ impl<'a> PIN11_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN11_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -906,7 +1026,7 @@ impl<'a> PIN11_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 11)) | (((value as u32) & 0x01) << 11);
+        self.w.bits = (self.w.bits & !(0x01 << 11)) | ((value as u32 & 0x01) << 11);
         self.w
     }
 }
@@ -924,9 +1044,12 @@ impl From<PIN12_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin12`"]
-pub type PIN12_R = crate::R<bool, PIN12_A>;
+#[doc = "Field `pin12` reader - "]
+pub struct PIN12_R(crate::FieldReader<bool, PIN12_A>);
 impl PIN12_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN12_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN12_A {
@@ -938,15 +1061,22 @@ impl PIN12_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN12_A::IOF0
+        **self == PIN12_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM2_2`"]
     #[inline(always)]
     pub fn is_pwm2_2(&self) -> bool {
-        *self == PIN12_A::PWM2_2
+        **self == PIN12_A::PWM2_2
     }
 }
-#[doc = "Write proxy for field `pin12`"]
+impl core::ops::Deref for PIN12_R {
+    type Target = crate::FieldReader<bool, PIN12_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin12` writer - "]
 pub struct PIN12_W<'a> {
     w: &'a mut W,
 }
@@ -954,9 +1084,7 @@ impl<'a> PIN12_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN12_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -981,7 +1109,7 @@ impl<'a> PIN12_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 12)) | (((value as u32) & 0x01) << 12);
+        self.w.bits = (self.w.bits & !(0x01 << 12)) | ((value as u32 & 0x01) << 12);
         self.w
     }
 }
@@ -999,9 +1127,12 @@ impl From<PIN13_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin13`"]
-pub type PIN13_R = crate::R<bool, PIN13_A>;
+#[doc = "Field `pin13` reader - "]
+pub struct PIN13_R(crate::FieldReader<bool, PIN13_A>);
 impl PIN13_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN13_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN13_A {
@@ -1013,15 +1144,22 @@ impl PIN13_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN13_A::IOF0
+        **self == PIN13_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM2_3`"]
     #[inline(always)]
     pub fn is_pwm2_3(&self) -> bool {
-        *self == PIN13_A::PWM2_3
+        **self == PIN13_A::PWM2_3
     }
 }
-#[doc = "Write proxy for field `pin13`"]
+impl core::ops::Deref for PIN13_R {
+    type Target = crate::FieldReader<bool, PIN13_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin13` writer - "]
 pub struct PIN13_W<'a> {
     w: &'a mut W,
 }
@@ -1029,9 +1167,7 @@ impl<'a> PIN13_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN13_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1056,7 +1192,7 @@ impl<'a> PIN13_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 13)) | (((value as u32) & 0x01) << 13);
+        self.w.bits = (self.w.bits & !(0x01 << 13)) | ((value as u32 & 0x01) << 13);
         self.w
     }
 }
@@ -1074,9 +1210,12 @@ impl From<PIN14_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin14`"]
-pub type PIN14_R = crate::R<bool, PIN14_A>;
+#[doc = "Field `pin14` reader - "]
+pub struct PIN14_R(crate::FieldReader<bool, PIN14_A>);
 impl PIN14_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN14_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN14_A {
@@ -1088,15 +1227,22 @@ impl PIN14_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN14_A::IOF0
+        **self == PIN14_A::IOF0
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN14_A::IOF1
+        **self == PIN14_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin14`"]
+impl core::ops::Deref for PIN14_R {
+    type Target = crate::FieldReader<bool, PIN14_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin14` writer - "]
 pub struct PIN14_W<'a> {
     w: &'a mut W,
 }
@@ -1104,9 +1250,7 @@ impl<'a> PIN14_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN14_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1131,7 +1275,7 @@ impl<'a> PIN14_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 14)) | (((value as u32) & 0x01) << 14);
+        self.w.bits = (self.w.bits & !(0x01 << 14)) | ((value as u32 & 0x01) << 14);
         self.w
     }
 }
@@ -1149,9 +1293,12 @@ impl From<PIN15_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin15`"]
-pub type PIN15_R = crate::R<bool, PIN15_A>;
+#[doc = "Field `pin15` reader - "]
+pub struct PIN15_R(crate::FieldReader<bool, PIN15_A>);
 impl PIN15_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN15_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN15_A {
@@ -1163,15 +1310,22 @@ impl PIN15_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN15_A::IOF0
+        **self == PIN15_A::IOF0
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN15_A::IOF1
+        **self == PIN15_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin15`"]
+impl core::ops::Deref for PIN15_R {
+    type Target = crate::FieldReader<bool, PIN15_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin15` writer - "]
 pub struct PIN15_W<'a> {
     w: &'a mut W,
 }
@@ -1179,9 +1333,7 @@ impl<'a> PIN15_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN15_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1206,7 +1358,7 @@ impl<'a> PIN15_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 15)) | (((value as u32) & 0x01) << 15);
+        self.w.bits = (self.w.bits & !(0x01 << 15)) | ((value as u32 & 0x01) << 15);
         self.w
     }
 }
@@ -1224,9 +1376,12 @@ impl From<PIN16_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin16`"]
-pub type PIN16_R = crate::R<bool, PIN16_A>;
+#[doc = "Field `pin16` reader - "]
+pub struct PIN16_R(crate::FieldReader<bool, PIN16_A>);
 impl PIN16_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN16_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN16_A {
@@ -1238,15 +1393,22 @@ impl PIN16_R {
     #[doc = "Checks if the value of the field is `UART0_RX`"]
     #[inline(always)]
     pub fn is_uart0_rx(&self) -> bool {
-        *self == PIN16_A::UART0_RX
+        **self == PIN16_A::UART0_RX
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN16_A::IOF1
+        **self == PIN16_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin16`"]
+impl core::ops::Deref for PIN16_R {
+    type Target = crate::FieldReader<bool, PIN16_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin16` writer - "]
 pub struct PIN16_W<'a> {
     w: &'a mut W,
 }
@@ -1254,9 +1416,7 @@ impl<'a> PIN16_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN16_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1281,7 +1441,7 @@ impl<'a> PIN16_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 16)) | (((value as u32) & 0x01) << 16);
+        self.w.bits = (self.w.bits & !(0x01 << 16)) | ((value as u32 & 0x01) << 16);
         self.w
     }
 }
@@ -1299,9 +1459,12 @@ impl From<PIN17_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin17`"]
-pub type PIN17_R = crate::R<bool, PIN17_A>;
+#[doc = "Field `pin17` reader - "]
+pub struct PIN17_R(crate::FieldReader<bool, PIN17_A>);
 impl PIN17_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN17_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN17_A {
@@ -1313,15 +1476,22 @@ impl PIN17_R {
     #[doc = "Checks if the value of the field is `UART0_TX`"]
     #[inline(always)]
     pub fn is_uart0_tx(&self) -> bool {
-        *self == PIN17_A::UART0_TX
+        **self == PIN17_A::UART0_TX
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN17_A::IOF1
+        **self == PIN17_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin17`"]
+impl core::ops::Deref for PIN17_R {
+    type Target = crate::FieldReader<bool, PIN17_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin17` writer - "]
 pub struct PIN17_W<'a> {
     w: &'a mut W,
 }
@@ -1329,9 +1499,7 @@ impl<'a> PIN17_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN17_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1356,7 +1524,7 @@ impl<'a> PIN17_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 17)) | (((value as u32) & 0x01) << 17);
+        self.w.bits = (self.w.bits & !(0x01 << 17)) | ((value as u32 & 0x01) << 17);
         self.w
     }
 }
@@ -1374,9 +1542,12 @@ impl From<PIN18_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin18`"]
-pub type PIN18_R = crate::R<bool, PIN18_A>;
+#[doc = "Field `pin18` reader - "]
+pub struct PIN18_R(crate::FieldReader<bool, PIN18_A>);
 impl PIN18_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN18_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN18_A {
@@ -1388,15 +1559,22 @@ impl PIN18_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN18_A::IOF0
+        **self == PIN18_A::IOF0
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN18_A::IOF1
+        **self == PIN18_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin18`"]
+impl core::ops::Deref for PIN18_R {
+    type Target = crate::FieldReader<bool, PIN18_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin18` writer - "]
 pub struct PIN18_W<'a> {
     w: &'a mut W,
 }
@@ -1404,9 +1582,7 @@ impl<'a> PIN18_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN18_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1431,7 +1607,7 @@ impl<'a> PIN18_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 18)) | (((value as u32) & 0x01) << 18);
+        self.w.bits = (self.w.bits & !(0x01 << 18)) | ((value as u32 & 0x01) << 18);
         self.w
     }
 }
@@ -1449,9 +1625,12 @@ impl From<PIN19_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin19`"]
-pub type PIN19_R = crate::R<bool, PIN19_A>;
+#[doc = "Field `pin19` reader - "]
+pub struct PIN19_R(crate::FieldReader<bool, PIN19_A>);
 impl PIN19_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN19_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN19_A {
@@ -1463,15 +1642,22 @@ impl PIN19_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN19_A::IOF0
+        **self == PIN19_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM1_1`"]
     #[inline(always)]
     pub fn is_pwm1_1(&self) -> bool {
-        *self == PIN19_A::PWM1_1
+        **self == PIN19_A::PWM1_1
     }
 }
-#[doc = "Write proxy for field `pin19`"]
+impl core::ops::Deref for PIN19_R {
+    type Target = crate::FieldReader<bool, PIN19_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin19` writer - "]
 pub struct PIN19_W<'a> {
     w: &'a mut W,
 }
@@ -1479,9 +1665,7 @@ impl<'a> PIN19_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN19_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1506,7 +1690,7 @@ impl<'a> PIN19_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 19)) | (((value as u32) & 0x01) << 19);
+        self.w.bits = (self.w.bits & !(0x01 << 19)) | ((value as u32 & 0x01) << 19);
         self.w
     }
 }
@@ -1524,9 +1708,12 @@ impl From<PIN20_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin20`"]
-pub type PIN20_R = crate::R<bool, PIN20_A>;
+#[doc = "Field `pin20` reader - "]
+pub struct PIN20_R(crate::FieldReader<bool, PIN20_A>);
 impl PIN20_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN20_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN20_A {
@@ -1538,15 +1725,22 @@ impl PIN20_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN20_A::IOF0
+        **self == PIN20_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM1_0`"]
     #[inline(always)]
     pub fn is_pwm1_0(&self) -> bool {
-        *self == PIN20_A::PWM1_0
+        **self == PIN20_A::PWM1_0
     }
 }
-#[doc = "Write proxy for field `pin20`"]
+impl core::ops::Deref for PIN20_R {
+    type Target = crate::FieldReader<bool, PIN20_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin20` writer - "]
 pub struct PIN20_W<'a> {
     w: &'a mut W,
 }
@@ -1554,9 +1748,7 @@ impl<'a> PIN20_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN20_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1581,7 +1773,7 @@ impl<'a> PIN20_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 20)) | (((value as u32) & 0x01) << 20);
+        self.w.bits = (self.w.bits & !(0x01 << 20)) | ((value as u32 & 0x01) << 20);
         self.w
     }
 }
@@ -1599,9 +1791,12 @@ impl From<PIN21_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin21`"]
-pub type PIN21_R = crate::R<bool, PIN21_A>;
+#[doc = "Field `pin21` reader - "]
+pub struct PIN21_R(crate::FieldReader<bool, PIN21_A>);
 impl PIN21_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN21_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN21_A {
@@ -1613,15 +1808,22 @@ impl PIN21_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN21_A::IOF0
+        **self == PIN21_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM1_2`"]
     #[inline(always)]
     pub fn is_pwm1_2(&self) -> bool {
-        *self == PIN21_A::PWM1_2
+        **self == PIN21_A::PWM1_2
     }
 }
-#[doc = "Write proxy for field `pin21`"]
+impl core::ops::Deref for PIN21_R {
+    type Target = crate::FieldReader<bool, PIN21_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin21` writer - "]
 pub struct PIN21_W<'a> {
     w: &'a mut W,
 }
@@ -1629,9 +1831,7 @@ impl<'a> PIN21_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN21_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1656,7 +1856,7 @@ impl<'a> PIN21_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 21)) | (((value as u32) & 0x01) << 21);
+        self.w.bits = (self.w.bits & !(0x01 << 21)) | ((value as u32 & 0x01) << 21);
         self.w
     }
 }
@@ -1674,9 +1874,12 @@ impl From<PIN22_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin22`"]
-pub type PIN22_R = crate::R<bool, PIN22_A>;
+#[doc = "Field `pin22` reader - "]
+pub struct PIN22_R(crate::FieldReader<bool, PIN22_A>);
 impl PIN22_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN22_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN22_A {
@@ -1688,15 +1891,22 @@ impl PIN22_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN22_A::IOF0
+        **self == PIN22_A::IOF0
     }
     #[doc = "Checks if the value of the field is `PWM1_3`"]
     #[inline(always)]
     pub fn is_pwm1_3(&self) -> bool {
-        *self == PIN22_A::PWM1_3
+        **self == PIN22_A::PWM1_3
     }
 }
-#[doc = "Write proxy for field `pin22`"]
+impl core::ops::Deref for PIN22_R {
+    type Target = crate::FieldReader<bool, PIN22_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin22` writer - "]
 pub struct PIN22_W<'a> {
     w: &'a mut W,
 }
@@ -1704,9 +1914,7 @@ impl<'a> PIN22_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN22_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1731,7 +1939,7 @@ impl<'a> PIN22_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 22)) | (((value as u32) & 0x01) << 22);
+        self.w.bits = (self.w.bits & !(0x01 << 22)) | ((value as u32 & 0x01) << 22);
         self.w
     }
 }
@@ -1749,9 +1957,12 @@ impl From<PIN23_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin23`"]
-pub type PIN23_R = crate::R<bool, PIN23_A>;
+#[doc = "Field `pin23` reader - "]
+pub struct PIN23_R(crate::FieldReader<bool, PIN23_A>);
 impl PIN23_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN23_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN23_A {
@@ -1763,15 +1974,22 @@ impl PIN23_R {
     #[doc = "Checks if the value of the field is `IOF0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
-        *self == PIN23_A::IOF0
+        **self == PIN23_A::IOF0
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN23_A::IOF1
+        **self == PIN23_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin23`"]
+impl core::ops::Deref for PIN23_R {
+    type Target = crate::FieldReader<bool, PIN23_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin23` writer - "]
 pub struct PIN23_W<'a> {
     w: &'a mut W,
 }
@@ -1779,9 +1997,7 @@ impl<'a> PIN23_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN23_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1806,7 +2022,7 @@ impl<'a> PIN23_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 23)) | (((value as u32) & 0x01) << 23);
+        self.w.bits = (self.w.bits & !(0x01 << 23)) | ((value as u32 & 0x01) << 23);
         self.w
     }
 }
@@ -1824,9 +2040,12 @@ impl From<PIN24_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin24`"]
-pub type PIN24_R = crate::R<bool, PIN24_A>;
+#[doc = "Field `pin24` reader - "]
+pub struct PIN24_R(crate::FieldReader<bool, PIN24_A>);
 impl PIN24_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN24_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN24_A {
@@ -1838,15 +2057,22 @@ impl PIN24_R {
     #[doc = "Checks if the value of the field is `UART1_RX`"]
     #[inline(always)]
     pub fn is_uart1_rx(&self) -> bool {
-        *self == PIN24_A::UART1_RX
+        **self == PIN24_A::UART1_RX
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN24_A::IOF1
+        **self == PIN24_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin24`"]
+impl core::ops::Deref for PIN24_R {
+    type Target = crate::FieldReader<bool, PIN24_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin24` writer - "]
 pub struct PIN24_W<'a> {
     w: &'a mut W,
 }
@@ -1854,9 +2080,7 @@ impl<'a> PIN24_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN24_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1881,7 +2105,7 @@ impl<'a> PIN24_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 24)) | (((value as u32) & 0x01) << 24);
+        self.w.bits = (self.w.bits & !(0x01 << 24)) | ((value as u32 & 0x01) << 24);
         self.w
     }
 }
@@ -1899,9 +2123,12 @@ impl From<PIN25_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin25`"]
-pub type PIN25_R = crate::R<bool, PIN25_A>;
+#[doc = "Field `pin25` reader - "]
+pub struct PIN25_R(crate::FieldReader<bool, PIN25_A>);
 impl PIN25_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN25_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN25_A {
@@ -1913,15 +2140,22 @@ impl PIN25_R {
     #[doc = "Checks if the value of the field is `UART1_TX`"]
     #[inline(always)]
     pub fn is_uart1_tx(&self) -> bool {
-        *self == PIN25_A::UART1_TX
+        **self == PIN25_A::UART1_TX
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN25_A::IOF1
+        **self == PIN25_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin25`"]
+impl core::ops::Deref for PIN25_R {
+    type Target = crate::FieldReader<bool, PIN25_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin25` writer - "]
 pub struct PIN25_W<'a> {
     w: &'a mut W,
 }
@@ -1929,9 +2163,7 @@ impl<'a> PIN25_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN25_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -1956,7 +2188,7 @@ impl<'a> PIN25_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 25)) | (((value as u32) & 0x01) << 25);
+        self.w.bits = (self.w.bits & !(0x01 << 25)) | ((value as u32 & 0x01) << 25);
         self.w
     }
 }
@@ -1974,9 +2206,12 @@ impl From<PIN26_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin26`"]
-pub type PIN26_R = crate::R<bool, PIN26_A>;
+#[doc = "Field `pin26` reader - "]
+pub struct PIN26_R(crate::FieldReader<bool, PIN26_A>);
 impl PIN26_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN26_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN26_A {
@@ -1988,15 +2223,22 @@ impl PIN26_R {
     #[doc = "Checks if the value of the field is `QSPI2_SS`"]
     #[inline(always)]
     pub fn is_qspi2_ss(&self) -> bool {
-        *self == PIN26_A::QSPI2_SS
+        **self == PIN26_A::QSPI2_SS
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN26_A::IOF1
+        **self == PIN26_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin26`"]
+impl core::ops::Deref for PIN26_R {
+    type Target = crate::FieldReader<bool, PIN26_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin26` writer - "]
 pub struct PIN26_W<'a> {
     w: &'a mut W,
 }
@@ -2004,9 +2246,7 @@ impl<'a> PIN26_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN26_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -2031,7 +2271,7 @@ impl<'a> PIN26_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 26)) | (((value as u32) & 0x01) << 26);
+        self.w.bits = (self.w.bits & !(0x01 << 26)) | ((value as u32 & 0x01) << 26);
         self.w
     }
 }
@@ -2049,9 +2289,12 @@ impl From<PIN27_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin27`"]
-pub type PIN27_R = crate::R<bool, PIN27_A>;
+#[doc = "Field `pin27` reader - "]
+pub struct PIN27_R(crate::FieldReader<bool, PIN27_A>);
 impl PIN27_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN27_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN27_A {
@@ -2063,15 +2306,22 @@ impl PIN27_R {
     #[doc = "Checks if the value of the field is `QSPI2_SD0`"]
     #[inline(always)]
     pub fn is_qspi2_sd0(&self) -> bool {
-        *self == PIN27_A::QSPI2_SD0
+        **self == PIN27_A::QSPI2_SD0
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN27_A::IOF1
+        **self == PIN27_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin27`"]
+impl core::ops::Deref for PIN27_R {
+    type Target = crate::FieldReader<bool, PIN27_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin27` writer - "]
 pub struct PIN27_W<'a> {
     w: &'a mut W,
 }
@@ -2079,9 +2329,7 @@ impl<'a> PIN27_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN27_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -2106,7 +2354,7 @@ impl<'a> PIN27_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 27)) | (((value as u32) & 0x01) << 27);
+        self.w.bits = (self.w.bits & !(0x01 << 27)) | ((value as u32 & 0x01) << 27);
         self.w
     }
 }
@@ -2124,9 +2372,12 @@ impl From<PIN28_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin28`"]
-pub type PIN28_R = crate::R<bool, PIN28_A>;
+#[doc = "Field `pin28` reader - "]
+pub struct PIN28_R(crate::FieldReader<bool, PIN28_A>);
 impl PIN28_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN28_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN28_A {
@@ -2138,15 +2389,22 @@ impl PIN28_R {
     #[doc = "Checks if the value of the field is `QSPI2_SD1`"]
     #[inline(always)]
     pub fn is_qspi2_sd1(&self) -> bool {
-        *self == PIN28_A::QSPI2_SD1
+        **self == PIN28_A::QSPI2_SD1
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN28_A::IOF1
+        **self == PIN28_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin28`"]
+impl core::ops::Deref for PIN28_R {
+    type Target = crate::FieldReader<bool, PIN28_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin28` writer - "]
 pub struct PIN28_W<'a> {
     w: &'a mut W,
 }
@@ -2154,9 +2412,7 @@ impl<'a> PIN28_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN28_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -2181,7 +2437,7 @@ impl<'a> PIN28_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 28)) | (((value as u32) & 0x01) << 28);
+        self.w.bits = (self.w.bits & !(0x01 << 28)) | ((value as u32 & 0x01) << 28);
         self.w
     }
 }
@@ -2199,9 +2455,12 @@ impl From<PIN29_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin29`"]
-pub type PIN29_R = crate::R<bool, PIN29_A>;
+#[doc = "Field `pin29` reader - "]
+pub struct PIN29_R(crate::FieldReader<bool, PIN29_A>);
 impl PIN29_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN29_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN29_A {
@@ -2213,15 +2472,22 @@ impl PIN29_R {
     #[doc = "Checks if the value of the field is `QSPI2_SCK`"]
     #[inline(always)]
     pub fn is_qspi2_sck(&self) -> bool {
-        *self == PIN29_A::QSPI2_SCK
+        **self == PIN29_A::QSPI2_SCK
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN29_A::IOF1
+        **self == PIN29_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin29`"]
+impl core::ops::Deref for PIN29_R {
+    type Target = crate::FieldReader<bool, PIN29_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin29` writer - "]
 pub struct PIN29_W<'a> {
     w: &'a mut W,
 }
@@ -2229,9 +2495,7 @@ impl<'a> PIN29_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN29_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -2256,7 +2520,7 @@ impl<'a> PIN29_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 29)) | (((value as u32) & 0x01) << 29);
+        self.w.bits = (self.w.bits & !(0x01 << 29)) | ((value as u32 & 0x01) << 29);
         self.w
     }
 }
@@ -2274,9 +2538,12 @@ impl From<PIN30_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin30`"]
-pub type PIN30_R = crate::R<bool, PIN30_A>;
+#[doc = "Field `pin30` reader - "]
+pub struct PIN30_R(crate::FieldReader<bool, PIN30_A>);
 impl PIN30_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN30_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN30_A {
@@ -2288,15 +2555,22 @@ impl PIN30_R {
     #[doc = "Checks if the value of the field is `QSPI2_SD2`"]
     #[inline(always)]
     pub fn is_qspi2_sd2(&self) -> bool {
-        *self == PIN30_A::QSPI2_SD2
+        **self == PIN30_A::QSPI2_SD2
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN30_A::IOF1
+        **self == PIN30_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin30`"]
+impl core::ops::Deref for PIN30_R {
+    type Target = crate::FieldReader<bool, PIN30_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin30` writer - "]
 pub struct PIN30_W<'a> {
     w: &'a mut W,
 }
@@ -2304,9 +2578,7 @@ impl<'a> PIN30_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN30_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -2331,7 +2603,7 @@ impl<'a> PIN30_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 30)) | (((value as u32) & 0x01) << 30);
+        self.w.bits = (self.w.bits & !(0x01 << 30)) | ((value as u32 & 0x01) << 30);
         self.w
     }
 }
@@ -2349,9 +2621,12 @@ impl From<PIN31_A> for bool {
         variant as u8 != 0
     }
 }
-#[doc = "Reader of field `pin31`"]
-pub type PIN31_R = crate::R<bool, PIN31_A>;
+#[doc = "Field `pin31` reader - "]
+pub struct PIN31_R(crate::FieldReader<bool, PIN31_A>);
 impl PIN31_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        PIN31_R(crate::FieldReader::new(bits))
+    }
     #[doc = r"Get enumerated values variant"]
     #[inline(always)]
     pub fn variant(&self) -> PIN31_A {
@@ -2363,15 +2638,22 @@ impl PIN31_R {
     #[doc = "Checks if the value of the field is `QSPI2_SD3`"]
     #[inline(always)]
     pub fn is_qspi2_sd3(&self) -> bool {
-        *self == PIN31_A::QSPI2_SD3
+        **self == PIN31_A::QSPI2_SD3
     }
     #[doc = "Checks if the value of the field is `IOF1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
-        *self == PIN31_A::IOF1
+        **self == PIN31_A::IOF1
     }
 }
-#[doc = "Write proxy for field `pin31`"]
+impl core::ops::Deref for PIN31_R {
+    type Target = crate::FieldReader<bool, PIN31_A>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `pin31` writer - "]
 pub struct PIN31_W<'a> {
     w: &'a mut W,
 }
@@ -2379,9 +2661,7 @@ impl<'a> PIN31_W<'a> {
     #[doc = r"Writes `variant` to the field"]
     #[inline(always)]
     pub fn variant(self, variant: PIN31_A) -> &'a mut W {
-        {
-            self.bit(variant.into())
-        }
+        self.bit(variant.into())
     }
     #[doc = "`0`"]
     #[inline(always)]
@@ -2406,7 +2686,7 @@ impl<'a> PIN31_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x01 << 31)) | (((value as u32) & 0x01) << 31);
+        self.w.bits = (self.w.bits & !(0x01 << 31)) | ((value as u32 & 0x01) << 31);
         self.w
     }
 }
@@ -2732,5 +3012,31 @@ impl W {
     #[inline(always)]
     pub fn pin31(&mut self) -> PIN31_W {
         PIN31_W { w: self }
+    }
+    #[doc = "Writes raw bits to the register."]
+    #[inline(always)]
+    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
+        self.0.bits(bits);
+        self
+    }
+}
+#[doc = "HW I/O Function Select Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [iof_sel](index.html) module"]
+pub struct IOF_SEL_SPEC;
+impl crate::RegisterSpec for IOF_SEL_SPEC {
+    type Ux = u32;
+}
+#[doc = "`read()` method returns [iof_sel::R](R) reader structure"]
+impl crate::Readable for IOF_SEL_SPEC {
+    type Reader = R;
+}
+#[doc = "`write(|w| ..)` method takes [iof_sel::W](W) writer structure"]
+impl crate::Writable for IOF_SEL_SPEC {
+    type Writer = W;
+}
+#[doc = "`reset()` method sets iof_sel to value 0"]
+impl crate::Resettable for IOF_SEL_SPEC {
+    #[inline(always)]
+    fn reset_value() -> Self::Ux {
+        0
     }
 }

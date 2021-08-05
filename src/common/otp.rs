@@ -2,185 +2,87 @@
 #[repr(C)]
 pub struct RegisterBlock {
     #[doc = "0x00 - Programmed-I/O lock register"]
-    pub lock: LOCK,
+    pub lock: crate::Reg<lock::LOCK_SPEC>,
     #[doc = "0x04 - OTP device clock signal"]
-    pub clock: CLOCK,
+    pub clock: crate::Reg<clock::CLOCK_SPEC>,
     #[doc = "0x08 - OTP device output-enable signal"]
-    pub output_en: OUTPUT_EN,
+    pub output_en: crate::Reg<output_en::OUTPUT_EN_SPEC>,
     #[doc = "0x0c - OTP device chip-select signal"]
-    pub select: SELECT,
+    pub select: crate::Reg<select::SELECT_SPEC>,
     #[doc = "0x10 - OTP device write-enable signal"]
-    pub write_en: WRITE_EN,
+    pub write_en: crate::Reg<write_en::WRITE_EN_SPEC>,
     #[doc = "0x14 - OTP device mode register"]
-    pub mode: MODE,
+    pub mode: crate::Reg<mode::MODE_SPEC>,
     #[doc = "0x18 - OTP read-voltage regulator control"]
-    pub mrr: MRR,
+    pub mrr: crate::Reg<mrr::MRR_SPEC>,
     #[doc = "0x1c - OTP write-voltage charge pump control"]
-    pub mpp: MPP,
+    pub mpp: crate::Reg<mpp::MPP_SPEC>,
     #[doc = "0x20 - OTP read-voltage enable"]
-    pub vrren: VRREN,
+    pub vrren: crate::Reg<vrren::VRREN_SPEC>,
     #[doc = "0x24 - OTP write-voltage enable"]
-    pub vppen: VPPEN,
+    pub vppen: crate::Reg<vppen::VPPEN_SPEC>,
     #[doc = "0x28 - OTP device address"]
-    pub addr: ADDR,
+    pub addr: crate::Reg<addr::ADDR_SPEC>,
     #[doc = "0x2c - OTP device data input"]
-    pub data_in: DATA_IN,
+    pub data_in: crate::Reg<data_in::DATA_IN_SPEC>,
     #[doc = "0x30 - OTP device data output"]
-    pub data_out: DATA_OUT,
+    pub data_out: crate::Reg<data_out::DATA_OUT_SPEC>,
     #[doc = "0x34 - OTP read sequencer control"]
-    pub rsctrl: RSCTRL,
+    pub rsctrl: crate::Reg<rsctrl::RSCTRL_SPEC>,
 }
-#[doc = "Programmed-I/O lock register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [lock](lock) module"]
-pub type LOCK = crate::Reg<u32, _LOCK>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _LOCK;
-#[doc = "`read()` method returns [lock::R](lock::R) reader structure"]
-impl crate::Readable for LOCK {}
-#[doc = "`write(|w| ..)` method takes [lock::W](lock::W) writer structure"]
-impl crate::Writable for LOCK {}
+#[doc = "lock register accessor: an alias for `Reg<LOCK_SPEC>`"]
+pub type LOCK = crate::Reg<lock::LOCK_SPEC>;
 #[doc = "Programmed-I/O lock register"]
 pub mod lock;
-#[doc = "OTP device clock signal\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [clock](clock) module"]
-pub type CLOCK = crate::Reg<u32, _CLOCK>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _CLOCK;
-#[doc = "`read()` method returns [clock::R](clock::R) reader structure"]
-impl crate::Readable for CLOCK {}
-#[doc = "`write(|w| ..)` method takes [clock::W](clock::W) writer structure"]
-impl crate::Writable for CLOCK {}
+#[doc = "clock register accessor: an alias for `Reg<CLOCK_SPEC>`"]
+pub type CLOCK = crate::Reg<clock::CLOCK_SPEC>;
 #[doc = "OTP device clock signal"]
 pub mod clock;
-#[doc = "OTP device output-enable signal\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [output_en](output_en) module"]
-pub type OUTPUT_EN = crate::Reg<u32, _OUTPUT_EN>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _OUTPUT_EN;
-#[doc = "`read()` method returns [output_en::R](output_en::R) reader structure"]
-impl crate::Readable for OUTPUT_EN {}
-#[doc = "`write(|w| ..)` method takes [output_en::W](output_en::W) writer structure"]
-impl crate::Writable for OUTPUT_EN {}
+#[doc = "output_en register accessor: an alias for `Reg<OUTPUT_EN_SPEC>`"]
+pub type OUTPUT_EN = crate::Reg<output_en::OUTPUT_EN_SPEC>;
 #[doc = "OTP device output-enable signal"]
 pub mod output_en;
-#[doc = "OTP device chip-select signal\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [select](select) module"]
-pub type SELECT = crate::Reg<u32, _SELECT>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _SELECT;
-#[doc = "`read()` method returns [select::R](select::R) reader structure"]
-impl crate::Readable for SELECT {}
-#[doc = "`write(|w| ..)` method takes [select::W](select::W) writer structure"]
-impl crate::Writable for SELECT {}
+#[doc = "select register accessor: an alias for `Reg<SELECT_SPEC>`"]
+pub type SELECT = crate::Reg<select::SELECT_SPEC>;
 #[doc = "OTP device chip-select signal"]
 pub mod select;
-#[doc = "OTP device write-enable signal\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [write_en](write_en) module"]
-pub type WRITE_EN = crate::Reg<u32, _WRITE_EN>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _WRITE_EN;
-#[doc = "`read()` method returns [write_en::R](write_en::R) reader structure"]
-impl crate::Readable for WRITE_EN {}
-#[doc = "`write(|w| ..)` method takes [write_en::W](write_en::W) writer structure"]
-impl crate::Writable for WRITE_EN {}
+#[doc = "write_en register accessor: an alias for `Reg<WRITE_EN_SPEC>`"]
+pub type WRITE_EN = crate::Reg<write_en::WRITE_EN_SPEC>;
 #[doc = "OTP device write-enable signal"]
 pub mod write_en;
-#[doc = "OTP device mode register\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mode](mode) module"]
-pub type MODE = crate::Reg<u32, _MODE>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _MODE;
-#[doc = "`read()` method returns [mode::R](mode::R) reader structure"]
-impl crate::Readable for MODE {}
-#[doc = "`write(|w| ..)` method takes [mode::W](mode::W) writer structure"]
-impl crate::Writable for MODE {}
+#[doc = "mode register accessor: an alias for `Reg<MODE_SPEC>`"]
+pub type MODE = crate::Reg<mode::MODE_SPEC>;
 #[doc = "OTP device mode register"]
 pub mod mode;
-#[doc = "OTP read-voltage regulator control\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mrr](mrr) module"]
-pub type MRR = crate::Reg<u32, _MRR>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _MRR;
-#[doc = "`read()` method returns [mrr::R](mrr::R) reader structure"]
-impl crate::Readable for MRR {}
-#[doc = "`write(|w| ..)` method takes [mrr::W](mrr::W) writer structure"]
-impl crate::Writable for MRR {}
+#[doc = "mrr register accessor: an alias for `Reg<MRR_SPEC>`"]
+pub type MRR = crate::Reg<mrr::MRR_SPEC>;
 #[doc = "OTP read-voltage regulator control"]
 pub mod mrr;
-#[doc = "OTP write-voltage charge pump control\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [mpp](mpp) module"]
-pub type MPP = crate::Reg<u32, _MPP>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _MPP;
-#[doc = "`read()` method returns [mpp::R](mpp::R) reader structure"]
-impl crate::Readable for MPP {}
-#[doc = "`write(|w| ..)` method takes [mpp::W](mpp::W) writer structure"]
-impl crate::Writable for MPP {}
+#[doc = "mpp register accessor: an alias for `Reg<MPP_SPEC>`"]
+pub type MPP = crate::Reg<mpp::MPP_SPEC>;
 #[doc = "OTP write-voltage charge pump control"]
 pub mod mpp;
-#[doc = "OTP read-voltage enable\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [vrren](vrren) module"]
-pub type VRREN = crate::Reg<u32, _VRREN>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _VRREN;
-#[doc = "`read()` method returns [vrren::R](vrren::R) reader structure"]
-impl crate::Readable for VRREN {}
-#[doc = "`write(|w| ..)` method takes [vrren::W](vrren::W) writer structure"]
-impl crate::Writable for VRREN {}
+#[doc = "vrren register accessor: an alias for `Reg<VRREN_SPEC>`"]
+pub type VRREN = crate::Reg<vrren::VRREN_SPEC>;
 #[doc = "OTP read-voltage enable"]
 pub mod vrren;
-#[doc = "OTP write-voltage enable\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [vppen](vppen) module"]
-pub type VPPEN = crate::Reg<u32, _VPPEN>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _VPPEN;
-#[doc = "`read()` method returns [vppen::R](vppen::R) reader structure"]
-impl crate::Readable for VPPEN {}
-#[doc = "`write(|w| ..)` method takes [vppen::W](vppen::W) writer structure"]
-impl crate::Writable for VPPEN {}
+#[doc = "vppen register accessor: an alias for `Reg<VPPEN_SPEC>`"]
+pub type VPPEN = crate::Reg<vppen::VPPEN_SPEC>;
 #[doc = "OTP write-voltage enable"]
 pub mod vppen;
-#[doc = "OTP device address\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [addr](addr) module"]
-pub type ADDR = crate::Reg<u32, _ADDR>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _ADDR;
-#[doc = "`read()` method returns [addr::R](addr::R) reader structure"]
-impl crate::Readable for ADDR {}
-#[doc = "`write(|w| ..)` method takes [addr::W](addr::W) writer structure"]
-impl crate::Writable for ADDR {}
+#[doc = "addr register accessor: an alias for `Reg<ADDR_SPEC>`"]
+pub type ADDR = crate::Reg<addr::ADDR_SPEC>;
 #[doc = "OTP device address"]
 pub mod addr;
-#[doc = "OTP device data input\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [data_in](data_in) module"]
-pub type DATA_IN = crate::Reg<u32, _DATA_IN>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _DATA_IN;
-#[doc = "`read()` method returns [data_in::R](data_in::R) reader structure"]
-impl crate::Readable for DATA_IN {}
-#[doc = "`write(|w| ..)` method takes [data_in::W](data_in::W) writer structure"]
-impl crate::Writable for DATA_IN {}
+#[doc = "data_in register accessor: an alias for `Reg<DATA_IN_SPEC>`"]
+pub type DATA_IN = crate::Reg<data_in::DATA_IN_SPEC>;
 #[doc = "OTP device data input"]
 pub mod data_in;
-#[doc = "OTP device data output\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [data_out](data_out) module"]
-pub type DATA_OUT = crate::Reg<u32, _DATA_OUT>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _DATA_OUT;
-#[doc = "`read()` method returns [data_out::R](data_out::R) reader structure"]
-impl crate::Readable for DATA_OUT {}
-#[doc = "`write(|w| ..)` method takes [data_out::W](data_out::W) writer structure"]
-impl crate::Writable for DATA_OUT {}
+#[doc = "data_out register accessor: an alias for `Reg<DATA_OUT_SPEC>`"]
+pub type DATA_OUT = crate::Reg<data_out::DATA_OUT_SPEC>;
 #[doc = "OTP device data output"]
 pub mod data_out;
-#[doc = "OTP read sequencer control\n\nThis register you can [`read`](crate::generic::Reg::read), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rsctrl](rsctrl) module"]
-pub type RSCTRL = crate::Reg<u32, _RSCTRL>;
-#[allow(missing_docs)]
-#[doc(hidden)]
-pub struct _RSCTRL;
-#[doc = "`read()` method returns [rsctrl::R](rsctrl::R) reader structure"]
-impl crate::Readable for RSCTRL {}
-#[doc = "`write(|w| ..)` method takes [rsctrl::W](rsctrl::W) writer structure"]
-impl crate::Writable for RSCTRL {}
+#[doc = "rsctrl register accessor: an alias for `Reg<RSCTRL_SPEC>`"]
+pub type RSCTRL = crate::Reg<rsctrl::RSCTRL_SPEC>;
 #[doc = "OTP read sequencer control"]
 pub mod rsctrl;

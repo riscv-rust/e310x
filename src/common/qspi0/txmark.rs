@@ -1,18 +1,54 @@
-#[doc = "Reader of register txmark"]
-pub type R = crate::R<u32, super::TXMARK>;
-#[doc = "Writer for register txmark"]
-pub type W = crate::W<u32, super::TXMARK>;
-#[doc = "Register txmark `reset()`'s with value 0"]
-impl crate::ResetValue for super::TXMARK {
-    type Type = u32;
+#[doc = "Register `txmark` reader"]
+pub struct R(crate::R<TXMARK_SPEC>);
+impl core::ops::Deref for R {
+    type Target = crate::R<TXMARK_SPEC>;
     #[inline(always)]
-    fn reset_value() -> Self::Type {
-        0
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
-#[doc = "Reader of field `txmark`"]
-pub type TXMARK_R = crate::R<u8, u8>;
-#[doc = "Write proxy for field `txmark`"]
+impl From<crate::R<TXMARK_SPEC>> for R {
+    #[inline(always)]
+    fn from(reader: crate::R<TXMARK_SPEC>) -> Self {
+        R(reader)
+    }
+}
+#[doc = "Register `txmark` writer"]
+pub struct W(crate::W<TXMARK_SPEC>);
+impl core::ops::Deref for W {
+    type Target = crate::W<TXMARK_SPEC>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl core::ops::DerefMut for W {
+    #[inline(always)]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+impl From<crate::W<TXMARK_SPEC>> for W {
+    #[inline(always)]
+    fn from(writer: crate::W<TXMARK_SPEC>) -> Self {
+        W(writer)
+    }
+}
+#[doc = "Field `txmark` reader - Transmit watermark"]
+pub struct TXMARK_R(crate::FieldReader<u8, u8>);
+impl TXMARK_R {
+    pub(crate) fn new(bits: u8) -> Self {
+        TXMARK_R(crate::FieldReader::new(bits))
+    }
+}
+impl core::ops::Deref for TXMARK_R {
+    type Target = crate::FieldReader<u8, u8>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `txmark` writer - Transmit watermark"]
 pub struct TXMARK_W<'a> {
     w: &'a mut W,
 }
@@ -20,7 +56,7 @@ impl<'a> TXMARK_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        self.w.bits = (self.w.bits & !0x07) | ((value as u32) & 0x07);
+        self.w.bits = (self.w.bits & !0x07) | (value as u32 & 0x07);
         self.w
     }
 }
@@ -36,5 +72,31 @@ impl W {
     #[inline(always)]
     pub fn txmark(&mut self) -> TXMARK_W {
         TXMARK_W { w: self }
+    }
+    #[doc = "Writes raw bits to the register."]
+    #[inline(always)]
+    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
+        self.0.bits(bits);
+        self
+    }
+}
+#[doc = "Transmit Watermark Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [txmark](index.html) module"]
+pub struct TXMARK_SPEC;
+impl crate::RegisterSpec for TXMARK_SPEC {
+    type Ux = u32;
+}
+#[doc = "`read()` method returns [txmark::R](R) reader structure"]
+impl crate::Readable for TXMARK_SPEC {
+    type Reader = R;
+}
+#[doc = "`write(|w| ..)` method takes [txmark::W](W) writer structure"]
+impl crate::Writable for TXMARK_SPEC {
+    type Writer = W;
+}
+#[doc = "`reset()` method sets txmark to value 0"]
+impl crate::Resettable for TXMARK_SPEC {
+    #[inline(always)]
+    fn reset_value() -> Self::Ux {
+        0
     }
 }

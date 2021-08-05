@@ -1,18 +1,54 @@
-#[doc = "Reader of register fctrl"]
-pub type R = crate::R<u32, super::FCTRL>;
-#[doc = "Writer for register fctrl"]
-pub type W = crate::W<u32, super::FCTRL>;
-#[doc = "Register fctrl `reset()`'s with value 0"]
-impl crate::ResetValue for super::FCTRL {
-    type Type = u32;
+#[doc = "Register `fctrl` reader"]
+pub struct R(crate::R<FCTRL_SPEC>);
+impl core::ops::Deref for R {
+    type Target = crate::R<FCTRL_SPEC>;
     #[inline(always)]
-    fn reset_value() -> Self::Type {
-        0
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
-#[doc = "Reader of field `en`"]
-pub type EN_R = crate::R<bool, bool>;
-#[doc = "Write proxy for field `en`"]
+impl From<crate::R<FCTRL_SPEC>> for R {
+    #[inline(always)]
+    fn from(reader: crate::R<FCTRL_SPEC>) -> Self {
+        R(reader)
+    }
+}
+#[doc = "Register `fctrl` writer"]
+pub struct W(crate::W<FCTRL_SPEC>);
+impl core::ops::Deref for W {
+    type Target = crate::W<FCTRL_SPEC>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl core::ops::DerefMut for W {
+    #[inline(always)]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+impl From<crate::W<FCTRL_SPEC>> for W {
+    #[inline(always)]
+    fn from(writer: crate::W<FCTRL_SPEC>) -> Self {
+        W(writer)
+    }
+}
+#[doc = "Field `en` reader - SPI Flash Mode Select"]
+pub struct EN_R(crate::FieldReader<bool, bool>);
+impl EN_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        EN_R(crate::FieldReader::new(bits))
+    }
+}
+impl core::ops::Deref for EN_R {
+    type Target = crate::FieldReader<bool, bool>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `en` writer - SPI Flash Mode Select"]
 pub struct EN_W<'a> {
     w: &'a mut W,
 }
@@ -30,7 +66,7 @@ impl<'a> EN_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !0x01) | ((value as u32) & 0x01);
+        self.w.bits = (self.w.bits & !0x01) | (value as u32 & 0x01);
         self.w
     }
 }
@@ -46,5 +82,31 @@ impl W {
     #[inline(always)]
     pub fn en(&mut self) -> EN_W {
         EN_W { w: self }
+    }
+    #[doc = "Writes raw bits to the register."]
+    #[inline(always)]
+    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
+        self.0.bits(bits);
+        self
+    }
+}
+#[doc = "SPI Flash Interface Control Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [fctrl](index.html) module"]
+pub struct FCTRL_SPEC;
+impl crate::RegisterSpec for FCTRL_SPEC {
+    type Ux = u32;
+}
+#[doc = "`read()` method returns [fctrl::R](R) reader structure"]
+impl crate::Readable for FCTRL_SPEC {
+    type Reader = R;
+}
+#[doc = "`write(|w| ..)` method takes [fctrl::W](W) writer structure"]
+impl crate::Writable for FCTRL_SPEC {
+    type Writer = W;
+}
+#[doc = "`reset()` method sets fctrl to value 0"]
+impl crate::Resettable for FCTRL_SPEC {
+    #[inline(always)]
+    fn reset_value() -> Self::Ux {
+        0
     }
 }

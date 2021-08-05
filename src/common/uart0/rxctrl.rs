@@ -1,18 +1,54 @@
-#[doc = "Reader of register rxctrl"]
-pub type R = crate::R<u32, super::RXCTRL>;
-#[doc = "Writer for register rxctrl"]
-pub type W = crate::W<u32, super::RXCTRL>;
-#[doc = "Register rxctrl `reset()`'s with value 0"]
-impl crate::ResetValue for super::RXCTRL {
-    type Type = u32;
+#[doc = "Register `rxctrl` reader"]
+pub struct R(crate::R<RXCTRL_SPEC>);
+impl core::ops::Deref for R {
+    type Target = crate::R<RXCTRL_SPEC>;
     #[inline(always)]
-    fn reset_value() -> Self::Type {
-        0
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
-#[doc = "Reader of field `counter`"]
-pub type COUNTER_R = crate::R<u8, u8>;
-#[doc = "Write proxy for field `counter`"]
+impl From<crate::R<RXCTRL_SPEC>> for R {
+    #[inline(always)]
+    fn from(reader: crate::R<RXCTRL_SPEC>) -> Self {
+        R(reader)
+    }
+}
+#[doc = "Register `rxctrl` writer"]
+pub struct W(crate::W<RXCTRL_SPEC>);
+impl core::ops::Deref for W {
+    type Target = crate::W<RXCTRL_SPEC>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl core::ops::DerefMut for W {
+    #[inline(always)]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+impl From<crate::W<RXCTRL_SPEC>> for W {
+    #[inline(always)]
+    fn from(writer: crate::W<RXCTRL_SPEC>) -> Self {
+        W(writer)
+    }
+}
+#[doc = "Field `counter` reader - "]
+pub struct COUNTER_R(crate::FieldReader<u8, u8>);
+impl COUNTER_R {
+    pub(crate) fn new(bits: u8) -> Self {
+        COUNTER_R(crate::FieldReader::new(bits))
+    }
+}
+impl core::ops::Deref for COUNTER_R {
+    type Target = crate::FieldReader<u8, u8>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `counter` writer - "]
 pub struct COUNTER_W<'a> {
     w: &'a mut W,
 }
@@ -20,13 +56,25 @@ impl<'a> COUNTER_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub unsafe fn bits(self, value: u8) -> &'a mut W {
-        self.w.bits = (self.w.bits & !(0x07 << 16)) | (((value as u32) & 0x07) << 16);
+        self.w.bits = (self.w.bits & !(0x07 << 16)) | ((value as u32 & 0x07) << 16);
         self.w
     }
 }
-#[doc = "Reader of field `enable`"]
-pub type ENABLE_R = crate::R<bool, bool>;
-#[doc = "Write proxy for field `enable`"]
+#[doc = "Field `enable` reader - "]
+pub struct ENABLE_R(crate::FieldReader<bool, bool>);
+impl ENABLE_R {
+    pub(crate) fn new(bits: bool) -> Self {
+        ENABLE_R(crate::FieldReader::new(bits))
+    }
+}
+impl core::ops::Deref for ENABLE_R {
+    type Target = crate::FieldReader<bool, bool>;
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#[doc = "Field `enable` writer - "]
 pub struct ENABLE_W<'a> {
     w: &'a mut W,
 }
@@ -44,7 +92,7 @@ impl<'a> ENABLE_W<'a> {
     #[doc = r"Writes raw bits to the field"]
     #[inline(always)]
     pub fn bit(self, value: bool) -> &'a mut W {
-        self.w.bits = (self.w.bits & !0x01) | ((value as u32) & 0x01);
+        self.w.bits = (self.w.bits & !0x01) | (value as u32 & 0x01);
         self.w
     }
 }
@@ -70,5 +118,31 @@ impl W {
     #[inline(always)]
     pub fn enable(&mut self) -> ENABLE_W {
         ENABLE_W { w: self }
+    }
+    #[doc = "Writes raw bits to the register."]
+    #[inline(always)]
+    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
+        self.0.bits(bits);
+        self
+    }
+}
+#[doc = "Receive Control Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rxctrl](index.html) module"]
+pub struct RXCTRL_SPEC;
+impl crate::RegisterSpec for RXCTRL_SPEC {
+    type Ux = u32;
+}
+#[doc = "`read()` method returns [rxctrl::R](R) reader structure"]
+impl crate::Readable for RXCTRL_SPEC {
+    type Reader = R;
+}
+#[doc = "`write(|w| ..)` method takes [rxctrl::W](W) writer structure"]
+impl crate::Writable for RXCTRL_SPEC {
+    type Writer = W;
+}
+#[doc = "`reset()` method sets rxctrl to value 0"]
+impl crate::Resettable for RXCTRL_SPEC {
+    #[inline(always)]
+    fn reset_value() -> Self::Ux {
+        0
     }
 }
