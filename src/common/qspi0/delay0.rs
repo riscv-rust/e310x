@@ -129,10 +129,10 @@ impl crate::Readable for DELAY0_SPEC {
 impl crate::Writable for DELAY0_SPEC {
     type Writer = W;
 }
-#[doc = "`reset()` method sets delay0 to value 0x0101"]
+#[doc = "`reset()` method sets delay0 to value 0x0001_0001"]
 impl crate::Resettable for DELAY0_SPEC {
     #[inline(always)]
     fn reset_value() -> Self::Ux {
-        0x0101
+        0x0001_0001
     }
 }
