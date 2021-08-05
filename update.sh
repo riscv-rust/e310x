@@ -15,7 +15,7 @@ cargo fmt
 rustfmt src/common/mod.rs
 
 # Strip crate-level things
-# updat this if svd2rust changes things
+# update this if svd2rust changes things
 tail -n+30 src/common/mod.rs > src/common/_mod.rs
 echo -en "use core::marker::PhantomData;\nuse core::ops::Deref;\n" > src/common/mod.rs
 cat src/common/_mod.rs >> src/common/mod.rs
