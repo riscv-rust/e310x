@@ -19,7 +19,7 @@ impl Delay {
 
 impl DelayUs<u32> for Delay {
     fn delay_us(&mut self, us: u32) {
-        let ticks = (us as u64) * TICKS_PER_SECOND / 1000_000;
+        let ticks = (us as u64) * TICKS_PER_SECOND / 1_000_000;
 
         let mtime = MTIME;
         let t = mtime.mtime() + ticks;
@@ -39,14 +39,14 @@ impl DelayUs<i32> for Delay {
 impl DelayUs<u16> for Delay {
     #[inline(always)]
     fn delay_us(&mut self, us: u16) {
-        self.delay_ms(u32::from(us));
+        self.delay_us(u32::from(us));
     }
 }
 
 impl DelayUs<u8> for Delay {
     #[inline(always)]
     fn delay_us(&mut self, us: u8) {
-        self.delay_ms(u32::from(us));
+        self.delay_us(u32::from(us));
     }
 }
 
