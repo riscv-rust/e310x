@@ -2,7 +2,6 @@
 use core::marker::PhantomData;
 use e310x::Interrupt;
 use e310x::PLIC;
-use riscv::interrupt::Nr;
 use riscv::register::{mie, mip};
 
 /// Priority of a plic::Interrupt.
@@ -183,7 +182,7 @@ impl CLAIM {
     pub fn complete(&mut self, intr: Interrupt) {
         // NOTE: Atomic write with side effects.
         unsafe {
-            (*PLIC::ptr()).claim.write(|w| w.bits(intr.nr() as u32));
+            (*PLIC::ptr()).claim.write(|w| w.bits(intr as u32));
         }
     }
 }
