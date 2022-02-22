@@ -1,10 +1,9 @@
 //! Clock configuration
-use e310x::{PRCI, AONCLK};
 use crate::core::clint::MTIME;
+use crate::time::Hertz;
+use e310x::{AONCLK, PRCI};
 use riscv::interrupt;
 use riscv::register::mcycle;
-use crate::time::Hertz;
-
 
 const PLLREF_MIN: u32 = 6_000_000;
 const PLLREF_MAX: u32 = 48_000_000;
@@ -16,7 +15,6 @@ const PLLOUT_MIN: u32 = 48_000_000;
 const PLLOUT_MAX: u32 = 384_000_000;
 const DIVOUT_MIN: u32 = 375_000;
 const DIVOUT_MAX: u32 = 384_000_000;
-
 
 /// PrciExt trait extends `PRCI` peripheral.
 pub trait PrciExt {
@@ -43,9 +41,7 @@ impl PrciExt for PRCI {
 
 impl AonExt for AONCLK {
     fn constrain(self) -> AonClk {
-        AonClk {
-            lfaltclk: None,
-        }
+        AonClk { lfaltclk: None }
     }
 }
 
@@ -79,10 +75,8 @@ impl CoreClk {
         let prci = unsafe { &*PRCI::ptr() };
         let hfrosc_freq = self.configure_hfrosc();
         // Switch to HFROSC, bypass PLL
-        prci.pllcfg.modify(|_, w| w
-            .sel().bit(false)
-            .bypass().bit(true)
-        );
+        prci.pllcfg
+            .modify(|_, w| w.sel().bit(false).bypass().bit(true));
 
         if let Some(freq) = self.hfxosc {
             self.configure_with_external(freq)
@@ -140,10 +134,8 @@ impl CoreClk {
             freq = hfrosc_freq;
 
             // Switch to HFROSC, bypass PLL to save power
-            prci.pllcfg.modify(|_, w| w
-                .sel().bit(false)
-                .bypass().bit(true)
-            );
+            prci.pllcfg
+                .modify(|_, w| w.sel().bit(false).bypass().bit(true));
 
             //
             prci.pllcfg.modify(|_, w| w.bypass().bit(true));
@@ -155,7 +147,6 @@ impl CoreClk {
 
             // Switch to PLL
             prci.pllcfg.modify(|_, w| w.sel().bit(true));
-
         }
 
         // Disable HFXOSC to save power
@@ -171,11 +162,8 @@ impl CoreClk {
         // TODO: use trim value from OTP
 
         // Configure HFROSC to 13.8 MHz
-        prci.hfrosccfg.write(|w| unsafe { w
-            .div().bits(4)
-            .trim().bits(16)
-            .enable().bit(true)
-        });
+        prci.hfrosccfg
+            .write(|w| unsafe { w.div().bits(4).trim().bits(16).enable().bit(true) });
 
         // Wait for HFROSC to stabilize
         while !prci.hfrosccfg.read().ready().bit_is_set() {}
@@ -224,7 +212,7 @@ impl CoreClk {
             24_000_000..=48_000_000 => 4,
             18_000_000..=23_999_999 => 3,
             12_000_000..=17_999_999 => 2,
-             6_000_000..=11_999_999 => 1,
+            6_000_000..=11_999_999 => 1,
             _ => unreachable!(),
         };
 
@@ -235,8 +223,8 @@ impl CoreClk {
         // Calculate PLL Q ratio
         let q = match pllout_freq {
             192_000_000..=384_000_000 => 2,
-             96_000_000..=191_999_999 => 4,
-             48_000_000..=95_999_999 => 8,
+            96_000_000..=191_999_999 => 4,
+            48_000_000..=95_999_999 => 8,
             _ => unreachable!(),
         };
 
@@ -253,7 +241,10 @@ impl CoreClk {
         let vco_lo = refr_freq * f_lo;
         let f_hi = f_lo + 2;
         let vco_hi = refr_freq * f_hi;
-        let (f, vco_freq) = if (f_hi <= 128 && vco_hi <= VCO_MAX) && (target_vco_freq as i32 - vco_hi as i32).abs() < (target_vco_freq as i32 - vco_lo as i32).abs() {
+        let (f, vco_freq) = if (f_hi <= 128 && vco_hi <= VCO_MAX)
+            && (target_vco_freq as i32 - vco_hi as i32).abs()
+                < (target_vco_freq as i32 - vco_lo as i32).abs()
+        {
             (f_hi, vco_hi)
         } else {
             (f_lo, vco_lo)
@@ -280,18 +271,20 @@ impl CoreClk {
 
         // Configure PLL
         let prci = unsafe { &*PRCI::ptr() };
-        prci.pllcfg.modify(|_, w| unsafe { w
-            .pllr().bits(r)
-            .pllf().bits(f)
-            .pllq().bits(q)
-            .bypass().bit(false)
+        prci.pllcfg.modify(|_, w| unsafe {
+            w.pllr()
+                .bits(r)
+                .pllf()
+                .bits(f)
+                .pllq()
+                .bits(q)
+                .bypass()
+                .bit(false)
         });
 
         // Configure PLL Output Divider
-        prci.plloutdiv.write(|w| unsafe { w
-            .div().bits(divider_div as u8)
-            .divby1().bit(divider_bypass)
-        });
+        prci.plloutdiv
+            .write(|w| unsafe { w.div().bits(divider_div as u8).divby1().bit(divider_bypass) });
 
         // Wait for PLL Lock
         // Note that the Lock signal can be glitchy.
@@ -341,12 +334,10 @@ impl AonClk {
             let div = 4; // LFROSC/5
 
             // Configure LFROSC
-            aonclk.lfrosccfg.write(|w| {
-                unsafe {
-                    w.bits(trim << 16) // TODO: replace this with trim()
-                     .div().bits(div)
-                     .enable().bit(true)
-                }
+            aonclk.lfrosccfg.write(|w| unsafe {
+                w.trim().bits(trim);
+                w.div().bits(div);
+                w.enable().bit(true)
             });
 
             // Wait for LFROSC to stabilize

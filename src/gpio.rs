@@ -56,7 +56,6 @@ pub struct NoInvert;
 /// Invert output mode (type state)
 pub struct Invert;
 
-
 trait PinIndex {
     const INDEX: usize;
 }
@@ -133,7 +132,6 @@ trait PeripheralAccess {
         atomic_set_bit(r, index, bit);
     }
 }
-
 
 macro_rules! gpio {
     ($GPIOX:ident, $gpiox:ident, [

@@ -21,7 +21,7 @@ impl CorePeripherals {
         Self {
             clint: clint.into(),
             plic: plic.into(),
-            counters: counters::PerformanceCounters::new()
+            counters: counters::PerformanceCounters::new(),
         }
     }
 
