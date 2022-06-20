@@ -1,8 +1,7 @@
-use core::convert::Infallible;
-
-use embedded_hal::{
-    blocking::spi::{Operation, Transactional, Transfer, Write, WriteIter},
-    spi::FullDuplex,
+use embedded_hal::spi::{
+    blocking::{Operation, Transactional, Transfer, TransferInplace, Write, WriteIter},
+    nb::FullDuplex,
+    ErrorKind, ErrorType,
 };
 
 use crate::spi::SpiConfig;
@@ -36,61 +35,71 @@ where
     }
 }
 
-impl<SPI, PINS> FullDuplex<u8> for SpiExclusiveDevice<SPI, PINS>
+impl<SPI, PINS> ErrorType for SpiExclusiveDevice<SPI, PINS> {
+    type Error = ErrorKind;
+}
+
+impl<SPI, PINS> FullDuplex for SpiExclusiveDevice<SPI, PINS>
 where
     SPI: SpiX,
     PINS: Pins<SPI>,
 {
-    type Error = Infallible;
-
-    fn read(&mut self) -> nb::Result<u8, Infallible> {
+    fn read(&mut self) -> nb::Result<u8, Self::Error> {
         self.bus.read()
     }
 
-    fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
+    fn write(&mut self, byte: u8) -> nb::Result<(), Self::Error> {
         self.bus.send(byte)
     }
 }
 
-impl<SPI, PINS> Transfer<u8> for SpiExclusiveDevice<SPI, PINS>
+impl<SPI, PINS> Transfer for SpiExclusiveDevice<SPI, PINS>
 where
     SPI: SpiX,
     PINS: Pins<SPI>,
 {
-    type Error = Infallible;
-
-    fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w [u8], Self::Error> {
+    fn transfer(&mut self, read: &mut [u8], write: &[u8]) -> Result<(), Self::Error> {
         self.bus.start_frame();
-        let result = self.bus.transfer(words);
+        let result = self.bus.transfer(read, write);
         self.bus.end_frame();
 
         result
     }
 }
 
-impl<SPI, PINS> Write<u8> for SpiExclusiveDevice<SPI, PINS>
+impl<SPI, PINS> TransferInplace for SpiExclusiveDevice<SPI, PINS>
 where
     SPI: SpiX,
     PINS: Pins<SPI>,
 {
-    type Error = Infallible;
+    fn transfer_inplace<'w>(&mut self, words: &'w mut [u8]) -> Result<(), Self::Error> {
+        self.bus.start_frame();
+        let result = self.bus.transfer_inplace(words);
+        self.bus.end_frame();
 
+        result
+    }
+}
+
+impl<SPI, PINS> Write for SpiExclusiveDevice<SPI, PINS>
+where
+    SPI: SpiX,
+    PINS: Pins<SPI>,
+{
     fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
         self.bus.start_frame();
-        let result = self.bus.write(words);
+        let result = self.bus.transfer(&mut [], words);
         self.bus.end_frame();
 
         result
     }
 }
 
-impl<SPI, PINS> WriteIter<u8> for SpiExclusiveDevice<SPI, PINS>
+impl<SPI, PINS> WriteIter for SpiExclusiveDevice<SPI, PINS>
 where
     SPI: SpiX,
     PINS: Pins<SPI>,
 {
-    type Error = Infallible;
-
     fn write_iter<WI>(&mut self, words: WI) -> Result<(), Self::Error>
     where
         WI: IntoIterator<Item = u8>,
@@ -103,14 +112,12 @@ where
     }
 }
 
-impl<SPI, PINS> Transactional<u8> for SpiExclusiveDevice<SPI, PINS>
+impl<SPI, PINS> Transactional for SpiExclusiveDevice<SPI, PINS>
 where
     SPI: SpiX,
     PINS: Pins<SPI>,
 {
-    type Error = Infallible;
-
-    fn exec<'op>(&mut self, operations: &mut [Operation<'op, u8>]) -> Result<(), Infallible> {
+    fn exec<'op>(&mut self, operations: &mut [Operation<'op, u8>]) -> Result<(), Self::Error> {
         self.bus.start_frame();
         let result = self.bus.exec(operations);
         self.bus.end_frame();

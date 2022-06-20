@@ -1,7 +1,7 @@
-use core::convert::Infallible;
-use embedded_hal::blocking::spi::Operation;
-pub use embedded_hal::blocking::spi::{Transfer, Write, WriteIter};
-pub use embedded_hal::spi::{FullDuplex, Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
+use embedded_hal::spi::blocking::Operation;
+pub use embedded_hal::spi::blocking::{Read, Transfer, TransferInplace, Write, WriteIter};
+pub use embedded_hal::spi::nb::FullDuplex;
+pub use embedded_hal::spi::{ErrorKind, Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
 
 use nb;
 
@@ -103,7 +103,7 @@ where
 
     // ex-traits now only accessible via devices
 
-    pub(crate) fn read(&mut self) -> nb::Result<u8, Infallible> {
+    pub(crate) fn read(&mut self) -> nb::Result<u8, ErrorKind> {
         let rxdata = self.spi.rxdata.read();
 
         if rxdata.empty().bit_is_set() {
@@ -113,7 +113,7 @@ where
         }
     }
 
-    pub(crate) fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
+    pub(crate) fn send(&mut self, byte: u8) -> nb::Result<(), ErrorKind> {
         let txdata = self.spi.txdata.read();
 
         if txdata.full().bit_is_set() {
@@ -124,7 +124,35 @@ where
         }
     }
 
-    pub(crate) fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w [u8], Infallible> {
+    pub(crate) fn transfer(&mut self, read: &mut [u8], write: &[u8]) -> Result<(), ErrorKind> {
+        let mut iwrite = 0;
+        let mut iread = 0;
+
+        // Ensure that RX FIFO is empty
+        self.wait_for_rxfifo();
+
+        while iwrite < write.len() || iread < read.len() {
+            if iread < read.len() && self.spi.txdata.read().full().bit_is_clear() {
+                let byte = write.get(iwrite).unwrap_or(&0);
+                iwrite += 1;
+                self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
+            }
+
+            if iread < iwrite {
+                let data = self.spi.rxdata.read();
+                if data.empty().bit_is_clear() {
+                    if let Some(d) = read.get_mut(iread) {
+                        *d = data.data().bits()
+                    };
+                    iread += 1;
+                }
+            }
+        }
+
+        Ok(())
+    }
+
+    pub(crate) fn transfer_inplace(&mut self, words: &mut [u8]) -> Result<(), ErrorKind> {
         let mut iwrite = 0;
         let mut iread = 0;
 
@@ -147,35 +175,10 @@ where
             }
         }
 
-        Ok(words)
-    }
-
-    pub(crate) fn write(&mut self, words: &[u8]) -> Result<(), Infallible> {
-        let mut iwrite = 0;
-        let mut iread = 0;
-
-        // Ensure that RX FIFO is empty
-        self.wait_for_rxfifo();
-
-        while iwrite < words.len() || iread < words.len() {
-            if iwrite < words.len() && self.spi.txdata.read().full().bit_is_clear() {
-                let byte = unsafe { words.get_unchecked(iwrite) };
-                iwrite += 1;
-                self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
-            }
-
-            if iread < iwrite {
-                // Read and discard byte, if any
-                if self.spi.rxdata.read().empty().bit_is_clear() {
-                    iread += 1;
-                }
-            }
-        }
-
         Ok(())
     }
 
-    pub(crate) fn write_iter<WI>(&mut self, words: WI) -> Result<(), Infallible>
+    pub(crate) fn write_iter<WI>(&mut self, words: WI) -> Result<(), ErrorKind>
     where
         WI: IntoIterator<Item = u8>,
     {
@@ -211,14 +214,20 @@ where
     pub(crate) fn exec<'op>(
         &mut self,
         operations: &mut [Operation<'op, u8>],
-    ) -> Result<(), Infallible> {
+    ) -> Result<(), ErrorKind> {
         for op in operations {
             match op {
-                Operation::Transfer(words) => {
-                    self.transfer(words)?;
+                Operation::Read(words) => {
+                    self.transfer(words, &[])?;
                 }
                 Operation::Write(words) => {
-                    self.write(words)?;
+                    self.transfer(&mut [], words)?;
+                }
+                Operation::Transfer(read_words, write_words) => {
+                    self.transfer(read_words, write_words)?;
+                }
+                Operation::TransferInplace(words) => {
+                    self.transfer_inplace(words)?;
                 }
             }
         }

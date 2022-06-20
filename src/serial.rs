@@ -13,7 +13,6 @@
 //! - RX: Pin 23 IOF0
 //! - Interrupt::UART1
 
-use core::convert::Infallible;
 use core::ops::Deref;
 
 use embedded_hal::serial;
@@ -114,10 +113,12 @@ impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
     }
 }
 
-impl<UART: UartX> serial::Read<u8> for Rx<UART> {
-    type Error = Infallible;
+impl<UART: UartX> serial::ErrorType for Rx<UART> {
+    type Error = serial::ErrorKind;
+}
 
-    fn read(&mut self) -> nb::Result<u8, Infallible> {
+impl<UART: UartX> serial::nb::Read for Rx<UART> {
+    fn read(&mut self) -> nb::Result<u8, Self::Error> {
         let rxdata = self.uart.rxdata.read();
 
         if rxdata.empty().bit_is_set() {
@@ -128,10 +129,12 @@ impl<UART: UartX> serial::Read<u8> for Rx<UART> {
     }
 }
 
-impl<UART: UartX> serial::Write<u8> for Tx<UART> {
-    type Error = Infallible;
+impl<UART: UartX> serial::ErrorType for Tx<UART> {
+    type Error = serial::ErrorKind;
+}
 
-    fn write(&mut self, byte: u8) -> nb::Result<(), Infallible> {
+impl<UART: UartX> serial::nb::Write for Tx<UART> {
+    fn write(&mut self, byte: u8) -> nb::Result<(), Self::Error> {
         let txdata = self.uart.txdata.read();
 
         if txdata.full().bit_is_set() {
@@ -144,7 +147,7 @@ impl<UART: UartX> serial::Write<u8> for Tx<UART> {
         }
     }
 
-    fn flush(&mut self) -> nb::Result<(), Infallible> {
+    fn flush(&mut self) -> nb::Result<(), Self::Error> {
         if self.uart.ip.read().txwm().bit_is_set() {
             // FIFO count is below the receive watermark (1)
             Ok(())

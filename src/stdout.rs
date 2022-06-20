@@ -10,7 +10,7 @@ where
 
 impl<'p, T> Write for Stdout<'p, T>
 where
-    T: embedded_hal::serial::Write<u8>,
+    T: embedded_hal::serial::nb::Write<u8>,
 {
     fn write_str(&mut self, s: &str) -> ::core::fmt::Result {
         for byte in s.as_bytes() {

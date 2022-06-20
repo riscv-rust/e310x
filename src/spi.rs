@@ -24,7 +24,7 @@
 //! - Interrupt::QSPI2
 //!
 //! # Exclusive Bus usage example
-//!```
+//!```ignore
 //! let pins = (mosi, miso, sck, cs0);
 //! let spi_bus = SpiBus::new(p.QSPI1, pins);
 //!
@@ -35,7 +35,7 @@
 //!```
 //!
 //! # Shared Bus usage example
-//!```
+//!```ignore
 //! let pins = (mosi, miso, sck);
 //! let spi_bus = SpiBus::shared(p.QSPI1, pins);
 //!

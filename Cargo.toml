@@ -10,9 +10,9 @@ license = "ISC"
 edition = "2018"
 
 [dependencies]
-embedded-hal = { version = "0.2.6", features = ["unproven"] }
+embedded-hal = "=1.0.0-alpha.7"
 nb = "1.0.0"
-riscv = "0.7.0"
+riscv = "=0.8.0-alpha.7"
 e310x = { version = "0.9.0", features = ["rt"] }
 
 [features]
