@@ -132,7 +132,7 @@ where
         self.wait_for_rxfifo();
 
         while iwrite < write.len() || iread < read.len() {
-            if iread < read.len() && self.spi.txdata.read().full().bit_is_clear() {
+            if iwrite < write.len() && self.spi.txdata.read().full().bit_is_clear() {
                 let byte = write.get(iwrite).unwrap_or(&0);
                 iwrite += 1;
                 self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
