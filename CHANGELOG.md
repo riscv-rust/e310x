@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Refactored `e310x-hal::spi` module, splitting the abstraction into `SpiBus` and `SpiExclusiveDevice/SpiSharedDevice` to allow multiple devices on a single SPI bus to co-exist
 
+## [v0.9.4] - 2022-07-10
+
+### Changed
+
+- Fixed code still using old `riscv::interrupt::Nr`
+
 ## [v0.9.3] - 2021-08-15
 
 ### Changed
