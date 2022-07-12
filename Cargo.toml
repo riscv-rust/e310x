@@ -7,6 +7,7 @@ categories = ["embedded", "hardware-support", "no-std"]
 description = "With svd2rust generated peripherals for Freedom E310 MCU's."
 keywords = ["riscv", "register", "peripheral"]
 license = "ISC"
+rust-version = "1.59"
 
 [dependencies]
 bare-metal = "1.0.0"
