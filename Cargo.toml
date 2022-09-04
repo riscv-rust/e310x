@@ -1,8 +1,8 @@
 [package]
 name = "e310x"
-version = "0.9.1"
+version = "0.10.0"
 repository = "https://github.com/riscv-rust/e310x"
-authors = ["David Craven <david@craven.ch>"]
+authors = ["David Craven <david@craven.ch>", "The RISC-V Team <risc-v@teams.rust-embedded.org>"]
 categories = ["embedded", "hardware-support", "no-std"]
 description = "With svd2rust generated peripherals for Freedom E310 MCU's."
 keywords = ["riscv", "register", "peripheral"]
@@ -10,7 +10,6 @@ license = "ISC"
 rust-version = "1.59"
 
 [dependencies]
-bare-metal = "1.0.0"
 vcell = "0.1.3"
 riscv = "0.8.0"
 
