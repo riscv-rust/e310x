@@ -15,6 +15,7 @@ pub mod device;
 pub mod gpio;
 pub mod pmu;
 pub mod prelude;
+pub mod pwm;
 pub mod rtc;
 pub mod serial;
 pub mod spi;
