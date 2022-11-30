@@ -22,6 +22,7 @@ pub mod spi;
 pub mod stdout;
 pub mod time;
 pub mod wdog;
+pub mod exthandler;
 
 #[cfg(feature = "g002")]
 pub mod i2c;

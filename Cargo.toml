@@ -14,10 +14,11 @@ rust-version = "1.59"
 embedded-hal = { version = "0.2.6", features = ["unproven"] }
 nb = "1.0.0"
 riscv = "0.7.0"
-e310x = { version = "0.9.0", features = ["rt"] }
+e310x = { path = "../e310x", features = ["rt"] }
 
 [features]
 g002 = ["e310x/g002"]
+virq = []
 
 [package.metadata.docs.rs]
 features = ["g002"]
