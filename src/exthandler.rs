@@ -9,13 +9,11 @@ extern "C" {
 
 #[no_mangle]
 /// Array of handlers
-pub static HANDLERS : [unsafe extern "C" fn (); 1] = [
-    GPIO4
-];
+pub static HANDLERS: [unsafe extern "C" fn(); 1] = [GPIO4];
 
 #[no_mangle]
 /// Default external handler
-pub fn DefaultMachineExternal () {
+pub fn DefaultMachineExternal() {
     loop {
         continue;
     }
@@ -32,7 +30,7 @@ unsafe fn MachineExternal() {
     let interrupt = plic.claim.claim().unwrap();
     /* Match the appropriate external interrupt */
     match interrupt {
-        e310x::Interrupt::GPIO4 => { HANDLERS[0]() },
+        e310x::Interrupt::GPIO4 => HANDLERS[0](),
         _ => {}
     }
     plic.claim.complete(interrupt);
