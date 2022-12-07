@@ -2,8 +2,8 @@
 use crate::core::CorePeripherals;
 
 /* Empty definition of all external handler functions, provided
-   in interrupts.x. Can be overwritten by the user. */
-#[cfg(feature="virq")]
+in interrupts.x. Can be overwritten by the user. */
+#[cfg(feature = "virq")]
 extern "C" {
     fn WATCHDOG();
     fn RTC();
@@ -60,65 +60,18 @@ extern "C" {
 }
 
 #[no_mangle]
-#[cfg(feature="virq")]
+#[cfg(feature = "virq")]
 /// Array of handlers
 pub static HANDLERS: [unsafe extern "C" fn(); 52] = [
-    WATCHDOG,
-    RTC,
-    UART0,
-    UART1,
-    QSPI0,
-    QSPI1,
-    QSPI2,
-    GPIO0,
-    GPIO1,
-    GPIO2,
-    GPIO3,
-    GPIO4,
-    GPIO5,
-    GPIO6,
-    GPIO7,
-    GPIO8,
-    GPIO9,
-    GPIO10,
-    GPIO11,
-    GPIO12,
-    GPIO13,
-    GPIO14,
-    GPIO15,
-    GPIO16,
-    GPIO17,
-    GPIO18,
-    GPIO19,
-    GPIO20,
-    GPIO21,
-    GPIO22,
-    GPIO23,
-    GPIO24,
-    GPIO25,
-    GPIO26,
-    GPIO27,
-    GPIO28,
-    GPIO29,
-    GPIO30,
-    GPIO31,
-    PWM0CMP0,
-    PWM0CMP1,
-    PWM0CMP2,
-    PWM0CMP3,
-    PWM1CMP0,
-    PWM1CMP1,
-    PWM1CMP2,
-    PWM1CMP3,
-    PWM2CMP0,
-    PWM2CMP1,
-    PWM2CMP2,
-    PWM2CMP3,
-    I2C0,
+    WATCHDOG, RTC, UART0, UART1, QSPI0, QSPI1, QSPI2, GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5,
+    GPIO6, GPIO7, GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15, GPIO16, GPIO17,
+    GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24, GPIO25, GPIO26, GPIO27, GPIO28, GPIO29,
+    GPIO30, GPIO31, PWM0CMP0, PWM0CMP1, PWM0CMP2, PWM0CMP3, PWM1CMP0, PWM1CMP1, PWM1CMP2, PWM1CMP3,
+    PWM2CMP0, PWM2CMP1, PWM2CMP2, PWM2CMP3, I2C0,
 ];
 
 #[no_mangle]
-#[cfg(feature="virq")]
+#[cfg(feature = "virq")]
 /// Default external handler
 pub fn DefaultMachineExternal() {
     loop {
@@ -133,15 +86,16 @@ pub fn DefaultMachineExternal() {
 /// The handler functions can be overriden by the user, otherwise default
 /// behavior will be called.
 #[no_mangle]
-#[cfg(feature="virq")]
+#[cfg(feature = "virq")]
 unsafe fn MachineExternal() {
     /* Steal the PLIC peripheral to claim the interrupt */
     let mut plic = CorePeripherals::steal().plic;
     let interrupt = plic.claim.claim().unwrap();
     /* Match the appropriate external interrupt */
     /* Interrupt 0 is defined as no interrupt, so we treat it independently */
-    if interrupt as u16 == 0 { DefaultMachineExternal() }
-    else if interrupt < HANDLERS.len() && interrupt > 0 {
+    if interrupt as u16 == 0 {
+        DefaultMachineExternal()
+    } else if interrupt < HANDLERS.len() && interrupt > 0 {
         // Offset the handlers as we do not work with interrupt = 0
         HANDLERS[(interrupt as usize) - 1]();
     } else {
