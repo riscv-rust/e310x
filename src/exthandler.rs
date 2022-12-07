@@ -1,8 +1,9 @@
 //! Optional external interrupt handler
 use crate::core::CorePeripherals;
 
-/* Empty definition of all external handler functions, to be provided
-   in the .x file and declared by the user */
+/* Empty definition of all external handler functions, provided
+   in interrupts.x. Can be overwritten by the user. */
+#[cfg(feature="virq")]
 extern "C" {
     fn WATCHDOG();
     fn RTC();
@@ -59,6 +60,7 @@ extern "C" {
 }
 
 #[no_mangle]
+#[cfg(feature="virq")]
 /// Array of handlers
 pub static HANDLERS: [unsafe extern "C" fn(); 52] = [
     WATCHDOG,
@@ -116,6 +118,7 @@ pub static HANDLERS: [unsafe extern "C" fn(); 52] = [
 ];
 
 #[no_mangle]
+#[cfg(feature="virq")]
 /// Default external handler
 pub fn DefaultMachineExternal() {
     loop {
@@ -130,7 +133,7 @@ pub fn DefaultMachineExternal() {
 /// The handler functions can be overriden by the user, otherwise default
 /// behavior will be called.
 #[no_mangle]
-//#[feature(virq)]
+#[cfg(feature="virq")]
 unsafe fn MachineExternal() {
     /* Steal the PLIC peripheral to claim the interrupt */
     let mut plic = CorePeripherals::steal().plic;
@@ -138,9 +141,12 @@ unsafe fn MachineExternal() {
     /* Match the appropriate external interrupt */
     /* Interrupt 0 is defined as no interrupt, so we treat it independently */
     if interrupt as u16 == 0 { DefaultMachineExternal() }
-    else {
+    else if interrupt < HANDLERS.len() && interrupt > 0 {
         // Offset the handlers as we do not work with interrupt = 0
         HANDLERS[(interrupt as usize) - 1]();
+    } else {
+        return;
     }
+    // Claim PLIC interrupt source as complete by this handler
     plic.claim.complete(interrupt);
 }
