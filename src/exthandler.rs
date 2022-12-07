@@ -1,5 +1,4 @@
 //! Optional external interrupt handler
-use crate::core::CorePeripherals;
 
 /* Empty definition of all external handler functions, provided
 in interrupts.x. Can be overwritten by the user. */
