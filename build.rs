@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+/* use std::path::PathBuf;
 use std::{env, fs};
 
 fn main() {
@@ -8,3 +8,4 @@ fn main() {
     fs::copy("interrupts.x", out_dir.join("interrupts.x")).unwrap();
     println!("cargo:rerun-if-changed=interrupts.x");
 }
+ */
