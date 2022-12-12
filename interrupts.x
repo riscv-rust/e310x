@@ -1,6 +1,6 @@
 /* Declare the external handlers array and the default handler as external symbols */
-EXTERN(HANDLERS);
-EXTERN(DefaultMachineExternal);
+// EXTERN(HANDLERS);
+// EXTERN(DefaultMachineExternal);
 /* Provide the weak symbols for each interrupt handler */
 PROVIDE(WATCHDOG = DefaultMachineExternal);
 PROVIDE(RTC = DefaultMachineExternal);

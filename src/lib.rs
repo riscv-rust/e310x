@@ -12,6 +12,7 @@ pub mod clock;
 pub mod core;
 pub mod delay;
 pub mod device;
+#[cfg(feature = "virq")]
 pub mod exthandler;
 pub mod gpio;
 pub mod pmu;
