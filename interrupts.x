@@ -1,6 +1,4 @@
-/* Declare the external handlers array and the default handler as external symbols */
-/* EXTERN(HANDLERS); */
-/* EXTERN(DefaultMachineExternal); */
+/* This file should be included by hifive1 */
 /* Provide the weak symbols for each interrupt handler */
 PROVIDE(WATCHDOG = DefaultMachineExternal);
 PROVIDE(RTC = DefaultMachineExternal);
