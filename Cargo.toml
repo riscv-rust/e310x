@@ -21,4 +21,4 @@ g002 = ["e310x/g002"]
 virq = []
 
 [package.metadata.docs.rs]
-features = ["g002"]
+features = ["g002", "virq"]
