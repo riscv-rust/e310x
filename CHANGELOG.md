@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added Pulse Width Modulation interface implementing `embedded_hal::Pwm`
 - Added `interrupt` module for vectored interrupt handlers.
 This module is only active if feature `virq` is selected.
+- Update `e310x` dependency to version 0.10
+- Update `riscv` dependency to version 0.8
 
 ## [v0.9.4] - 2022-07-10
 
