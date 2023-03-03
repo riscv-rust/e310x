@@ -570,7 +570,7 @@ impl Peripherals {
     #[doc = r"Returns all the peripherals *once*"]
     #[inline]
     pub fn take() -> Option<Self> {
-        riscv::interrupt::free(|_| {
+        riscv::interrupt::free(|| {
             if unsafe { DEVICE_PERIPHERALS } {
                 None
             } else {
