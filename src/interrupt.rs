@@ -107,9 +107,11 @@ pub enum Interrupt {
     #[doc = "52 - I2C0"]
     I2C0 = 52,
 }
+#[doc = r" TryFromInterruptError"]
 #[derive(Debug, Copy, Clone)]
 pub struct TryFromInterruptError(());
 impl Interrupt {
+    #[doc = r" Attempt to convert a given value into an `Interrupt`"]
     #[inline]
     pub fn try_from(value: u8) -> Result<Self, TryFromInterruptError> {
         match value {
