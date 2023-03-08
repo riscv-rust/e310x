@@ -32,6 +32,8 @@ jobs:
         run: |
           cargo check --target riscv32imac-unknown-none-elf
           cargo check --target riscv32imac-unknown-none-elf --features g002
+          cargo check --target riscv32imac-unknown-none-elf --features virq
+          cargo check --target riscv32imac-unknown-none-elf --features g002,virq
 
   # On macOS and Windows, we at least make sure that the crate builds and links.
   build-other:
@@ -53,3 +55,5 @@ jobs:
         run: |
           cargo build
           cargo build --features g002
+          cargo build --features virq
+          cargo build --features g002,virq
