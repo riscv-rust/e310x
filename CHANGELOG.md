@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Update `riscv` dependency to version 0.8
-- Update Minimum Supported Rust Version to 1.59
+- Update Minimum Supported Rust Version to 1.60
 - Regenerate code with `svd2rust` v0.19.0
 
 ### Fixed
