@@ -2,7 +2,7 @@
 set -x
 set -e
 
-# used svd2rust v0.19.0
+# used svd2rust v0.26.0
 rm -rf src
 mkdir src
 svd2rust --target riscv -g -i e310x.svd
