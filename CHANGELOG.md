@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.11.0]
+
 ### Changed
 - Update `riscv` dependency to version 0.10
+- Regenerate code with `svd2rust` v0.26.0
 
 ## [v0.10.0] - 2022-09-04
 
