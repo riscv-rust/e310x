@@ -13,7 +13,7 @@ rust-version = "1.59"
 [dependencies]
 embedded-hal = { version = "0.2.6", features = ["unproven"] }
 nb = "1.0.0"
-riscv = "0.10.1"
+riscv = { version = "0.10.1", features = ["critical-section-single-hart"] }
 e310x = { version = "0.11.0", features = ["rt", "critical-section"] }
 
 [features]

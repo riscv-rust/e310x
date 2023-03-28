@@ -7,12 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-- Refactored `e310x-hal::spi` module, splitting the abstraction into `SpiBus` and `SpiExclusiveDevice/SpiSharedDevice` to allow multiple devices on a single SPI bus to co-exist
+## [v0.10.0] - 2023-03-28
+
+### Added
 - Added Pulse Width Modulation interface implementing `embedded_hal::Pwm`
-- Added `interrupt` module for vectored interrupt handlers.
-This module is only active if feature `virq` is selected.
-- Update `e310x` dependency to version 0.10
-- Update `riscv` dependency to version 0.8
+- Added `interrupt` module for vectored interrupt handlers. This module is only active if feature `virq` is selected.
+
+### Changed
+- Refactored `e310x-hal::spi` module, splitting the abstraction into `SpiBus` and `SpiExclusiveDevice/SpiSharedDevice` to allow multiple devices on a single SPI bus to co-exist
+- Update `e310x` dependency to version 0.11
+- Update `riscv` dependency to version 0.10
+
+### Removed
+- removed interrupt linking definitions, they are now provided by `e310x` via `svd2rust`
 
 ## [v0.9.4] - 2022-07-10
 
