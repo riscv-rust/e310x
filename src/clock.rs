@@ -386,7 +386,7 @@ impl Clocks {
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
     fn _measure_coreclk(&self, min_ticks: u64) -> Hertz {
         let mtime = MTIME;
-        interrupt::free(|_| {
+        interrupt::free(|| {
             // Don't start measuring until we see an mtime tick
             while mtime.mtime() == mtime.mtime() {}
 

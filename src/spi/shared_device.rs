@@ -49,8 +49,8 @@ where
     type Error = Infallible;
 
     fn read(&mut self) -> nb::Result<u8, Infallible> {
-        interrupt::free(|cs| {
-            let mut bus = self.bus.borrow(*cs).borrow_mut();
+        interrupt::free(|| {
+            let mut bus = self.bus.borrow_mut();
 
             bus.configure(&self.config, Some(CS::CS_INDEX));
 
@@ -59,8 +59,8 @@ where
     }
 
     fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
-        interrupt::free(|cs| {
-            let mut bus = self.bus.borrow(*cs).borrow_mut();
+        interrupt::free(|| {
+            let mut bus = self.bus.borrow_mut();
 
             bus.configure(&self.config, Some(CS::CS_INDEX));
 
@@ -78,8 +78,8 @@ where
     type Error = Infallible;
 
     fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w [u8], Self::Error> {
-        interrupt::free(move |cs| {
-            let mut bus = self.bus.borrow(*cs).borrow_mut();
+        interrupt::free(move || {
+            let mut bus = self.bus.borrow_mut();
 
             bus.configure(&self.config, Some(CS::CS_INDEX));
 
@@ -101,8 +101,8 @@ where
     type Error = Infallible;
 
     fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
-        interrupt::free(|cs| {
-            let mut bus = self.bus.borrow(*cs).borrow_mut();
+        interrupt::free(|| {
+            let mut bus = self.bus.borrow_mut();
 
             bus.configure(&self.config, Some(CS::CS_INDEX));
 
@@ -127,8 +127,8 @@ where
     where
         WI: IntoIterator<Item = u8>,
     {
-        interrupt::free(|cs| {
-            let mut bus = self.bus.borrow(*cs).borrow_mut();
+        interrupt::free(|| {
+            let mut bus = self.bus.borrow_mut();
 
             bus.configure(&self.config, Some(CS::CS_INDEX));
 
@@ -150,8 +150,8 @@ where
     type Error = Infallible;
 
     fn exec<'op>(&mut self, operations: &mut [Operation<'op, u8>]) -> Result<(), Infallible> {
-        interrupt::free(|cs| {
-            let mut bus = self.bus.borrow(*cs).borrow_mut();
+        interrupt::free(|| {
+            let mut bus = self.bus.borrow_mut();
 
             bus.configure(&self.config, Some(CS::CS_INDEX));
 
