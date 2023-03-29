@@ -10,3 +10,8 @@ mv generic.rs src/
 form -i lib.rs -o src/
 rm lib.rs
 cargo fmt
+
+# combine generated device.x with memory.x
+mv device.x ints.x
+cat memory.x ints.x > device.x
+rm -f ints.x
