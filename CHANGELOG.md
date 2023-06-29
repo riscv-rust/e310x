@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Use `atomic-polyfill` to allow builds on riscv32imc-unknown-none-elf targets when needed.
+
 ## [v0.10.0] - 2023-03-28
 
 ### Added

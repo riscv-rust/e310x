@@ -1,7 +1,7 @@
 //! General Purpose I/O
 
+use atomic_polyfill::{AtomicU32, Ordering};
 use core::marker::PhantomData;
-use core::sync::atomic::{AtomicU32, Ordering};
 
 /// GpioExt trait extends the GPIO0 peripheral.
 pub trait GpioExt {
