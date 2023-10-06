@@ -1,7 +1,11 @@
 //! General Purpose I/O
 
-use atomic_polyfill::{AtomicU32, Ordering};
 use core::marker::PhantomData;
+
+#[cfg(target_has_atomic = "32")]
+use core::sync::atomic::{AtomicU32, Ordering};
+#[cfg(not(target_has_atomic = "32"))]
+use portable_atomic::{AtomicU32, Ordering};
 
 /// GpioExt trait extends the GPIO0 peripheral.
 pub trait GpioExt {
