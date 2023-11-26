@@ -1,39 +1,7 @@
 #[doc = "Register `iof_sel` reader"]
-pub struct R(crate::R<IOF_SEL_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<IOF_SEL_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<IOF_SEL_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<IOF_SEL_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<IOF_SEL_SPEC>;
 #[doc = "Register `iof_sel` writer"]
-pub struct W(crate::W<IOF_SEL_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<IOF_SEL_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<IOF_SEL_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<IOF_SEL_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<IOF_SEL_SPEC>;
 #[doc = "Field `pin0` reader - "]
 pub type PIN0_R = crate::BitReader<PIN0_A>;
 #[doc = "\n\nValue on reset: 0"]
@@ -53,34 +21,37 @@ impl From<PIN0_A> for bool {
 impl PIN0_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN0_A {
+    pub const fn variant(&self) -> PIN0_A {
         match self.bits {
             false => PIN0_A::IOF0,
             true => PIN0_A::PWM0_0,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN0_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM0_0`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm0_0(&self) -> bool {
         *self == PIN0_A::PWM0_0
     }
 }
 #[doc = "Field `pin0` writer - "]
-pub type PIN0_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN0_A, O>;
-impl<'a, const O: u8> PIN0_W<'a, O> {
+pub type PIN0_W<'a, REG> = crate::BitWriter<'a, REG, PIN0_A>;
+impl<'a, REG> PIN0_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN0_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm0_0(self) -> &'a mut W {
+    pub fn pwm0_0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN0_A::PWM0_0)
     }
 }
@@ -103,34 +74,37 @@ impl From<PIN1_A> for bool {
 impl PIN1_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN1_A {
+    pub const fn variant(&self) -> PIN1_A {
         match self.bits {
             false => PIN1_A::IOF0,
             true => PIN1_A::PWM0_1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN1_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM0_1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm0_1(&self) -> bool {
         *self == PIN1_A::PWM0_1
     }
 }
 #[doc = "Field `pin1` writer - "]
-pub type PIN1_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN1_A, O>;
-impl<'a, const O: u8> PIN1_W<'a, O> {
+pub type PIN1_W<'a, REG> = crate::BitWriter<'a, REG, PIN1_A>;
+impl<'a, REG> PIN1_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN1_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm0_1(self) -> &'a mut W {
+    pub fn pwm0_1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN1_A::PWM0_1)
     }
 }
@@ -153,34 +127,37 @@ impl From<PIN2_A> for bool {
 impl PIN2_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN2_A {
+    pub const fn variant(&self) -> PIN2_A {
         match self.bits {
             false => PIN2_A::QSPI1_SS0,
             true => PIN2_A::PWM0_2,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SS0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_ss0(&self) -> bool {
         *self == PIN2_A::QSPI1_SS0
     }
-    #[doc = "Checks if the value of the field is `PWM0_2`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm0_2(&self) -> bool {
         *self == PIN2_A::PWM0_2
     }
 }
 #[doc = "Field `pin2` writer - "]
-pub type PIN2_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN2_A, O>;
-impl<'a, const O: u8> PIN2_W<'a, O> {
+pub type PIN2_W<'a, REG> = crate::BitWriter<'a, REG, PIN2_A>;
+impl<'a, REG> PIN2_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_ss0(self) -> &'a mut W {
+    pub fn qspi1_ss0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN2_A::QSPI1_SS0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm0_2(self) -> &'a mut W {
+    pub fn pwm0_2(self) -> &'a mut crate::W<REG> {
         self.variant(PIN2_A::PWM0_2)
     }
 }
@@ -203,34 +180,37 @@ impl From<PIN3_A> for bool {
 impl PIN3_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN3_A {
+    pub const fn variant(&self) -> PIN3_A {
         match self.bits {
             false => PIN3_A::QSPI1_SD0,
             true => PIN3_A::PWM0_3,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SD0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_sd0(&self) -> bool {
         *self == PIN3_A::QSPI1_SD0
     }
-    #[doc = "Checks if the value of the field is `PWM0_3`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm0_3(&self) -> bool {
         *self == PIN3_A::PWM0_3
     }
 }
 #[doc = "Field `pin3` writer - "]
-pub type PIN3_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN3_A, O>;
-impl<'a, const O: u8> PIN3_W<'a, O> {
+pub type PIN3_W<'a, REG> = crate::BitWriter<'a, REG, PIN3_A>;
+impl<'a, REG> PIN3_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_sd0(self) -> &'a mut W {
+    pub fn qspi1_sd0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN3_A::QSPI1_SD0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm0_3(self) -> &'a mut W {
+    pub fn pwm0_3(self) -> &'a mut crate::W<REG> {
         self.variant(PIN3_A::PWM0_3)
     }
 }
@@ -253,34 +233,37 @@ impl From<PIN4_A> for bool {
 impl PIN4_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN4_A {
+    pub const fn variant(&self) -> PIN4_A {
         match self.bits {
             false => PIN4_A::QSPI1_SD1,
             true => PIN4_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SD1`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_sd1(&self) -> bool {
         *self == PIN4_A::QSPI1_SD1
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN4_A::IOF1
     }
 }
 #[doc = "Field `pin4` writer - "]
-pub type PIN4_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN4_A, O>;
-impl<'a, const O: u8> PIN4_W<'a, O> {
+pub type PIN4_W<'a, REG> = crate::BitWriter<'a, REG, PIN4_A>;
+impl<'a, REG> PIN4_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_sd1(self) -> &'a mut W {
+    pub fn qspi1_sd1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN4_A::QSPI1_SD1)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN4_A::IOF1)
     }
 }
@@ -303,34 +286,37 @@ impl From<PIN5_A> for bool {
 impl PIN5_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN5_A {
+    pub const fn variant(&self) -> PIN5_A {
         match self.bits {
             false => PIN5_A::QSPI1_SCK,
             true => PIN5_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SCK`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_sck(&self) -> bool {
         *self == PIN5_A::QSPI1_SCK
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN5_A::IOF1
     }
 }
 #[doc = "Field `pin5` writer - "]
-pub type PIN5_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN5_A, O>;
-impl<'a, const O: u8> PIN5_W<'a, O> {
+pub type PIN5_W<'a, REG> = crate::BitWriter<'a, REG, PIN5_A>;
+impl<'a, REG> PIN5_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_sck(self) -> &'a mut W {
+    pub fn qspi1_sck(self) -> &'a mut crate::W<REG> {
         self.variant(PIN5_A::QSPI1_SCK)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN5_A::IOF1)
     }
 }
@@ -353,34 +339,37 @@ impl From<PIN6_A> for bool {
 impl PIN6_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN6_A {
+    pub const fn variant(&self) -> PIN6_A {
         match self.bits {
             false => PIN6_A::QSPI1_SD2,
             true => PIN6_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SD2`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_sd2(&self) -> bool {
         *self == PIN6_A::QSPI1_SD2
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN6_A::IOF1
     }
 }
 #[doc = "Field `pin6` writer - "]
-pub type PIN6_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN6_A, O>;
-impl<'a, const O: u8> PIN6_W<'a, O> {
+pub type PIN6_W<'a, REG> = crate::BitWriter<'a, REG, PIN6_A>;
+impl<'a, REG> PIN6_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_sd2(self) -> &'a mut W {
+    pub fn qspi1_sd2(self) -> &'a mut crate::W<REG> {
         self.variant(PIN6_A::QSPI1_SD2)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN6_A::IOF1)
     }
 }
@@ -403,34 +392,37 @@ impl From<PIN7_A> for bool {
 impl PIN7_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN7_A {
+    pub const fn variant(&self) -> PIN7_A {
         match self.bits {
             false => PIN7_A::QSPI1_SD3,
             true => PIN7_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SD3`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_sd3(&self) -> bool {
         *self == PIN7_A::QSPI1_SD3
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN7_A::IOF1
     }
 }
 #[doc = "Field `pin7` writer - "]
-pub type PIN7_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN7_A, O>;
-impl<'a, const O: u8> PIN7_W<'a, O> {
+pub type PIN7_W<'a, REG> = crate::BitWriter<'a, REG, PIN7_A>;
+impl<'a, REG> PIN7_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_sd3(self) -> &'a mut W {
+    pub fn qspi1_sd3(self) -> &'a mut crate::W<REG> {
         self.variant(PIN7_A::QSPI1_SD3)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN7_A::IOF1)
     }
 }
@@ -453,34 +445,37 @@ impl From<PIN8_A> for bool {
 impl PIN8_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN8_A {
+    pub const fn variant(&self) -> PIN8_A {
         match self.bits {
             false => PIN8_A::QSPI1_SS1,
             true => PIN8_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SS1`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_ss1(&self) -> bool {
         *self == PIN8_A::QSPI1_SS1
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN8_A::IOF1
     }
 }
 #[doc = "Field `pin8` writer - "]
-pub type PIN8_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN8_A, O>;
-impl<'a, const O: u8> PIN8_W<'a, O> {
+pub type PIN8_W<'a, REG> = crate::BitWriter<'a, REG, PIN8_A>;
+impl<'a, REG> PIN8_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_ss1(self) -> &'a mut W {
+    pub fn qspi1_ss1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN8_A::QSPI1_SS1)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN8_A::IOF1)
     }
 }
@@ -503,34 +498,37 @@ impl From<PIN9_A> for bool {
 impl PIN9_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN9_A {
+    pub const fn variant(&self) -> PIN9_A {
         match self.bits {
             false => PIN9_A::QSPI1_SS2,
             true => PIN9_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SS2`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_ss2(&self) -> bool {
         *self == PIN9_A::QSPI1_SS2
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN9_A::IOF1
     }
 }
 #[doc = "Field `pin9` writer - "]
-pub type PIN9_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN9_A, O>;
-impl<'a, const O: u8> PIN9_W<'a, O> {
+pub type PIN9_W<'a, REG> = crate::BitWriter<'a, REG, PIN9_A>;
+impl<'a, REG> PIN9_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_ss2(self) -> &'a mut W {
+    pub fn qspi1_ss2(self) -> &'a mut crate::W<REG> {
         self.variant(PIN9_A::QSPI1_SS2)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN9_A::IOF1)
     }
 }
@@ -553,34 +551,37 @@ impl From<PIN10_A> for bool {
 impl PIN10_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN10_A {
+    pub const fn variant(&self) -> PIN10_A {
         match self.bits {
             false => PIN10_A::QSPI1_SS3,
             true => PIN10_A::PWM2_0,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI1_SS3`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi1_ss3(&self) -> bool {
         *self == PIN10_A::QSPI1_SS3
     }
-    #[doc = "Checks if the value of the field is `PWM2_0`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm2_0(&self) -> bool {
         *self == PIN10_A::PWM2_0
     }
 }
 #[doc = "Field `pin10` writer - "]
-pub type PIN10_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN10_A, O>;
-impl<'a, const O: u8> PIN10_W<'a, O> {
+pub type PIN10_W<'a, REG> = crate::BitWriter<'a, REG, PIN10_A>;
+impl<'a, REG> PIN10_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi1_ss3(self) -> &'a mut W {
+    pub fn qspi1_ss3(self) -> &'a mut crate::W<REG> {
         self.variant(PIN10_A::QSPI1_SS3)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm2_0(self) -> &'a mut W {
+    pub fn pwm2_0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN10_A::PWM2_0)
     }
 }
@@ -603,34 +604,37 @@ impl From<PIN11_A> for bool {
 impl PIN11_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN11_A {
+    pub const fn variant(&self) -> PIN11_A {
         match self.bits {
             false => PIN11_A::IOF0,
             true => PIN11_A::PWM2_1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN11_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM2_1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm2_1(&self) -> bool {
         *self == PIN11_A::PWM2_1
     }
 }
 #[doc = "Field `pin11` writer - "]
-pub type PIN11_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN11_A, O>;
-impl<'a, const O: u8> PIN11_W<'a, O> {
+pub type PIN11_W<'a, REG> = crate::BitWriter<'a, REG, PIN11_A>;
+impl<'a, REG> PIN11_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN11_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm2_1(self) -> &'a mut W {
+    pub fn pwm2_1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN11_A::PWM2_1)
     }
 }
@@ -653,34 +657,37 @@ impl From<PIN12_A> for bool {
 impl PIN12_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN12_A {
+    pub const fn variant(&self) -> PIN12_A {
         match self.bits {
             false => PIN12_A::IOF0,
             true => PIN12_A::PWM2_2,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN12_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM2_2`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm2_2(&self) -> bool {
         *self == PIN12_A::PWM2_2
     }
 }
 #[doc = "Field `pin12` writer - "]
-pub type PIN12_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN12_A, O>;
-impl<'a, const O: u8> PIN12_W<'a, O> {
+pub type PIN12_W<'a, REG> = crate::BitWriter<'a, REG, PIN12_A>;
+impl<'a, REG> PIN12_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN12_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm2_2(self) -> &'a mut W {
+    pub fn pwm2_2(self) -> &'a mut crate::W<REG> {
         self.variant(PIN12_A::PWM2_2)
     }
 }
@@ -703,34 +710,37 @@ impl From<PIN13_A> for bool {
 impl PIN13_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN13_A {
+    pub const fn variant(&self) -> PIN13_A {
         match self.bits {
             false => PIN13_A::IOF0,
             true => PIN13_A::PWM2_3,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN13_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM2_3`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm2_3(&self) -> bool {
         *self == PIN13_A::PWM2_3
     }
 }
 #[doc = "Field `pin13` writer - "]
-pub type PIN13_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN13_A, O>;
-impl<'a, const O: u8> PIN13_W<'a, O> {
+pub type PIN13_W<'a, REG> = crate::BitWriter<'a, REG, PIN13_A>;
+impl<'a, REG> PIN13_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN13_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm2_3(self) -> &'a mut W {
+    pub fn pwm2_3(self) -> &'a mut crate::W<REG> {
         self.variant(PIN13_A::PWM2_3)
     }
 }
@@ -753,34 +763,37 @@ impl From<PIN14_A> for bool {
 impl PIN14_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN14_A {
+    pub const fn variant(&self) -> PIN14_A {
         match self.bits {
             false => PIN14_A::IOF0,
             true => PIN14_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN14_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN14_A::IOF1
     }
 }
 #[doc = "Field `pin14` writer - "]
-pub type PIN14_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN14_A, O>;
-impl<'a, const O: u8> PIN14_W<'a, O> {
+pub type PIN14_W<'a, REG> = crate::BitWriter<'a, REG, PIN14_A>;
+impl<'a, REG> PIN14_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN14_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN14_A::IOF1)
     }
 }
@@ -803,34 +816,37 @@ impl From<PIN15_A> for bool {
 impl PIN15_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN15_A {
+    pub const fn variant(&self) -> PIN15_A {
         match self.bits {
             false => PIN15_A::IOF0,
             true => PIN15_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN15_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN15_A::IOF1
     }
 }
 #[doc = "Field `pin15` writer - "]
-pub type PIN15_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN15_A, O>;
-impl<'a, const O: u8> PIN15_W<'a, O> {
+pub type PIN15_W<'a, REG> = crate::BitWriter<'a, REG, PIN15_A>;
+impl<'a, REG> PIN15_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN15_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN15_A::IOF1)
     }
 }
@@ -853,34 +869,37 @@ impl From<PIN16_A> for bool {
 impl PIN16_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN16_A {
+    pub const fn variant(&self) -> PIN16_A {
         match self.bits {
             false => PIN16_A::UART0_RX,
             true => PIN16_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `UART0_RX`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_uart0_rx(&self) -> bool {
         *self == PIN16_A::UART0_RX
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN16_A::IOF1
     }
 }
 #[doc = "Field `pin16` writer - "]
-pub type PIN16_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN16_A, O>;
-impl<'a, const O: u8> PIN16_W<'a, O> {
+pub type PIN16_W<'a, REG> = crate::BitWriter<'a, REG, PIN16_A>;
+impl<'a, REG> PIN16_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn uart0_rx(self) -> &'a mut W {
+    pub fn uart0_rx(self) -> &'a mut crate::W<REG> {
         self.variant(PIN16_A::UART0_RX)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN16_A::IOF1)
     }
 }
@@ -903,34 +922,37 @@ impl From<PIN17_A> for bool {
 impl PIN17_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN17_A {
+    pub const fn variant(&self) -> PIN17_A {
         match self.bits {
             false => PIN17_A::UART0_TX,
             true => PIN17_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `UART0_TX`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_uart0_tx(&self) -> bool {
         *self == PIN17_A::UART0_TX
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN17_A::IOF1
     }
 }
 #[doc = "Field `pin17` writer - "]
-pub type PIN17_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN17_A, O>;
-impl<'a, const O: u8> PIN17_W<'a, O> {
+pub type PIN17_W<'a, REG> = crate::BitWriter<'a, REG, PIN17_A>;
+impl<'a, REG> PIN17_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn uart0_tx(self) -> &'a mut W {
+    pub fn uart0_tx(self) -> &'a mut crate::W<REG> {
         self.variant(PIN17_A::UART0_TX)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN17_A::IOF1)
     }
 }
@@ -953,34 +975,37 @@ impl From<PIN18_A> for bool {
 impl PIN18_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN18_A {
+    pub const fn variant(&self) -> PIN18_A {
         match self.bits {
             false => PIN18_A::IOF0,
             true => PIN18_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN18_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN18_A::IOF1
     }
 }
 #[doc = "Field `pin18` writer - "]
-pub type PIN18_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN18_A, O>;
-impl<'a, const O: u8> PIN18_W<'a, O> {
+pub type PIN18_W<'a, REG> = crate::BitWriter<'a, REG, PIN18_A>;
+impl<'a, REG> PIN18_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN18_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN18_A::IOF1)
     }
 }
@@ -1003,34 +1028,37 @@ impl From<PIN19_A> for bool {
 impl PIN19_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN19_A {
+    pub const fn variant(&self) -> PIN19_A {
         match self.bits {
             false => PIN19_A::IOF0,
             true => PIN19_A::PWM1_1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN19_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM1_1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm1_1(&self) -> bool {
         *self == PIN19_A::PWM1_1
     }
 }
 #[doc = "Field `pin19` writer - "]
-pub type PIN19_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN19_A, O>;
-impl<'a, const O: u8> PIN19_W<'a, O> {
+pub type PIN19_W<'a, REG> = crate::BitWriter<'a, REG, PIN19_A>;
+impl<'a, REG> PIN19_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN19_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm1_1(self) -> &'a mut W {
+    pub fn pwm1_1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN19_A::PWM1_1)
     }
 }
@@ -1053,34 +1081,37 @@ impl From<PIN20_A> for bool {
 impl PIN20_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN20_A {
+    pub const fn variant(&self) -> PIN20_A {
         match self.bits {
             false => PIN20_A::IOF0,
             true => PIN20_A::PWM1_0,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN20_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM1_0`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm1_0(&self) -> bool {
         *self == PIN20_A::PWM1_0
     }
 }
 #[doc = "Field `pin20` writer - "]
-pub type PIN20_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN20_A, O>;
-impl<'a, const O: u8> PIN20_W<'a, O> {
+pub type PIN20_W<'a, REG> = crate::BitWriter<'a, REG, PIN20_A>;
+impl<'a, REG> PIN20_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN20_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm1_0(self) -> &'a mut W {
+    pub fn pwm1_0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN20_A::PWM1_0)
     }
 }
@@ -1103,34 +1134,37 @@ impl From<PIN21_A> for bool {
 impl PIN21_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN21_A {
+    pub const fn variant(&self) -> PIN21_A {
         match self.bits {
             false => PIN21_A::IOF0,
             true => PIN21_A::PWM1_2,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN21_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM1_2`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm1_2(&self) -> bool {
         *self == PIN21_A::PWM1_2
     }
 }
 #[doc = "Field `pin21` writer - "]
-pub type PIN21_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN21_A, O>;
-impl<'a, const O: u8> PIN21_W<'a, O> {
+pub type PIN21_W<'a, REG> = crate::BitWriter<'a, REG, PIN21_A>;
+impl<'a, REG> PIN21_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN21_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm1_2(self) -> &'a mut W {
+    pub fn pwm1_2(self) -> &'a mut crate::W<REG> {
         self.variant(PIN21_A::PWM1_2)
     }
 }
@@ -1153,34 +1187,37 @@ impl From<PIN22_A> for bool {
 impl PIN22_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN22_A {
+    pub const fn variant(&self) -> PIN22_A {
         match self.bits {
             false => PIN22_A::IOF0,
             true => PIN22_A::PWM1_3,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN22_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `PWM1_3`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_pwm1_3(&self) -> bool {
         *self == PIN22_A::PWM1_3
     }
 }
 #[doc = "Field `pin22` writer - "]
-pub type PIN22_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN22_A, O>;
-impl<'a, const O: u8> PIN22_W<'a, O> {
+pub type PIN22_W<'a, REG> = crate::BitWriter<'a, REG, PIN22_A>;
+impl<'a, REG> PIN22_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN22_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn pwm1_3(self) -> &'a mut W {
+    pub fn pwm1_3(self) -> &'a mut crate::W<REG> {
         self.variant(PIN22_A::PWM1_3)
     }
 }
@@ -1203,34 +1240,37 @@ impl From<PIN23_A> for bool {
 impl PIN23_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN23_A {
+    pub const fn variant(&self) -> PIN23_A {
         match self.bits {
             false => PIN23_A::IOF0,
             true => PIN23_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `IOF0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_iof0(&self) -> bool {
         *self == PIN23_A::IOF0
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN23_A::IOF1
     }
 }
 #[doc = "Field `pin23` writer - "]
-pub type PIN23_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN23_A, O>;
-impl<'a, const O: u8> PIN23_W<'a, O> {
+pub type PIN23_W<'a, REG> = crate::BitWriter<'a, REG, PIN23_A>;
+impl<'a, REG> PIN23_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn iof0(self) -> &'a mut W {
+    pub fn iof0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN23_A::IOF0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN23_A::IOF1)
     }
 }
@@ -1253,34 +1293,37 @@ impl From<PIN24_A> for bool {
 impl PIN24_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN24_A {
+    pub const fn variant(&self) -> PIN24_A {
         match self.bits {
             false => PIN24_A::UART1_RX,
             true => PIN24_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `UART1_RX`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_uart1_rx(&self) -> bool {
         *self == PIN24_A::UART1_RX
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN24_A::IOF1
     }
 }
 #[doc = "Field `pin24` writer - "]
-pub type PIN24_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN24_A, O>;
-impl<'a, const O: u8> PIN24_W<'a, O> {
+pub type PIN24_W<'a, REG> = crate::BitWriter<'a, REG, PIN24_A>;
+impl<'a, REG> PIN24_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn uart1_rx(self) -> &'a mut W {
+    pub fn uart1_rx(self) -> &'a mut crate::W<REG> {
         self.variant(PIN24_A::UART1_RX)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN24_A::IOF1)
     }
 }
@@ -1303,34 +1346,37 @@ impl From<PIN25_A> for bool {
 impl PIN25_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN25_A {
+    pub const fn variant(&self) -> PIN25_A {
         match self.bits {
             false => PIN25_A::UART1_TX,
             true => PIN25_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `UART1_TX`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_uart1_tx(&self) -> bool {
         *self == PIN25_A::UART1_TX
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN25_A::IOF1
     }
 }
 #[doc = "Field `pin25` writer - "]
-pub type PIN25_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN25_A, O>;
-impl<'a, const O: u8> PIN25_W<'a, O> {
+pub type PIN25_W<'a, REG> = crate::BitWriter<'a, REG, PIN25_A>;
+impl<'a, REG> PIN25_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn uart1_tx(self) -> &'a mut W {
+    pub fn uart1_tx(self) -> &'a mut crate::W<REG> {
         self.variant(PIN25_A::UART1_TX)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN25_A::IOF1)
     }
 }
@@ -1353,34 +1399,37 @@ impl From<PIN26_A> for bool {
 impl PIN26_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN26_A {
+    pub const fn variant(&self) -> PIN26_A {
         match self.bits {
             false => PIN26_A::QSPI2_SS,
             true => PIN26_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI2_SS`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi2_ss(&self) -> bool {
         *self == PIN26_A::QSPI2_SS
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN26_A::IOF1
     }
 }
 #[doc = "Field `pin26` writer - "]
-pub type PIN26_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN26_A, O>;
-impl<'a, const O: u8> PIN26_W<'a, O> {
+pub type PIN26_W<'a, REG> = crate::BitWriter<'a, REG, PIN26_A>;
+impl<'a, REG> PIN26_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi2_ss(self) -> &'a mut W {
+    pub fn qspi2_ss(self) -> &'a mut crate::W<REG> {
         self.variant(PIN26_A::QSPI2_SS)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN26_A::IOF1)
     }
 }
@@ -1403,34 +1452,37 @@ impl From<PIN27_A> for bool {
 impl PIN27_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN27_A {
+    pub const fn variant(&self) -> PIN27_A {
         match self.bits {
             false => PIN27_A::QSPI2_SD0,
             true => PIN27_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI2_SD0`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi2_sd0(&self) -> bool {
         *self == PIN27_A::QSPI2_SD0
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN27_A::IOF1
     }
 }
 #[doc = "Field `pin27` writer - "]
-pub type PIN27_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN27_A, O>;
-impl<'a, const O: u8> PIN27_W<'a, O> {
+pub type PIN27_W<'a, REG> = crate::BitWriter<'a, REG, PIN27_A>;
+impl<'a, REG> PIN27_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi2_sd0(self) -> &'a mut W {
+    pub fn qspi2_sd0(self) -> &'a mut crate::W<REG> {
         self.variant(PIN27_A::QSPI2_SD0)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN27_A::IOF1)
     }
 }
@@ -1453,34 +1505,37 @@ impl From<PIN28_A> for bool {
 impl PIN28_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN28_A {
+    pub const fn variant(&self) -> PIN28_A {
         match self.bits {
             false => PIN28_A::QSPI2_SD1,
             true => PIN28_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI2_SD1`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi2_sd1(&self) -> bool {
         *self == PIN28_A::QSPI2_SD1
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN28_A::IOF1
     }
 }
 #[doc = "Field `pin28` writer - "]
-pub type PIN28_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN28_A, O>;
-impl<'a, const O: u8> PIN28_W<'a, O> {
+pub type PIN28_W<'a, REG> = crate::BitWriter<'a, REG, PIN28_A>;
+impl<'a, REG> PIN28_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi2_sd1(self) -> &'a mut W {
+    pub fn qspi2_sd1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN28_A::QSPI2_SD1)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN28_A::IOF1)
     }
 }
@@ -1503,34 +1558,37 @@ impl From<PIN29_A> for bool {
 impl PIN29_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN29_A {
+    pub const fn variant(&self) -> PIN29_A {
         match self.bits {
             false => PIN29_A::QSPI2_SCK,
             true => PIN29_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI2_SCK`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi2_sck(&self) -> bool {
         *self == PIN29_A::QSPI2_SCK
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN29_A::IOF1
     }
 }
 #[doc = "Field `pin29` writer - "]
-pub type PIN29_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN29_A, O>;
-impl<'a, const O: u8> PIN29_W<'a, O> {
+pub type PIN29_W<'a, REG> = crate::BitWriter<'a, REG, PIN29_A>;
+impl<'a, REG> PIN29_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi2_sck(self) -> &'a mut W {
+    pub fn qspi2_sck(self) -> &'a mut crate::W<REG> {
         self.variant(PIN29_A::QSPI2_SCK)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN29_A::IOF1)
     }
 }
@@ -1553,34 +1611,37 @@ impl From<PIN30_A> for bool {
 impl PIN30_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN30_A {
+    pub const fn variant(&self) -> PIN30_A {
         match self.bits {
             false => PIN30_A::QSPI2_SD2,
             true => PIN30_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI2_SD2`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi2_sd2(&self) -> bool {
         *self == PIN30_A::QSPI2_SD2
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN30_A::IOF1
     }
 }
 #[doc = "Field `pin30` writer - "]
-pub type PIN30_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN30_A, O>;
-impl<'a, const O: u8> PIN30_W<'a, O> {
+pub type PIN30_W<'a, REG> = crate::BitWriter<'a, REG, PIN30_A>;
+impl<'a, REG> PIN30_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi2_sd2(self) -> &'a mut W {
+    pub fn qspi2_sd2(self) -> &'a mut crate::W<REG> {
         self.variant(PIN30_A::QSPI2_SD2)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN30_A::IOF1)
     }
 }
@@ -1603,34 +1664,37 @@ impl From<PIN31_A> for bool {
 impl PIN31_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PIN31_A {
+    pub const fn variant(&self) -> PIN31_A {
         match self.bits {
             false => PIN31_A::QSPI2_SD3,
             true => PIN31_A::IOF1,
         }
     }
-    #[doc = "Checks if the value of the field is `QSPI2_SD3`"]
+    #[doc = "`0`"]
     #[inline(always)]
     pub fn is_qspi2_sd3(&self) -> bool {
         *self == PIN31_A::QSPI2_SD3
     }
-    #[doc = "Checks if the value of the field is `IOF1`"]
+    #[doc = "`1`"]
     #[inline(always)]
     pub fn is_iof1(&self) -> bool {
         *self == PIN31_A::IOF1
     }
 }
 #[doc = "Field `pin31` writer - "]
-pub type PIN31_W<'a, const O: u8> = crate::BitWriter<'a, u32, IOF_SEL_SPEC, PIN31_A, O>;
-impl<'a, const O: u8> PIN31_W<'a, O> {
+pub type PIN31_W<'a, REG> = crate::BitWriter<'a, REG, PIN31_A>;
+impl<'a, REG> PIN31_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn qspi2_sd3(self) -> &'a mut W {
+    pub fn qspi2_sd3(self) -> &'a mut crate::W<REG> {
         self.variant(PIN31_A::QSPI2_SD3)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn iof1(self) -> &'a mut W {
+    pub fn iof1(self) -> &'a mut crate::W<REG> {
         self.variant(PIN31_A::IOF1)
     }
 }
@@ -1799,188 +1863,220 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> PIN0_W<0> {
-        PIN0_W::new(self)
+    #[must_use]
+    pub fn pin0(&mut self) -> PIN0_W<IOF_SEL_SPEC> {
+        PIN0_W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> PIN1_W<1> {
-        PIN1_W::new(self)
+    #[must_use]
+    pub fn pin1(&mut self) -> PIN1_W<IOF_SEL_SPEC> {
+        PIN1_W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> PIN2_W<2> {
-        PIN2_W::new(self)
+    #[must_use]
+    pub fn pin2(&mut self) -> PIN2_W<IOF_SEL_SPEC> {
+        PIN2_W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> PIN3_W<3> {
-        PIN3_W::new(self)
+    #[must_use]
+    pub fn pin3(&mut self) -> PIN3_W<IOF_SEL_SPEC> {
+        PIN3_W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> PIN4_W<4> {
-        PIN4_W::new(self)
+    #[must_use]
+    pub fn pin4(&mut self) -> PIN4_W<IOF_SEL_SPEC> {
+        PIN4_W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> PIN5_W<5> {
-        PIN5_W::new(self)
+    #[must_use]
+    pub fn pin5(&mut self) -> PIN5_W<IOF_SEL_SPEC> {
+        PIN5_W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> PIN6_W<6> {
-        PIN6_W::new(self)
+    #[must_use]
+    pub fn pin6(&mut self) -> PIN6_W<IOF_SEL_SPEC> {
+        PIN6_W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> PIN7_W<7> {
-        PIN7_W::new(self)
+    #[must_use]
+    pub fn pin7(&mut self) -> PIN7_W<IOF_SEL_SPEC> {
+        PIN7_W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> PIN8_W<8> {
-        PIN8_W::new(self)
+    #[must_use]
+    pub fn pin8(&mut self) -> PIN8_W<IOF_SEL_SPEC> {
+        PIN8_W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> PIN9_W<9> {
-        PIN9_W::new(self)
+    #[must_use]
+    pub fn pin9(&mut self) -> PIN9_W<IOF_SEL_SPEC> {
+        PIN9_W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> PIN10_W<10> {
-        PIN10_W::new(self)
+    #[must_use]
+    pub fn pin10(&mut self) -> PIN10_W<IOF_SEL_SPEC> {
+        PIN10_W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> PIN11_W<11> {
-        PIN11_W::new(self)
+    #[must_use]
+    pub fn pin11(&mut self) -> PIN11_W<IOF_SEL_SPEC> {
+        PIN11_W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> PIN12_W<12> {
-        PIN12_W::new(self)
+    #[must_use]
+    pub fn pin12(&mut self) -> PIN12_W<IOF_SEL_SPEC> {
+        PIN12_W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> PIN13_W<13> {
-        PIN13_W::new(self)
+    #[must_use]
+    pub fn pin13(&mut self) -> PIN13_W<IOF_SEL_SPEC> {
+        PIN13_W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> PIN14_W<14> {
-        PIN14_W::new(self)
+    #[must_use]
+    pub fn pin14(&mut self) -> PIN14_W<IOF_SEL_SPEC> {
+        PIN14_W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> PIN15_W<15> {
-        PIN15_W::new(self)
+    #[must_use]
+    pub fn pin15(&mut self) -> PIN15_W<IOF_SEL_SPEC> {
+        PIN15_W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> PIN16_W<16> {
-        PIN16_W::new(self)
+    #[must_use]
+    pub fn pin16(&mut self) -> PIN16_W<IOF_SEL_SPEC> {
+        PIN16_W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> PIN17_W<17> {
-        PIN17_W::new(self)
+    #[must_use]
+    pub fn pin17(&mut self) -> PIN17_W<IOF_SEL_SPEC> {
+        PIN17_W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> PIN18_W<18> {
-        PIN18_W::new(self)
+    #[must_use]
+    pub fn pin18(&mut self) -> PIN18_W<IOF_SEL_SPEC> {
+        PIN18_W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> PIN19_W<19> {
-        PIN19_W::new(self)
+    #[must_use]
+    pub fn pin19(&mut self) -> PIN19_W<IOF_SEL_SPEC> {
+        PIN19_W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> PIN20_W<20> {
-        PIN20_W::new(self)
+    #[must_use]
+    pub fn pin20(&mut self) -> PIN20_W<IOF_SEL_SPEC> {
+        PIN20_W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> PIN21_W<21> {
-        PIN21_W::new(self)
+    #[must_use]
+    pub fn pin21(&mut self) -> PIN21_W<IOF_SEL_SPEC> {
+        PIN21_W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> PIN22_W<22> {
-        PIN22_W::new(self)
+    #[must_use]
+    pub fn pin22(&mut self) -> PIN22_W<IOF_SEL_SPEC> {
+        PIN22_W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> PIN23_W<23> {
-        PIN23_W::new(self)
+    #[must_use]
+    pub fn pin23(&mut self) -> PIN23_W<IOF_SEL_SPEC> {
+        PIN23_W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> PIN24_W<24> {
-        PIN24_W::new(self)
+    #[must_use]
+    pub fn pin24(&mut self) -> PIN24_W<IOF_SEL_SPEC> {
+        PIN24_W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> PIN25_W<25> {
-        PIN25_W::new(self)
+    #[must_use]
+    pub fn pin25(&mut self) -> PIN25_W<IOF_SEL_SPEC> {
+        PIN25_W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> PIN26_W<26> {
-        PIN26_W::new(self)
+    #[must_use]
+    pub fn pin26(&mut self) -> PIN26_W<IOF_SEL_SPEC> {
+        PIN26_W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> PIN27_W<27> {
-        PIN27_W::new(self)
+    #[must_use]
+    pub fn pin27(&mut self) -> PIN27_W<IOF_SEL_SPEC> {
+        PIN27_W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> PIN28_W<28> {
-        PIN28_W::new(self)
+    #[must_use]
+    pub fn pin28(&mut self) -> PIN28_W<IOF_SEL_SPEC> {
+        PIN28_W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> PIN29_W<29> {
-        PIN29_W::new(self)
+    #[must_use]
+    pub fn pin29(&mut self) -> PIN29_W<IOF_SEL_SPEC> {
+        PIN29_W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> PIN30_W<30> {
-        PIN30_W::new(self)
+    #[must_use]
+    pub fn pin30(&mut self) -> PIN30_W<IOF_SEL_SPEC> {
+        PIN30_W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> PIN31_W<31> {
-        PIN31_W::new(self)
+    #[must_use]
+    pub fn pin31(&mut self) -> PIN31_W<IOF_SEL_SPEC> {
+        PIN31_W::new(self, 31)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "HW I/O Function Select Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [iof_sel](index.html) module"]
+#[doc = "HW I/O Function Select Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`iof_sel::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`iof_sel::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct IOF_SEL_SPEC;
 impl crate::RegisterSpec for IOF_SEL_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [iof_sel::R](R) reader structure"]
-impl crate::Readable for IOF_SEL_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [iof_sel::W](W) writer structure"]
+#[doc = "`read()` method returns [`iof_sel::R`](R) reader structure"]
+impl crate::Readable for IOF_SEL_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`iof_sel::W`](W) writer structure"]
 impl crate::Writable for IOF_SEL_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets iof_sel to value 0"]
 impl crate::Resettable for IOF_SEL_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

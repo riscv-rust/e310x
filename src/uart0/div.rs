@@ -1,43 +1,11 @@
 #[doc = "Register `div` reader"]
-pub struct R(crate::R<DIV_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<DIV_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<DIV_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<DIV_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<DIV_SPEC>;
 #[doc = "Register `div` writer"]
-pub struct W(crate::W<DIV_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<DIV_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<DIV_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<DIV_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<DIV_SPEC>;
 #[doc = "Field `value` reader - "]
-pub type VALUE_R = crate::FieldReader<u16, u16>;
+pub type VALUE_R = crate::FieldReader<u16>;
 #[doc = "Field `value` writer - "]
-pub type VALUE_W<'a, const O: u8> = crate::FieldWriter<'a, u32, DIV_SPEC, u16, u16, 16, O>;
+pub type VALUE_W<'a, REG> = crate::FieldWriter<'a, REG, 16, u16>;
 impl R {
     #[doc = "Bits 0:15"]
     #[inline(always)]
@@ -48,33 +16,34 @@ impl R {
 impl W {
     #[doc = "Bits 0:15"]
     #[inline(always)]
-    pub fn value(&mut self) -> VALUE_W<0> {
-        VALUE_W::new(self)
+    #[must_use]
+    pub fn value(&mut self) -> VALUE_W<DIV_SPEC> {
+        VALUE_W::new(self, 0)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Baud Rate Divisor Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [div](index.html) module"]
+#[doc = "Baud Rate Divisor Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`div::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`div::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct DIV_SPEC;
 impl crate::RegisterSpec for DIV_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [div::R](R) reader structure"]
-impl crate::Readable for DIV_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [div::W](W) writer structure"]
+#[doc = "`read()` method returns [`div::R`](R) reader structure"]
+impl crate::Readable for DIV_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`div::W`](W) writer structure"]
 impl crate::Writable for DIV_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets div to value 0"]
 impl crate::Resettable for DIV_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

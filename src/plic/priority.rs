@@ -1,41 +1,9 @@
 #[doc = "Register `priority[%s]` reader"]
-pub struct R(crate::R<PRIORITY_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<PRIORITY_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<PRIORITY_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<PRIORITY_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<PRIORITY_SPEC>;
 #[doc = "Register `priority[%s]` writer"]
-pub struct W(crate::W<PRIORITY_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<PRIORITY_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<PRIORITY_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<PRIORITY_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<PRIORITY_SPEC>;
 #[doc = "Field `priority` reader - "]
-pub type PRIORITY_R = crate::FieldReader<u8, PRIORITY_A>;
+pub type PRIORITY_R = crate::FieldReader<PRIORITY_A>;
 #[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
@@ -63,10 +31,13 @@ impl From<PRIORITY_A> for u8 {
         variant as _
     }
 }
+impl crate::FieldSpec for PRIORITY_A {
+    type Ux = u8;
+}
 impl PRIORITY_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> PRIORITY_A {
+    pub const fn variant(&self) -> PRIORITY_A {
         match self.bits {
             0 => PRIORITY_A::P0,
             1 => PRIORITY_A::P1,
@@ -79,89 +50,92 @@ impl PRIORITY_R {
             _ => unreachable!(),
         }
     }
-    #[doc = "Checks if the value of the field is `P0`"]
+    #[doc = "Priority 0 (never interrupt)"]
     #[inline(always)]
     pub fn is_p0(&self) -> bool {
         *self == PRIORITY_A::P0
     }
-    #[doc = "Checks if the value of the field is `P1`"]
+    #[doc = "Priority 1"]
     #[inline(always)]
     pub fn is_p1(&self) -> bool {
         *self == PRIORITY_A::P1
     }
-    #[doc = "Checks if the value of the field is `P2`"]
+    #[doc = "Priority 2"]
     #[inline(always)]
     pub fn is_p2(&self) -> bool {
         *self == PRIORITY_A::P2
     }
-    #[doc = "Checks if the value of the field is `P3`"]
+    #[doc = "Priority 3"]
     #[inline(always)]
     pub fn is_p3(&self) -> bool {
         *self == PRIORITY_A::P3
     }
-    #[doc = "Checks if the value of the field is `P4`"]
+    #[doc = "Priority 4"]
     #[inline(always)]
     pub fn is_p4(&self) -> bool {
         *self == PRIORITY_A::P4
     }
-    #[doc = "Checks if the value of the field is `P5`"]
+    #[doc = "Priority 5"]
     #[inline(always)]
     pub fn is_p5(&self) -> bool {
         *self == PRIORITY_A::P5
     }
-    #[doc = "Checks if the value of the field is `P6`"]
+    #[doc = "Priority 6"]
     #[inline(always)]
     pub fn is_p6(&self) -> bool {
         *self == PRIORITY_A::P6
     }
-    #[doc = "Checks if the value of the field is `P7`"]
+    #[doc = "Priority 7"]
     #[inline(always)]
     pub fn is_p7(&self) -> bool {
         *self == PRIORITY_A::P7
     }
 }
 #[doc = "Field `priority` writer - "]
-pub type PRIORITY_W<'a, const O: u8> =
-    crate::FieldWriterSafe<'a, u32, PRIORITY_SPEC, u8, PRIORITY_A, 3, O>;
-impl<'a, const O: u8> PRIORITY_W<'a, O> {
+pub type PRIORITY_W<'a, REG> = crate::FieldWriterSafe<'a, REG, 3, PRIORITY_A>;
+impl<'a, REG> PRIORITY_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
     #[doc = "Priority 0 (never interrupt)"]
     #[inline(always)]
-    pub fn p0(self) -> &'a mut W {
+    pub fn p0(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P0)
     }
     #[doc = "Priority 1"]
     #[inline(always)]
-    pub fn p1(self) -> &'a mut W {
+    pub fn p1(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P1)
     }
     #[doc = "Priority 2"]
     #[inline(always)]
-    pub fn p2(self) -> &'a mut W {
+    pub fn p2(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P2)
     }
     #[doc = "Priority 3"]
     #[inline(always)]
-    pub fn p3(self) -> &'a mut W {
+    pub fn p3(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P3)
     }
     #[doc = "Priority 4"]
     #[inline(always)]
-    pub fn p4(self) -> &'a mut W {
+    pub fn p4(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P4)
     }
     #[doc = "Priority 5"]
     #[inline(always)]
-    pub fn p5(self) -> &'a mut W {
+    pub fn p5(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P5)
     }
     #[doc = "Priority 6"]
     #[inline(always)]
-    pub fn p6(self) -> &'a mut W {
+    pub fn p6(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P6)
     }
     #[doc = "Priority 7"]
     #[inline(always)]
-    pub fn p7(self) -> &'a mut W {
+    pub fn p7(self) -> &'a mut crate::W<REG> {
         self.variant(PRIORITY_A::P7)
     }
 }
@@ -175,34 +149,35 @@ impl R {
 impl W {
     #[doc = "Bits 0:2"]
     #[inline(always)]
-    pub fn priority(&mut self) -> PRIORITY_W<0> {
-        PRIORITY_W::new(self)
+    #[must_use]
+    pub fn priority(&mut self) -> PRIORITY_W<PRIORITY_SPEC> {
+        PRIORITY_W::new(self, 0)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Interrupt Priority Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [priority](index.html) module"]
+#[doc = "Interrupt Priority Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`priority::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`priority::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct PRIORITY_SPEC;
 impl crate::RegisterSpec for PRIORITY_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [priority::R](R) reader structure"]
-impl crate::Readable for PRIORITY_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [priority::W](W) writer structure"]
+#[doc = "`read()` method returns [`priority::R`](R) reader structure"]
+impl crate::Readable for PRIORITY_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`priority::W`](W) writer structure"]
 impl crate::Writable for PRIORITY_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets priority[%s]
 to value 0"]
 impl crate::Resettable for PRIORITY_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

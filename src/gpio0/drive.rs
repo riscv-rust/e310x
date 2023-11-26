@@ -1,167 +1,135 @@
 #[doc = "Register `drive` reader"]
-pub struct R(crate::R<DRIVE_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<DRIVE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<DRIVE_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<DRIVE_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<DRIVE_SPEC>;
 #[doc = "Register `drive` writer"]
-pub struct W(crate::W<DRIVE_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<DRIVE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<DRIVE_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<DRIVE_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<DRIVE_SPEC>;
 #[doc = "Field `pin0` reader - "]
-pub type PIN0_R = crate::BitReader<bool>;
+pub type PIN0_R = crate::BitReader;
 #[doc = "Field `pin0` writer - "]
-pub type PIN0_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN0_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin1` reader - "]
-pub type PIN1_R = crate::BitReader<bool>;
+pub type PIN1_R = crate::BitReader;
 #[doc = "Field `pin1` writer - "]
-pub type PIN1_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN1_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin2` reader - "]
-pub type PIN2_R = crate::BitReader<bool>;
+pub type PIN2_R = crate::BitReader;
 #[doc = "Field `pin2` writer - "]
-pub type PIN2_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN2_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin3` reader - "]
-pub type PIN3_R = crate::BitReader<bool>;
+pub type PIN3_R = crate::BitReader;
 #[doc = "Field `pin3` writer - "]
-pub type PIN3_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN3_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin4` reader - "]
-pub type PIN4_R = crate::BitReader<bool>;
+pub type PIN4_R = crate::BitReader;
 #[doc = "Field `pin4` writer - "]
-pub type PIN4_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN4_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin5` reader - "]
-pub type PIN5_R = crate::BitReader<bool>;
+pub type PIN5_R = crate::BitReader;
 #[doc = "Field `pin5` writer - "]
-pub type PIN5_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN5_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin6` reader - "]
-pub type PIN6_R = crate::BitReader<bool>;
+pub type PIN6_R = crate::BitReader;
 #[doc = "Field `pin6` writer - "]
-pub type PIN6_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN6_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin7` reader - "]
-pub type PIN7_R = crate::BitReader<bool>;
+pub type PIN7_R = crate::BitReader;
 #[doc = "Field `pin7` writer - "]
-pub type PIN7_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN7_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin8` reader - "]
-pub type PIN8_R = crate::BitReader<bool>;
+pub type PIN8_R = crate::BitReader;
 #[doc = "Field `pin8` writer - "]
-pub type PIN8_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN8_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin9` reader - "]
-pub type PIN9_R = crate::BitReader<bool>;
+pub type PIN9_R = crate::BitReader;
 #[doc = "Field `pin9` writer - "]
-pub type PIN9_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN9_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin10` reader - "]
-pub type PIN10_R = crate::BitReader<bool>;
+pub type PIN10_R = crate::BitReader;
 #[doc = "Field `pin10` writer - "]
-pub type PIN10_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN10_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin11` reader - "]
-pub type PIN11_R = crate::BitReader<bool>;
+pub type PIN11_R = crate::BitReader;
 #[doc = "Field `pin11` writer - "]
-pub type PIN11_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN11_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin12` reader - "]
-pub type PIN12_R = crate::BitReader<bool>;
+pub type PIN12_R = crate::BitReader;
 #[doc = "Field `pin12` writer - "]
-pub type PIN12_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN12_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin13` reader - "]
-pub type PIN13_R = crate::BitReader<bool>;
+pub type PIN13_R = crate::BitReader;
 #[doc = "Field `pin13` writer - "]
-pub type PIN13_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN13_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin14` reader - "]
-pub type PIN14_R = crate::BitReader<bool>;
+pub type PIN14_R = crate::BitReader;
 #[doc = "Field `pin14` writer - "]
-pub type PIN14_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN14_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin15` reader - "]
-pub type PIN15_R = crate::BitReader<bool>;
+pub type PIN15_R = crate::BitReader;
 #[doc = "Field `pin15` writer - "]
-pub type PIN15_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN15_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin16` reader - "]
-pub type PIN16_R = crate::BitReader<bool>;
+pub type PIN16_R = crate::BitReader;
 #[doc = "Field `pin16` writer - "]
-pub type PIN16_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN16_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin17` reader - "]
-pub type PIN17_R = crate::BitReader<bool>;
+pub type PIN17_R = crate::BitReader;
 #[doc = "Field `pin17` writer - "]
-pub type PIN17_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN17_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin18` reader - "]
-pub type PIN18_R = crate::BitReader<bool>;
+pub type PIN18_R = crate::BitReader;
 #[doc = "Field `pin18` writer - "]
-pub type PIN18_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN18_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin19` reader - "]
-pub type PIN19_R = crate::BitReader<bool>;
+pub type PIN19_R = crate::BitReader;
 #[doc = "Field `pin19` writer - "]
-pub type PIN19_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN19_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin20` reader - "]
-pub type PIN20_R = crate::BitReader<bool>;
+pub type PIN20_R = crate::BitReader;
 #[doc = "Field `pin20` writer - "]
-pub type PIN20_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN20_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin21` reader - "]
-pub type PIN21_R = crate::BitReader<bool>;
+pub type PIN21_R = crate::BitReader;
 #[doc = "Field `pin21` writer - "]
-pub type PIN21_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN21_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin22` reader - "]
-pub type PIN22_R = crate::BitReader<bool>;
+pub type PIN22_R = crate::BitReader;
 #[doc = "Field `pin22` writer - "]
-pub type PIN22_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN22_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin23` reader - "]
-pub type PIN23_R = crate::BitReader<bool>;
+pub type PIN23_R = crate::BitReader;
 #[doc = "Field `pin23` writer - "]
-pub type PIN23_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN23_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin24` reader - "]
-pub type PIN24_R = crate::BitReader<bool>;
+pub type PIN24_R = crate::BitReader;
 #[doc = "Field `pin24` writer - "]
-pub type PIN24_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN24_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin25` reader - "]
-pub type PIN25_R = crate::BitReader<bool>;
+pub type PIN25_R = crate::BitReader;
 #[doc = "Field `pin25` writer - "]
-pub type PIN25_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN25_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin26` reader - "]
-pub type PIN26_R = crate::BitReader<bool>;
+pub type PIN26_R = crate::BitReader;
 #[doc = "Field `pin26` writer - "]
-pub type PIN26_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN26_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin27` reader - "]
-pub type PIN27_R = crate::BitReader<bool>;
+pub type PIN27_R = crate::BitReader;
 #[doc = "Field `pin27` writer - "]
-pub type PIN27_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN27_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin28` reader - "]
-pub type PIN28_R = crate::BitReader<bool>;
+pub type PIN28_R = crate::BitReader;
 #[doc = "Field `pin28` writer - "]
-pub type PIN28_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN28_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin29` reader - "]
-pub type PIN29_R = crate::BitReader<bool>;
+pub type PIN29_R = crate::BitReader;
 #[doc = "Field `pin29` writer - "]
-pub type PIN29_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN29_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin30` reader - "]
-pub type PIN30_R = crate::BitReader<bool>;
+pub type PIN30_R = crate::BitReader;
 #[doc = "Field `pin30` writer - "]
-pub type PIN30_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN30_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pin31` reader - "]
-pub type PIN31_R = crate::BitReader<bool>;
+pub type PIN31_R = crate::BitReader;
 #[doc = "Field `pin31` writer - "]
-pub type PIN31_W<'a, const O: u8> = crate::BitWriter<'a, u32, DRIVE_SPEC, bool, O>;
+pub type PIN31_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bit 0"]
     #[inline(always)]
@@ -327,188 +295,220 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> PIN0_W<0> {
-        PIN0_W::new(self)
+    #[must_use]
+    pub fn pin0(&mut self) -> PIN0_W<DRIVE_SPEC> {
+        PIN0_W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> PIN1_W<1> {
-        PIN1_W::new(self)
+    #[must_use]
+    pub fn pin1(&mut self) -> PIN1_W<DRIVE_SPEC> {
+        PIN1_W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> PIN2_W<2> {
-        PIN2_W::new(self)
+    #[must_use]
+    pub fn pin2(&mut self) -> PIN2_W<DRIVE_SPEC> {
+        PIN2_W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> PIN3_W<3> {
-        PIN3_W::new(self)
+    #[must_use]
+    pub fn pin3(&mut self) -> PIN3_W<DRIVE_SPEC> {
+        PIN3_W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> PIN4_W<4> {
-        PIN4_W::new(self)
+    #[must_use]
+    pub fn pin4(&mut self) -> PIN4_W<DRIVE_SPEC> {
+        PIN4_W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> PIN5_W<5> {
-        PIN5_W::new(self)
+    #[must_use]
+    pub fn pin5(&mut self) -> PIN5_W<DRIVE_SPEC> {
+        PIN5_W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> PIN6_W<6> {
-        PIN6_W::new(self)
+    #[must_use]
+    pub fn pin6(&mut self) -> PIN6_W<DRIVE_SPEC> {
+        PIN6_W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> PIN7_W<7> {
-        PIN7_W::new(self)
+    #[must_use]
+    pub fn pin7(&mut self) -> PIN7_W<DRIVE_SPEC> {
+        PIN7_W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> PIN8_W<8> {
-        PIN8_W::new(self)
+    #[must_use]
+    pub fn pin8(&mut self) -> PIN8_W<DRIVE_SPEC> {
+        PIN8_W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> PIN9_W<9> {
-        PIN9_W::new(self)
+    #[must_use]
+    pub fn pin9(&mut self) -> PIN9_W<DRIVE_SPEC> {
+        PIN9_W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> PIN10_W<10> {
-        PIN10_W::new(self)
+    #[must_use]
+    pub fn pin10(&mut self) -> PIN10_W<DRIVE_SPEC> {
+        PIN10_W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> PIN11_W<11> {
-        PIN11_W::new(self)
+    #[must_use]
+    pub fn pin11(&mut self) -> PIN11_W<DRIVE_SPEC> {
+        PIN11_W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> PIN12_W<12> {
-        PIN12_W::new(self)
+    #[must_use]
+    pub fn pin12(&mut self) -> PIN12_W<DRIVE_SPEC> {
+        PIN12_W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> PIN13_W<13> {
-        PIN13_W::new(self)
+    #[must_use]
+    pub fn pin13(&mut self) -> PIN13_W<DRIVE_SPEC> {
+        PIN13_W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> PIN14_W<14> {
-        PIN14_W::new(self)
+    #[must_use]
+    pub fn pin14(&mut self) -> PIN14_W<DRIVE_SPEC> {
+        PIN14_W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> PIN15_W<15> {
-        PIN15_W::new(self)
+    #[must_use]
+    pub fn pin15(&mut self) -> PIN15_W<DRIVE_SPEC> {
+        PIN15_W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> PIN16_W<16> {
-        PIN16_W::new(self)
+    #[must_use]
+    pub fn pin16(&mut self) -> PIN16_W<DRIVE_SPEC> {
+        PIN16_W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> PIN17_W<17> {
-        PIN17_W::new(self)
+    #[must_use]
+    pub fn pin17(&mut self) -> PIN17_W<DRIVE_SPEC> {
+        PIN17_W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> PIN18_W<18> {
-        PIN18_W::new(self)
+    #[must_use]
+    pub fn pin18(&mut self) -> PIN18_W<DRIVE_SPEC> {
+        PIN18_W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> PIN19_W<19> {
-        PIN19_W::new(self)
+    #[must_use]
+    pub fn pin19(&mut self) -> PIN19_W<DRIVE_SPEC> {
+        PIN19_W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> PIN20_W<20> {
-        PIN20_W::new(self)
+    #[must_use]
+    pub fn pin20(&mut self) -> PIN20_W<DRIVE_SPEC> {
+        PIN20_W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> PIN21_W<21> {
-        PIN21_W::new(self)
+    #[must_use]
+    pub fn pin21(&mut self) -> PIN21_W<DRIVE_SPEC> {
+        PIN21_W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> PIN22_W<22> {
-        PIN22_W::new(self)
+    #[must_use]
+    pub fn pin22(&mut self) -> PIN22_W<DRIVE_SPEC> {
+        PIN22_W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> PIN23_W<23> {
-        PIN23_W::new(self)
+    #[must_use]
+    pub fn pin23(&mut self) -> PIN23_W<DRIVE_SPEC> {
+        PIN23_W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> PIN24_W<24> {
-        PIN24_W::new(self)
+    #[must_use]
+    pub fn pin24(&mut self) -> PIN24_W<DRIVE_SPEC> {
+        PIN24_W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> PIN25_W<25> {
-        PIN25_W::new(self)
+    #[must_use]
+    pub fn pin25(&mut self) -> PIN25_W<DRIVE_SPEC> {
+        PIN25_W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> PIN26_W<26> {
-        PIN26_W::new(self)
+    #[must_use]
+    pub fn pin26(&mut self) -> PIN26_W<DRIVE_SPEC> {
+        PIN26_W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> PIN27_W<27> {
-        PIN27_W::new(self)
+    #[must_use]
+    pub fn pin27(&mut self) -> PIN27_W<DRIVE_SPEC> {
+        PIN27_W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> PIN28_W<28> {
-        PIN28_W::new(self)
+    #[must_use]
+    pub fn pin28(&mut self) -> PIN28_W<DRIVE_SPEC> {
+        PIN28_W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> PIN29_W<29> {
-        PIN29_W::new(self)
+    #[must_use]
+    pub fn pin29(&mut self) -> PIN29_W<DRIVE_SPEC> {
+        PIN29_W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> PIN30_W<30> {
-        PIN30_W::new(self)
+    #[must_use]
+    pub fn pin30(&mut self) -> PIN30_W<DRIVE_SPEC> {
+        PIN30_W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> PIN31_W<31> {
-        PIN31_W::new(self)
+    #[must_use]
+    pub fn pin31(&mut self) -> PIN31_W<DRIVE_SPEC> {
+        PIN31_W::new(self, 31)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Drive Strength Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [drive](index.html) module"]
+#[doc = "Drive Strength Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`drive::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`drive::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct DRIVE_SPEC;
 impl crate::RegisterSpec for DRIVE_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [drive::R](R) reader structure"]
-impl crate::Readable for DRIVE_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [drive::W](W) writer structure"]
+#[doc = "`read()` method returns [`drive::R`](R) reader structure"]
+impl crate::Readable for DRIVE_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`drive::W`](W) writer structure"]
 impl crate::Writable for DRIVE_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets drive to value 0"]
 impl crate::Resettable for DRIVE_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

@@ -1,47 +1,15 @@
 #[doc = "Register `sckmode` reader"]
-pub struct R(crate::R<SCKMODE_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<SCKMODE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<SCKMODE_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<SCKMODE_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<SCKMODE_SPEC>;
 #[doc = "Register `sckmode` writer"]
-pub struct W(crate::W<SCKMODE_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<SCKMODE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<SCKMODE_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<SCKMODE_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<SCKMODE_SPEC>;
 #[doc = "Field `pha` reader - Serial clock phase"]
-pub type PHA_R = crate::BitReader<bool>;
+pub type PHA_R = crate::BitReader;
 #[doc = "Field `pha` writer - Serial clock phase"]
-pub type PHA_W<'a, const O: u8> = crate::BitWriter<'a, u32, SCKMODE_SPEC, bool, O>;
+pub type PHA_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `pol` reader - Serial clock polarity"]
-pub type POL_R = crate::BitReader<bool>;
+pub type POL_R = crate::BitReader;
 #[doc = "Field `pol` writer - Serial clock polarity"]
-pub type POL_W<'a, const O: u8> = crate::BitWriter<'a, u32, SCKMODE_SPEC, bool, O>;
+pub type POL_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bit 0 - Serial clock phase"]
     #[inline(always)]
@@ -57,38 +25,40 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Serial clock phase"]
     #[inline(always)]
-    pub fn pha(&mut self) -> PHA_W<0> {
-        PHA_W::new(self)
+    #[must_use]
+    pub fn pha(&mut self) -> PHA_W<SCKMODE_SPEC> {
+        PHA_W::new(self, 0)
     }
     #[doc = "Bit 1 - Serial clock polarity"]
     #[inline(always)]
-    pub fn pol(&mut self) -> POL_W<1> {
-        POL_W::new(self)
+    #[must_use]
+    pub fn pol(&mut self) -> POL_W<SCKMODE_SPEC> {
+        POL_W::new(self, 1)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Serial Clock Mode Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [sckmode](index.html) module"]
+#[doc = "Serial Clock Mode Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`sckmode::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`sckmode::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct SCKMODE_SPEC;
 impl crate::RegisterSpec for SCKMODE_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [sckmode::R](R) reader structure"]
-impl crate::Readable for SCKMODE_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [sckmode::W](W) writer structure"]
+#[doc = "`read()` method returns [`sckmode::R`](R) reader structure"]
+impl crate::Readable for SCKMODE_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`sckmode::W`](W) writer structure"]
 impl crate::Writable for SCKMODE_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets sckmode to value 0"]
 impl crate::Resettable for SCKMODE_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

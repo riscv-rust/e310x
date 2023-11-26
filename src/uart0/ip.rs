@@ -1,47 +1,15 @@
 #[doc = "Register `ip` reader"]
-pub struct R(crate::R<IP_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<IP_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<IP_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<IP_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<IP_SPEC>;
 #[doc = "Register `ip` writer"]
-pub struct W(crate::W<IP_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<IP_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<IP_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<IP_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<IP_SPEC>;
 #[doc = "Field `txwm` reader - "]
-pub type TXWM_R = crate::BitReader<bool>;
+pub type TXWM_R = crate::BitReader;
 #[doc = "Field `txwm` writer - "]
-pub type TXWM_W<'a, const O: u8> = crate::BitWriter<'a, u32, IP_SPEC, bool, O>;
+pub type TXWM_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `rxwm` reader - "]
-pub type RXWM_R = crate::BitReader<bool>;
+pub type RXWM_R = crate::BitReader;
 #[doc = "Field `rxwm` writer - "]
-pub type RXWM_W<'a, const O: u8> = crate::BitWriter<'a, u32, IP_SPEC, bool, O>;
+pub type RXWM_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bit 0"]
     #[inline(always)]
@@ -57,38 +25,40 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn txwm(&mut self) -> TXWM_W<0> {
-        TXWM_W::new(self)
+    #[must_use]
+    pub fn txwm(&mut self) -> TXWM_W<IP_SPEC> {
+        TXWM_W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn rxwm(&mut self) -> RXWM_W<1> {
-        RXWM_W::new(self)
+    #[must_use]
+    pub fn rxwm(&mut self) -> RXWM_W<IP_SPEC> {
+        RXWM_W::new(self, 1)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Interrupt Pending Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [ip](index.html) module"]
+#[doc = "Interrupt Pending Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`ip::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`ip::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct IP_SPEC;
 impl crate::RegisterSpec for IP_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [ip::R](R) reader structure"]
-impl crate::Readable for IP_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [ip::W](W) writer structure"]
+#[doc = "`read()` method returns [`ip::R`](R) reader structure"]
+impl crate::Readable for IP_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`ip::W`](W) writer structure"]
 impl crate::Writable for IP_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets ip to value 0"]
 impl crate::Resettable for IP_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

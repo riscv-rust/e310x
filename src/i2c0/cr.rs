@@ -1,26 +1,7 @@
 #[doc = "Register `cr` writer"]
-pub struct W(crate::W<CR_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<CR_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<CR_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<CR_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<CR_SPEC>;
 #[doc = "Field `iack` writer - Interrupt acknowledge. When set, clears a pending interrupt"]
-pub type IACK_W<'a, const O: u8> = crate::BitWriter<'a, u32, CR_SPEC, bool, O>;
+pub type IACK_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "When a receiver, sent ACK (0) or NACK (1)\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ACK_AW {
@@ -36,78 +17,89 @@ impl From<ACK_AW> for bool {
     }
 }
 #[doc = "Field `ack` writer - When a receiver, sent ACK (0) or NACK (1)"]
-pub type ACK_W<'a, const O: u8> = crate::BitWriter<'a, u32, CR_SPEC, ACK_AW, O>;
-impl<'a, const O: u8> ACK_W<'a, O> {
+pub type ACK_W<'a, REG> = crate::BitWriter<'a, REG, ACK_AW>;
+impl<'a, REG> ACK_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn ack(self) -> &'a mut W {
+    pub fn ack(self) -> &'a mut crate::W<REG> {
         self.variant(ACK_AW::ACK)
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn nack(self) -> &'a mut W {
+    pub fn nack(self) -> &'a mut crate::W<REG> {
         self.variant(ACK_AW::NACK)
     }
 }
 #[doc = "Field `wr` writer - Write to slave"]
-pub type WR_W<'a, const O: u8> = crate::BitWriter<'a, u32, CR_SPEC, bool, O>;
+pub type WR_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `rd` writer - Read from slave"]
-pub type RD_W<'a, const O: u8> = crate::BitWriter<'a, u32, CR_SPEC, bool, O>;
+pub type RD_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `sto` writer - Generate stop condition"]
-pub type STO_W<'a, const O: u8> = crate::BitWriter<'a, u32, CR_SPEC, bool, O>;
+pub type STO_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `sta` writer - Generate (repeated) start condition"]
-pub type STA_W<'a, const O: u8> = crate::BitWriter<'a, u32, CR_SPEC, bool, O>;
+pub type STA_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl W {
     #[doc = "Bit 0 - Interrupt acknowledge. When set, clears a pending interrupt"]
     #[inline(always)]
-    pub fn iack(&mut self) -> IACK_W<0> {
-        IACK_W::new(self)
+    #[must_use]
+    pub fn iack(&mut self) -> IACK_W<CR_SPEC> {
+        IACK_W::new(self, 0)
     }
     #[doc = "Bit 3 - When a receiver, sent ACK (0) or NACK (1)"]
     #[inline(always)]
-    pub fn ack(&mut self) -> ACK_W<3> {
-        ACK_W::new(self)
+    #[must_use]
+    pub fn ack(&mut self) -> ACK_W<CR_SPEC> {
+        ACK_W::new(self, 3)
     }
     #[doc = "Bit 4 - Write to slave"]
     #[inline(always)]
-    pub fn wr(&mut self) -> WR_W<4> {
-        WR_W::new(self)
+    #[must_use]
+    pub fn wr(&mut self) -> WR_W<CR_SPEC> {
+        WR_W::new(self, 4)
     }
     #[doc = "Bit 5 - Read from slave"]
     #[inline(always)]
-    pub fn rd(&mut self) -> RD_W<5> {
-        RD_W::new(self)
+    #[must_use]
+    pub fn rd(&mut self) -> RD_W<CR_SPEC> {
+        RD_W::new(self, 5)
     }
     #[doc = "Bit 6 - Generate stop condition"]
     #[inline(always)]
-    pub fn sto(&mut self) -> STO_W<6> {
-        STO_W::new(self)
+    #[must_use]
+    pub fn sto(&mut self) -> STO_W<CR_SPEC> {
+        STO_W::new(self, 6)
     }
     #[doc = "Bit 7 - Generate (repeated) start condition"]
     #[inline(always)]
-    pub fn sta(&mut self) -> STA_W<7> {
-        STA_W::new(self)
+    #[must_use]
+    pub fn sta(&mut self) -> STA_W<CR_SPEC> {
+        STA_W::new(self, 7)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Command register\n\nThis register you can [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [cr](index.html) module"]
+#[doc = "Command register\n\nYou can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`cr::W`](W). See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct CR_SPEC;
 impl crate::RegisterSpec for CR_SPEC {
     type Ux = u32;
 }
-#[doc = "`write(|w| ..)` method takes [cr::W](W) writer structure"]
+#[doc = "`write(|w| ..)` method takes [`cr::W`](W) writer structure"]
 impl crate::Writable for CR_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets cr to value 0"]
 impl crate::Resettable for CR_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

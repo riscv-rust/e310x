@@ -1,47 +1,15 @@
 #[doc = "Register `rxdata` reader"]
-pub struct R(crate::R<RXDATA_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<RXDATA_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<RXDATA_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<RXDATA_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<RXDATA_SPEC>;
 #[doc = "Register `rxdata` writer"]
-pub struct W(crate::W<RXDATA_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<RXDATA_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<RXDATA_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<RXDATA_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<RXDATA_SPEC>;
 #[doc = "Field `data` reader - "]
-pub type DATA_R = crate::FieldReader<u8, u8>;
+pub type DATA_R = crate::FieldReader;
 #[doc = "Field `data` writer - "]
-pub type DATA_W<'a, const O: u8> = crate::FieldWriter<'a, u32, RXDATA_SPEC, u8, u8, 8, O>;
+pub type DATA_W<'a, REG> = crate::FieldWriter<'a, REG, 8>;
 #[doc = "Field `empty` reader - "]
-pub type EMPTY_R = crate::BitReader<bool>;
+pub type EMPTY_R = crate::BitReader;
 #[doc = "Field `empty` writer - "]
-pub type EMPTY_W<'a, const O: u8> = crate::BitWriter<'a, u32, RXDATA_SPEC, bool, O>;
+pub type EMPTY_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bits 0:7"]
     #[inline(always)]
@@ -57,38 +25,40 @@ impl R {
 impl W {
     #[doc = "Bits 0:7"]
     #[inline(always)]
-    pub fn data(&mut self) -> DATA_W<0> {
-        DATA_W::new(self)
+    #[must_use]
+    pub fn data(&mut self) -> DATA_W<RXDATA_SPEC> {
+        DATA_W::new(self, 0)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn empty(&mut self) -> EMPTY_W<31> {
-        EMPTY_W::new(self)
+    #[must_use]
+    pub fn empty(&mut self) -> EMPTY_W<RXDATA_SPEC> {
+        EMPTY_W::new(self, 31)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Receive Data Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rxdata](index.html) module"]
+#[doc = "Receive Data Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`rxdata::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`rxdata::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct RXDATA_SPEC;
 impl crate::RegisterSpec for RXDATA_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [rxdata::R](R) reader structure"]
-impl crate::Readable for RXDATA_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [rxdata::W](W) writer structure"]
+#[doc = "`read()` method returns [`rxdata::R`](R) reader structure"]
+impl crate::Readable for RXDATA_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`rxdata::W`](W) writer structure"]
 impl crate::Writable for RXDATA_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets rxdata to value 0"]
 impl crate::Resettable for RXDATA_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }
