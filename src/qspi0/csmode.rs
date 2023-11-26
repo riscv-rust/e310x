@@ -1,41 +1,9 @@
 #[doc = "Register `csmode` reader"]
-pub struct R(crate::R<CSMODE_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<CSMODE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<CSMODE_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<CSMODE_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<CSMODE_SPEC>;
 #[doc = "Register `csmode` writer"]
-pub struct W(crate::W<CSMODE_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<CSMODE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<CSMODE_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<CSMODE_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<CSMODE_SPEC>;
 #[doc = "Field `mode` reader - Chip select mode"]
-pub type MODE_R = crate::FieldReader<u8, MODE_A>;
+pub type MODE_R = crate::FieldReader<MODE_A>;
 #[doc = "Chip select mode\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
@@ -53,10 +21,13 @@ impl From<MODE_A> for u8 {
         variant as _
     }
 }
+impl crate::FieldSpec for MODE_A {
+    type Ux = u8;
+}
 impl MODE_R {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> Option<MODE_A> {
+    pub const fn variant(&self) -> Option<MODE_A> {
         match self.bits {
             0 => Some(MODE_A::AUTO),
             2 => Some(MODE_A::HOLD),
@@ -64,38 +35,42 @@ impl MODE_R {
             _ => None,
         }
     }
-    #[doc = "Checks if the value of the field is `AUTO`"]
+    #[doc = "Assert/de-assert CS at the beginning/end of each frame."]
     #[inline(always)]
     pub fn is_auto(&self) -> bool {
         *self == MODE_A::AUTO
     }
-    #[doc = "Checks if the value of the field is `HOLD`"]
+    #[doc = "Keep CS continuously asserted after the initial frame."]
     #[inline(always)]
     pub fn is_hold(&self) -> bool {
         *self == MODE_A::HOLD
     }
-    #[doc = "Checks if the value of the field is `OFF`"]
+    #[doc = "Disable hardware control of the CS pin."]
     #[inline(always)]
     pub fn is_off(&self) -> bool {
         *self == MODE_A::OFF
     }
 }
 #[doc = "Field `mode` writer - Chip select mode"]
-pub type MODE_W<'a, const O: u8> = crate::FieldWriter<'a, u32, CSMODE_SPEC, u8, MODE_A, 2, O>;
-impl<'a, const O: u8> MODE_W<'a, O> {
+pub type MODE_W<'a, REG> = crate::FieldWriter<'a, REG, 2, MODE_A>;
+impl<'a, REG> MODE_W<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
     #[doc = "Assert/de-assert CS at the beginning/end of each frame."]
     #[inline(always)]
-    pub fn auto(self) -> &'a mut W {
+    pub fn auto(self) -> &'a mut crate::W<REG> {
         self.variant(MODE_A::AUTO)
     }
     #[doc = "Keep CS continuously asserted after the initial frame."]
     #[inline(always)]
-    pub fn hold(self) -> &'a mut W {
+    pub fn hold(self) -> &'a mut crate::W<REG> {
         self.variant(MODE_A::HOLD)
     }
     #[doc = "Disable hardware control of the CS pin."]
     #[inline(always)]
-    pub fn off(self) -> &'a mut W {
+    pub fn off(self) -> &'a mut crate::W<REG> {
         self.variant(MODE_A::OFF)
     }
 }
@@ -109,33 +84,34 @@ impl R {
 impl W {
     #[doc = "Bits 0:1 - Chip select mode"]
     #[inline(always)]
-    pub fn mode(&mut self) -> MODE_W<0> {
-        MODE_W::new(self)
+    #[must_use]
+    pub fn mode(&mut self) -> MODE_W<CSMODE_SPEC> {
+        MODE_W::new(self, 0)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Chip Select Mode Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [csmode](index.html) module"]
+#[doc = "Chip Select Mode Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`csmode::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`csmode::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct CSMODE_SPEC;
 impl crate::RegisterSpec for CSMODE_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [csmode::R](R) reader structure"]
-impl crate::Readable for CSMODE_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [csmode::W](W) writer structure"]
+#[doc = "`read()` method returns [`csmode::R`](R) reader structure"]
+impl crate::Readable for CSMODE_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`csmode::W`](W) writer structure"]
 impl crate::Writable for CSMODE_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets csmode to value 0"]
 impl crate::Resettable for CSMODE_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }

@@ -1,47 +1,15 @@
 #[doc = "Register `plloutdiv` reader"]
-pub struct R(crate::R<PLLOUTDIV_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<PLLOUTDIV_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<PLLOUTDIV_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<PLLOUTDIV_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<PLLOUTDIV_SPEC>;
 #[doc = "Register `plloutdiv` writer"]
-pub struct W(crate::W<PLLOUTDIV_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<PLLOUTDIV_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<PLLOUTDIV_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<PLLOUTDIV_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<PLLOUTDIV_SPEC>;
 #[doc = "Field `div` reader - "]
-pub type DIV_R = crate::FieldReader<u8, u8>;
+pub type DIV_R = crate::FieldReader;
 #[doc = "Field `div` writer - "]
-pub type DIV_W<'a, const O: u8> = crate::FieldWriter<'a, u32, PLLOUTDIV_SPEC, u8, u8, 6, O>;
+pub type DIV_W<'a, REG> = crate::FieldWriter<'a, REG, 6>;
 #[doc = "Field `divby1` reader - "]
-pub type DIVBY1_R = crate::BitReader<bool>;
+pub type DIVBY1_R = crate::BitReader;
 #[doc = "Field `divby1` writer - "]
-pub type DIVBY1_W<'a, const O: u8> = crate::BitWriter<'a, u32, PLLOUTDIV_SPEC, bool, O>;
+pub type DIVBY1_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bits 0:5"]
     #[inline(always)]
@@ -57,38 +25,40 @@ impl R {
 impl W {
     #[doc = "Bits 0:5"]
     #[inline(always)]
-    pub fn div(&mut self) -> DIV_W<0> {
-        DIV_W::new(self)
+    #[must_use]
+    pub fn div(&mut self) -> DIV_W<PLLOUTDIV_SPEC> {
+        DIV_W::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn divby1(&mut self) -> DIVBY1_W<8> {
-        DIVBY1_W::new(self)
+    #[must_use]
+    pub fn divby1(&mut self) -> DIVBY1_W<PLLOUTDIV_SPEC> {
+        DIVBY1_W::new(self, 8)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "PLL Divider Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [plloutdiv](index.html) module"]
+#[doc = "PLL Divider Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`plloutdiv::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`plloutdiv::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct PLLOUTDIV_SPEC;
 impl crate::RegisterSpec for PLLOUTDIV_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [plloutdiv::R](R) reader structure"]
-impl crate::Readable for PLLOUTDIV_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [plloutdiv::W](W) writer structure"]
+#[doc = "`read()` method returns [`plloutdiv::R`](R) reader structure"]
+impl crate::Readable for PLLOUTDIV_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`plloutdiv::W`](W) writer structure"]
 impl crate::Writable for PLLOUTDIV_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets plloutdiv to value 0x0100"]
 impl crate::Resettable for PLLOUTDIV_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0x0100
-    }
+    const RESET_VALUE: Self::Ux = 0x0100;
 }

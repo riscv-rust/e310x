@@ -1,55 +1,23 @@
 #[doc = "Register `hfrosccfg` reader"]
-pub struct R(crate::R<HFROSCCFG_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<HFROSCCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<HFROSCCFG_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<HFROSCCFG_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<HFROSCCFG_SPEC>;
 #[doc = "Register `hfrosccfg` writer"]
-pub struct W(crate::W<HFROSCCFG_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<HFROSCCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<HFROSCCFG_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<HFROSCCFG_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<HFROSCCFG_SPEC>;
 #[doc = "Field `div` reader - "]
-pub type DIV_R = crate::FieldReader<u8, u8>;
+pub type DIV_R = crate::FieldReader;
 #[doc = "Field `div` writer - "]
-pub type DIV_W<'a, const O: u8> = crate::FieldWriter<'a, u32, HFROSCCFG_SPEC, u8, u8, 6, O>;
+pub type DIV_W<'a, REG> = crate::FieldWriter<'a, REG, 6>;
 #[doc = "Field `trim` reader - "]
-pub type TRIM_R = crate::FieldReader<u8, u8>;
+pub type TRIM_R = crate::FieldReader;
 #[doc = "Field `trim` writer - "]
-pub type TRIM_W<'a, const O: u8> = crate::FieldWriter<'a, u32, HFROSCCFG_SPEC, u8, u8, 5, O>;
+pub type TRIM_W<'a, REG> = crate::FieldWriter<'a, REG, 5>;
 #[doc = "Field `enable` reader - "]
-pub type ENABLE_R = crate::BitReader<bool>;
+pub type ENABLE_R = crate::BitReader;
 #[doc = "Field `enable` writer - "]
-pub type ENABLE_W<'a, const O: u8> = crate::BitWriter<'a, u32, HFROSCCFG_SPEC, bool, O>;
+pub type ENABLE_W<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `ready` reader - "]
-pub type READY_R = crate::BitReader<bool>;
+pub type READY_R = crate::BitReader;
 #[doc = "Field `ready` writer - "]
-pub type READY_W<'a, const O: u8> = crate::BitWriter<'a, u32, HFROSCCFG_SPEC, bool, O>;
+pub type READY_W<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bits 0:5"]
     #[inline(always)]
@@ -75,48 +43,52 @@ impl R {
 impl W {
     #[doc = "Bits 0:5"]
     #[inline(always)]
-    pub fn div(&mut self) -> DIV_W<0> {
-        DIV_W::new(self)
+    #[must_use]
+    pub fn div(&mut self) -> DIV_W<HFROSCCFG_SPEC> {
+        DIV_W::new(self, 0)
     }
     #[doc = "Bits 16:20"]
     #[inline(always)]
-    pub fn trim(&mut self) -> TRIM_W<16> {
-        TRIM_W::new(self)
+    #[must_use]
+    pub fn trim(&mut self) -> TRIM_W<HFROSCCFG_SPEC> {
+        TRIM_W::new(self, 16)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&mut self) -> ENABLE_W<30> {
-        ENABLE_W::new(self)
+    #[must_use]
+    pub fn enable(&mut self) -> ENABLE_W<HFROSCCFG_SPEC> {
+        ENABLE_W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&mut self) -> READY_W<31> {
-        READY_W::new(self)
+    #[must_use]
+    pub fn ready(&mut self) -> READY_W<HFROSCCFG_SPEC> {
+        READY_W::new(self, 31)
     }
-    #[doc = "Writes raw bits to the register."]
+    #[doc = r" Writes raw bits to the register."]
+    #[doc = r""]
+    #[doc = r" # Safety"]
+    #[doc = r""]
+    #[doc = r" Passing incorrect value can cause undefined behaviour. See reference manual"]
     #[inline(always)]
     pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
+        self.bits = bits;
         self
     }
 }
-#[doc = "Clock Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [hfrosccfg](index.html) module"]
+#[doc = "Clock Configuration Register\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`hfrosccfg::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`hfrosccfg::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
 pub struct HFROSCCFG_SPEC;
 impl crate::RegisterSpec for HFROSCCFG_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [hfrosccfg::R](R) reader structure"]
-impl crate::Readable for HFROSCCFG_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [hfrosccfg::W](W) writer structure"]
+#[doc = "`read()` method returns [`hfrosccfg::R`](R) reader structure"]
+impl crate::Readable for HFROSCCFG_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`hfrosccfg::W`](W) writer structure"]
 impl crate::Writable for HFROSCCFG_SPEC {
-    type Writer = W;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: Self::Ux = 0;
 }
 #[doc = "`reset()` method sets hfrosccfg to value 0"]
 impl crate::Resettable for HFROSCCFG_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+    const RESET_VALUE: Self::Ux = 0;
 }
