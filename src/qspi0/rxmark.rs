@@ -1,80 +1,40 @@
 #[doc = "Register `rxmark` reader"]
-pub struct R(crate::R<RXMARK_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<RXMARK_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<RXMARK_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<RXMARK_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<RxmarkSpec>;
 #[doc = "Register `rxmark` writer"]
-pub struct W(crate::W<RXMARK_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<RXMARK_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<RXMARK_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<RXMARK_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<RxmarkSpec>;
 #[doc = "Field `rxmark` reader - Receive watermark"]
-pub type RXMARK_R = crate::FieldReader<u8, u8>;
+pub type RxmarkR = crate::FieldReader;
 #[doc = "Field `rxmark` writer - Receive watermark"]
-pub type RXMARK_W<'a, const O: u8> = crate::FieldWriter<'a, u32, RXMARK_SPEC, u8, u8, 3, O>;
+pub type RxmarkW<'a, REG> = crate::FieldWriter<'a, REG, 3>;
 impl R {
     #[doc = "Bits 0:2 - Receive watermark"]
     #[inline(always)]
-    pub fn rxmark(&self) -> RXMARK_R {
-        RXMARK_R::new((self.bits & 7) as u8)
+    pub fn rxmark(&self) -> RxmarkR {
+        RxmarkR::new((self.bits & 7) as u8)
     }
 }
 impl W {
     #[doc = "Bits 0:2 - Receive watermark"]
     #[inline(always)]
-    pub fn rxmark(&mut self) -> RXMARK_W<0> {
-        RXMARK_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn rxmark(&mut self) -> RxmarkW<RxmarkSpec> {
+        RxmarkW::new(self, 0)
     }
 }
-#[doc = "Receive Watermark Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [rxmark](index.html) module"]
-pub struct RXMARK_SPEC;
-impl crate::RegisterSpec for RXMARK_SPEC {
+#[doc = "Receive Watermark Register\n\nYou can [`read`](crate::Reg::read) this register and get [`rxmark::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`rxmark::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct RxmarkSpec;
+impl crate::RegisterSpec for RxmarkSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [rxmark::R](R) reader structure"]
-impl crate::Readable for RXMARK_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [rxmark::W](W) writer structure"]
-impl crate::Writable for RXMARK_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`rxmark::R`](R) reader structure"]
+impl crate::Readable for RxmarkSpec {}
+#[doc = "`write(|w| ..)` method takes [`rxmark::W`](W) writer structure"]
+impl crate::Writable for RxmarkSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets rxmark to value 0"]
-impl crate::Resettable for RXMARK_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for RxmarkSpec {
+    const RESET_VALUE: u32 = 0;
 }

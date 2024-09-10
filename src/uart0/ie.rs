@@ -1,94 +1,55 @@
 #[doc = "Register `ie` reader"]
-pub struct R(crate::R<IE_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<IE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<IE_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<IE_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<IeSpec>;
 #[doc = "Register `ie` writer"]
-pub struct W(crate::W<IE_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<IE_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<IE_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<IE_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<IeSpec>;
 #[doc = "Field `txwm` reader - "]
-pub type TXWM_R = crate::BitReader<bool>;
+pub type TxwmR = crate::BitReader;
 #[doc = "Field `txwm` writer - "]
-pub type TXWM_W<'a, const O: u8> = crate::BitWriter<'a, u32, IE_SPEC, bool, O>;
+pub type TxwmW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `rxwm` reader - "]
-pub type RXWM_R = crate::BitReader<bool>;
+pub type RxwmR = crate::BitReader;
 #[doc = "Field `rxwm` writer - "]
-pub type RXWM_W<'a, const O: u8> = crate::BitWriter<'a, u32, IE_SPEC, bool, O>;
+pub type RxwmW<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn txwm(&self) -> TXWM_R {
-        TXWM_R::new((self.bits & 1) != 0)
+    pub fn txwm(&self) -> TxwmR {
+        TxwmR::new((self.bits & 1) != 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn rxwm(&self) -> RXWM_R {
-        RXWM_R::new(((self.bits >> 1) & 1) != 0)
+    pub fn rxwm(&self) -> RxwmR {
+        RxwmR::new(((self.bits >> 1) & 1) != 0)
     }
 }
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn txwm(&mut self) -> TXWM_W<0> {
-        TXWM_W::new(self)
+    #[must_use]
+    pub fn txwm(&mut self) -> TxwmW<IeSpec> {
+        TxwmW::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn rxwm(&mut self) -> RXWM_W<1> {
-        RXWM_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn rxwm(&mut self) -> RxwmW<IeSpec> {
+        RxwmW::new(self, 1)
     }
 }
-#[doc = "Interrupt Enable Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [ie](index.html) module"]
-pub struct IE_SPEC;
-impl crate::RegisterSpec for IE_SPEC {
+#[doc = "Interrupt Enable Register\n\nYou can [`read`](crate::Reg::read) this register and get [`ie::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`ie::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct IeSpec;
+impl crate::RegisterSpec for IeSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [ie::R](R) reader structure"]
-impl crate::Readable for IE_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [ie::W](W) writer structure"]
-impl crate::Writable for IE_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`ie::R`](R) reader structure"]
+impl crate::Readable for IeSpec {}
+#[doc = "`write(|w| ..)` method takes [`ie::W`](W) writer structure"]
+impl crate::Writable for IeSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets ie to value 0"]
-impl crate::Resettable for IE_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for IeSpec {
+    const RESET_VALUE: u32 = 0;
 }

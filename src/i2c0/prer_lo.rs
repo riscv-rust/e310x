@@ -1,80 +1,40 @@
 #[doc = "Register `prer_lo` reader"]
-pub struct R(crate::R<PRER_LO_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<PRER_LO_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<PRER_LO_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<PRER_LO_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<PrerLoSpec>;
 #[doc = "Register `prer_lo` writer"]
-pub struct W(crate::W<PRER_LO_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<PRER_LO_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<PRER_LO_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<PRER_LO_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<PrerLoSpec>;
 #[doc = "Field `value` reader - "]
-pub type VALUE_R = crate::FieldReader<u8, u8>;
+pub type ValueR = crate::FieldReader;
 #[doc = "Field `value` writer - "]
-pub type VALUE_W<'a, const O: u8> = crate::FieldWriter<'a, u32, PRER_LO_SPEC, u8, u8, 8, O>;
+pub type ValueW<'a, REG> = crate::FieldWriter<'a, REG, 8>;
 impl R {
     #[doc = "Bits 0:7"]
     #[inline(always)]
-    pub fn value(&self) -> VALUE_R {
-        VALUE_R::new((self.bits & 0xff) as u8)
+    pub fn value(&self) -> ValueR {
+        ValueR::new((self.bits & 0xff) as u8)
     }
 }
 impl W {
     #[doc = "Bits 0:7"]
     #[inline(always)]
-    pub fn value(&mut self) -> VALUE_W<0> {
-        VALUE_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn value(&mut self) -> ValueW<PrerLoSpec> {
+        ValueW::new(self, 0)
     }
 }
-#[doc = "Clock Prescale register lo-byte\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [prer_lo](index.html) module"]
-pub struct PRER_LO_SPEC;
-impl crate::RegisterSpec for PRER_LO_SPEC {
+#[doc = "Clock Prescale register lo-byte\n\nYou can [`read`](crate::Reg::read) this register and get [`prer_lo::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`prer_lo::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct PrerLoSpec;
+impl crate::RegisterSpec for PrerLoSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [prer_lo::R](R) reader structure"]
-impl crate::Readable for PRER_LO_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [prer_lo::W](W) writer structure"]
-impl crate::Writable for PRER_LO_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`prer_lo::R`](R) reader structure"]
+impl crate::Readable for PrerLoSpec {}
+#[doc = "`write(|w| ..)` method takes [`prer_lo::W`](W) writer structure"]
+impl crate::Writable for PrerLoSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets prer_lo to value 0"]
-impl crate::Resettable for PRER_LO_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for PrerLoSpec {
+    const RESET_VALUE: u32 = 0;
 }
