@@ -1,45 +1,11 @@
 #[doc = "Register `pllcfg` reader"]
-pub struct R(crate::R<PLLCFG_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<PLLCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<PLLCFG_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<PLLCFG_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<PllcfgSpec>;
 #[doc = "Register `pllcfg` writer"]
-pub struct W(crate::W<PLLCFG_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<PLLCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<PLLCFG_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<PLLCFG_SPEC>) -> Self {
-        W(writer)
-    }
-}
-#[doc = "Field `pllr` reader - "]
-pub type PLLR_R = crate::FieldReader<u8, PLLR_A>;
+pub type W = crate::W<PllcfgSpec>;
 #[doc = "\n\nValue on reset: 1"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
-pub enum PLLR_A {
+pub enum Pllr {
     #[doc = "0: `0`"]
     R1 = 0,
     #[doc = "1: `1`"]
@@ -49,79 +15,87 @@ pub enum PLLR_A {
     #[doc = "3: `11`"]
     R4 = 3,
 }
-impl From<PLLR_A> for u8 {
+impl From<Pllr> for u8 {
     #[inline(always)]
-    fn from(variant: PLLR_A) -> Self {
+    fn from(variant: Pllr) -> Self {
         variant as _
     }
 }
-impl PLLR_R {
+impl crate::FieldSpec for Pllr {
+    type Ux = u8;
+}
+impl crate::IsEnum for Pllr {}
+#[doc = "Field `pllr` reader - "]
+pub type PllrR = crate::FieldReader<Pllr>;
+impl PllrR {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> Option<PLLR_A> {
+    pub const fn variant(&self) -> Option<Pllr> {
         match self.bits {
-            0 => Some(PLLR_A::R1),
-            1 => Some(PLLR_A::R2),
-            2 => Some(PLLR_A::R3),
-            3 => Some(PLLR_A::R4),
+            0 => Some(Pllr::R1),
+            1 => Some(Pllr::R2),
+            2 => Some(Pllr::R3),
+            3 => Some(Pllr::R4),
             _ => None,
         }
     }
-    #[doc = "Checks if the value of the field is `R1`"]
-    #[inline(always)]
-    pub fn is_r1(&self) -> bool {
-        *self == PLLR_A::R1
-    }
-    #[doc = "Checks if the value of the field is `R2`"]
-    #[inline(always)]
-    pub fn is_r2(&self) -> bool {
-        *self == PLLR_A::R2
-    }
-    #[doc = "Checks if the value of the field is `R3`"]
-    #[inline(always)]
-    pub fn is_r3(&self) -> bool {
-        *self == PLLR_A::R3
-    }
-    #[doc = "Checks if the value of the field is `R4`"]
-    #[inline(always)]
-    pub fn is_r4(&self) -> bool {
-        *self == PLLR_A::R4
-    }
-}
-#[doc = "Field `pllr` writer - "]
-pub type PLLR_W<'a, const O: u8> = crate::FieldWriter<'a, u32, PLLCFG_SPEC, u8, PLLR_A, 3, O>;
-impl<'a, const O: u8> PLLR_W<'a, O> {
     #[doc = "`0`"]
     #[inline(always)]
-    pub fn r1(self) -> &'a mut W {
-        self.variant(PLLR_A::R1)
+    pub fn is_r1(&self) -> bool {
+        *self == Pllr::R1
     }
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn r2(self) -> &'a mut W {
-        self.variant(PLLR_A::R2)
+    pub fn is_r2(&self) -> bool {
+        *self == Pllr::R2
     }
     #[doc = "`10`"]
     #[inline(always)]
-    pub fn r3(self) -> &'a mut W {
-        self.variant(PLLR_A::R3)
+    pub fn is_r3(&self) -> bool {
+        *self == Pllr::R3
     }
     #[doc = "`11`"]
     #[inline(always)]
-    pub fn r4(self) -> &'a mut W {
-        self.variant(PLLR_A::R4)
+    pub fn is_r4(&self) -> bool {
+        *self == Pllr::R4
+    }
+}
+#[doc = "Field `pllr` writer - "]
+pub type PllrW<'a, REG> = crate::FieldWriter<'a, REG, 3, Pllr>;
+impl<'a, REG> PllrW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
+    #[doc = "`0`"]
+    #[inline(always)]
+    pub fn r1(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllr::R1)
+    }
+    #[doc = "`1`"]
+    #[inline(always)]
+    pub fn r2(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllr::R2)
+    }
+    #[doc = "`10`"]
+    #[inline(always)]
+    pub fn r3(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllr::R3)
+    }
+    #[doc = "`11`"]
+    #[inline(always)]
+    pub fn r4(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllr::R4)
     }
 }
 #[doc = "Field `pllf` reader - "]
-pub type PLLF_R = crate::FieldReader<u8, u8>;
+pub type PllfR = crate::FieldReader;
 #[doc = "Field `pllf` writer - "]
-pub type PLLF_W<'a, const O: u8> = crate::FieldWriter<'a, u32, PLLCFG_SPEC, u8, u8, 6, O>;
-#[doc = "Field `pllq` reader - "]
-pub type PLLQ_R = crate::FieldReader<u8, PLLQ_A>;
+pub type PllfW<'a, REG> = crate::FieldWriter<'a, REG, 6>;
 #[doc = "\n\nValue on reset: 1"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
-pub enum PLLQ_A {
+pub enum Pllq {
     #[doc = "1: `1`"]
     Q2 = 1,
     #[doc = "2: `10`"]
@@ -129,171 +103,179 @@ pub enum PLLQ_A {
     #[doc = "3: `11`"]
     Q8 = 3,
 }
-impl From<PLLQ_A> for u8 {
+impl From<Pllq> for u8 {
     #[inline(always)]
-    fn from(variant: PLLQ_A) -> Self {
+    fn from(variant: Pllq) -> Self {
         variant as _
     }
 }
-impl PLLQ_R {
+impl crate::FieldSpec for Pllq {
+    type Ux = u8;
+}
+impl crate::IsEnum for Pllq {}
+#[doc = "Field `pllq` reader - "]
+pub type PllqR = crate::FieldReader<Pllq>;
+impl PllqR {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> Option<PLLQ_A> {
+    pub const fn variant(&self) -> Option<Pllq> {
         match self.bits {
-            1 => Some(PLLQ_A::Q2),
-            2 => Some(PLLQ_A::Q4),
-            3 => Some(PLLQ_A::Q8),
+            1 => Some(Pllq::Q2),
+            2 => Some(Pllq::Q4),
+            3 => Some(Pllq::Q8),
             _ => None,
         }
     }
-    #[doc = "Checks if the value of the field is `Q2`"]
-    #[inline(always)]
-    pub fn is_q2(&self) -> bool {
-        *self == PLLQ_A::Q2
-    }
-    #[doc = "Checks if the value of the field is `Q4`"]
-    #[inline(always)]
-    pub fn is_q4(&self) -> bool {
-        *self == PLLQ_A::Q4
-    }
-    #[doc = "Checks if the value of the field is `Q8`"]
-    #[inline(always)]
-    pub fn is_q8(&self) -> bool {
-        *self == PLLQ_A::Q8
-    }
-}
-#[doc = "Field `pllq` writer - "]
-pub type PLLQ_W<'a, const O: u8> = crate::FieldWriter<'a, u32, PLLCFG_SPEC, u8, PLLQ_A, 2, O>;
-impl<'a, const O: u8> PLLQ_W<'a, O> {
     #[doc = "`1`"]
     #[inline(always)]
-    pub fn q2(self) -> &'a mut W {
-        self.variant(PLLQ_A::Q2)
+    pub fn is_q2(&self) -> bool {
+        *self == Pllq::Q2
     }
     #[doc = "`10`"]
     #[inline(always)]
-    pub fn q4(self) -> &'a mut W {
-        self.variant(PLLQ_A::Q4)
+    pub fn is_q4(&self) -> bool {
+        *self == Pllq::Q4
     }
     #[doc = "`11`"]
     #[inline(always)]
-    pub fn q8(self) -> &'a mut W {
-        self.variant(PLLQ_A::Q8)
+    pub fn is_q8(&self) -> bool {
+        *self == Pllq::Q8
+    }
+}
+#[doc = "Field `pllq` writer - "]
+pub type PllqW<'a, REG> = crate::FieldWriter<'a, REG, 2, Pllq>;
+impl<'a, REG> PllqW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
+    #[doc = "`1`"]
+    #[inline(always)]
+    pub fn q2(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllq::Q2)
+    }
+    #[doc = "`10`"]
+    #[inline(always)]
+    pub fn q4(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllq::Q4)
+    }
+    #[doc = "`11`"]
+    #[inline(always)]
+    pub fn q8(self) -> &'a mut crate::W<REG> {
+        self.variant(Pllq::Q8)
     }
 }
 #[doc = "Field `sel` reader - "]
-pub type SEL_R = crate::BitReader<bool>;
+pub type SelR = crate::BitReader;
 #[doc = "Field `sel` writer - "]
-pub type SEL_W<'a, const O: u8> = crate::BitWriter<'a, u32, PLLCFG_SPEC, bool, O>;
+pub type SelW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `refsel` reader - "]
-pub type REFSEL_R = crate::BitReader<bool>;
+pub type RefselR = crate::BitReader;
 #[doc = "Field `refsel` writer - "]
-pub type REFSEL_W<'a, const O: u8> = crate::BitWriter<'a, u32, PLLCFG_SPEC, bool, O>;
+pub type RefselW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `bypass` reader - "]
-pub type BYPASS_R = crate::BitReader<bool>;
+pub type BypassR = crate::BitReader;
 #[doc = "Field `bypass` writer - "]
-pub type BYPASS_W<'a, const O: u8> = crate::BitWriter<'a, u32, PLLCFG_SPEC, bool, O>;
+pub type BypassW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `lock` reader - "]
-pub type LOCK_R = crate::BitReader<bool>;
+pub type LockR = crate::BitReader;
 #[doc = "Field `lock` writer - "]
-pub type LOCK_W<'a, const O: u8> = crate::BitWriter<'a, u32, PLLCFG_SPEC, bool, O>;
+pub type LockW<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bits 0:2"]
     #[inline(always)]
-    pub fn pllr(&self) -> PLLR_R {
-        PLLR_R::new((self.bits & 7) as u8)
+    pub fn pllr(&self) -> PllrR {
+        PllrR::new((self.bits & 7) as u8)
     }
     #[doc = "Bits 4:9"]
     #[inline(always)]
-    pub fn pllf(&self) -> PLLF_R {
-        PLLF_R::new(((self.bits >> 4) & 0x3f) as u8)
+    pub fn pllf(&self) -> PllfR {
+        PllfR::new(((self.bits >> 4) & 0x3f) as u8)
     }
     #[doc = "Bits 10:11"]
     #[inline(always)]
-    pub fn pllq(&self) -> PLLQ_R {
-        PLLQ_R::new(((self.bits >> 10) & 3) as u8)
+    pub fn pllq(&self) -> PllqR {
+        PllqR::new(((self.bits >> 10) & 3) as u8)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn sel(&self) -> SEL_R {
-        SEL_R::new(((self.bits >> 16) & 1) != 0)
+    pub fn sel(&self) -> SelR {
+        SelR::new(((self.bits >> 16) & 1) != 0)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn refsel(&self) -> REFSEL_R {
-        REFSEL_R::new(((self.bits >> 17) & 1) != 0)
+    pub fn refsel(&self) -> RefselR {
+        RefselR::new(((self.bits >> 17) & 1) != 0)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn bypass(&self) -> BYPASS_R {
-        BYPASS_R::new(((self.bits >> 18) & 1) != 0)
+    pub fn bypass(&self) -> BypassR {
+        BypassR::new(((self.bits >> 18) & 1) != 0)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn lock(&self) -> LOCK_R {
-        LOCK_R::new(((self.bits >> 31) & 1) != 0)
+    pub fn lock(&self) -> LockR {
+        LockR::new(((self.bits >> 31) & 1) != 0)
     }
 }
 impl W {
     #[doc = "Bits 0:2"]
     #[inline(always)]
-    pub fn pllr(&mut self) -> PLLR_W<0> {
-        PLLR_W::new(self)
+    #[must_use]
+    pub fn pllr(&mut self) -> PllrW<PllcfgSpec> {
+        PllrW::new(self, 0)
     }
     #[doc = "Bits 4:9"]
     #[inline(always)]
-    pub fn pllf(&mut self) -> PLLF_W<4> {
-        PLLF_W::new(self)
+    #[must_use]
+    pub fn pllf(&mut self) -> PllfW<PllcfgSpec> {
+        PllfW::new(self, 4)
     }
     #[doc = "Bits 10:11"]
     #[inline(always)]
-    pub fn pllq(&mut self) -> PLLQ_W<10> {
-        PLLQ_W::new(self)
+    #[must_use]
+    pub fn pllq(&mut self) -> PllqW<PllcfgSpec> {
+        PllqW::new(self, 10)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn sel(&mut self) -> SEL_W<16> {
-        SEL_W::new(self)
+    #[must_use]
+    pub fn sel(&mut self) -> SelW<PllcfgSpec> {
+        SelW::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn refsel(&mut self) -> REFSEL_W<17> {
-        REFSEL_W::new(self)
+    #[must_use]
+    pub fn refsel(&mut self) -> RefselW<PllcfgSpec> {
+        RefselW::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn bypass(&mut self) -> BYPASS_W<18> {
-        BYPASS_W::new(self)
+    #[must_use]
+    pub fn bypass(&mut self) -> BypassW<PllcfgSpec> {
+        BypassW::new(self, 18)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn lock(&mut self) -> LOCK_W<31> {
-        LOCK_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn lock(&mut self) -> LockW<PllcfgSpec> {
+        LockW::new(self, 31)
     }
 }
-#[doc = "PLL Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [pllcfg](index.html) module"]
-pub struct PLLCFG_SPEC;
-impl crate::RegisterSpec for PLLCFG_SPEC {
+#[doc = "PLL Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`pllcfg::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`pllcfg::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct PllcfgSpec;
+impl crate::RegisterSpec for PllcfgSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [pllcfg::R](R) reader structure"]
-impl crate::Readable for PLLCFG_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [pllcfg::W](W) writer structure"]
-impl crate::Writable for PLLCFG_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`pllcfg::R`](R) reader structure"]
+impl crate::Readable for PllcfgSpec {}
+#[doc = "`write(|w| ..)` method takes [`pllcfg::W`](W) writer structure"]
+impl crate::Writable for PllcfgSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pllcfg to value 0x0003_06f9"]
-impl crate::Resettable for PLLCFG_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0x0003_06f9
-    }
+impl crate::Resettable for PllcfgSpec {
+    const RESET_VALUE: u32 = 0x0003_06f9;
 }

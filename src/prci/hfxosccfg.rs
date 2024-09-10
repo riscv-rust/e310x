@@ -1,94 +1,55 @@
 #[doc = "Register `hfxosccfg` reader"]
-pub struct R(crate::R<HFXOSCCFG_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<HFXOSCCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<HFXOSCCFG_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<HFXOSCCFG_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<HfxosccfgSpec>;
 #[doc = "Register `hfxosccfg` writer"]
-pub struct W(crate::W<HFXOSCCFG_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<HFXOSCCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<HFXOSCCFG_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<HFXOSCCFG_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<HfxosccfgSpec>;
 #[doc = "Field `enable` reader - "]
-pub type ENABLE_R = crate::BitReader<bool>;
+pub type EnableR = crate::BitReader;
 #[doc = "Field `enable` writer - "]
-pub type ENABLE_W<'a, const O: u8> = crate::BitWriter<'a, u32, HFXOSCCFG_SPEC, bool, O>;
+pub type EnableW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `ready` reader - "]
-pub type READY_R = crate::BitReader<bool>;
+pub type ReadyR = crate::BitReader;
 #[doc = "Field `ready` writer - "]
-pub type READY_W<'a, const O: u8> = crate::BitWriter<'a, u32, HFXOSCCFG_SPEC, bool, O>;
+pub type ReadyW<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&self) -> ENABLE_R {
-        ENABLE_R::new(((self.bits >> 30) & 1) != 0)
+    pub fn enable(&self) -> EnableR {
+        EnableR::new(((self.bits >> 30) & 1) != 0)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&self) -> READY_R {
-        READY_R::new(((self.bits >> 31) & 1) != 0)
+    pub fn ready(&self) -> ReadyR {
+        ReadyR::new(((self.bits >> 31) & 1) != 0)
     }
 }
 impl W {
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&mut self) -> ENABLE_W<30> {
-        ENABLE_W::new(self)
+    #[must_use]
+    pub fn enable(&mut self) -> EnableW<HfxosccfgSpec> {
+        EnableW::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&mut self) -> READY_W<31> {
-        READY_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn ready(&mut self) -> ReadyW<HfxosccfgSpec> {
+        ReadyW::new(self, 31)
     }
 }
-#[doc = "Clock Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [hfxosccfg](index.html) module"]
-pub struct HFXOSCCFG_SPEC;
-impl crate::RegisterSpec for HFXOSCCFG_SPEC {
+#[doc = "Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`hfxosccfg::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`hfxosccfg::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct HfxosccfgSpec;
+impl crate::RegisterSpec for HfxosccfgSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [hfxosccfg::R](R) reader structure"]
-impl crate::Readable for HFXOSCCFG_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [hfxosccfg::W](W) writer structure"]
-impl crate::Writable for HFXOSCCFG_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`hfxosccfg::R`](R) reader structure"]
+impl crate::Readable for HfxosccfgSpec {}
+#[doc = "`write(|w| ..)` method takes [`hfxosccfg::W`](W) writer structure"]
+impl crate::Writable for HfxosccfgSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets hfxosccfg to value 0"]
-impl crate::Resettable for HFXOSCCFG_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for HfxosccfgSpec {
+    const RESET_VALUE: u32 = 0;
 }

@@ -1,150 +1,115 @@
 #[doc = "Register `wdogcfg` reader"]
-pub struct R(crate::R<WDOGCFG_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<WDOGCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<WDOGCFG_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<WDOGCFG_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<WdogcfgSpec>;
 #[doc = "Register `wdogcfg` writer"]
-pub struct W(crate::W<WDOGCFG_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<WDOGCFG_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<WDOGCFG_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<WDOGCFG_SPEC>) -> Self {
-        W(writer)
-    }
-}
+pub type W = crate::W<WdogcfgSpec>;
 #[doc = "Field `scale` reader - "]
-pub type SCALE_R = crate::FieldReader<u8, u8>;
+pub type ScaleR = crate::FieldReader;
 #[doc = "Field `scale` writer - "]
-pub type SCALE_W<'a, const O: u8> = crate::FieldWriter<'a, u32, WDOGCFG_SPEC, u8, u8, 4, O>;
+pub type ScaleW<'a, REG> = crate::FieldWriter<'a, REG, 4>;
 #[doc = "Field `rsten` reader - "]
-pub type RSTEN_R = crate::BitReader<bool>;
+pub type RstenR = crate::BitReader;
 #[doc = "Field `rsten` writer - "]
-pub type RSTEN_W<'a, const O: u8> = crate::BitWriter<'a, u32, WDOGCFG_SPEC, bool, O>;
+pub type RstenW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `zerocmp` reader - "]
-pub type ZEROCMP_R = crate::BitReader<bool>;
+pub type ZerocmpR = crate::BitReader;
 #[doc = "Field `zerocmp` writer - "]
-pub type ZEROCMP_W<'a, const O: u8> = crate::BitWriter<'a, u32, WDOGCFG_SPEC, bool, O>;
+pub type ZerocmpW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `enalways` reader - "]
-pub type ENALWAYS_R = crate::BitReader<bool>;
+pub type EnalwaysR = crate::BitReader;
 #[doc = "Field `enalways` writer - "]
-pub type ENALWAYS_W<'a, const O: u8> = crate::BitWriter<'a, u32, WDOGCFG_SPEC, bool, O>;
+pub type EnalwaysW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `encoreawake` reader - "]
-pub type ENCOREAWAKE_R = crate::BitReader<bool>;
+pub type EncoreawakeR = crate::BitReader;
 #[doc = "Field `encoreawake` writer - "]
-pub type ENCOREAWAKE_W<'a, const O: u8> = crate::BitWriter<'a, u32, WDOGCFG_SPEC, bool, O>;
+pub type EncoreawakeW<'a, REG> = crate::BitWriter<'a, REG>;
 #[doc = "Field `cmpip` reader - "]
-pub type CMPIP_R = crate::BitReader<bool>;
+pub type CmpipR = crate::BitReader;
 #[doc = "Field `cmpip` writer - "]
-pub type CMPIP_W<'a, const O: u8> = crate::BitWriter<'a, u32, WDOGCFG_SPEC, bool, O>;
+pub type CmpipW<'a, REG> = crate::BitWriter<'a, REG>;
 impl R {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    pub fn scale(&self) -> SCALE_R {
-        SCALE_R::new((self.bits & 0x0f) as u8)
+    pub fn scale(&self) -> ScaleR {
+        ScaleR::new((self.bits & 0x0f) as u8)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn rsten(&self) -> RSTEN_R {
-        RSTEN_R::new(((self.bits >> 8) & 1) != 0)
+    pub fn rsten(&self) -> RstenR {
+        RstenR::new(((self.bits >> 8) & 1) != 0)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn zerocmp(&self) -> ZEROCMP_R {
-        ZEROCMP_R::new(((self.bits >> 9) & 1) != 0)
+    pub fn zerocmp(&self) -> ZerocmpR {
+        ZerocmpR::new(((self.bits >> 9) & 1) != 0)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn enalways(&self) -> ENALWAYS_R {
-        ENALWAYS_R::new(((self.bits >> 12) & 1) != 0)
+    pub fn enalways(&self) -> EnalwaysR {
+        EnalwaysR::new(((self.bits >> 12) & 1) != 0)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn encoreawake(&self) -> ENCOREAWAKE_R {
-        ENCOREAWAKE_R::new(((self.bits >> 13) & 1) != 0)
+    pub fn encoreawake(&self) -> EncoreawakeR {
+        EncoreawakeR::new(((self.bits >> 13) & 1) != 0)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn cmpip(&self) -> CMPIP_R {
-        CMPIP_R::new(((self.bits >> 28) & 1) != 0)
+    pub fn cmpip(&self) -> CmpipR {
+        CmpipR::new(((self.bits >> 28) & 1) != 0)
     }
 }
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    pub fn scale(&mut self) -> SCALE_W<0> {
-        SCALE_W::new(self)
+    #[must_use]
+    pub fn scale(&mut self) -> ScaleW<WdogcfgSpec> {
+        ScaleW::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn rsten(&mut self) -> RSTEN_W<8> {
-        RSTEN_W::new(self)
+    #[must_use]
+    pub fn rsten(&mut self) -> RstenW<WdogcfgSpec> {
+        RstenW::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn zerocmp(&mut self) -> ZEROCMP_W<9> {
-        ZEROCMP_W::new(self)
+    #[must_use]
+    pub fn zerocmp(&mut self) -> ZerocmpW<WdogcfgSpec> {
+        ZerocmpW::new(self, 9)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn enalways(&mut self) -> ENALWAYS_W<12> {
-        ENALWAYS_W::new(self)
+    #[must_use]
+    pub fn enalways(&mut self) -> EnalwaysW<WdogcfgSpec> {
+        EnalwaysW::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn encoreawake(&mut self) -> ENCOREAWAKE_W<13> {
-        ENCOREAWAKE_W::new(self)
+    #[must_use]
+    pub fn encoreawake(&mut self) -> EncoreawakeW<WdogcfgSpec> {
+        EncoreawakeW::new(self, 13)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn cmpip(&mut self) -> CMPIP_W<28> {
-        CMPIP_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn cmpip(&mut self) -> CmpipW<WdogcfgSpec> {
+        CmpipW::new(self, 28)
     }
 }
-#[doc = "Watchdog Configuration Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogcfg](index.html) module"]
-pub struct WDOGCFG_SPEC;
-impl crate::RegisterSpec for WDOGCFG_SPEC {
+#[doc = "Watchdog Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`wdogcfg::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`wdogcfg::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct WdogcfgSpec;
+impl crate::RegisterSpec for WdogcfgSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [wdogcfg::R](R) reader structure"]
-impl crate::Readable for WDOGCFG_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [wdogcfg::W](W) writer structure"]
-impl crate::Writable for WDOGCFG_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`wdogcfg::R`](R) reader structure"]
+impl crate::Readable for WdogcfgSpec {}
+#[doc = "`write(|w| ..)` method takes [`wdogcfg::W`](W) writer structure"]
+impl crate::Writable for WdogcfgSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets wdogcfg to value 0"]
-impl crate::Resettable for WDOGCFG_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for WdogcfgSpec {
+    const RESET_VALUE: u32 = 0;
 }

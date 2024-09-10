@@ -1,64 +1,27 @@
 #[doc = "Register `wdogs` reader"]
-pub struct R(crate::R<WDOGS_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<WDOGS_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<WDOGS_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<WDOGS_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<WdogsSpec>;
 #[doc = "Register `wdogs` writer"]
-pub struct W(crate::W<WDOGS_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<WDOGS_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
+pub type W = crate::W<WdogsSpec>;
+impl core::fmt::Debug for R {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        write!(f, "{}", self.bits())
     }
 }
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<WDOGS_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<WDOGS_SPEC>) -> Self {
-        W(writer)
-    }
-}
-impl W {
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
-    }
-}
-#[doc = "Watchdog Scaled Counter Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [wdogs](index.html) module"]
-pub struct WDOGS_SPEC;
-impl crate::RegisterSpec for WDOGS_SPEC {
+impl W {}
+#[doc = "Watchdog Scaled Counter Register\n\nYou can [`read`](crate::Reg::read) this register and get [`wdogs::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`wdogs::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct WdogsSpec;
+impl crate::RegisterSpec for WdogsSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [wdogs::R](R) reader structure"]
-impl crate::Readable for WDOGS_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [wdogs::W](W) writer structure"]
-impl crate::Writable for WDOGS_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`wdogs::R`](R) reader structure"]
+impl crate::Readable for WdogsSpec {}
+#[doc = "`write(|w| ..)` method takes [`wdogs::W`](W) writer structure"]
+impl crate::Writable for WdogsSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets wdogs to value 0"]
-impl crate::Resettable for WDOGS_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for WdogsSpec {
+    const RESET_VALUE: u32 = 0;
 }

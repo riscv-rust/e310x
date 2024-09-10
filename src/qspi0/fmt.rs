@@ -1,275 +1,252 @@
 #[doc = "Register `fmt` reader"]
-pub struct R(crate::R<FMT_SPEC>);
-impl core::ops::Deref for R {
-    type Target = crate::R<FMT_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl From<crate::R<FMT_SPEC>> for R {
-    #[inline(always)]
-    fn from(reader: crate::R<FMT_SPEC>) -> Self {
-        R(reader)
-    }
-}
+pub type R = crate::R<FmtSpec>;
 #[doc = "Register `fmt` writer"]
-pub struct W(crate::W<FMT_SPEC>);
-impl core::ops::Deref for W {
-    type Target = crate::W<FMT_SPEC>;
-    #[inline(always)]
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-impl core::ops::DerefMut for W {
-    #[inline(always)]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-impl From<crate::W<FMT_SPEC>> for W {
-    #[inline(always)]
-    fn from(writer: crate::W<FMT_SPEC>) -> Self {
-        W(writer)
-    }
-}
-#[doc = "Field `proto` reader - SPI protocol"]
-pub type PROTO_R = crate::FieldReader<u8, PROTO_A>;
+pub type W = crate::W<FmtSpec>;
 #[doc = "SPI protocol\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
-pub enum PROTO_A {
+pub enum Proto {
     #[doc = "0: DQ0 (MOSI), DQ1 (MISO)"]
-    SINGLE = 0,
+    Single = 0,
     #[doc = "1: DQ0, DQ1"]
-    DUAL = 1,
+    Dual = 1,
     #[doc = "2: DQ0, DQ1, DQ2, DQ3"]
-    QUAD = 2,
+    Quad = 2,
 }
-impl From<PROTO_A> for u8 {
+impl From<Proto> for u8 {
     #[inline(always)]
-    fn from(variant: PROTO_A) -> Self {
+    fn from(variant: Proto) -> Self {
         variant as _
     }
 }
-impl PROTO_R {
+impl crate::FieldSpec for Proto {
+    type Ux = u8;
+}
+impl crate::IsEnum for Proto {}
+#[doc = "Field `proto` reader - SPI protocol"]
+pub type ProtoR = crate::FieldReader<Proto>;
+impl ProtoR {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> Option<PROTO_A> {
+    pub const fn variant(&self) -> Option<Proto> {
         match self.bits {
-            0 => Some(PROTO_A::SINGLE),
-            1 => Some(PROTO_A::DUAL),
-            2 => Some(PROTO_A::QUAD),
+            0 => Some(Proto::Single),
+            1 => Some(Proto::Dual),
+            2 => Some(Proto::Quad),
             _ => None,
         }
     }
-    #[doc = "Checks if the value of the field is `SINGLE`"]
-    #[inline(always)]
-    pub fn is_single(&self) -> bool {
-        *self == PROTO_A::SINGLE
-    }
-    #[doc = "Checks if the value of the field is `DUAL`"]
-    #[inline(always)]
-    pub fn is_dual(&self) -> bool {
-        *self == PROTO_A::DUAL
-    }
-    #[doc = "Checks if the value of the field is `QUAD`"]
-    #[inline(always)]
-    pub fn is_quad(&self) -> bool {
-        *self == PROTO_A::QUAD
-    }
-}
-#[doc = "Field `proto` writer - SPI protocol"]
-pub type PROTO_W<'a, const O: u8> = crate::FieldWriter<'a, u32, FMT_SPEC, u8, PROTO_A, 2, O>;
-impl<'a, const O: u8> PROTO_W<'a, O> {
     #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
     #[inline(always)]
-    pub fn single(self) -> &'a mut W {
-        self.variant(PROTO_A::SINGLE)
+    pub fn is_single(&self) -> bool {
+        *self == Proto::Single
     }
     #[doc = "DQ0, DQ1"]
     #[inline(always)]
-    pub fn dual(self) -> &'a mut W {
-        self.variant(PROTO_A::DUAL)
+    pub fn is_dual(&self) -> bool {
+        *self == Proto::Dual
     }
     #[doc = "DQ0, DQ1, DQ2, DQ3"]
     #[inline(always)]
-    pub fn quad(self) -> &'a mut W {
-        self.variant(PROTO_A::QUAD)
+    pub fn is_quad(&self) -> bool {
+        *self == Proto::Quad
+    }
+}
+#[doc = "Field `proto` writer - SPI protocol"]
+pub type ProtoW<'a, REG> = crate::FieldWriter<'a, REG, 2, Proto>;
+impl<'a, REG> ProtoW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+    REG::Ux: From<u8>,
+{
+    #[doc = "DQ0 (MOSI), DQ1 (MISO)"]
+    #[inline(always)]
+    pub fn single(self) -> &'a mut crate::W<REG> {
+        self.variant(Proto::Single)
+    }
+    #[doc = "DQ0, DQ1"]
+    #[inline(always)]
+    pub fn dual(self) -> &'a mut crate::W<REG> {
+        self.variant(Proto::Dual)
+    }
+    #[doc = "DQ0, DQ1, DQ2, DQ3"]
+    #[inline(always)]
+    pub fn quad(self) -> &'a mut crate::W<REG> {
+        self.variant(Proto::Quad)
+    }
+}
+#[doc = "SPI endianness\n\nValue on reset: 0"]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Endian {
+    #[doc = "0: Transmit MSB first."]
+    Big = 0,
+    #[doc = "1: Transmit LSB first."]
+    Little = 1,
+}
+impl From<Endian> for bool {
+    #[inline(always)]
+    fn from(variant: Endian) -> Self {
+        variant as u8 != 0
     }
 }
 #[doc = "Field `endian` reader - SPI endianness"]
-pub type ENDIAN_R = crate::BitReader<ENDIAN_A>;
-#[doc = "SPI endianness\n\nValue on reset: 0"]
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum ENDIAN_A {
-    #[doc = "0: Transmit MSB first."]
-    BIG = 0,
-    #[doc = "1: Transmit LSB first."]
-    LITTLE = 1,
-}
-impl From<ENDIAN_A> for bool {
-    #[inline(always)]
-    fn from(variant: ENDIAN_A) -> Self {
-        variant as u8 != 0
-    }
-}
-impl ENDIAN_R {
+pub type EndianR = crate::BitReader<Endian>;
+impl EndianR {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> ENDIAN_A {
+    pub const fn variant(&self) -> Endian {
         match self.bits {
-            false => ENDIAN_A::BIG,
-            true => ENDIAN_A::LITTLE,
+            false => Endian::Big,
+            true => Endian::Little,
         }
     }
-    #[doc = "Checks if the value of the field is `BIG`"]
-    #[inline(always)]
-    pub fn is_big(&self) -> bool {
-        *self == ENDIAN_A::BIG
-    }
-    #[doc = "Checks if the value of the field is `LITTLE`"]
-    #[inline(always)]
-    pub fn is_little(&self) -> bool {
-        *self == ENDIAN_A::LITTLE
-    }
-}
-#[doc = "Field `endian` writer - SPI endianness"]
-pub type ENDIAN_W<'a, const O: u8> = crate::BitWriter<'a, u32, FMT_SPEC, ENDIAN_A, O>;
-impl<'a, const O: u8> ENDIAN_W<'a, O> {
     #[doc = "Transmit MSB first."]
     #[inline(always)]
-    pub fn big(self) -> &'a mut W {
-        self.variant(ENDIAN_A::BIG)
+    pub fn is_big(&self) -> bool {
+        *self == Endian::Big
     }
     #[doc = "Transmit LSB first."]
     #[inline(always)]
-    pub fn little(self) -> &'a mut W {
-        self.variant(ENDIAN_A::LITTLE)
+    pub fn is_little(&self) -> bool {
+        *self == Endian::Little
     }
 }
-#[doc = "Field `dir` reader - SPI I/O direction"]
-pub type DIR_R = crate::BitReader<DIR_A>;
+#[doc = "Field `endian` writer - SPI endianness"]
+pub type EndianW<'a, REG> = crate::BitWriter<'a, REG, Endian>;
+impl<'a, REG> EndianW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
+    #[doc = "Transmit MSB first."]
+    #[inline(always)]
+    pub fn big(self) -> &'a mut crate::W<REG> {
+        self.variant(Endian::Big)
+    }
+    #[doc = "Transmit LSB first."]
+    #[inline(always)]
+    pub fn little(self) -> &'a mut crate::W<REG> {
+        self.variant(Endian::Little)
+    }
+}
 #[doc = "SPI I/O direction\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum DIR_A {
+pub enum Dir {
     #[doc = "0: For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal."]
-    RX = 0,
+    Rx = 0,
     #[doc = "1: The receive FIFO is not populated."]
-    TX = 1,
+    Tx = 1,
 }
-impl From<DIR_A> for bool {
+impl From<Dir> for bool {
     #[inline(always)]
-    fn from(variant: DIR_A) -> Self {
+    fn from(variant: Dir) -> Self {
         variant as u8 != 0
     }
 }
-impl DIR_R {
+#[doc = "Field `dir` reader - SPI I/O direction"]
+pub type DirR = crate::BitReader<Dir>;
+impl DirR {
     #[doc = "Get enumerated values variant"]
     #[inline(always)]
-    pub fn variant(&self) -> DIR_A {
+    pub const fn variant(&self) -> Dir {
         match self.bits {
-            false => DIR_A::RX,
-            true => DIR_A::TX,
+            false => Dir::Rx,
+            true => Dir::Tx,
         }
     }
-    #[doc = "Checks if the value of the field is `RX`"]
-    #[inline(always)]
-    pub fn is_rx(&self) -> bool {
-        *self == DIR_A::RX
-    }
-    #[doc = "Checks if the value of the field is `TX`"]
-    #[inline(always)]
-    pub fn is_tx(&self) -> bool {
-        *self == DIR_A::TX
-    }
-}
-#[doc = "Field `dir` writer - SPI I/O direction"]
-pub type DIR_W<'a, const O: u8> = crate::BitWriter<'a, u32, FMT_SPEC, DIR_A, O>;
-impl<'a, const O: u8> DIR_W<'a, O> {
     #[doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal."]
     #[inline(always)]
-    pub fn rx(self) -> &'a mut W {
-        self.variant(DIR_A::RX)
+    pub fn is_rx(&self) -> bool {
+        *self == Dir::Rx
     }
     #[doc = "The receive FIFO is not populated."]
     #[inline(always)]
-    pub fn tx(self) -> &'a mut W {
-        self.variant(DIR_A::TX)
+    pub fn is_tx(&self) -> bool {
+        *self == Dir::Tx
+    }
+}
+#[doc = "Field `dir` writer - SPI I/O direction"]
+pub type DirW<'a, REG> = crate::BitWriter<'a, REG, Dir>;
+impl<'a, REG> DirW<'a, REG>
+where
+    REG: crate::Writable + crate::RegisterSpec,
+{
+    #[doc = "For dual and quad protocols, the DQ pins are tri-stated. For the single protocol, the DQ0 pin is driven with the transmit data as normal."]
+    #[inline(always)]
+    pub fn rx(self) -> &'a mut crate::W<REG> {
+        self.variant(Dir::Rx)
+    }
+    #[doc = "The receive FIFO is not populated."]
+    #[inline(always)]
+    pub fn tx(self) -> &'a mut crate::W<REG> {
+        self.variant(Dir::Tx)
     }
 }
 #[doc = "Field `len` reader - Number of bits per frame"]
-pub type LEN_R = crate::FieldReader<u8, u8>;
+pub type LenR = crate::FieldReader;
 #[doc = "Field `len` writer - Number of bits per frame"]
-pub type LEN_W<'a, const O: u8> = crate::FieldWriter<'a, u32, FMT_SPEC, u8, u8, 4, O>;
+pub type LenW<'a, REG> = crate::FieldWriter<'a, REG, 4>;
 impl R {
     #[doc = "Bits 0:1 - SPI protocol"]
     #[inline(always)]
-    pub fn proto(&self) -> PROTO_R {
-        PROTO_R::new((self.bits & 3) as u8)
+    pub fn proto(&self) -> ProtoR {
+        ProtoR::new((self.bits & 3) as u8)
     }
     #[doc = "Bit 2 - SPI endianness"]
     #[inline(always)]
-    pub fn endian(&self) -> ENDIAN_R {
-        ENDIAN_R::new(((self.bits >> 2) & 1) != 0)
+    pub fn endian(&self) -> EndianR {
+        EndianR::new(((self.bits >> 2) & 1) != 0)
     }
     #[doc = "Bit 3 - SPI I/O direction"]
     #[inline(always)]
-    pub fn dir(&self) -> DIR_R {
-        DIR_R::new(((self.bits >> 3) & 1) != 0)
+    pub fn dir(&self) -> DirR {
+        DirR::new(((self.bits >> 3) & 1) != 0)
     }
     #[doc = "Bits 16:19 - Number of bits per frame"]
     #[inline(always)]
-    pub fn len(&self) -> LEN_R {
-        LEN_R::new(((self.bits >> 16) & 0x0f) as u8)
+    pub fn len(&self) -> LenR {
+        LenR::new(((self.bits >> 16) & 0x0f) as u8)
     }
 }
 impl W {
     #[doc = "Bits 0:1 - SPI protocol"]
     #[inline(always)]
-    pub fn proto(&mut self) -> PROTO_W<0> {
-        PROTO_W::new(self)
+    #[must_use]
+    pub fn proto(&mut self) -> ProtoW<FmtSpec> {
+        ProtoW::new(self, 0)
     }
     #[doc = "Bit 2 - SPI endianness"]
     #[inline(always)]
-    pub fn endian(&mut self) -> ENDIAN_W<2> {
-        ENDIAN_W::new(self)
+    #[must_use]
+    pub fn endian(&mut self) -> EndianW<FmtSpec> {
+        EndianW::new(self, 2)
     }
     #[doc = "Bit 3 - SPI I/O direction"]
     #[inline(always)]
-    pub fn dir(&mut self) -> DIR_W<3> {
-        DIR_W::new(self)
+    #[must_use]
+    pub fn dir(&mut self) -> DirW<FmtSpec> {
+        DirW::new(self, 3)
     }
     #[doc = "Bits 16:19 - Number of bits per frame"]
     #[inline(always)]
-    pub fn len(&mut self) -> LEN_W<16> {
-        LEN_W::new(self)
-    }
-    #[doc = "Writes raw bits to the register."]
-    #[inline(always)]
-    pub unsafe fn bits(&mut self, bits: u32) -> &mut Self {
-        self.0.bits(bits);
-        self
+    #[must_use]
+    pub fn len(&mut self) -> LenW<FmtSpec> {
+        LenW::new(self, 16)
     }
 }
-#[doc = "Frame Format Register\n\nThis register you can [`read`](crate::generic::Reg::read), [`write_with_zero`](crate::generic::Reg::write_with_zero), [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`modify`](crate::generic::Reg::modify). See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [fmt](index.html) module"]
-pub struct FMT_SPEC;
-impl crate::RegisterSpec for FMT_SPEC {
+#[doc = "Frame Format Register\n\nYou can [`read`](crate::Reg::read) this register and get [`fmt::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`fmt::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct FmtSpec;
+impl crate::RegisterSpec for FmtSpec {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [fmt::R](R) reader structure"]
-impl crate::Readable for FMT_SPEC {
-    type Reader = R;
-}
-#[doc = "`write(|w| ..)` method takes [fmt::W](W) writer structure"]
-impl crate::Writable for FMT_SPEC {
-    type Writer = W;
+#[doc = "`read()` method returns [`fmt::R`](R) reader structure"]
+impl crate::Readable for FmtSpec {}
+#[doc = "`write(|w| ..)` method takes [`fmt::W`](W) writer structure"]
+impl crate::Writable for FmtSpec {
+    type Safety = crate::Unsafe;
+    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
+    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets fmt to value 0"]
-impl crate::Resettable for FMT_SPEC {
-    #[inline(always)]
-    fn reset_value() -> Self::Ux {
-        0
-    }
+impl crate::Resettable for FmtSpec {
+    const RESET_VALUE: u32 = 0;
 }
