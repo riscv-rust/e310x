@@ -1,0 +1,29 @@
+name: Changelog check
+
+on:
+  merge_group:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+jobs:
+  changelog-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check which component is modified 
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            e310x:
+              - 'e310x/**'
+
+      - name: Check for CHANGELOG.md (e310x)
+        if: steps.changes.outputs['e310x'] == 'true'
+        uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: ./e310x/CHANGELOG.md
+          skipLabels: 'skip changelog'
+          missingUpdateErrorMessage: 'Please add a changelog entry in the e310x/CHANGELOG.md file.'
