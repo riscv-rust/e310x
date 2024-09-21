@@ -74,65 +74,65 @@ fn atomic_set_bit(r: &AtomicU32, index: usize, bit: bool) {
 }
 
 trait PeripheralAccess {
-    fn peripheral() -> &'static e310x::gpio0::RegisterBlock;
+    fn peripheral() -> e310x::Gpio0;
 
     fn input_value(index: usize) -> bool {
         let p = Self::peripheral();
-        (p.input_val.read().bits() >> (index & 31) & 1) != 0
+        (p.input_val().read().bits() >> (index & 31) & 1) != 0
     }
 
     fn set_input_en(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.input_en) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.input_en()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_output_en(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_en) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_en()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_output_value(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn toggle_pin(index: usize) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val()) };
         let mask = 1 << (index & 31);
         r.fetch_xor(mask, Ordering::SeqCst);
     }
 
     fn set_pullup(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.pullup) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.pullup()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_drive(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.drive) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.drive()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_out_xor(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.out_xor) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.out_xor()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_iof_en(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.iof_en) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.iof_en()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_iof_sel(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.iof_sel) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.iof_sel()) };
         atomic_set_bit(r, index, bit);
     }
 }
@@ -162,8 +162,8 @@ macro_rules! gpio {
 
             impl PeripheralAccess for $GPIOX {
                 #[inline(always)]
-                fn peripheral() -> &'static e310x::gpio0::RegisterBlock {
-                    unsafe { &*$GPIOX::ptr() }
+                fn peripheral() -> e310x::Gpio0 {
+                    unsafe { $GPIOX::steal() }
                 }
             }
 
@@ -333,7 +333,7 @@ macro_rules! gpio {
 // By default, all GPIOs are in the Unknown state for two reasons:
 // * bootloader may reconfigure some GPIOs
 // * we do not enforce any specific state in `split()`
-gpio!(GPIO0, gpio0, [
+gpio!(Gpio0, gpio0, [
     Pin0: (pin0, 0, Unknown),
     Pin1: (pin1, 1, Unknown),
     Pin2: (pin2, 2, Unknown),

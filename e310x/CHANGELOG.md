@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
-- Bump MSRV to 1.65.0
+- Bump MSRV to 1.65.0 (check Cargo.toml)
 - Regenerate code with `svd2rust` v0.33.4
 
 ## [v0.11.0]

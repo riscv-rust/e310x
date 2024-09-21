@@ -1,6 +1,6 @@
 //! Core-Local Interruptor
 
-use e310x::CLINT;
+use e310x::Clint as CLINT;
 
 macro_rules! read64 {
     ($hi:expr, $lo:expr) => {
@@ -23,8 +23,8 @@ impl MSIP {
     /// Set msip register value
     pub fn set_value(&mut self, value: bool) {
         unsafe {
-            (*CLINT::ptr())
-                .msip
+            CLINT::steal()
+                .msip()
                 .write(|w| if value { w.bits(1) } else { w.bits(0) })
         }
     }
@@ -37,13 +37,13 @@ impl MTIME {
     /// Read mtime register.
     #[inline]
     pub fn mtime_lo(&self) -> u32 {
-        unsafe { (*CLINT::ptr()).mtime.read().bits() }
+        unsafe { CLINT::steal() }.mtime().read().bits()
     }
 
     /// Read mtimeh register.
     #[inline]
     pub fn mtime_hi(&self) -> u32 {
-        unsafe { (*CLINT::ptr()).mtimeh.read().bits() }
+        unsafe { CLINT::steal() }.mtimeh().read().bits()
     }
 
     /// Read mtime and mtimeh registers.
@@ -61,13 +61,13 @@ impl MTIMECMP {
     /// Read mtimecmp register.
     #[inline]
     pub fn mtimecmp_lo(&self) -> u32 {
-        unsafe { (*CLINT::ptr()).mtimecmp.read().bits() }
+        unsafe { CLINT::steal() }.mtimecmp().read().bits()
     }
 
     /// Read mtimecmph register.
     #[inline]
     pub fn mtimecmp_hi(&self) -> u32 {
-        unsafe { (*CLINT::ptr()).mtimecmph.read().bits() }
+        unsafe { CLINT::steal() }.mtimecmph().read().bits()
     }
 
     /// Read mtimecmp and mtimecmph registers.
@@ -78,13 +78,13 @@ impl MTIMECMP {
     /// Write mtimecmp register
     #[inline]
     pub fn set_mtimecmp_lo(&mut self, value: u32) {
-        unsafe { (*CLINT::ptr()).mtimecmp.write(|w| w.bits(value)) };
+        unsafe { CLINT::steal().mtimecmp().write(|w| w.bits(value)) };
     }
 
     /// Write mtimecmph register
     #[inline]
     pub fn set_mtimecmp_hi(&mut self, value: u32) {
-        unsafe { (*CLINT::ptr()).mtimecmph.write(|w| w.bits(value)) };
+        unsafe { CLINT::steal().mtimecmph().write(|w| w.bits(value)) };
     }
 
     /// Write mtimecmp and mtimecmph registers.

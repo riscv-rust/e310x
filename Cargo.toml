@@ -2,4 +2,5 @@
 resolver = "2"
 members = [
     "e310x",
+    "e310x-hal",
 ]

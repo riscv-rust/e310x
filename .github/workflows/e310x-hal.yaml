@@ -1,0 +1,51 @@
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  merge_group:
+
+name: Build check (e310x-hal)
+
+jobs:
+  # We check that the crate builds and links for all the toolchains and targets.
+  build-riscv:
+    strategy:
+      matrix:
+        # All generated code should be running on stable now, MRSV is 1.65.0
+        toolchain: [ stable, nightly, 1.65.0 ]
+        target:
+          - riscv32imc-unknown-none-elf
+          - riscv32imac-unknown-none-elf # TODO e310x is not a purely IMAC core
+        include:
+          # Nightly is only for reference and allowed to fail
+          - toolchain: nightly
+            experimental: true
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Update Rust toolchain
+      run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+    - name: Install Rust target
+      run: rustup target install ${{ matrix.target }}
+    - name: Build (no features)
+      run: cargo build --package e310x-hal --target ${{ matrix.target }}
+    - name: Build (all features)
+      run: cargo build --package e310x-hal --target ${{ matrix.target }} --all-features
+
+  # On MacOS and Ubuntu, we at least make sure that the crate builds and links.
+  # On Windows, linking fails when the rt feature is enabled.
+  build-others:
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Rust toolchain
+        run: rustup update stable && rustup default stable
+      - name: Build (no features)
+        run: cargo test --package e310x-hal
+      - name: Build (all features)
+        run: cargo test --package e310x-hal --all-features
+  

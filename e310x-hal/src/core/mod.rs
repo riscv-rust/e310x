@@ -17,7 +17,7 @@ pub struct CorePeripherals {
 }
 
 impl CorePeripherals {
-    pub(crate) fn new(clint: e310x::CLINT, plic: e310x::PLIC) -> Self {
+    pub(crate) fn new(clint: e310x::Clint, plic: e310x::Plic) -> Self {
         Self {
             clint: clint.into(),
             plic: plic.into(),
@@ -28,6 +28,6 @@ impl CorePeripherals {
     /// Steal the peripherals
     pub unsafe fn steal() -> Self {
         let p = e310x::Peripherals::steal();
-        Self::new(p.CLINT, p.PLIC)
+        Self::new(p.clint, p.plic)
     }
 }

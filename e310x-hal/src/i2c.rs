@@ -15,7 +15,7 @@ use crate::gpio::{gpio0, IOF0};
 use crate::time::Bps;
 use core::mem;
 use core::ops::Deref;
-use e310x::{i2c0, I2C0};
+use e310x::{i2c0, I2c0};
 use embedded_hal::blocking::i2c::{Read, Write, WriteRead};
 
 /// SDA pin - DO NOT IMPLEMENT THIS TRAIT
@@ -23,8 +23,8 @@ pub unsafe trait SdaPin<I2C> {}
 /// SCL pin - DO NOT IMPLEMENT THIS TRAIT
 pub unsafe trait SclPin<I2C> {}
 
-unsafe impl<T> SdaPin<I2C0> for gpio0::Pin12<IOF0<T>> {}
-unsafe impl<T> SclPin<I2C0> for gpio0::Pin13<IOF0<T>> {}
+unsafe impl<T> SdaPin<I2c0> for gpio0::Pin12<IOF0<T>> {}
+unsafe impl<T> SclPin<I2c0> for gpio0::Pin13<IOF0<T>> {}
 
 /// I2C error
 #[derive(Debug, Eq, PartialEq)]
@@ -57,12 +57,12 @@ pub struct I2c<I2C, PINS> {
     pins: PINS,
 }
 
-impl<SDA, SCL> I2c<I2C0, (SDA, SCL)> {
+impl<SDA, SCL> I2c<I2c0, (SDA, SCL)> {
     /// Configures an I2C peripheral
-    pub fn new(i2c: I2C0, sda: SDA, scl: SCL, speed: Speed, clocks: Clocks) -> Self
+    pub fn new(i2c: I2c0, sda: SDA, scl: SCL, speed: Speed, clocks: Clocks) -> Self
     where
-        SDA: SdaPin<I2C0>,
-        SCL: SclPin<I2C0>,
+        SDA: SdaPin<I2c0>,
+        SCL: SclPin<I2c0>,
     {
         // Calculate prescaler value
         let desired_speed = match speed {
@@ -76,18 +76,18 @@ impl<SDA, SCL> I2c<I2C0, (SDA, SCL)> {
         assert!(prescaler < (1 << 16));
 
         // Turn off i2c
-        i2c.ctr.write(|w| w.en().clear_bit().ien().clear_bit());
+        i2c.ctr().write(|w| w.en().clear_bit().ien().clear_bit());
 
         // Set prescaler
         let prescaler_lo = (prescaler & 0xff) as u8;
         let prescaler_hi = ((prescaler >> 8) & 0xff) as u8;
-        i2c.prer_lo
+        i2c.prer_lo()
             .write(|w| unsafe { w.value().bits(prescaler_lo) });
-        i2c.prer_hi
+        i2c.prer_hi()
             .write(|w| unsafe { w.value().bits(prescaler_hi) });
 
         // Turn on i2c
-        i2c.ctr.write(|w| w.en().set_bit());
+        i2c.ctr().write(|w| w.en().set_bit());
 
         Self {
             i2c,
@@ -125,11 +125,11 @@ impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
     }
 
     fn write_byte(&self, byte: u8) {
-        self.i2c.txr_rxr.write(|w| unsafe { w.data().bits(byte) });
+        self.i2c.txr_rxr().write(|w| unsafe { w.data().bits(byte) });
     }
 
     fn read_byte(&self) -> u8 {
-        self.i2c.txr_rxr.read().data().bits()
+        self.i2c.txr_rxr().read().data().bits()
     }
 
     fn wait_for_interrupt(&self) -> Result<(), Error> {

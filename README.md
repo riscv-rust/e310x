@@ -3,6 +3,7 @@
 This repository contains various crates useful for writing Rust programs on E310x microcontrollers:
 
 * [`e310x`]: Peripheral Access Crate (PAC) for E310x chips.
+* [`e310x-hal`]: HAL for the E310x family of microcontrollers.
 
 This project is developed and maintained by the [RISC-V team][team].
 

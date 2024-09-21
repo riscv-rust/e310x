@@ -1,7 +1,7 @@
 use core::convert::Infallible;
 use embedded_hal::blocking::spi::Operation;
 pub use embedded_hal::blocking::spi::{Transfer, Write, WriteIter};
-pub use embedded_hal::spi::{FullDuplex, Mode, Phase, Polarity, MODE_0, MODE_1, MODE_2, MODE_3};
+pub use embedded_hal::spi::{FullDuplex, Phase, Polarity};
 
 use nb;
 
@@ -36,25 +36,27 @@ where
         PINS: Pins<SPI>,
     {
         self.spi
-            .sckdiv
+            .sckdiv()
             .write(|w| unsafe { w.div().bits(config.clock_divisor as u16) });
 
         if let Some(index) = cs_index {
-            self.spi.csid.write(|w| unsafe { w.bits(index) });
+            self.spi.csid().write(|w| unsafe { w.bits(index) });
         }
-        self.spi.csmode.write(|w| w.mode().variant(config.cs_mode));
+        self.spi
+            .csmode()
+            .write(|w| w.mode().variant(config.cs_mode));
 
         // Set CS pin polarity to high
-        self.spi.csdef.reset();
+        self.spi.csdef().reset();
 
         // Set SPI mode
         let phase = config.mode.phase == Phase::CaptureOnSecondTransition;
         let polarity = config.mode.polarity == Polarity::IdleHigh;
         self.spi
-            .sckmode
+            .sckmode()
             .write(|w| w.pha().bit(phase).pol().bit(polarity));
 
-        self.spi.fmt.write(|w| unsafe {
+        self.spi.fmt().write(|w| unsafe {
             w.proto().single();
             w.endian().big(); // Transmit most-significant bit (MSB) first
             w.dir().rx();
@@ -63,18 +65,18 @@ where
 
         // Set watermark levels
         self.spi
-            .txmark
+            .txmark()
             .write(|w| unsafe { w.txmark().bits(config.txmark) });
         self.spi
-            .rxmark
+            .rxmark()
             .write(|w| unsafe { w.rxmark().bits(config.rxmark) });
 
         // set delays
-        self.spi.delay0.write(|w| unsafe {
+        self.spi.delay0().write(|w| unsafe {
             w.cssck().bits(config.delays.cssck); // delay between assert and clock
             w.sckcs().bits(config.delays.sckcs) // delay between clock and de-assert
         });
-        self.spi.delay1.write(|w| unsafe {
+        self.spi.delay1().write(|w| unsafe {
             w.intercs().bits(config.delays.intercs); // delay between CS re-assets
             w.interxfr().bits(config.delays.interxfr) // intra-frame delay without CS re-asserts
         });
@@ -84,27 +86,27 @@ where
 
     fn wait_for_rxfifo(&self) {
         // Ensure that RX FIFO is empty
-        while self.spi.rxdata.read().empty().bit_is_clear() {}
+        while self.spi.rxdata().read().empty().bit_is_clear() {}
     }
 
     /// Starts frame by flagging CS assert, unless CSMODE = OFF
     pub(crate) fn start_frame(&mut self) {
-        if !self.spi.csmode.read().mode().is_off() {
-            self.spi.csmode.write(|w| w.mode().hold());
+        if !self.spi.csmode().read().mode().is_off() {
+            self.spi.csmode().write(|w| w.mode().hold());
         }
     }
 
     /// Finishes frame flagging CS deassert, unless CSMODE = OFF
     pub(crate) fn end_frame(&mut self) {
-        if !self.spi.csmode.read().mode().is_off() {
-            self.spi.csmode.write(|w| w.mode().auto());
+        if !self.spi.csmode().read().mode().is_off() {
+            self.spi.csmode().write(|w| w.mode().auto());
         }
     }
 
     // ex-traits now only accessible via devices
 
     pub(crate) fn read(&mut self) -> nb::Result<u8, Infallible> {
-        let rxdata = self.spi.rxdata.read();
+        let rxdata = self.spi.rxdata().read();
 
         if rxdata.empty().bit_is_set() {
             Err(nb::Error::WouldBlock)
@@ -114,12 +116,12 @@ where
     }
 
     pub(crate) fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
-        let txdata = self.spi.txdata.read();
+        let txdata = self.spi.txdata().read();
 
         if txdata.full().bit_is_set() {
             Err(nb::Error::WouldBlock)
         } else {
-            self.spi.txdata.write(|w| unsafe { w.data().bits(byte) });
+            self.spi.txdata().write(|w| unsafe { w.data().bits(byte) });
             Ok(())
         }
     }
@@ -132,14 +134,14 @@ where
         self.wait_for_rxfifo();
 
         while iwrite < words.len() || iread < words.len() {
-            if iwrite < words.len() && self.spi.txdata.read().full().bit_is_clear() {
+            if iwrite < words.len() && self.spi.txdata().read().full().bit_is_clear() {
                 let byte = unsafe { words.get_unchecked(iwrite) };
                 iwrite += 1;
-                self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
+                self.spi.txdata().write(|w| unsafe { w.data().bits(*byte) });
             }
 
             if iread < iwrite {
-                let data = self.spi.rxdata.read();
+                let data = self.spi.rxdata().read();
                 if data.empty().bit_is_clear() {
                     unsafe { *words.get_unchecked_mut(iread) = data.data().bits() };
                     iread += 1;
@@ -158,15 +160,15 @@ where
         self.wait_for_rxfifo();
 
         while iwrite < words.len() || iread < words.len() {
-            if iwrite < words.len() && self.spi.txdata.read().full().bit_is_clear() {
+            if iwrite < words.len() && self.spi.txdata().read().full().bit_is_clear() {
                 let byte = unsafe { words.get_unchecked(iwrite) };
                 iwrite += 1;
-                self.spi.txdata.write(|w| unsafe { w.data().bits(*byte) });
+                self.spi.txdata().write(|w| unsafe { w.data().bits(*byte) });
             }
 
             if iread < iwrite {
                 // Read and discard byte, if any
-                if self.spi.rxdata.read().empty().bit_is_clear() {
+                if self.spi.rxdata().read().empty().bit_is_clear() {
                     iread += 1;
                 }
             }
@@ -188,9 +190,9 @@ where
         self.wait_for_rxfifo();
 
         while has_data || read_count > 0 {
-            if has_data && self.spi.txdata.read().full().bit_is_clear() {
+            if has_data && self.spi.txdata().read().full().bit_is_clear() {
                 if let Some(byte) = iter.next() {
-                    self.spi.txdata.write(|w| unsafe { w.data().bits(byte) });
+                    self.spi.txdata().write(|w| unsafe { w.data().bits(byte) });
                     read_count += 1;
                 } else {
                     has_data = false;
@@ -199,7 +201,7 @@ where
 
             if read_count > 0 {
                 // Read and discard byte, if any
-                if self.spi.rxdata.read().empty().bit_is_clear() {
+                if self.spi.rxdata().read().empty().bit_is_clear() {
                     read_count -= 1;
                 }
             }

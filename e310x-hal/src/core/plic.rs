@@ -1,7 +1,7 @@
 //! Platform-Level Interrupt Controller
 use core::marker::PhantomData;
 use e310x::Interrupt;
-use e310x::PLIC;
+use e310x::Plic as PLIC;
 use riscv::register::{mie, mip};
 
 /// Priority of a plic::Interrupt.
@@ -145,7 +145,7 @@ impl THRESHOLD {
     /// Returns the current active priority threshold.
     pub fn get(&self) -> Priority {
         // NOTE: Atomic read with no side effects.
-        let threshold = unsafe { (*PLIC::ptr()).threshold.read() };
+        let threshold = unsafe { PLIC::steal() }.threshold().read();
         Priority::from(threshold.bits()).unwrap()
     }
 
@@ -153,9 +153,7 @@ impl THRESHOLD {
     /// deactivates all interrupts with a lower priority.
     pub fn set(&mut self, priority: Priority) {
         // NOTE: Atomic write with no side effects.
-        unsafe {
-            (*PLIC::ptr()).threshold.write(|w| w.bits(priority.into()));
-        }
+        unsafe { PLIC::steal().threshold().write(|w| w.bits(priority.into())) };
     }
 }
 
@@ -168,7 +166,7 @@ impl CLAIM {
     /// Claims the interrupt with the highest priority.
     pub fn claim(&mut self) -> Option<Interrupt> {
         // NOTE: Atomic read with side effects.
-        let intr = unsafe { (*PLIC::ptr()).claim.read().bits() };
+        let intr = unsafe { PLIC::steal() }.claim().read().bits();
 
         // If no interrupt is pending return None
         if intr == 0 {
@@ -181,9 +179,7 @@ impl CLAIM {
     /// Notifies the PLIC that a claimed interrupt is complete.
     pub fn complete(&mut self, intr: Interrupt) {
         // NOTE: Atomic write with side effects.
-        unsafe {
-            (*PLIC::ptr()).claim.write(|w| w.bits(intr as u32));
-        }
+        unsafe { PLIC::steal().claim().write(|w| w.bits(intr as u32)) };
     }
 }
 
@@ -204,8 +200,10 @@ impl<IRQ> INTERRUPT<IRQ> {
     pub fn enable(&mut self) {
         // NOTE: should use atomic operations
         unsafe {
-            (*PLIC::ptr()).enable[self.offset].modify(|r, w| w.bits(r.bits() | self.mask));
-        }
+            PLIC::steal()
+                .enable(self.offset)
+                .modify(|r, w| w.bits(r.bits() | self.mask))
+        };
     }
 
     /// Disable IRQ interrupt.
@@ -213,28 +211,32 @@ impl<IRQ> INTERRUPT<IRQ> {
     pub fn disable(&mut self) {
         // NOTE: should use atomic operations
         unsafe {
-            (*PLIC::ptr()).enable[self.offset].modify(|r, w| w.bits(r.bits() & !self.mask));
-        }
+            PLIC::steal()
+                .enable(self.offset)
+                .modify(|r, w| w.bits(r.bits() & !self.mask))
+        };
     }
 
     /// Returns true when IRQ interrupt is pending.
     pub fn is_pending(&self) -> bool {
         // NOTE: Atomic write without side effects.
-        let pending = unsafe { (*PLIC::ptr()).pending[self.offset].read() };
+        let pending = unsafe { PLIC::steal() }.pending(self.offset).read();
         pending.bits() & self.mask == self.mask
     }
 
     /// Returns true when WDOG interrupt is enabled.
     pub fn is_enabled(&self) -> bool {
         // NOTE: Atomic write without side effects.
-        let enabled = unsafe { (*PLIC::ptr()).enable[self.offset].read() };
+        let enabled = unsafe { PLIC::steal() }.enable(self.offset).read();
         enabled.bits() & self.mask == self.mask
     }
 
     /// Returns the priority of the IRQ interrupt.
     pub fn priority(&self) -> Priority {
         // NOTE: Atomic read without side effects.
-        let priority = unsafe { (*PLIC::ptr()).priority[self.priority_offset].read() };
+        let priority = unsafe { PLIC::steal() }
+            .priority(self.priority_offset)
+            .read();
         Priority::from(priority.bits()).unwrap()
     }
 
@@ -242,7 +244,9 @@ impl<IRQ> INTERRUPT<IRQ> {
     pub fn set_priority(&mut self, priority: Priority) {
         // NOTE: Atomic write without side effects.
         unsafe {
-            (*PLIC::ptr()).priority[self.priority_offset].write(|w| w.bits(priority as u32));
-        }
+            PLIC::steal()
+                .priority(self.priority_offset)
+                .write(|w| w.bits(priority as u32))
+        };
     }
 }

@@ -1,4 +1,4 @@
-use e310x::qspi0::csmode::MODE_A;
+use e310x::qspi0::csmode::Mode as MODE_A;
 use embedded_hal::spi::Mode;
 
 use crate::{clock::Clocks, time::Hertz};
@@ -44,7 +44,7 @@ impl SpiConfig {
         Self {
             mode,
             clock_divisor,
-            cs_mode: MODE_A::HOLD,
+            cs_mode: MODE_A::Hold,
             txmark: 1,
             rxmark: 0,
             delays: SpiDelayConfig::default(),

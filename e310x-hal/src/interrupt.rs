@@ -5,7 +5,7 @@
 //! - You must activate the `virq` feature to use this module.
 //!
 //! - The vectored handler automatically claims the PLIC interrupt source as complete.
-//! Thus, users do not have to worry about this step.
+//!   Thus, users do not have to worry about this step.
 //!
 //! # Features
 //!

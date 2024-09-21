@@ -1,7 +1,7 @@
 //! Clock configuration
 use crate::core::clint::MTIME;
 use crate::time::Hertz;
-use e310x::{AONCLK, PRCI};
+use e310x::{Aonclk as AONCLK, Prci as PRCI};
 use riscv::interrupt;
 use riscv::register::mcycle;
 
@@ -72,10 +72,10 @@ impl CoreClk {
         // Assume `psdclkbypass_n` is not used
 
         // Temporarily switch to the internal oscillator
-        let prci = unsafe { &*PRCI::ptr() };
+        let prci = unsafe { PRCI::steal() };
         let hfrosc_freq = self.configure_hfrosc();
         // Switch to HFROSC, bypass PLL
-        prci.pllcfg
+        prci.pllcfg()
             .modify(|_, w| w.sel().bit(false).bypass().bit(true));
 
         if let Some(freq) = self.hfxosc {
@@ -87,16 +87,16 @@ impl CoreClk {
 
     /// Configures clock generation system with external oscillator
     fn configure_with_external(self, source_freq: Hertz) -> Hertz {
-        let prci = unsafe { &*PRCI::ptr() };
+        let prci = unsafe { PRCI::steal() };
 
         // Enable HFXOSC
-        prci.hfxosccfg.write(|w| w.enable().bit(true));
+        prci.hfxosccfg().write(|w| w.enable().bit(true));
 
         // Wait for HFXOSC to stabilize
-        while !prci.hfxosccfg.read().ready().bit_is_set() {}
+        while !prci.hfxosccfg().read().ready().bit_is_set() {}
 
         // Select HFXOSC as pllref
-        prci.pllcfg.modify(|_, w| w.refsel().bit(true));
+        prci.pllcfg().modify(|_, w| w.refsel().bit(true));
 
         let freq;
         if source_freq.0 == self.coreclk.0 {
@@ -104,10 +104,10 @@ impl CoreClk {
             freq = source_freq;
 
             // Bypass PLL
-            prci.pllcfg.modify(|_, w| w.bypass().bit(true));
+            prci.pllcfg().modify(|_, w| w.bypass().bit(true));
 
             // Bypass divider
-            prci.plloutdiv.write(|w| w.divby1().bit(true));
+            prci.plloutdiv().write(|w| w.divby1().bit(true));
         } else {
             // Use external oscillator with PLL
 
@@ -116,17 +116,17 @@ impl CoreClk {
         }
 
         // Switch to PLL
-        prci.pllcfg.modify(|_, w| w.sel().bit(true));
+        prci.pllcfg().modify(|_, w| w.sel().bit(true));
 
         // Disable HFROSC to save power
-        prci.hfrosccfg.write(|w| w.enable().bit(false));
+        prci.hfrosccfg().write(|w| w.enable().bit(false));
 
         freq
     }
 
     /// Configures clock generation system with internal oscillator
     fn configure_with_internal(self, hfrosc_freq: Hertz) -> Hertz {
-        let prci = unsafe { &*PRCI::ptr() };
+        let prci = unsafe { PRCI::steal() };
 
         let freq;
         if hfrosc_freq.0 == self.coreclk.0 {
@@ -134,11 +134,11 @@ impl CoreClk {
             freq = hfrosc_freq;
 
             // Switch to HFROSC, bypass PLL to save power
-            prci.pllcfg
+            prci.pllcfg()
                 .modify(|_, w| w.sel().bit(false).bypass().bit(true));
 
             //
-            prci.pllcfg.modify(|_, w| w.bypass().bit(true));
+            prci.pllcfg().modify(|_, w| w.bypass().bit(true));
         } else {
             // Use internal oscillator with PLL
 
@@ -146,27 +146,27 @@ impl CoreClk {
             freq = self.configure_pll(hfrosc_freq, self.coreclk);
 
             // Switch to PLL
-            prci.pllcfg.modify(|_, w| w.sel().bit(true));
+            prci.pllcfg().modify(|_, w| w.sel().bit(true));
         }
 
         // Disable HFXOSC to save power
-        prci.hfxosccfg.write(|w| w.enable().bit(false));
+        prci.hfxosccfg().write(|w| w.enable().bit(false));
 
         freq
     }
 
     /// Configures internal high-frequency oscillator (`HFROSC`)
     fn configure_hfrosc(&self) -> Hertz {
-        let prci = unsafe { &*PRCI::ptr() };
+        let prci = unsafe { PRCI::steal() };
 
         // TODO: use trim value from OTP
 
         // Configure HFROSC to 13.8 MHz
-        prci.hfrosccfg
+        prci.hfrosccfg()
             .write(|w| unsafe { w.div().bits(4).trim().bits(16).enable().bit(true) });
 
         // Wait for HFROSC to stabilize
-        while !prci.hfrosccfg.read().ready().bit_is_set() {}
+        while !prci.hfrosccfg().read().ready().bit_is_set() {}
 
         Hertz(13_800_000)
     }
@@ -270,8 +270,8 @@ impl CoreClk {
         };
 
         // Configure PLL
-        let prci = unsafe { &*PRCI::ptr() };
-        prci.pllcfg.modify(|_, w| unsafe {
+        let prci = unsafe { PRCI::steal() };
+        prci.pllcfg().modify(|_, w| unsafe {
             w.pllr()
                 .bits(r)
                 .pllf()
@@ -283,7 +283,7 @@ impl CoreClk {
         });
 
         // Configure PLL Output Divider
-        prci.plloutdiv
+        prci.plloutdiv()
             .write(|w| unsafe { w.div().bits(divider_div as u8).divby1().bit(divider_bypass) });
 
         // Wait for PLL Lock
@@ -295,7 +295,7 @@ impl CoreClk {
         let time = mtime.mtime() + 4;
         while mtime.mtime() < time {}
         // Now it is safe to check for PLL Lock
-        while !prci.pllcfg.read().lock().bit_is_set() {}
+        while !prci.pllcfg().read().lock().bit_is_set() {}
 
         Hertz(divout_freq)
     }
@@ -318,13 +318,13 @@ impl AonClk {
 
     /// Freezes low-frequency clock configuration, making it effective
     pub(crate) fn freeze(self) -> Hertz {
-        let aonclk = unsafe { &*AONCLK::ptr() };
+        let aonclk = unsafe { AONCLK::steal() };
 
         if let Some(freq) = self.lfaltclk {
             // Use external oscillator.
 
             // Disable unused LFROSC to save power.
-            aonclk.lfrosccfg.write(|w| w.enable().bit(false));
+            aonclk.lfrosccfg().write(|w| w.enable().bit(false));
 
             freq
         } else {
@@ -334,14 +334,14 @@ impl AonClk {
             let div = 4; // LFROSC/5
 
             // Configure LFROSC
-            aonclk.lfrosccfg.write(|w| unsafe {
+            aonclk.lfrosccfg().write(|w| unsafe {
                 w.trim().bits(trim);
                 w.div().bits(div);
                 w.enable().bit(true)
             });
 
             // Wait for LFROSC to stabilize
-            while !aonclk.lfrosccfg.read().ready().bit_is_set() {}
+            while !aonclk.lfrosccfg().read().ready().bit_is_set() {}
 
             Hertz(32_768) // It's not so accurate: ≈30 kHz according to the datasheet
         }

@@ -3,51 +3,51 @@
 use crate::core::CorePeripherals;
 use crate::gpio::{gpio0::*, GpioExt, Unknown};
 use e310x::{
-    Peripherals, AONCLK, BACKUP, GPIO0, OTP, PMU, PRCI, PWM0, PWM1, PWM2, QSPI0, QSPI1, RTC, UART0,
-    WDOG,
+    Aonclk, Backup, Gpio0, Otp, Peripherals, Pmu, Prci, Pwm0, Pwm1, Pwm2, Qspi0, Qspi1, Rtc, Uart0,
+    Wdog,
 };
 #[cfg(feature = "g002")]
-use e310x::{I2C0, UART1};
+use e310x::{I2c0, Uart1};
 
 /// Device peripherals available in a 48QFN package, except GPIO0
 #[allow(non_snake_case)]
 pub struct DevicePeripherals {
     /// WDOG peripheral
-    pub WDOG: WDOG,
+    pub WDOG: Wdog,
     /// RTC peripheral
-    pub RTC: RTC,
+    pub RTC: Rtc,
     /// AONCLK peripheral
-    pub AONCLK: AONCLK,
+    pub AONCLK: Aonclk,
     /// BACKUP peripheral
-    pub BACKUP: BACKUP,
+    pub BACKUP: Backup,
     /// PMU peripheral
-    pub PMU: PMU,
+    pub PMU: Pmu,
     /// PRCI peripheral
-    pub PRCI: PRCI,
+    pub PRCI: Prci,
     /// OTP peripheral
-    pub OTP: OTP,
+    pub OTP: Otp,
 
     /// UART0 peripheral
-    pub UART0: UART0,
+    pub UART0: Uart0,
     #[cfg(feature = "g002")]
     /// UART1 peripheral (FE310-G002 only)
-    pub UART1: UART1,
+    pub UART1: Uart1,
 
     /// QSPI0 peripheral
-    pub QSPI0: QSPI0,
+    pub QSPI0: Qspi0,
     /// QSPI1 peripheral
-    pub QSPI1: QSPI1,
+    pub QSPI1: Qspi1,
 
     #[cfg(feature = "g002")]
     /// I2C0 peripheral (FE310-G002 only)
-    pub I2C0: I2C0,
+    pub I2C0: I2c0,
 
     /// PWM0 peripheral
-    pub PWM0: PWM0,
+    pub PWM0: Pwm0,
     /// PWM1 peripheral
-    pub PWM1: PWM1,
+    pub PWM1: Pwm1,
     /// PWM2 peripheral
-    pub PWM2: PWM2,
+    pub PWM2: Pwm2,
 }
 
 /// Device GPIO pins available in a 48QFN package
@@ -92,9 +92,10 @@ pub struct DeviceGpioPins {
     pub pin23: Pin23<Unknown>,
 }
 
-impl From<GPIO0> for DeviceGpioPins {
-    fn from(gpio: GPIO0) -> Self {
+impl From<Gpio0> for DeviceGpioPins {
+    fn from(gpio: Gpio0) -> Self {
         let parts = gpio.split();
+
         DeviceGpioPins {
             pin0: parts.pin0,
             pin1: parts.pin1,
@@ -134,33 +135,33 @@ pub struct DeviceResources {
 impl From<Peripherals> for DeviceResources {
     fn from(p: Peripherals) -> Self {
         let peripherals = DevicePeripherals {
-            WDOG: p.WDOG,
-            RTC: p.RTC,
-            AONCLK: p.AONCLK,
-            BACKUP: p.BACKUP,
-            PMU: p.PMU,
-            PRCI: p.PRCI,
-            OTP: p.OTP,
+            WDOG: p.wdog,
+            RTC: p.rtc,
+            AONCLK: p.aonclk,
+            BACKUP: p.backup,
+            PMU: p.pmu,
+            PRCI: p.prci,
+            OTP: p.otp,
 
-            UART0: p.UART0,
+            UART0: p.uart0,
             #[cfg(feature = "g002")]
-            UART1: p.UART1,
+            UART1: p.uart1,
 
-            QSPI0: p.QSPI0,
-            QSPI1: p.QSPI1,
+            QSPI0: p.qspi0,
+            QSPI1: p.qspi1,
 
             #[cfg(feature = "g002")]
-            I2C0: p.I2C0,
+            I2C0: p.i2c0,
 
-            PWM0: p.PWM0,
-            PWM1: p.PWM1,
-            PWM2: p.PWM2,
+            PWM0: p.pwm0,
+            PWM1: p.pwm1,
+            PWM2: p.pwm2,
         };
 
         DeviceResources {
-            core_peripherals: CorePeripherals::new(p.CLINT, p.PLIC),
+            core_peripherals: CorePeripherals::new(p.clint, p.plic),
             peripherals,
-            pins: p.GPIO0.into(),
+            pins: p.gpio0.into(),
         }
     }
 }

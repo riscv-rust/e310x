@@ -1,9 +1,11 @@
 //! PMU Extension
 #![allow(missing_docs)]
-use e310x::{BACKUP, PMU, RTC};
+use e310x::{Backup, Pmu, Rtc};
 
 /// Backup register size in bytes
 const BACKUP_REGISTER_BYTES: usize = 4;
+
+const BACKUP_LEN: usize = 16;
 
 /// value required written to pmukey register before writing to other PMU registers
 pub const PMU_KEY_VAL: u32 = 0x51F15E;
@@ -189,42 +191,43 @@ pub trait PMUExt {
     fn clear_backup(&self);
 }
 
-impl PMUExt for PMU {
+impl PMUExt for Pmu {
     fn load_default_programs(&self) {
         unsafe {
             for i in 0..8 {
-                self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
-                self.pmusleeppm[i].write(|w| w.bits(DEFAULT_SLEEP_PROGRAM[i]));
+                self.pmukey().write(|w| w.bits(PMU_KEY_VAL));
+                self.pmusleeppm(i)
+                    .write(|w| w.bits(DEFAULT_SLEEP_PROGRAM[i]));
 
-                self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
-                self.pmuwakepm[i].write(|w| w.bits(DEFAULT_WAKE_PROGRAM[i]));
+                self.pmukey().write(|w| w.bits(PMU_KEY_VAL));
+                self.pmuwakepm(i).write(|w| w.bits(DEFAULT_WAKE_PROGRAM[i]));
             }
         }
     }
 
     fn sleep(self, sleep_time: u32) {
         unsafe {
-            let rtc = RTC::ptr();
+            let rtc = Rtc::steal();
 
             // set interrupt source to RTC enabled, each pmu register needs key set before write
-            self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
-            self.pmuie.write(|w| w.rtc().set_bit().dwakeup().set_bit());
+            self.pmukey().write(|w| w.bits(PMU_KEY_VAL));
+            self.pmuie()
+                .write(|w| w.rtc().set_bit().dwakeup().set_bit());
             // set RTC clock scale to once per second for easy calculation
-            (*rtc)
-                .rtccfg
+            rtc.rtccfg()
                 .write(|w| w.enalways().set_bit().scale().bits(15));
             // get current RTC clock value scaled
-            let rtc_now = (*rtc).rtcs.read().bits();
+            let rtc_now = rtc.rtcs().read().bits();
             // set RTC clock comparator
-            (*rtc).rtccmp.write(|w| w.bits(rtc_now + sleep_time));
+            rtc.rtccmp().write(|w| w.bits(rtc_now + sleep_time));
             // go to sleep for sleep_time seconds, need to set pmukey here as well
-            self.pmukey.write(|w| w.bits(PMU_KEY_VAL));
-            self.pmusleep.write(|w| w.sleep().set_bit());
+            self.pmukey().write(|w| w.bits(PMU_KEY_VAL));
+            self.pmusleep().write(|w| w.sleep().set_bit());
         }
     }
 
     fn wakeup_cause(&self) -> Result<WakeupCause, CauseError> {
-        let pmu_cause = self.pmucause.read();
+        let pmu_cause = self.pmucause().read();
         let wakeup_cause = pmu_cause.wakeupcause();
         if wakeup_cause.is_rtc() {
             return Ok(WakeupCause::RTC);
@@ -249,10 +252,10 @@ impl PMUExt for PMU {
     where
         UD: Sized,
     {
-        let backup = BACKUP::ptr();
+        let backup = Backup::steal();
         let ud_size = core::mem::size_of::<UD>();
 
-        if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
+        if ud_size > BACKUP_LEN * BACKUP_REGISTER_BYTES {
             return Err(BackupError::DataTooLarge);
         }
 
@@ -267,7 +270,7 @@ impl PMUExt for PMU {
         let sliced = core::slice::from_raw_parts(ptr_u32, reg_count);
 
         for i in 0..sliced.len() {
-            (*backup).backup[i].write(|w| w.bits(sliced[i]));
+            backup.backup(i).write(|w| w.bits(sliced[i]));
         }
 
         Ok(())
@@ -277,10 +280,10 @@ impl PMUExt for PMU {
     where
         UD: Sized,
     {
-        let backup = BACKUP::ptr();
+        let backup = Backup::steal();
         let ud_size = core::mem::size_of::<UD>();
 
-        if ud_size > (*backup).backup.len() * BACKUP_REGISTER_BYTES {
+        if ud_size > BACKUP_LEN * BACKUP_REGISTER_BYTES {
             return Err(BackupError::DataTooLarge);
         }
 
@@ -295,7 +298,7 @@ impl PMUExt for PMU {
         let sliced = core::slice::from_raw_parts_mut(ptr_u32, reg_count);
 
         for i in 0..sliced.len() {
-            sliced[i] = (*backup).backup[i].read().bits();
+            sliced[i] = backup.backup(i).read().bits();
         }
 
         Ok(())
@@ -303,9 +306,9 @@ impl PMUExt for PMU {
 
     fn clear_backup(&self) {
         unsafe {
-            let backup = BACKUP::ptr();
+            let backup = Backup::steal();
 
-            for backup_r in &(*backup).backup {
+            for backup_r in backup.backup_iter() {
                 backup_r.write(|w| w.bits(0u32));
             }
         }

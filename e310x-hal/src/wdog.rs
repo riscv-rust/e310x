@@ -1,6 +1,6 @@
 //! Watchdog
 #![allow(missing_docs)]
-use e310x::WDOG;
+use e310x::Wdog as WDOG;
 
 pub trait WdogExt {
     fn configure(self) -> WdogCfg;
@@ -56,8 +56,9 @@ impl WdogCfg {
 
     pub fn freeze(self) -> Wdog {
         unsafe {
-            (*WDOG::ptr()).wdogkey.write(|w| w.bits(0x51F15E));
-            (*WDOG::ptr()).wdogcfg.write(|w| {
+            let wdog = WDOG::steal();
+            wdog.wdogkey().write(|w| w.bits(0x51F15E));
+            wdog.wdogcfg().write(|w| {
                 w.scale()
                     .bits(self.scale)
                     .rsten()
@@ -81,23 +82,23 @@ pub struct Wdog {
 impl Wdog {
     #[inline]
     fn unlock(&mut self) {
-        unsafe { (*WDOG::ptr()).wdogkey.write(|w| w.bits(0x51F15E)) };
+        unsafe { WDOG::steal().wdogkey().write(|w| w.bits(0x51F15E)) };
     }
 
     pub fn is_pending(&self) -> bool {
-        unsafe { (*WDOG::ptr()).wdogcfg.read().cmpip().bit() }
+        unsafe { WDOG::steal() }.wdogcfg().read().cmpip().bit()
     }
 
     pub fn feed(&mut self) {
         self.unlock();
-        unsafe { (*WDOG::ptr()).wdogfeed.write(|w| w.bits(0xD09F00D)) };
+        unsafe { WDOG::steal().wdogfeed().write(|w| w.bits(0xD09F00D)) };
     }
 
     pub fn cmp(&self) -> u16 {
-        unsafe { (*WDOG::ptr()).wdogcmp.read().value().bits() }
+        unsafe { WDOG::steal() }.wdogcmp().read().value().bits()
     }
 
     pub fn set_cmp(&mut self, value: u16) {
-        unsafe { (*WDOG::ptr()).wdogcmp.write(|w| w.value().bits(value)) };
+        unsafe { WDOG::steal().wdogcmp().write(|w| w.value().bits(value)) };
     }
 }
