@@ -15,9 +15,7 @@ embedded-hal = { version = "0.2.6", features = ["unproven"] }
 nb = "1.0.0"
 riscv = { version = "0.10.1", features = ["critical-section-single-hart"] }
 e310x = { path = "../e310x", version = "0.11.0", features = ["rt", "critical-section"] }
-
-[target.'cfg(not(target_has_atomic = "32"))'.dependencies]
-portable-atomic = { version = "1.4", default-features = false, features = ["unsafe-assume-single-core"] }
+portable-atomic = { version = "1.9", default-features = false}
 
 [features]
 g002 = ["e310x/g002"]
