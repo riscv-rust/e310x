@@ -1,0 +1,7 @@
+[target.'cfg(all(target_arch = "riscv32", target_os = "none"))']
+rustflags = [
+    "--cfg", "portable_atomic_target_feature=\"zaamo\"",
+]
+
+[build]
+target = "riscv32imc-unknown-none-elf"
