@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Use inline assembly instead of binary blobs for flash
 
 ## [v0.12.0] - 2023-03-28
 - Update e310x-hal to v0.11 with new svd2rust generated code

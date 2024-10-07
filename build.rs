@@ -44,10 +44,4 @@ fn main() {
 
     fs::copy("hifive1-link.x", out_dir.join("hifive1-link.x")).unwrap();
     println!("cargo:rerun-if-changed=hifive1-link.x");
-
-    // Copy library with flash setup code
-    let name = env::var("CARGO_PKG_NAME").unwrap();
-    fs::copy("bin/flash.a", out_dir.join(format!("lib{}.a", name))).unwrap();
-    println!("cargo:rustc-link-lib=static={}", name);
-    println!("cargo:rerun-if-changed=bin/flash.a");
 }
