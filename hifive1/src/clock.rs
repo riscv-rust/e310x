@@ -2,7 +2,7 @@
 
 use e310x_hal::{
     clock::{AonExt, Clocks, PrciExt},
-    e310x::{AONCLK, PRCI},
+    e310x::{Aonclk, Prci},
     time::Hertz,
 };
 
@@ -15,7 +15,7 @@ use e310x_hal::{
 ///
 /// For HiFive1 and HiFive1 Rev B boards external oscillators are enabled for
 /// both high-frequency and low-frequency clocks.
-pub fn configure(prci: PRCI, aonclk: AONCLK, target_coreclk: Hertz) -> Clocks {
+pub fn configure(prci: Prci, aonclk: Aonclk, target_coreclk: Hertz) -> Clocks {
     let coreclk = prci.constrain();
     let coreclk = coreclk
         .use_external(Hertz(16_000_000))
@@ -32,7 +32,7 @@ pub fn configure(prci: PRCI, aonclk: AONCLK, target_coreclk: Hertz) -> Clocks {
 ///
 /// For the LoFive and LoFive R1 boards, external oscillator is enabled for
 /// high-frequency clock. For low-frequency clock internal oscillator is used.
-pub fn configure(prci: PRCI, aonclk: AONCLK, target_coreclk: Hertz) -> Clocks {
+pub fn configure(prci: Prci, aonclk: Aonclk, target_coreclk: Hertz) -> Clocks {
     let coreclk = prci.constrain();
     let coreclk = coreclk
         .use_external(Hertz(16_000_000))

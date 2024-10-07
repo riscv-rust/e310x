@@ -12,8 +12,8 @@
 ///
 /// # Example
 ///
-/// ```
-/// let mosi = pin!(gpio, spi0_mosi); // gpio.pin3
+/// ```ignore
+/// let mosi = hifive1::pin!(gpio, spi0_mosi); // gpio.pin3
 /// ```
 ///
 #[macro_export]
@@ -143,8 +143,8 @@ macro_rules! pin {
 ///
 /// # Example
 ///
-/// ```
-/// let mosi = pin!(gpio, spi0_mosi); // gpio.pin3
+/// ```ignore
+/// let mosi = hifive1::pin!(gpio, spi0_mosi); // gpio.pin3
 /// ```
 ///
 #[macro_export]
@@ -268,8 +268,8 @@ macro_rules! pin {
 ///
 /// # Example
 ///
-/// ```
-/// let (mosi, miso, sck, cs) = pins!(gpio, (spi0_mosi, spi0_miso, spi0_sck, spi0_ss0));
+/// ```ignore
+/// let (mosi, miso, sck, cs) = hifive1::pins!(gpio, (spi0_mosi, spi0_miso, spi0_sck, spi0_ss0));
 /// // (gpio.pin3, gpio.pin4, gpio.pin5, gpio.pin2)
 /// ```
 ///

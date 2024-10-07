@@ -3,7 +3,7 @@
 use core::fmt;
 use e310x_hal::{
     clock::Clocks,
-    e310x::UART0,
+    e310x::Uart0,
     gpio::gpio0::{Pin16, Pin17},
     prelude::*,
     serial::{Rx, Serial, Tx},
@@ -14,7 +14,7 @@ use riscv::interrupt;
 
 static mut STDOUT: Option<SerialWrapper> = None;
 
-struct SerialWrapper(Tx<UART0>);
+struct SerialWrapper(Tx<Uart0>);
 
 impl core::fmt::Write for SerialWrapper {
     fn write_str(&mut self, s: &str) -> fmt::Result {
@@ -39,12 +39,12 @@ impl core::fmt::Write for SerialWrapper {
 
 /// Configures stdout
 pub fn configure<X, Y>(
-    uart: UART0,
+    uart: Uart0,
     tx: Pin17<X>,
     rx: Pin16<Y>,
     baud_rate: Bps,
     clocks: Clocks,
-) -> Rx<UART0> {
+) -> Rx<Uart0> {
     let tx = tx.into_iof0();
     let rx = rx.into_iof0();
     let serial = Serial::new(uart, (tx, rx), baud_rate, clocks);

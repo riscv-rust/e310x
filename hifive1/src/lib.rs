@@ -25,4 +25,9 @@ pub mod stdout;
 pub use stdout::configure as configure_stdout;
 
 #[doc(hidden)]
+#[cfg(any(
+    feature = "board-hifive1",
+    feature = "board-hifive1-revb",
+    feature = "board-redv"
+))]
 pub mod gpio;

@@ -4,7 +4,7 @@ on:
   pull_request:
   merge_group:
 
-name: Build check (e310x-hal)
+name: Build check (hifive1)
 
 jobs:
   # We check that the crate builds and links for all the toolchains and targets.
@@ -12,7 +12,8 @@ jobs:
     strategy:
       matrix:
         # All generated code should be running on stable now, MRSV is 1.72.0
-        toolchain: [ stable, nightly, 1.72.0 ]
+        toolchain: [nightly, stable, 1.72.0]
+        board: [hifive1, hifive1-revb, redv, lofive, lofive-r1]
         include:
           # Nightly is only for reference and allowed to fail
           - toolchain: nightly
@@ -20,22 +21,23 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental || false }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Update Rust toolchain
-      run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
-    - name: Install Rust target
-      run: rustup target install riscv32imc-unknown-none-elf
-    - name: Build (no features)
-      run: cargo build --package e310x-hal
-    - name: Build (all features)
-      run: cargo build --package e310x-hal --all-features
-
+      - uses: actions/checkout@v4
+      - name: Update Rust toolchain
+        run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+      - name: Install Rust target
+        run: rustup target install riscv32imc-unknown-none-elf
+      - name: Build (direct)
+        run: cargo build --package hifive1 --features board-${{ matrix.board }}
+      - name: Build (vectored)
+        run: cargo build --package hifive1 --features board-${{ matrix.board }},virq
+  
   # On MacOS and Ubuntu, we at least make sure that the crate builds and links.
   # On Windows, linking fails when the rt feature is enabled.
   build-others:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest ]
+        board: [hifive1, hifive1-revb, redv, lofive, lofive-r1]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -43,8 +45,8 @@ jobs:
         run: rustup update stable && rustup default stable
       - name: Rename .cargo/config to .cargo/config.bak to ignore it
         run: mv .cargo/config.toml .cargo/config.bak
-      - name: Build (no features)
-        run: cargo test --package e310x-hal
-      - name: Build (all features)
-        run: cargo test --package e310x-hal --all-features
+      - name: Build (direct)
+        run: cargo test --package hifive1 --features board-${{ matrix.board }}
+      - name: Build (vectored)
+        run: cargo test --package hifive1 --features board-${{ matrix.board }},virq
   

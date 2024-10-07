@@ -1,7 +1,7 @@
 //! On-board SPI Flash
 
 use e310x_hal::clock::Clocks;
-use e310x_hal::e310x::QSPI0;
+use e310x_hal::e310x::Qspi0;
 
 #[cfg(target_arch = "riscv32")]
 core::arch::global_asm!(
@@ -55,7 +55,7 @@ core::arch::global_asm!(
 
 /// Configure SPI Flash interface to maximum supported speed
 #[inline(always)]
-pub fn configure_spi_flash(qspi: &QSPI0, clocks: &Clocks) {
+pub fn configure_spi_flash(qspi: &Qspi0, clocks: &Clocks) {
     unsafe {
         extern "C" {
             fn _setup_is25lp(dummy8: bool);
@@ -67,5 +67,5 @@ pub fn configure_spi_flash(qspi: &QSPI0, clocks: &Clocks) {
             _setup_is25lp(true)
         }
     }
-    qspi.sckdiv.modify(|_, w| unsafe { w.div().bits(0) });
+    qspi.sckdiv().modify(|_, w| unsafe { w.div().bits(0) });
 }
