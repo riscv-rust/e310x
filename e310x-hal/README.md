@@ -1,26 +1,23 @@
-[![crates.io](https://img.shields.io/crates/d/e310x.svg)](https://crates.io/crates/e310x)
-[![crates.io](https://img.shields.io/crates/v/e310x.svg)](https://crates.io/crates/e310x)
+[![crates.io](https://img.shields.io/crates/d/e310x-hal.svg)](https://crates.io/crates/e310x-hal)
+[![crates.io](https://img.shields.io/crates/v/e310x-hal.svg)](https://crates.io/crates/e310x-hal)
+[![Build Status](https://travis-ci.org/riscv-rust/e310x-hal.svg?branch=master)](https://travis-ci.org/riscv-rust/e310x-hal)
 
-# `e310x`
+# `e310x-hal`
 
-> With svd2rust generated peripherals for Freedom E310 MCU's.
+> HAL for the E310x family of microcontrollers.
 
 This project is developed and maintained by the [RISC-V team][team].
 
-## [Documentation](https://docs.rs/crate/e310x)
+## [Documentation](https://docs.rs/crate/e310x-hal)
 
 ## Minimum Supported Rust Version (MSRV)
 
 This crate is guaranteed to compile on stable Rust 1.72.0 and up. It *might*
 compile with older versions but that may change in any new patch release.
 
-## Requirements
-
-Install [form](https://crates.io/crates/form) and [svd2rust](https://crates.io/crates/svd2rust) using cargo install
-
 ## License
 
-Copyright 2018-2023 [RISC-V team][team]
+Copyright 2018-2019 [RISC-V team][team]
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice

@@ -19,6 +19,10 @@ jobs:
           filters: |
             e310x:
               - 'e310x/**'
+            e310x-hal:
+              - 'e310x-hal/**'
+            hifive1:
+              - 'hifive1/**'
 
       - name: Check for CHANGELOG.md (e310x)
         if: steps.changes.outputs['e310x'] == 'true'
@@ -27,3 +31,20 @@ jobs:
           changeLogPath: ./e310x/CHANGELOG.md
           skipLabels: 'skip changelog'
           missingUpdateErrorMessage: 'Please add a changelog entry in the e310x/CHANGELOG.md file.'
+      
+      - name: Check for CHANGELOG.md (e310x-hal)
+        if: steps.changes.outputs['e310x-hal'] == 'true'
+        uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: ./e310x-hal/CHANGELOG.md
+          skipLabels: 'skip changelog'
+          missingUpdateErrorMessage: 'Please add a changelog entry in the e310x-hal/CHANGELOG.md file.'
+      
+      - name: Check for CHANGELOG.md (hifive1)
+        if: steps.changes.outputs['hifive1'] == 'true'
+        uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: ./hifive1/CHANGELOG.md
+          skipLabels: 'skip changelog'
+          missingUpdateErrorMessage: 'Please add a changelog entry in the hifive1/CHANGELOG.md file.'
+  

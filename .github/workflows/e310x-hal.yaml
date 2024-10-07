@@ -4,7 +4,7 @@ on:
   pull_request:
   merge_group:
 
-name: Build check (e310x)
+name: Build check (e310x-hal)
 
 jobs:
   # We check that the crate builds and links for all the toolchains and targets.
@@ -26,9 +26,9 @@ jobs:
     - name: Install Rust target
       run: rustup target install riscv32imc-unknown-none-elf
     - name: Build (no features)
-      run: cargo build --package e310x
+      run: cargo build --package e310x-hal
     - name: Build (all features)
-      run: cargo build --package e310x --all-features
+      run: cargo build --package e310x-hal --all-features
 
   # On MacOS and Ubuntu, we at least make sure that the crate builds and links.
   # On Windows, linking fails when the rt feature is enabled.
@@ -44,7 +44,7 @@ jobs:
       - name: Rename .cargo/config to .cargo/config.bak to ignore it
         run: mv .cargo/config.toml .cargo/config.bak
       - name: Build (no features)
-        run: cargo test --package e310x
+        run: cargo test --package e310x-hal
       - name: Build (all features)
-        run: cargo test --package e310x --all-features
+        run: cargo test --package e310x-hal --all-features
   

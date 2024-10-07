@@ -1,22 +1,25 @@
-[![crates.io](https://img.shields.io/crates/d/e310x.svg)](https://crates.io/crates/e310x)
-[![crates.io](https://img.shields.io/crates/v/e310x.svg)](https://crates.io/crates/e310x)
+[![crates.io](https://img.shields.io/crates/d/hifive1.svg)](https://crates.io/crates/hifive1)
+[![crates.io](https://img.shields.io/crates/v/hifive1.svg)](https://crates.io/crates/hifive1)
+[![Build Status](https://travis-ci.org/riscv-rust/hifive1.svg?branch=master)](https://travis-ci.org/riscv-rust/hifive1)
 
-# `e310x`
+# `hifive1`
 
-> With svd2rust generated peripherals for Freedom E310 MCU's.
+> Board support crate for HiFive1 and LoFive boards
 
-This project is developed and maintained by the [RISC-V team][team].
+## Supported Boards
 
-## [Documentation](https://docs.rs/crate/e310x)
+* [SiFive Hifive1](https://www.sifive.com/boards/hifive1) - use feature `board-hifive1`
+* [SiFive Hifive1 RevB](https://www.sifive.com/boards/hifive1-rev-b) - use feature `board-hifive1-revb`
+* [SparkFun Red-V RedBoard](https://www.sparkfun.com/products/15594) - use feature `board-redv`
+* [lofive1](https://github.com/mwelling/lofive) - use feature `board-lofive`
+* [lofive1-r1](https://github.com/mwelling/lofive) - use feature `board-lofive-r1`
+
+## [Documentation](https://docs.rs/crate/hifive1)
 
 ## Minimum Supported Rust Version (MSRV)
 
 This crate is guaranteed to compile on stable Rust 1.72.0 and up. It *might*
 compile with older versions but that may change in any new patch release.
-
-## Requirements
-
-Install [form](https://crates.io/crates/form) and [svd2rust](https://crates.io/crates/svd2rust) using cargo install
 
 ## License
 
