@@ -113,9 +113,7 @@ impl DelayMs<u32> for Sleep {
         // after which empty handler gets called and we go into the
         // next iteration of this loop
         loop {
-            unsafe {
-                riscv::asm::wfi();
-            }
+            riscv::asm::wfi();
 
             // check if we got the right interrupt cause, otherwise just loop back to wfi
             if mip::read().mtimer() {
