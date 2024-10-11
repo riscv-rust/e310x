@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
-
+- Update `riscv` to 0.12.1
 - Remove `virq` feature. Now interrupts are handled by `e310x`
 - Apply clippy changes
 - Use `portable-atomic` with `zaamo` feature to use native `amo*` operations.
