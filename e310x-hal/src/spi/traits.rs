@@ -42,9 +42,9 @@ mod spi1_impl {
     use crate::gpio::gpio0;
     use crate::gpio::{NoInvert, IOF0};
 
-    type MOSI = gpio0::Pin3<IOF0<NoInvert>>;
-    type MISO = gpio0::Pin4<IOF0<NoInvert>>;
-    type SCK = gpio0::Pin5<IOF0<NoInvert>>;
+    type Mosi = gpio0::Pin3<IOF0<NoInvert>>;
+    type Miso = gpio0::Pin4<IOF0<NoInvert>>;
+    type Sck = gpio0::Pin5<IOF0<NoInvert>>;
     type CS0 = gpio0::Pin2<IOF0<NoInvert>>;
     type CS1 = gpio0::Pin8<IOF0<NoInvert>>;
     type CS2 = gpio0::Pin9<IOF0<NoInvert>>;
@@ -64,53 +64,53 @@ mod spi1_impl {
         const CS_INDEX: u32 = 3;
     }
 
-    impl PinsNoCS<Qspi1> for (MOSI, MISO, SCK) {}
-    impl PinsNoCS<Qspi1> for (MOSI, (), SCK) {}
-    impl PinsNoCS<Qspi1> for ((), MISO, SCK) {}
+    impl PinsNoCS<Qspi1> for (Mosi, Miso, Sck) {}
+    impl PinsNoCS<Qspi1> for (Mosi, (), Sck) {}
+    impl PinsNoCS<Qspi1> for ((), Miso, Sck) {}
 
-    impl Pins<Qspi1> for (MOSI, MISO, SCK) {
+    impl Pins<Qspi1> for (Mosi, Miso, Sck) {
         const CS_INDEX: Option<u32> = None;
     }
-    impl Pins<Qspi1> for (MOSI, (), SCK) {
+    impl Pins<Qspi1> for (Mosi, (), Sck) {
         const CS_INDEX: Option<u32> = None;
     }
-    impl Pins<Qspi1> for ((), MISO, SCK) {
+    impl Pins<Qspi1> for ((), Miso, Sck) {
         const CS_INDEX: Option<u32> = None;
     }
-    impl Pins<Qspi1> for (MOSI, MISO, SCK, CS0) {
+    impl Pins<Qspi1> for (Mosi, Miso, Sck, CS0) {
         const CS_INDEX: Option<u32> = Some(0);
     }
-    impl Pins<Qspi1> for (MOSI, (), SCK, CS0) {
+    impl Pins<Qspi1> for (Mosi, (), Sck, CS0) {
         const CS_INDEX: Option<u32> = Some(0);
     }
-    impl Pins<Qspi1> for ((), MISO, SCK, CS0) {
+    impl Pins<Qspi1> for ((), Miso, Sck, CS0) {
         const CS_INDEX: Option<u32> = Some(0);
     }
-    impl Pins<Qspi1> for (MOSI, MISO, SCK, CS1) {
+    impl Pins<Qspi1> for (Mosi, Miso, Sck, CS1) {
         const CS_INDEX: Option<u32> = Some(1);
     }
-    impl Pins<Qspi1> for (MOSI, (), SCK, CS1) {
+    impl Pins<Qspi1> for (Mosi, (), Sck, CS1) {
         const CS_INDEX: Option<u32> = Some(1);
     }
-    impl Pins<Qspi1> for ((), MISO, SCK, CS1) {
+    impl Pins<Qspi1> for ((), Miso, Sck, CS1) {
         const CS_INDEX: Option<u32> = Some(1);
     }
-    impl Pins<Qspi1> for (MOSI, MISO, SCK, CS2) {
+    impl Pins<Qspi1> for (Mosi, Miso, Sck, CS2) {
         const CS_INDEX: Option<u32> = Some(2);
     }
-    impl Pins<Qspi1> for (MOSI, (), SCK, CS2) {
+    impl Pins<Qspi1> for (Mosi, (), Sck, CS2) {
         const CS_INDEX: Option<u32> = Some(2);
     }
-    impl Pins<Qspi1> for ((), MISO, SCK, CS2) {
+    impl Pins<Qspi1> for ((), Miso, Sck, CS2) {
         const CS_INDEX: Option<u32> = Some(2);
     }
-    impl Pins<Qspi1> for (MOSI, MISO, SCK, CS3) {
+    impl Pins<Qspi1> for (Mosi, Miso, Sck, CS3) {
         const CS_INDEX: Option<u32> = Some(3);
     }
-    impl Pins<Qspi1> for (MOSI, (), SCK, CS3) {
+    impl Pins<Qspi1> for (Mosi, (), Sck, CS3) {
         const CS_INDEX: Option<u32> = Some(3);
     }
-    impl Pins<Qspi1> for ((), MISO, SCK, CS3) {
+    impl Pins<Qspi1> for ((), Miso, Sck, CS3) {
         const CS_INDEX: Option<u32> = Some(3);
     }
 
@@ -123,21 +123,21 @@ mod spi1_impl {
         impl Sealed for CS1 {}
         impl Sealed for CS2 {}
         impl Sealed for CS3 {}
-        impl Sealed for (MOSI, MISO, SCK) {}
-        impl Sealed for (MOSI, (), SCK) {}
-        impl Sealed for ((), MISO, SCK) {}
-        impl Sealed for (MOSI, MISO, SCK, CS0) {}
-        impl Sealed for (MOSI, (), SCK, CS0) {}
-        impl Sealed for ((), MISO, SCK, CS0) {}
-        impl Sealed for (MOSI, MISO, SCK, CS1) {}
-        impl Sealed for (MOSI, (), SCK, CS1) {}
-        impl Sealed for ((), MISO, SCK, CS1) {}
-        impl Sealed for (MOSI, MISO, SCK, CS2) {}
-        impl Sealed for (MOSI, (), SCK, CS2) {}
-        impl Sealed for ((), MISO, SCK, CS2) {}
-        impl Sealed for (MOSI, MISO, SCK, CS3) {}
-        impl Sealed for (MOSI, (), SCK, CS3) {}
-        impl Sealed for ((), MISO, SCK, CS3) {}
+        impl Sealed for (Mosi, Miso, Sck) {}
+        impl Sealed for (Mosi, (), Sck) {}
+        impl Sealed for ((), Miso, Sck) {}
+        impl Sealed for (Mosi, Miso, Sck, CS0) {}
+        impl Sealed for (Mosi, (), Sck, CS0) {}
+        impl Sealed for ((), Miso, Sck, CS0) {}
+        impl Sealed for (Mosi, Miso, Sck, CS1) {}
+        impl Sealed for (Mosi, (), Sck, CS1) {}
+        impl Sealed for ((), Miso, Sck, CS1) {}
+        impl Sealed for (Mosi, Miso, Sck, CS2) {}
+        impl Sealed for (Mosi, (), Sck, CS2) {}
+        impl Sealed for ((), Miso, Sck, CS2) {}
+        impl Sealed for (Mosi, Miso, Sck, CS3) {}
+        impl Sealed for (Mosi, (), Sck, CS3) {}
+        impl Sealed for ((), Miso, Sck, CS3) {}
     }
 }
 
@@ -147,35 +147,35 @@ mod spi2_impl {
     use crate::gpio::gpio0;
     use crate::gpio::{NoInvert, IOF0};
 
-    type MOSI = gpio0::Pin27<IOF0<NoInvert>>;
-    type MISO = gpio0::Pin28<IOF0<NoInvert>>;
-    type SCK = gpio0::Pin29<IOF0<NoInvert>>;
+    type Mosi = gpio0::Pin27<IOF0<NoInvert>>;
+    type Miso = gpio0::Pin28<IOF0<NoInvert>>;
+    type Sck = gpio0::Pin29<IOF0<NoInvert>>;
     type CS0 = gpio0::Pin26<IOF0<NoInvert>>;
 
     impl PinCS<Qspi2> for CS0 {
         const CS_INDEX: u32 = 0;
     }
 
-    impl PinsNoCS<Qspi2> for (MOSI, MISO, SCK) {}
-    impl PinsNoCS<Qspi2> for (MOSI, (), SCK) {}
-    impl PinsNoCS<Qspi2> for ((), MISO, SCK) {}
+    impl PinsNoCS<Qspi2> for (Mosi, Miso, Sck) {}
+    impl PinsNoCS<Qspi2> for (Mosi, (), Sck) {}
+    impl PinsNoCS<Qspi2> for ((), Miso, Sck) {}
 
-    impl Pins<Qspi2> for (MOSI, MISO, SCK) {
+    impl Pins<Qspi2> for (Mosi, Miso, Sck) {
         const CS_INDEX: Option<u32> = None;
     }
-    impl Pins<Qspi2> for (MOSI, (), SCK) {
+    impl Pins<Qspi2> for (Mosi, (), Sck) {
         const CS_INDEX: Option<u32> = None;
     }
-    impl Pins<Qspi2> for ((), MISO, SCK) {
+    impl Pins<Qspi2> for ((), Miso, Sck) {
         const CS_INDEX: Option<u32> = None;
     }
-    impl Pins<Qspi2> for (MOSI, MISO, SCK, CS0) {
+    impl Pins<Qspi2> for (Mosi, Miso, Sck, CS0) {
         const CS_INDEX: Option<u32> = Some(0);
     }
-    impl Pins<Qspi2> for (MOSI, (), SCK, CS0) {
+    impl Pins<Qspi2> for (Mosi, (), Sck, CS0) {
         const CS_INDEX: Option<u32> = Some(0);
     }
-    impl Pins<Qspi2> for ((), MISO, SCK, CS0) {
+    impl Pins<Qspi2> for ((), Miso, Sck, CS0) {
         const CS_INDEX: Option<u32> = Some(0);
     }
 
@@ -185,12 +185,12 @@ mod spi2_impl {
         use super::*;
 
         impl Sealed for CS0 {}
-        impl Sealed for (MOSI, MISO, SCK) {}
-        impl Sealed for (MOSI, (), SCK) {}
-        impl Sealed for ((), MISO, SCK) {}
-        impl Sealed for (MOSI, MISO, SCK, CS0) {}
-        impl Sealed for (MOSI, (), SCK, CS0) {}
-        impl Sealed for ((), MISO, SCK, CS0) {}
+        impl Sealed for (Mosi, Miso, Sck) {}
+        impl Sealed for (Mosi, (), Sck) {}
+        impl Sealed for ((), Miso, Sck) {}
+        impl Sealed for (Mosi, Miso, Sck, CS0) {}
+        impl Sealed for (Mosi, (), Sck, CS0) {}
+        impl Sealed for ((), Miso, Sck, CS0) {}
     }
 }
 

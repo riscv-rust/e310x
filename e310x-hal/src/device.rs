@@ -173,7 +173,11 @@ impl DeviceResources {
         e310x::Peripherals::take().map(DeviceResources::from)
     }
 
-    /// Unchecked version of `DeviceResources::take`
+    /// Unchecked version of [`DeviceResources::take`].
+    ///
+    /// # Safety
+    ///
+    /// Using this function may break the guarantees of the singleton pattern.
     pub unsafe fn steal() -> Self {
         e310x::Peripherals::steal().into()
     }

@@ -175,10 +175,10 @@ impl CoreClk {
     /// The resulting frequency may differ by 0-2% from the requested
     fn configure_pll(&self, pllref_freq: Hertz, divout_freq: Hertz) -> Hertz {
         let pllref_freq = pllref_freq.0;
-        assert!(PLLREF_MIN <= pllref_freq && pllref_freq <= PLLREF_MAX);
+        assert!((PLLREF_MIN..=PLLREF_MAX).contains(&pllref_freq));
 
         let divout_freq = divout_freq.0;
-        assert!(DIVOUT_MIN <= divout_freq && divout_freq <= DIVOUT_MAX);
+        assert!((DIVOUT_MIN..=DIVOUT_MAX).contains(&divout_freq));
 
         // Calculate PLL Output Divider settings
         let divider_div;
@@ -205,7 +205,7 @@ impl CoreClk {
             2 * (divider_div + 1)
         };
         let pllout_freq = divout_freq * d;
-        assert!(PLLOUT_MIN <= pllout_freq && pllout_freq <= PLLOUT_MAX);
+        assert!((PLLOUT_MIN..=PLLOUT_MAX).contains(&pllout_freq));
 
         // Calculate PLL R ratio
         let r = match pllref_freq {
@@ -218,7 +218,7 @@ impl CoreClk {
 
         // Calculate refr frequency
         let refr_freq = pllref_freq / r;
-        assert!(REFR_MIN <= refr_freq && refr_freq <= REFR_MAX);
+        assert!((REFR_MIN..=REFR_MAX).contains(&refr_freq));
 
         // Calculate PLL Q ratio
         let q = match pllout_freq {
@@ -230,7 +230,7 @@ impl CoreClk {
 
         // Calculate the desired vco frequency
         let target_vco_freq = pllout_freq * q;
-        assert!(VCO_MIN <= target_vco_freq && target_vco_freq <= VCO_MAX);
+        assert!((VCO_MIN..=VCO_MAX).contains(&target_vco_freq));
 
         // Calculate PLL F ratio
         let f = target_vco_freq / refr_freq;
@@ -249,15 +249,15 @@ impl CoreClk {
         } else {
             (f_lo, vco_lo)
         };
-        assert!(VCO_MIN <= vco_freq && vco_freq <= VCO_MAX);
+        assert!((VCO_MIN..=VCO_MAX).contains(&vco_freq));
 
         // Calculate actual pllout frequency
         let pllout_freq = vco_freq / q;
-        assert!(PLLOUT_MIN <= pllout_freq && pllout_freq <= PLLOUT_MAX);
+        assert!((PLLOUT_MIN..=PLLOUT_MAX).contains(&pllout_freq));
 
         // Calculate actual divout frequency
         let divout_freq = pllout_freq / d;
-        assert!(DIVOUT_MIN <= divout_freq && divout_freq <= DIVOUT_MAX);
+        assert!((DIVOUT_MIN..=DIVOUT_MAX).contains(&divout_freq));
 
         // Calculate bit-values
         let r: u8 = (r - 1) as u8;

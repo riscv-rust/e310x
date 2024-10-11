@@ -1,0 +1,43 @@
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  merge_group:
+
+name: Lints compliance check
+
+env:
+  # Bypass clippy warnings produced by Svd2Rust
+  CLIPPY_PARAMS: -W clippy::all -D warnings -A clippy::module_inception -A clippy::needless_lifetimes
+
+jobs:
+  clippy:
+    strategy:
+      matrix:
+        board: [hifive1, hifive1-revb, redv, lofive, lofive-r1]
+        toolchain: [ stable, nightly ]
+        include:
+          # Nightly is only for reference and allowed to fail
+          - toolchain: nightly
+            experimental: true
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Update Rust toolchain and install Clippy
+      run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }} && rustup component add clippy
+    - name: Install Rust target
+      run: rustup target install riscv32imc-unknown-none-elf
+    - name: Run clippy (direct mode)
+      run: cargo clippy --features board-${{ matrix.board }} -- $CLIPPY_PARAMS
+    - name: Run clippy (vectored mode)
+      run: cargo clippy --features virq,board-${{ matrix.board }} -- $CLIPPY_PARAMS
+  
+   # Job to check that all the lint checks succeeded
+  clippy-check:
+    needs:
+    - clippy
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - run: jq --exit-status 'all(.result == "success")' <<< '${{ toJson(needs) }}'

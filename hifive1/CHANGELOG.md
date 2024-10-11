@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Apply clippy changes
 - Bump MSRV to 1.72
 - Adapt to new Cargo workspace
 - Use inline assembly instead of binary blobs for flash

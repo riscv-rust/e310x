@@ -149,7 +149,7 @@ where
 {
     type Error = Infallible;
 
-    fn exec<'op>(&mut self, operations: &mut [Operation<'op, u8>]) -> Result<(), Infallible> {
+    fn exec(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Infallible> {
         interrupt::free(|| {
             let mut bus = self.bus.borrow_mut();
 

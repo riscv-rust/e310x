@@ -91,6 +91,7 @@ mod pwm2_impl {
 }
 
 /// PWM channel
+#[derive(Copy, Clone)]
 pub struct Channel<PWM> {
     _pwm: PhantomData<PWM>,
     cmp_index: CmpIndex,
@@ -108,17 +109,6 @@ impl<PWM> Channel<PWM> {
         }
     }
 }
-
-impl<PWM> Clone for Channel<PWM> {
-    fn clone(&self) -> Self {
-        Self {
-            _pwm: self._pwm.clone(),
-            cmp_index: self.cmp_index.clone(),
-        }
-    }
-}
-
-impl<PWM> Copy for Channel<PWM> {}
 
 #[doc(hidden)]
 pub trait PwmX: Deref<Target = pwm0::RegisterBlock> {

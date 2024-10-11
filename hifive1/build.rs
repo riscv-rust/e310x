@@ -16,12 +16,13 @@ fn main() {
         })
         .collect();
 
-    if boards.is_empty() {
-        panic!("No board features selected");
-    }
-    if boards.len() > 1 {
-        panic!("More than one board feature selected: {:?}", boards);
-    }
+    assert!(!boards.is_empty(), "No board features selected");
+
+    assert_eq!(
+        boards.len(),
+        1,
+        "More than one board feature selected: {boards:?}"
+    );
 
     let board = boards.first().unwrap();
 
@@ -39,7 +40,7 @@ fn main() {
             println!("cargo:rerun-if-changed=memory-lofive-r1.x");
         }
 
-        other => panic!("Unknown board: {}", other),
+        other => panic!("Unknown board: {other}"),
     }
 
     fs::copy("hifive1-link.x", out_dir.join("hifive1-link.x")).unwrap();

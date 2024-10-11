@@ -73,7 +73,8 @@ macro_rules! led_impl {
     }
 }
 
-/// Call the macro for each LED
+// Call the macro for each LED
+
 #[cfg(any(feature = "board-hifive1", feature = "board-hifive1-revb"))]
 led_impl!(RED, GREEN);
 

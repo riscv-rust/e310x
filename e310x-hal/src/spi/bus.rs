@@ -210,10 +210,7 @@ where
         Ok(())
     }
 
-    pub(crate) fn exec<'op>(
-        &mut self,
-        operations: &mut [Operation<'op, u8>],
-    ) -> Result<(), Infallible> {
+    pub(crate) fn exec(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Infallible> {
         for op in operations {
             match op {
                 Operation::Transfer(words) => {

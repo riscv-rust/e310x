@@ -132,7 +132,7 @@ pub trait PMUExt {
     ///
     /// Stores user data `UD` to backup registers.
     ///
-    /// # *WARNING*
+    /// # Safety
     ///
     /// `user_data` value must not contain un-serializable types such as pointers or references.
     ///
@@ -160,7 +160,7 @@ pub trait PMUExt {
     ///
     /// Restores user data `UD` from backup registers.
     ///
-    /// # *WARNING*
+    /// # Safety
     ///
     /// `user_data` value must not contain un-serializable types such as pointers or references.
     ///
@@ -269,9 +269,9 @@ impl PMUExt for Pmu {
         let ptr_u32 = ptr as *const u32;
         let sliced = core::slice::from_raw_parts(ptr_u32, reg_count);
 
-        for i in 0..sliced.len() {
-            backup.backup(i).write(|w| w.bits(sliced[i]));
-        }
+        backup.backup_iter().enumerate().for_each(|(i, backup_r)| {
+            backup_r.write(|w| w.bits(sliced[i]));
+        });
 
         Ok(())
     }
@@ -297,9 +297,9 @@ impl PMUExt for Pmu {
         let ptr_u32 = ptr as *mut u32;
         let sliced = core::slice::from_raw_parts_mut(ptr_u32, reg_count);
 
-        for i in 0..sliced.len() {
-            sliced[i] = backup.backup(i).read().bits();
-        }
+        backup.backup_iter().enumerate().for_each(|(i, backup_r)| {
+            sliced[i] = backup_r.read().bits();
+        });
 
         Ok(())
     }
