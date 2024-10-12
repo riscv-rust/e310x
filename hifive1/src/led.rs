@@ -12,8 +12,10 @@
 use e310x_hal::gpio::gpio0::Pin5;
 #[cfg(any(feature = "board-hifive1", feature = "board-hifive1-revb"))]
 use e310x_hal::gpio::gpio0::{Pin19, Pin21, Pin22};
-use e310x_hal::gpio::{Invert, Output, Regular};
-use embedded_hal::digital::v2::{OutputPin, ToggleableOutputPin};
+use e310x_hal::{
+    gpio::{Invert, Output, Regular},
+    prelude::*,
+};
 
 #[cfg(any(feature = "board-hifive1", feature = "board-hifive1-revb"))]
 /// Red LED
@@ -66,7 +68,7 @@ macro_rules! led_impl {
                 }
 
                 fn toggle(&mut self) {
-                    ToggleableOutputPin::toggle(self).unwrap();
+                    StatefulOutputPin::toggle(self).unwrap();
                 }
             }
         )+
