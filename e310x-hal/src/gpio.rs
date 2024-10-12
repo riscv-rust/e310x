@@ -143,8 +143,7 @@ macro_rules! gpio {
             use core::marker::PhantomData;
             use core::convert::Infallible;
 
-            use embedded_hal::digital::v2::{InputPin, OutputPin, StatefulOutputPin,
-                               ToggleableOutputPin};
+            use embedded_hal::digital::{InputPin, OutputPin, StatefulOutputPin, ErrorType};
             use e310x::$GPIOX;
             use super::{Unknown, IOF0, IOF1, Drive, Floating, GpioExt, Input, Invert,
                         NoInvert, Output, PullUp, Regular, PinIndex, PeripheralAccess};
@@ -195,7 +194,6 @@ macro_rules! gpio {
                         $PXi { _mode: PhantomData }
                     }
 
-
                     /// Configures the pin to serve as alternate function 1 (AF1)
                     pub fn into_iof1(self) -> $PXi<IOF1<NoInvert>> {
                         $GPIOX::set_out_xor(Self::INDEX, false);
@@ -211,7 +209,6 @@ macro_rules! gpio {
                         $GPIOX::set_iof_en(Self::INDEX, true);
                         $PXi { _mode: PhantomData }
                     }
-
 
                     /// Configures the pin to serve as inverted alternate function 1 (AF1)
                     pub fn into_inverted_iof1(self) -> $PXi<IOF1<Invert>> {
@@ -276,47 +273,52 @@ macro_rules! gpio {
                     }
                 }
 
-                impl<MODE> InputPin for $PXi<Input<MODE>> {
+                impl<MODE> ErrorType for $PXi<Input<MODE>> {
                     type Error = Infallible;
+                }
 
-                    fn is_high(&self) -> Result<bool, Infallible> {
+                impl<MODE> ErrorType for $PXi<Output<MODE>> {
+                    type Error = Infallible;
+                }
+
+                impl<MODE> InputPin for $PXi<Input<MODE>> {
+                    #[inline]
+                    fn is_high(&mut self) -> Result<bool, Self::Error> {
                         Ok($GPIOX::input_value(Self::INDEX))
-
                     }
 
-                    fn is_low(&self) -> Result<bool, Infallible> {
+                    #[inline]
+                    fn is_low(&mut self) -> Result<bool, Self::Error> {
                         Ok(!self.is_high()?)
                     }
                 }
 
-                impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
-                    fn is_set_high(&self) -> Result<bool, Infallible> {
-                        Ok($GPIOX::input_value(Self::INDEX))
-                    }
-
-                    fn is_set_low(&self) -> Result<bool, Infallible> {
-                        Ok(!self.is_set_high()?)
-                    }
-                }
-
                 impl<MODE> OutputPin for $PXi<Output<MODE>> {
-                    type Error = Infallible;
-
+                    #[inline]
                     fn set_high(&mut self) -> Result<(), Infallible> {
                         $GPIOX::set_output_value(Self::INDEX, true);
                         Ok(())
                     }
 
+                    #[inline]
                     fn set_low(&mut self) -> Result<(), Infallible> {
                         $GPIOX::set_output_value(Self::INDEX, false);
                         Ok(())
                     }
                 }
 
-                impl<MODE> ToggleableOutputPin for $PXi<Output<MODE>> {
-                    type Error = Infallible;
+                impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
+                    #[inline]
+                    fn is_set_high(&mut self) -> Result<bool, Infallible> {
+                        Ok($GPIOX::input_value(Self::INDEX))
+                    }
 
-                    /// Toggles the pin state.
+                    #[inline]
+                    fn is_set_low(&mut self) -> Result<bool, Infallible> {
+                        Ok(!self.is_set_high()?)
+                    }
+
+                    #[inline]
                     fn toggle(&mut self) -> Result<(), Infallible> {
                         $GPIOX::toggle_pin(Self::INDEX);
                         Ok(())

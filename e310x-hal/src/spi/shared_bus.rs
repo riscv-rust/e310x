@@ -53,9 +53,7 @@ where
 
     /// Releases the SPI peripheral and associated pins
     pub fn release(self) -> (SPI, PINS) {
-        let bus = self.0.into_inner();
-
-        (bus.spi, bus.pins)
+        self.0.into_inner().release()
     }
 }
 
