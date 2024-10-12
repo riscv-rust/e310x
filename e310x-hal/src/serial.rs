@@ -26,22 +26,21 @@ use core::mem;
 #[allow(unused_imports)]
 use e310x::{uart0, Uart0, Uart1};
 
-// FIXME these should be "closed" traits
-/// TX pin - DO NOT IMPLEMENT THIS TRAIT
-pub unsafe trait TxPin<UART> {}
+mod sealed {
+    /// TX pin
+    pub trait TxPin<UART> {}
 
-/// RX pin - DO NOT IMPLEMENT THIS TRAIT
-pub unsafe trait RxPin<UART> {}
+    /// RX pin
+    pub trait RxPin<UART> {}
+}
 
-unsafe impl<T> TxPin<Uart0> for gpio0::Pin17<IOF0<T>> {}
-unsafe impl<T> RxPin<Uart0> for gpio0::Pin16<IOF0<T>> {}
+impl<T> sealed::TxPin<Uart0> for gpio0::Pin17<IOF0<T>> {}
+impl<T> sealed::RxPin<Uart0> for gpio0::Pin16<IOF0<T>> {}
 
 #[cfg(feature = "g002")]
-mod g002_ims {
-    use super::{gpio0, RxPin, TxPin, Uart1, IOF0};
-    unsafe impl<T> TxPin<Uart1> for gpio0::Pin18<IOF0<T>> {}
-    unsafe impl<T> RxPin<Uart1> for gpio0::Pin23<IOF0<T>> {}
-}
+impl<T> sealed::TxPin<Uart1> for gpio0::Pin18<IOF0<T>> {}
+#[cfg(feature = "g002")]
+impl<T> sealed::RxPin<Uart1> for gpio0::Pin23<IOF0<T>> {}
 
 #[doc(hidden)]
 pub trait UartX: Deref<Target = uart0::RegisterBlock> {}
@@ -68,8 +67,8 @@ impl<UART: UartX, TX, RX> Serial<UART, (TX, RX)> {
     /// Configures a UART peripheral to provide serial communication
     pub fn new(uart: UART, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
     where
-        TX: TxPin<UART>,
-        RX: RxPin<UART>,
+        TX: sealed::TxPin<UART>,
+        RX: sealed::RxPin<UART>,
     {
         let div = clocks.tlclk().0 / baud_rate.0 - 1;
         unsafe {
@@ -125,7 +124,7 @@ impl<UART: UartX> serial::Read<u8> for Rx<UART> {
         if rxdata.empty().bit_is_set() {
             Err(::nb::Error::WouldBlock)
         } else {
-            Ok(rxdata.data().bits() as u8)
+            Ok(rxdata.data().bits())
         }
     }
 }
@@ -162,8 +161,8 @@ impl<TX, RX> Serial<Uart0, (TX, RX)> {
     #[deprecated(note = "Please use Serial::new function instead")]
     pub fn uart0(uart: Uart0, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
     where
-        TX: TxPin<Uart0>,
-        RX: RxPin<Uart0>,
+        TX: sealed::TxPin<Uart0>,
+        RX: sealed::RxPin<Uart0>,
     {
         Self::new(uart, pins, baud_rate, clocks)
     }
@@ -175,8 +174,8 @@ impl<TX, RX> Serial<Uart1, (TX, RX)> {
     #[deprecated(note = "Please use Serial::new function instead")]
     pub fn uart1(uart: Uart1, pins: (TX, RX), baud_rate: Bps, clocks: Clocks) -> Self
     where
-        TX: TxPin<Uart1>,
-        RX: RxPin<Uart1>,
+        TX: sealed::TxPin<Uart1>,
+        RX: sealed::RxPin<Uart1>,
     {
         Self::new(uart, pins, baud_rate, clocks)
     }

@@ -1,6 +1,6 @@
 //! Stdout based on the UART hooked up to FTDI or J-Link
 
-use core::fmt;
+use core::{fmt, ptr};
 use e310x_hal::{
     clock::Clocks,
     e310x::Uart0,
@@ -10,11 +10,10 @@ use e310x_hal::{
     time::Bps,
 };
 use nb::block;
-use riscv::interrupt;
-
-static mut STDOUT: Option<SerialWrapper> = None;
 
 struct SerialWrapper(Tx<Uart0>);
+
+static mut STDOUT: Option<SerialWrapper> = None;
 
 impl core::fmt::Write for SerialWrapper {
     fn write_str(&mut self, s: &str) -> fmt::Result {
@@ -50,28 +49,28 @@ pub fn configure<X, Y>(
     let serial = Serial::new(uart, (tx, rx), baud_rate, clocks);
     let (tx, rx) = serial.split();
 
-    interrupt::free(|| unsafe {
-        STDOUT.replace(SerialWrapper(tx));
+    critical_section::with(|_| {
+        unsafe { &mut *ptr::addr_of_mut!(STDOUT) }.replace(SerialWrapper(tx));
     });
     rx
 }
 
 /// Writes string to stdout
 pub fn write_str(s: &str) {
-    interrupt::free(|| unsafe {
-        if let Some(stdout) = STDOUT.as_mut() {
+    critical_section::with(|_| {
+        if let Some(stdout) = unsafe { &mut *ptr::addr_of_mut!(STDOUT) } {
             let _ = stdout.write_str(s);
         }
-    })
+    });
 }
 
 /// Writes formatted string to stdout
 pub fn write_fmt(args: fmt::Arguments) {
-    interrupt::free(|| unsafe {
-        if let Some(stdout) = STDOUT.as_mut() {
+    critical_section::with(|_| {
+        if let Some(stdout) = unsafe { &mut *ptr::addr_of_mut!(STDOUT) } {
             let _ = stdout.write_fmt(args);
         }
-    })
+    });
 }
 
 /// Macro for printing to the serial standard output

@@ -6,6 +6,7 @@ use embedded_hal::blocking::delay::{DelayMs, DelayUs};
 use riscv::register::{mie, mip};
 
 /// Machine timer (mtime) as a busyloop delay provider
+#[derive(Default)]
 pub struct Delay;
 
 const TICKS_PER_SECOND: u64 = 32768;

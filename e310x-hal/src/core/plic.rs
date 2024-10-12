@@ -43,11 +43,11 @@ impl Priority {
     }
 }
 
-impl Into<u32> for Priority {
+impl From<Priority> for u32 {
     /// Returns the numeric priority for writing to a
     /// interrupt priority or the plic threshold register.
-    fn into(self) -> u32 {
-        match self {
+    fn from(val: Priority) -> Self {
+        match val {
             Priority::P0 => 0,
             Priority::P1 => 1,
             Priority::P2 => 2,

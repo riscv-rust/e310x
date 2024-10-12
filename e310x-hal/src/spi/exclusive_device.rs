@@ -110,7 +110,7 @@ where
 {
     type Error = Infallible;
 
-    fn exec<'op>(&mut self, operations: &mut [Operation<'op, u8>]) -> Result<(), Infallible> {
+    fn exec(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Infallible> {
         self.bus.start_frame();
         let result = self.bus.exec(operations);
         self.bus.end_frame();

@@ -19,12 +19,16 @@ use e310x::{i2c0, I2c0};
 use embedded_hal::blocking::i2c::{Read, Write, WriteRead};
 
 /// SDA pin - DO NOT IMPLEMENT THIS TRAIT
-pub unsafe trait SdaPin<I2C> {}
-/// SCL pin - DO NOT IMPLEMENT THIS TRAIT
-pub unsafe trait SclPin<I2C> {}
+mod sealed {
+    /// SDA pin
+    pub trait SdaPin<I2C> {}
 
-unsafe impl<T> SdaPin<I2c0> for gpio0::Pin12<IOF0<T>> {}
-unsafe impl<T> SclPin<I2c0> for gpio0::Pin13<IOF0<T>> {}
+    /// SCL pin
+    pub trait SclPin<I2C> {}
+}
+
+impl<T> sealed::SdaPin<I2c0> for gpio0::Pin12<IOF0<T>> {}
+impl<T> sealed::SclPin<I2c0> for gpio0::Pin13<IOF0<T>> {}
 
 /// I2C error
 #[derive(Debug, Eq, PartialEq)]
@@ -61,8 +65,8 @@ impl<SDA, SCL> I2c<I2c0, (SDA, SCL)> {
     /// Configures an I2C peripheral
     pub fn new(i2c: I2c0, sda: SDA, scl: SCL, speed: Speed, clocks: Clocks) -> Self
     where
-        SDA: SdaPin<I2c0>,
-        SCL: SclPin<I2c0>,
+        SDA: sealed::SdaPin<I2c0>,
+        SCL: sealed::SclPin<I2c0>,
     {
         // Calculate prescaler value
         let desired_speed = match speed {
@@ -115,13 +119,13 @@ impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
     {
         self.i2c.cr().write(|w| unsafe {
             let mut value: u32 = 0;
-            f(mem::transmute(&mut value));
+            f(mem::transmute::<&mut u32, &mut i2c0::cr::W>(&mut value));
             w.bits(value)
         });
     }
 
     fn read_sr(&self) -> i2c0::sr::R {
-        unsafe { mem::transmute(self.i2c.sr().read()) }
+        self.i2c.sr().read()
     }
 
     fn write_byte(&self, byte: u8) {

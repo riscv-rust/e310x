@@ -26,6 +26,10 @@ impl CorePeripherals {
     }
 
     /// Steal the peripherals
+    ///
+    /// # Safety
+    ///
+    /// Using this function may break the guarantees of the singleton pattern.
     pub unsafe fn steal() -> Self {
         let p = e310x::Peripherals::steal();
         Self::new(p.clint, p.plic)
