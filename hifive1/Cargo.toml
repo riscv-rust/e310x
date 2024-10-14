@@ -13,9 +13,12 @@ rust-version = "1.76"
 [dependencies]
 critical-section = { version = "1.1.3" }
 e310x-hal = { path = "../e310x-hal", version = "0.12.0" }
-embedded-hal = "0.2.7"
-riscv = "0.12.1"
 nb = "1.0.0"
+riscv = "0.12.1"
+
+[dev-dependencies]
+riscv-rt = { version = "0.12.2", features = ["single-hart"] }
+semihosting = { version = "0.1",  features = ["stdio", "panic-handler"] }
 
 [features]
 board-hifive1 = []
@@ -27,3 +30,11 @@ v-trap = ["e310x-hal/v-trap"]
 
 [package.metadata.docs.rs]
 features = ['board-hifive1-revb']
+
+[[example]]
+name = "led_blink"
+required-features = ["board-hifive1-revb"]
+
+[[example]]
+name = "rgb_blink"
+required-features = ["board-hifive1-revb"]

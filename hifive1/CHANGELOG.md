@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
+- Add examples based on semihosting
+- Adapt to embedded-hal 1.0
 - Replace static muts with Mutexes
 - Apply clippy changes
 - Bump MSRV to 1.76
