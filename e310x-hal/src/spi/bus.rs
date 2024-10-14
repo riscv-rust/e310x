@@ -1,40 +1,91 @@
-use core::convert::Infallible;
-use embedded_hal::blocking::spi::Operation;
-pub use embedded_hal::blocking::spi::{Transfer, Write, WriteIter};
-pub use embedded_hal::spi::{FullDuplex, Phase, Polarity};
+use embedded_hal::spi::{self, ErrorKind, ErrorType, Phase, Polarity};
+use embedded_hal_nb::spi::FullDuplex;
 
-use nb;
+use super::{Pins, PinsFull, PinsNoCS, SharedBus, SpiConfig, SpiExclusiveDevice, SpiX};
 
-use super::{Pins, PinsNoCS, SharedBus, SpiConfig, SpiExclusiveDevice, SpiX};
+const EMPTY_WRITE_PAD: u8 = 0x00;
 
 /// SPI bus abstraction
 pub struct SpiBus<SPI, PINS> {
-    pub(crate) spi: SPI,
-    pub(crate) pins: PINS,
+    spi: SPI,
+    pins: PINS,
 }
 
-impl<SPI, PINS> SpiBus<SPI, PINS>
-where
-    SPI: SpiX,
-{
-    /// Construct the [SpiBus] for use with [SpiSharedDevice](super::SpiSharedDevice) or [SpiExclusiveDevice]
-    pub fn new(spi: SPI, pins: PINS) -> Self
-    where
-        PINS: Pins<SPI>,
-    {
-        Self { spi, pins }
-    }
-
+impl<SPI, PINS> SpiBus<SPI, PINS> {
     /// Releases the SPI peripheral and associated pins
     pub fn release(self) -> (SPI, PINS) {
         (self.spi, self.pins)
     }
+}
 
-    /// Configure the [SpiBus] with given [SpiConfig]
-    pub(crate) fn configure(&mut self, config: &SpiConfig, cs_index: Option<u32>)
-    where
-        PINS: Pins<SPI>,
-    {
+impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
+    /// Starts frame by flagging CS assert, unless CSMODE = OFF
+    pub(crate) fn start_frame(&mut self) {
+        if !self.spi.csmode().read().mode().is_off() {
+            self.spi.csmode().write(|w| w.mode().hold());
+        }
+    }
+
+    /// Finishes frame flagging CS deassert, unless CSMODE = OFF
+    pub(crate) fn end_frame(&mut self) {
+        if !self.spi.csmode().read().mode().is_off() {
+            self.spi.csmode().write(|w| w.mode().auto());
+        }
+    }
+
+    /// Read a single byte from the SPI bus.
+    ///
+    /// This function will return `nb::Error::WouldBlock` if the RX FIFO is empty.
+    fn read_input(&self) -> nb::Result<u8, ErrorKind> {
+        let rxdata = self.spi.rxdata().read();
+        if rxdata.empty().bit_is_set() {
+            Err(nb::Error::WouldBlock)
+        } else {
+            Ok(rxdata.data().bits())
+        }
+    }
+
+    /// Write a single byte to the SPI bus.
+    ///
+    /// This function will return `nb::Error::WouldBlock` if the TX FIFO is full.
+    fn write_output(&self, word: u8) -> nb::Result<(), ErrorKind> {
+        if self.spi.txdata().read().full().bit_is_set() {
+            Err(nb::Error::WouldBlock)
+        } else {
+            self.spi.txdata().write(|w| unsafe { w.data().bits(word) });
+            Ok(())
+        }
+    }
+
+    /// Wait for RX FIFO to be empty
+    ///
+    /// # Note
+    ///
+    /// Data in the RX FIFO (if any) will be lost.
+    fn wait_for_rxfifo(&self) {
+        // Ensure that RX FIFO is empty
+        while self.read_input().is_ok() {}
+    }
+}
+
+impl<SPI: SpiX, PINS: Pins<SPI>> SpiBus<SPI, PINS> {
+    /// Construct the [`SpiBus`] for use with [`SpiSharedDevice`](super::SpiSharedDevice)
+    /// or [`SpiExclusiveDevice`]
+    pub fn new(spi: SPI, pins: PINS) -> Self {
+        Self { spi, pins }
+    }
+
+    /// Create a new [`SpiExclusiveDevice`] for exclusive use on this bus
+    pub fn new_device(self, config: &SpiConfig) -> SpiExclusiveDevice<SPI, PINS> {
+        SpiExclusiveDevice::new(self, config)
+    }
+
+    /// Configure the [`SpiBus`] with given [`SpiConfig`]
+    ///
+    /// # Safety
+    ///
+    /// The provided CS index must be valid for the given SPI peripheral.
+    pub(crate) unsafe fn configure(&mut self, config: &SpiConfig, cs_index: Option<u32>) {
         self.spi
             .sckdiv()
             .write(|w| unsafe { w.div().bits(config.clock_divisor as u16) });
@@ -83,167 +134,154 @@ where
 
         self.end_frame(); // ensure CS is de-asserted before we begin
     }
-
-    fn wait_for_rxfifo(&self) {
-        // Ensure that RX FIFO is empty
-        while self.spi.rxdata().read().empty().bit_is_clear() {}
-    }
-
-    /// Starts frame by flagging CS assert, unless CSMODE = OFF
-    pub(crate) fn start_frame(&mut self) {
-        if !self.spi.csmode().read().mode().is_off() {
-            self.spi.csmode().write(|w| w.mode().hold());
-        }
-    }
-
-    /// Finishes frame flagging CS deassert, unless CSMODE = OFF
-    pub(crate) fn end_frame(&mut self) {
-        if !self.spi.csmode().read().mode().is_off() {
-            self.spi.csmode().write(|w| w.mode().auto());
-        }
-    }
-
-    // ex-traits now only accessible via devices
-
-    pub(crate) fn read(&mut self) -> nb::Result<u8, Infallible> {
-        let rxdata = self.spi.rxdata().read();
-
-        if rxdata.empty().bit_is_set() {
-            Err(nb::Error::WouldBlock)
-        } else {
-            Ok(rxdata.data().bits())
-        }
-    }
-
-    pub(crate) fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
-        let txdata = self.spi.txdata().read();
-
-        if txdata.full().bit_is_set() {
-            Err(nb::Error::WouldBlock)
-        } else {
-            self.spi.txdata().write(|w| unsafe { w.data().bits(byte) });
-            Ok(())
-        }
-    }
-
-    pub(crate) fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w [u8], Infallible> {
-        let mut iwrite = 0;
-        let mut iread = 0;
-
-        // Ensure that RX FIFO is empty
-        self.wait_for_rxfifo();
-
-        while iwrite < words.len() || iread < words.len() {
-            if iwrite < words.len() && self.spi.txdata().read().full().bit_is_clear() {
-                let byte = unsafe { words.get_unchecked(iwrite) };
-                iwrite += 1;
-                self.spi.txdata().write(|w| unsafe { w.data().bits(*byte) });
-            }
-
-            if iread < iwrite {
-                let data = self.spi.rxdata().read();
-                if data.empty().bit_is_clear() {
-                    unsafe { *words.get_unchecked_mut(iread) = data.data().bits() };
-                    iread += 1;
-                }
-            }
-        }
-
-        Ok(words)
-    }
-
-    pub(crate) fn write(&mut self, words: &[u8]) -> Result<(), Infallible> {
-        let mut iwrite = 0;
-        let mut iread = 0;
-
-        // Ensure that RX FIFO is empty
-        self.wait_for_rxfifo();
-
-        while iwrite < words.len() || iread < words.len() {
-            if iwrite < words.len() && self.spi.txdata().read().full().bit_is_clear() {
-                let byte = unsafe { words.get_unchecked(iwrite) };
-                iwrite += 1;
-                self.spi.txdata().write(|w| unsafe { w.data().bits(*byte) });
-            }
-
-            if iread < iwrite {
-                // Read and discard byte, if any
-                if self.spi.rxdata().read().empty().bit_is_clear() {
-                    iread += 1;
-                }
-            }
-        }
-
-        Ok(())
-    }
-
-    pub(crate) fn write_iter<WI>(&mut self, words: WI) -> Result<(), Infallible>
-    where
-        WI: IntoIterator<Item = u8>,
-    {
-        let mut iter = words.into_iter();
-
-        let mut read_count = 0;
-        let mut has_data = true;
-
-        // Ensure that RX FIFO is empty
-        self.wait_for_rxfifo();
-
-        while has_data || read_count > 0 {
-            if has_data && self.spi.txdata().read().full().bit_is_clear() {
-                if let Some(byte) = iter.next() {
-                    self.spi.txdata().write(|w| unsafe { w.data().bits(byte) });
-                    read_count += 1;
-                } else {
-                    has_data = false;
-                }
-            }
-
-            if read_count > 0 {
-                // Read and discard byte, if any
-                if self.spi.rxdata().read().empty().bit_is_clear() {
-                    read_count -= 1;
-                }
-            }
-        }
-
-        Ok(())
-    }
-
-    pub(crate) fn exec(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Infallible> {
-        for op in operations {
-            match op {
-                Operation::Transfer(words) => {
-                    self.transfer(words)?;
-                }
-                Operation::Write(words) => {
-                    self.write(words)?;
-                }
-            }
-        }
-
-        Ok(())
-    }
 }
 
-impl<SPI, PINS> SpiBus<SPI, PINS>
-where
-    SPI: SpiX,
-    PINS: Pins<SPI>,
-{
-    /// Create a new [SpiExclusiveDevice] for exclusive use on this bus
-    pub fn new_device(self, config: &SpiConfig) -> SpiExclusiveDevice<SPI, PINS> {
-        SpiExclusiveDevice::new(self, config)
-    }
-}
-
-impl<SPI, PINS> SpiBus<SPI, PINS>
-where
-    SPI: SpiX,
-    PINS: PinsNoCS<SPI>,
-{
-    /// Create a [SharedBus] for use with multiple devices.
+impl<SPI: SpiX, PINS: PinsNoCS<SPI>> SpiBus<SPI, PINS> {
+    /// Create a [`SharedBus`] for use with multiple devices.
     pub fn shared(spi: SPI, pins: PINS) -> SharedBus<SPI, PINS> {
         SharedBus::new(Self::new(spi, pins))
+    }
+}
+
+impl<SPI: SpiX, PINS> ErrorType for SpiBus<SPI, PINS> {
+    type Error = ErrorKind;
+}
+
+impl<SPI: SpiX, PINS: Pins<SPI>> FullDuplex for SpiBus<SPI, PINS> {
+    fn read(&mut self) -> nb::Result<u8, Self::Error> {
+        self.read_input()
+    }
+
+    fn write(&mut self, word: u8) -> nb::Result<(), Self::Error> {
+        self.write_output(word)
+    }
+}
+
+// The embedded_hal::spi::SpiBus trait can only be implemented for pin tuples
+// with full ownership of the SPI bus, including MOSI, MISO, and SCK pins.
+impl<SPI: SpiX, PINS: PinsFull<SPI>> spi::SpiBus for SpiBus<SPI, PINS> {
+    fn read(&mut self, words: &mut [u8]) -> Result<(), Self::Error> {
+        let mut iwrite = 0;
+        let mut iread = 0;
+
+        // Ensure that RX FIFO is empty
+        self.wait_for_rxfifo();
+
+        while iwrite < words.len() || iread < words.len() {
+            if iwrite < words.len() {
+                match self.write_output(EMPTY_WRITE_PAD) {
+                    Ok(()) => iwrite += 1,
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+            if iread < iwrite {
+                match self.read_input() {
+                    Ok(data) => {
+                        unsafe { *words.get_unchecked_mut(iread) = data };
+                        iread += 1;
+                    }
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
+        let mut iwrite = 0;
+        let mut iread = 0;
+
+        // Ensure that RX FIFO is empty
+        self.wait_for_rxfifo();
+
+        while iwrite < words.len() || iread < words.len() {
+            if iwrite < words.len() {
+                let byte = unsafe { words.get_unchecked(iwrite) };
+                match self.write_output(*byte) {
+                    Ok(()) => iwrite += 1,
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+            if iread < iwrite {
+                match self.read_input() {
+                    Ok(_) => iread += 1,
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn transfer(&mut self, read: &mut [u8], write: &[u8]) -> Result<(), Self::Error> {
+        let mut iwrite = 0;
+        let mut iread = 0;
+        let max_len = read.len().max(write.len());
+
+        // Ensure that RX FIFO is empty
+        self.wait_for_rxfifo();
+
+        while iwrite < max_len || iread < max_len {
+            if iwrite < max_len {
+                let byte = write.get(iwrite).unwrap_or(&EMPTY_WRITE_PAD);
+                match self.write_output(*byte) {
+                    Ok(()) => iwrite += 1,
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+            if iread < iwrite {
+                match self.read_input() {
+                    Ok(data) => {
+                        if let Some(byte) = read.get_mut(iread) {
+                            *byte = data;
+                        }
+                        iread += 1;
+                    }
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn transfer_in_place(&mut self, words: &mut [u8]) -> Result<(), Self::Error> {
+        let mut iwrite = 0;
+        let mut iread = 0;
+
+        // Ensure that RX FIFO is empty
+        self.wait_for_rxfifo();
+
+        while iwrite < words.len() || iread < words.len() {
+            if iwrite < words.len() {
+                let byte = unsafe { words.get_unchecked(iwrite) };
+                match self.write_output(*byte) {
+                    Ok(()) => iwrite += 1,
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+            if iread < iwrite {
+                match self.read_input() {
+                    Ok(data) => {
+                        unsafe { *words.get_unchecked_mut(iread) = data };
+                        iread += 1;
+                    }
+                    Err(nb::Error::WouldBlock) => {}
+                    Err(nb::Error::Other(e)) => return Err(e),
+                }
+            }
+        }
+
+        Ok(())
+    }
+
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.wait_for_rxfifo(); // TODO anything else to do here?
+        Ok(())
     }
 }

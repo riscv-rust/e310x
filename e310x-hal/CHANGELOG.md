@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- Update `riscv` to 0.11.1
 - Apply clippy changes
 - Use `portable-atomic` with `zaamo` feature to use native `amo*` operations.
 - Official target is now `riscv32imc-unknown-none-elf`, as it does not fully support the A extension.

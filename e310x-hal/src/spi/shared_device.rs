@@ -1,18 +1,20 @@
-use core::convert::Infallible;
-
-use embedded_hal::{
-    blocking::spi::{Operation, Transactional, Transfer, Write, WriteIter},
-    spi::FullDuplex,
-};
+use embedded_hal::spi::{ErrorKind, ErrorType, Operation, SpiBus, SpiDevice};
 use riscv::interrupt;
 
-use super::{PinCS, Pins, PinsNoCS, SharedBus, SpiConfig, SpiX};
+use super::{PinCS, PinsFull, PinsNoCS, SharedBus, SpiConfig, SpiX};
 
 /// SPI shared device abstraction
 pub struct SpiSharedDevice<'bus, SPI, PINS, CS> {
     bus: &'bus SharedBus<SPI, PINS>,
     cs: CS,
     config: SpiConfig,
+}
+
+impl<'bus, SPI, PINS, CS> SpiSharedDevice<'bus, SPI, PINS, CS> {
+    /// Releases the CS pin back
+    pub fn release(self) -> CS {
+        self.cs
+    }
 }
 
 impl<'bus, SPI, PINS, CS> SpiSharedDevice<'bus, SPI, PINS, CS>
@@ -23,143 +25,56 @@ where
 {
     /// Create shared [SpiSharedDevice] using the existing [SharedBus]
     /// and given [SpiConfig]. The config gets cloned.
-    pub fn new(bus: &'bus SharedBus<SPI, PINS>, cs: CS, config: &SpiConfig) -> Self
-    where
-        PINS: PinsNoCS<SPI>,
-    {
+    pub fn new(bus: &'bus SharedBus<SPI, PINS>, cs: CS, config: &SpiConfig) -> Self {
         Self {
             bus,
             cs,
             config: config.clone(),
         }
     }
-
-    /// Releases the CS pin back
-    pub fn release(self) -> CS {
-        self.cs
-    }
 }
 
-impl<SPI, PINS, CS> FullDuplex<u8> for SpiSharedDevice<'_, SPI, PINS, CS>
+impl<'bus, SPI, PINS, CS> ErrorType for SpiSharedDevice<'bus, SPI, PINS, CS>
 where
     SPI: SpiX,
-    PINS: Pins<SPI>,
+    PINS: PinsNoCS<SPI>,
     CS: PinCS<SPI>,
 {
-    type Error = Infallible;
-
-    fn read(&mut self) -> nb::Result<u8, Infallible> {
-        interrupt::free(|| {
-            let mut bus = self.bus.borrow_mut();
-
-            bus.configure(&self.config, Some(CS::CS_INDEX));
-
-            bus.read()
-        })
-    }
-
-    fn send(&mut self, byte: u8) -> nb::Result<(), Infallible> {
-        interrupt::free(|| {
-            let mut bus = self.bus.borrow_mut();
-
-            bus.configure(&self.config, Some(CS::CS_INDEX));
-
-            bus.send(byte)
-        })
-    }
+    type Error = ErrorKind;
 }
 
-impl<SPI, PINS, CS> Transfer<u8> for SpiSharedDevice<'_, SPI, PINS, CS>
+impl<'bus, SPI, PINS, CS> SpiDevice for SpiSharedDevice<'bus, SPI, PINS, CS>
 where
     SPI: SpiX,
-    PINS: Pins<SPI>,
+    PINS: PinsNoCS<SPI> + PinsFull<SPI>,
     CS: PinCS<SPI>,
 {
-    type Error = Infallible;
+    fn transaction(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Self::Error> {
+        let mut bus =
+            interrupt::free(|| self.bus.try_borrow_mut().map_err(|_| ErrorKind::ModeFault))?;
+        // Safety: valid CS index
+        unsafe { bus.configure(&self.config, Some(CS::CS_INDEX)) };
+        bus.start_frame();
 
-    fn transfer<'w>(&mut self, words: &'w mut [u8]) -> Result<&'w [u8], Self::Error> {
-        interrupt::free(move || {
-            let mut bus = self.bus.borrow_mut();
+        let mut res = Ok(());
+        for operation in operations.iter_mut() {
+            res = match operation {
+                Operation::Read(read) => bus.read(read),
+                Operation::Write(write) => bus.write(write),
+                Operation::Transfer(read, write) => bus.transfer(read, write),
+                Operation::TransferInPlace(read_write) => bus.transfer_in_place(read_write),
+                Operation::DelayNs(_ns) => todo!(),
+            };
+            if res.is_err() {
+                break;
+            }
+        }
 
-            bus.configure(&self.config, Some(CS::CS_INDEX));
+        if res.is_ok() {
+            bus.flush()?;
+        }
+        bus.end_frame();
 
-            bus.start_frame();
-            let result = bus.transfer(words);
-            bus.end_frame();
-
-            result
-        })
-    }
-}
-
-impl<SPI, PINS, CS> Write<u8> for SpiSharedDevice<'_, SPI, PINS, CS>
-where
-    SPI: SpiX,
-    PINS: Pins<SPI>,
-    CS: PinCS<SPI>,
-{
-    type Error = Infallible;
-
-    fn write(&mut self, words: &[u8]) -> Result<(), Self::Error> {
-        interrupt::free(|| {
-            let mut bus = self.bus.borrow_mut();
-
-            bus.configure(&self.config, Some(CS::CS_INDEX));
-
-            bus.start_frame();
-            let result = bus.write(words);
-            bus.end_frame();
-
-            result
-        })
-    }
-}
-
-impl<SPI, PINS, CS> WriteIter<u8> for SpiSharedDevice<'_, SPI, PINS, CS>
-where
-    SPI: SpiX,
-    PINS: Pins<SPI>,
-    CS: PinCS<SPI>,
-{
-    type Error = Infallible;
-
-    fn write_iter<WI>(&mut self, words: WI) -> Result<(), Self::Error>
-    where
-        WI: IntoIterator<Item = u8>,
-    {
-        interrupt::free(|| {
-            let mut bus = self.bus.borrow_mut();
-
-            bus.configure(&self.config, Some(CS::CS_INDEX));
-
-            bus.start_frame();
-            let result = bus.write_iter(words);
-            bus.end_frame();
-
-            result
-        })
-    }
-}
-
-impl<SPI, PINS, CS> Transactional<u8> for SpiSharedDevice<'_, SPI, PINS, CS>
-where
-    SPI: SpiX,
-    PINS: Pins<SPI>,
-    CS: PinCS<SPI>,
-{
-    type Error = Infallible;
-
-    fn exec(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Infallible> {
-        interrupt::free(|| {
-            let mut bus = self.bus.borrow_mut();
-
-            bus.configure(&self.config, Some(CS::CS_INDEX));
-
-            bus.start_frame();
-            let result = bus.exec(operations);
-            bus.end_frame();
-
-            result
-        })
+        Ok(())
     }
 }
