@@ -1,5 +1,4 @@
-//! Basic blinking LEDs example using mtime/mtimecmp registers for "sleep" in a loop.
-//! Blinks each led once and goes to the next one.
+//! Example of polling a button and turning on a LED when the button is pressed.
 
 #![no_std]
 #![no_main]
@@ -29,6 +28,9 @@ fn main() -> ! {
         clocks,
     );
 
+    // Configure button pin as pull-up input
+    let mut button = pins.pin9.into_pull_up_input();
+
     // get blue LED pin
     let pin = pin!(pins, led_blue);
     let mut led = pin.into_inverted_output();
@@ -39,8 +41,14 @@ fn main() -> ! {
 
     const STEP: u32 = 1000; // 1s
     loop {
-        Led::toggle(&mut led);
-        sprintln!("LED toggled. New state: {}", led.is_on());
+        if button.is_low().unwrap() {
+            sprintln!("Button pressed");
+            led.on();
+        } else {
+            sprintln!("Button released");
+            led.off();
+        }
+        sprintln!("LED is on: {}", led.is_on());
         sleep.delay_ms(STEP);
     }
 }
