@@ -11,6 +11,7 @@ pub use embedded_hal::{
     delay::DelayNs,
     digital::{InputPin, OutputPin, StatefulOutputPin},
     i2c::I2c,
+    pwm::SetDutyCycle,
     spi::{SpiBus, SpiDevice},
 };
 
