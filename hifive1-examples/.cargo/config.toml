@@ -3,7 +3,7 @@ runner = "qemu-system-riscv32 -machine sifive_e,revb=true -nographic -semihostin
 # runner = "riscv64-unknown-elf-gdb -q -x hifive1-examples/gdb_init" # Uncomment for hardware (no semihosting)
 # runner = "riscv64-unknown-elf-gdb -q -x hifive1-examples/gdb_init_sh" # Uncomment for hardware (semihosting)
 rustflags = [
-    # "-C", "link-arg=-Thifive1-link.x",
+    "-C", "link-arg=-Thifive1-link.x",
     "--cfg", "portable_atomic_target_feature=\"zaamo\"",
 ]
 

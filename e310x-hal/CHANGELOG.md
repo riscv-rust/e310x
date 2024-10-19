@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- Fix `StatefulOutputPin::is_set_high`. It now reads from `output_val`
+- UART traits are implemented now from `embedded-hal-nb` 1.0.0
+- Update `embedded-hal` to 1.0.0
 - Update `riscv` to 0.11.1
 - Apply clippy changes
 - Use `portable-atomic` with `zaamo` feature to use native `amo*` operations.

@@ -7,9 +7,9 @@
 use hifive1::{
     clock,
     hal::{delay::Sleep, prelude::*, DeviceResources},
-    pin, Led,
+    pin, sprintln, Led,
 };
-use semihosting::println;
+extern crate panic_halt;
 
 #[riscv_rt::entry]
 fn main() -> ! {
@@ -20,6 +20,15 @@ fn main() -> ! {
     // Configure clocks
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
+    // Configure UART for stdout
+    hifive1::stdout::configure(
+        p.UART0,
+        pin!(pins, uart0_tx),
+        pin!(pins, uart0_rx),
+        115_200.bps(),
+        clocks,
+    );
+
     // get all 3 led pins in a tuple (each pin is it's own type here)
     let pin = pin!(pins, led_blue);
     let mut led = pin.into_inverted_output();
@@ -28,12 +37,10 @@ fn main() -> ! {
     let clint = dr.core_peripherals.clint;
     let mut sleep = Sleep::new(clint.mtimecmp, clocks);
 
-    println!("Starting blink loop");
-
     const STEP: u32 = 1000; // 1s
     loop {
         Led::toggle(&mut led);
-        println!("LED toggled. New state: {}", led.is_on());
+        sprintln!("LED toggled. New state: {}", led.is_on());
         sleep.delay_ms(STEP);
     }
 }

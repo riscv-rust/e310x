@@ -1,0 +1,35 @@
+[package]
+name = "hifive1-examples"
+version = "0.1.0"
+repository = "https://github.com/riscv-rust/e310x"
+authors = ["David Craven <david@craven.ch>"]
+categories = ["embedded", "hardware-support", "no-std"]
+description = "Running examples for HiFive1 and LoFive boards"
+keywords = ["riscv", "register", "peripheral"]
+license = "ISC"
+edition = "2021"
+rust-version = "1.72"
+
+[workspace]
+
+[dependencies]
+critical-section = { version = "1.1.3" }
+hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb"] } # Change to your board
+riscv-rt = { version = "0.12.2", features = ["single-hart"] }
+panic-halt = "0.2.0"
+semihosting = { version = "0.1",  features = ["stdio", "panic-handler"], optional = true }
+
+[features]
+virq = ["hifive1/virq"]
+
+[[example]]
+name = "sh_hello_world"
+required-features = ["semihosting"]
+
+[[example]]
+name = "sh_led_blink"
+required-features = ["semihosting"]
+
+[[example]]
+name = "sh_rgb_blink"
+required-features = ["semihosting"]

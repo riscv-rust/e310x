@@ -80,56 +80,61 @@ trait PeripheralAccess {
 
     fn set_input_en(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.input_en()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.input_en()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_output_en(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_en()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.output_en()) };
         atomic_set_bit(r, index, bit);
+    }
+
+    fn output_value(index: usize) -> bool {
+        let p = Self::peripheral();
+        ((p.output_val().read().bits() >> (index & 31)) & 1) != 0
     }
 
     fn set_output_value(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.output_val()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn toggle_pin(index: usize) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.output_val()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.output_val()) };
         let mask = 1 << (index & 31);
         r.fetch_xor(mask, Ordering::SeqCst);
     }
 
     fn set_pullup(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.pullup()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.pullup()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_drive(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.drive()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.drive()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_out_xor(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.out_xor()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.out_xor()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_iof_en(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.iof_en()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.iof_en()) };
         atomic_set_bit(r, index, bit);
     }
 
     fn set_iof_sel(index: usize, bit: bool) {
         let p = Self::peripheral();
-        let r: &AtomicU32 = unsafe { core::mem::transmute(&p.iof_sel()) };
+        let r: &AtomicU32 = unsafe { core::mem::transmute(p.iof_sel()) };
         atomic_set_bit(r, index, bit);
     }
 }
@@ -310,7 +315,7 @@ macro_rules! gpio {
                 impl<MODE> StatefulOutputPin for $PXi<Output<MODE>> {
                     #[inline]
                     fn is_set_high(&mut self) -> Result<bool, Infallible> {
-                        Ok($GPIOX::input_value(Self::INDEX))
+                        Ok($GPIOX::output_value(Self::INDEX))
                     }
 
                     #[inline]
