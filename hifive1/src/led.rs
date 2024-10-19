@@ -8,12 +8,15 @@
 //! RedV
 //! - Blue = Pin 5
 
+use core::convert::Infallible;
 #[cfg(feature = "board-redv")]
 use e310x_hal::gpio::gpio0::Pin5;
 #[cfg(any(feature = "board-hifive1", feature = "board-hifive1-revb"))]
 use e310x_hal::gpio::gpio0::{Pin19, Pin21, Pin22};
-use e310x_hal::gpio::{Invert, Output, Regular};
-use embedded_hal::digital::v2::{OutputPin, ToggleableOutputPin};
+use e310x_hal::{
+    gpio::{Invert, Output, Regular},
+    prelude::*,
+};
 
 #[cfg(any(feature = "board-hifive1", feature = "board-hifive1-revb"))]
 /// Red LED
@@ -41,7 +44,10 @@ pub fn rgb<X, Y, Z>(red: Pin22<X>, green: Pin19<Y>, blue: Pin21<Z>) -> (RED, GRE
 }
 
 /// Generic LED
-pub trait Led {
+pub trait Led: StatefulOutputPin<Error = Infallible> {
+    /// Returns true if the LED is on
+    fn is_on(&mut self) -> bool;
+
     /// Turns the LED off
     fn off(&mut self);
 
@@ -49,7 +55,9 @@ pub trait Led {
     fn on(&mut self);
 
     /// Toggles the LED state
-    fn toggle(&mut self);
+    fn toggle(&mut self) {
+        StatefulOutputPin::toggle(self).unwrap();
+    }
 }
 
 /// Macro to implement the Led trait for each of the board LEDs
@@ -57,16 +65,16 @@ macro_rules! led_impl {
     ($($LEDTYPE:ident),+) => {
         $(
             impl Led for $LEDTYPE {
-                fn off(&mut self) {
-                    self.set_low().unwrap();
+                fn is_on(&mut self) -> bool {
+                    self.is_set_low().unwrap()
                 }
 
-                fn on(&mut self) {
+                fn off(&mut self) {
                     self.set_high().unwrap();
                 }
 
-                fn toggle(&mut self) {
-                    ToggleableOutputPin::toggle(self).unwrap();
+                fn on(&mut self) {
+                    self.set_low().unwrap();
                 }
             }
         )+
