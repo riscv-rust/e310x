@@ -1,7 +1,7 @@
 [package]
 name = "hifive1"
 version = "0.14.0"
-repository = "https://github.com/riscv-rust/hifive1"
+repository = "https://github.com/riscv-rust/e310x"
 authors = ["David Craven <david@craven.ch>"]
 categories = ["embedded", "hardware-support", "no-std"]
 description = "Board support crate for HiFive1 and LoFive boards"
@@ -16,10 +16,6 @@ e310x-hal = { path = "../e310x-hal", version = "0.12.0" }
 nb = "1.0.0"
 riscv = "0.12.1"
 
-[dev-dependencies]
-riscv-rt = { version = "0.12.2", features = ["single-hart"] }
-semihosting = { version = "0.1",  features = ["stdio", "panic-handler"] }
-
 [features]
 board-hifive1 = []
 board-hifive1-revb = ["e310x-hal/g002"]
@@ -30,11 +26,3 @@ v-trap = ["e310x-hal/v-trap"]
 
 [package.metadata.docs.rs]
 features = ['board-hifive1-revb']
-
-[[example]]
-name = "led_blink"
-required-features = ["board-hifive1-revb"]
-
-[[example]]
-name = "rgb_blink"
-required-features = ["board-hifive1-revb"]

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- Fix `StatefulOutputPin::is_set_high`. It now reads from `output_val`
+- UART traits are implemented now from `embedded-hal-nb` 1.0.0
+- Update `embedded-hal` to 1.0.0
 - Update `riscv` to 0.12.1
 - Remove `virq` feature. Now interrupts are handled by `e310x`
 - Apply clippy changes

@@ -1,4 +1,10 @@
-//! Prints "hello world!" to the host console using semihosting and the on-board UART.
+//! Prints "hello world!" to the host console using the on-board UART.
+//!
+//! # Note
+//!
+//! We have noticed that using the UART while debugging with GDB can cause
+//! the GDB session to hang. Thus, you will probably want to run this example
+//! without GDB. Otherwise, you might not be able to see the output.
 
 #![no_std]
 #![no_main]
@@ -7,7 +13,11 @@ use hifive1::{
     hal::{prelude::*, DeviceResources},
     pin, sprintln,
 };
-use semihosting::{println, process::exit};
+
+#[cfg(not(feature = "semihosting"))]
+extern crate panic_halt;
+#[cfg(feature = "semihosting")]
+extern crate semihosting;
 
 #[riscv_rt::entry]
 fn main() -> ! {
@@ -27,8 +37,7 @@ fn main() -> ! {
         clocks,
     );
 
-    sprintln!("STDOUT: hello world!");
-    println!("Semihosting: hello world!");
+    sprintln!("Hello, world!");
 
-    exit(0);
+    loop {}
 }

@@ -7,9 +7,9 @@
 use hifive1::{
     clock,
     hal::{delay::Sleep, prelude::*, DeviceResources},
-    pins, Led,
+    pin, Led,
 };
-use semihosting::println;
+use semihosting::{println, process::exit};
 
 #[riscv_rt::entry]
 fn main() -> ! {
@@ -21,23 +21,22 @@ fn main() -> ! {
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
     // get all 3 led pins in a tuple (each pin is it's own type here)
-    let rgb_pins = pins!(pins, (led_red, led_green, led_blue));
-    let mut tleds = hifive1::rgb(rgb_pins.0, rgb_pins.1, rgb_pins.2);
-    // get leds as the Led trait in an array so we can index them
-    let mut ileds: [&mut dyn Led; 3] = [&mut tleds.0, &mut tleds.1, &mut tleds.2];
+    let pin = pin!(pins, led_blue);
+    let mut led = pin.into_inverted_output();
 
     // Get the sleep struct from CLINT
     let clint = dr.core_peripherals.clint;
     let mut sleep = Sleep::new(clint.mtimecmp, clocks);
 
-    println!("Starting blink loop");
+    const N_TOGGLE: usize = 4;
+    const STEP: u32 = 500; // 500 ms
 
-    const STEP: u32 = 1000; // 1s
-    loop {
-        for (i, led) in ileds.iter_mut().enumerate() {
-            led.toggle().unwrap();
-            println!("LED {i} toggled. New state: {}", led.is_on());
-            sleep.delay_ms(STEP);
-        }
+    println!("Toggling LED {} times", N_TOGGLE);
+    for _ in 0..N_TOGGLE {
+        Led::toggle(&mut led);
+        println!("LED toggled. New state: {}", led.is_on());
+        sleep.delay_ms(STEP);
     }
+    println!("Done toggling LED");
+    exit(0);
 }
