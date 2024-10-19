@@ -66,15 +66,15 @@ macro_rules! led_impl {
         $(
             impl Led for $LEDTYPE {
                 fn is_on(&mut self) -> bool {
-                    self.is_set_high().unwrap()
+                    self.is_set_low().unwrap()
                 }
 
                 fn off(&mut self) {
-                    self.set_low().unwrap();
+                    self.set_high().unwrap();
                 }
 
                 fn on(&mut self) {
-                    self.set_high().unwrap();
+                    self.set_low().unwrap();
                 }
             }
         )+

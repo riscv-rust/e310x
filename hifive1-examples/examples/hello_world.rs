@@ -31,5 +31,7 @@ fn main() -> ! {
     );
 
     println!("Hello, world!");
-    loop {}
+    loop {
+        riscv::asm::wfi();
+    }
 }
