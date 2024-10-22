@@ -1,9 +1,9 @@
 //! # Delays
 
 use crate::clock::Clocks;
-use crate::core::clint::{MTIME, MTIMECMP};
+use e310x::CLINT;
 use embedded_hal::blocking::delay::{DelayMs, DelayUs};
-use riscv::register::{mie, mip};
+use riscv::register::mip;
 
 /// Machine timer (mtime) as a busyloop delay provider
 #[derive(Default)]
@@ -22,9 +22,9 @@ impl DelayUs<u32> for Delay {
     fn delay_us(&mut self, us: u32) {
         let ticks = (us as u64) * TICKS_PER_SECOND / 1_000_000;
 
-        let mtime = MTIME;
-        let t = mtime.mtime() + ticks;
-        while mtime.mtime() < t {}
+        let mtime = CLINT::mtimer().mtime;
+        let t = mtime.read() + ticks;
+        while mtime.read() < t {}
     }
 }
 
@@ -83,15 +83,13 @@ impl DelayMs<u8> for Delay {
 /// Machine timer (mtime) as a sleep delay provider using mtimecmp
 pub struct Sleep {
     clock_freq: u32,
-    mtimecmp: MTIMECMP,
 }
 
 impl Sleep {
     /// Constructs a delay provider using mtimecmp register to sleep
-    pub fn new(mtimecmp: MTIMECMP, clocks: Clocks) -> Self {
+    pub fn new(clocks: Clocks) -> Self {
         Sleep {
             clock_freq: clocks.lfclk().0,
-            mtimecmp,
         }
     }
 }
@@ -99,23 +97,19 @@ impl Sleep {
 impl DelayMs<u32> for Sleep {
     fn delay_ms(&mut self, ms: u32) {
         let ticks = (ms as u64) * (self.clock_freq as u64) / 1000;
-        let t = MTIME.mtime() + ticks;
+        let t = CLINT::mtimer().mtime.read() + ticks;
 
-        self.mtimecmp.set_mtimecmp(t);
+        CLINT::mtimecmp0().write(t);
 
         // Enable timer interrupt
-        unsafe {
-            mie::set_mtimer();
-        }
+        unsafe { CLINT::mtimer_enable() };
 
         // Wait For Interrupt will put CPU to sleep until an interrupt hits
         // in our case when internal timer mtime value >= mtimecmp value
         // after which empty handler gets called and we go into the
         // next iteration of this loop
         loop {
-            unsafe {
-                riscv::asm::wfi();
-            }
+            riscv::asm::wfi();
 
             // check if we got the right interrupt cause, otherwise just loop back to wfi
             if mip::read().mtimer() {
@@ -124,9 +118,7 @@ impl DelayMs<u32> for Sleep {
         }
 
         // Clear timer interrupt
-        unsafe {
-            mie::clear_mtimer();
-        }
+        CLINT::mtimer_disable();
     }
 }
 
