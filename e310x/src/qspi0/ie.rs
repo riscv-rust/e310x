@@ -25,13 +25,11 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Transmit watermark enable"]
     #[inline(always)]
-    #[must_use]
     pub fn txwm(&mut self) -> TxwmW<IeSpec> {
         TxwmW::new(self, 0)
     }
     #[doc = "Bit 1 - Receive watermark enable"]
     #[inline(always)]
-    #[must_use]
     pub fn rxwm(&mut self) -> RxwmW<IeSpec> {
         RxwmW::new(self, 1)
     }

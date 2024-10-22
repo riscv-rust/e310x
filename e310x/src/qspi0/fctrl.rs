@@ -16,7 +16,6 @@ impl R {
 impl W {
     #[doc = "Bit 0 - SPI Flash Mode Select"]
     #[inline(always)]
-    #[must_use]
     pub fn en(&mut self) -> EnW<FctrlSpec> {
         EnW::new(self, 0)
     }

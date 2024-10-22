@@ -16,7 +16,6 @@ impl R {
 impl W {
     #[doc = "Bits 0:7"]
     #[inline(always)]
-    #[must_use]
     pub fn data(&mut self) -> DataW<TxrRxrSpec> {
         DataW::new(self, 0)
     }

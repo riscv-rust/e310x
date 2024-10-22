@@ -221,43 +221,36 @@ impl R {
 impl W {
     #[doc = "Bits 0:2"]
     #[inline(always)]
-    #[must_use]
     pub fn pllr(&mut self) -> PllrW<PllcfgSpec> {
         PllrW::new(self, 0)
     }
     #[doc = "Bits 4:9"]
     #[inline(always)]
-    #[must_use]
     pub fn pllf(&mut self) -> PllfW<PllcfgSpec> {
         PllfW::new(self, 4)
     }
     #[doc = "Bits 10:11"]
     #[inline(always)]
-    #[must_use]
     pub fn pllq(&mut self) -> PllqW<PllcfgSpec> {
         PllqW::new(self, 10)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    #[must_use]
     pub fn sel(&mut self) -> SelW<PllcfgSpec> {
         SelW::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    #[must_use]
     pub fn refsel(&mut self) -> RefselW<PllcfgSpec> {
         RefselW::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    #[must_use]
     pub fn bypass(&mut self) -> BypassW<PllcfgSpec> {
         BypassW::new(self, 18)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    #[must_use]
     pub fn lock(&mut self) -> LockW<PllcfgSpec> {
         LockW::new(self, 31)
     }

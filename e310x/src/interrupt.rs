@@ -1,7 +1,66 @@
-#[doc = r"Enumeration of all the interrupts."]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-#[repr(u16)]
-pub enum Interrupt {
+#[doc = r" Core interrupts. These interrupts are handled by the core itself."]
+# [riscv :: pac_enum (unsafe CoreInterruptNumber)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CoreInterrupt {
+    #[doc = "3 - Machine Software Interrupt"]
+    MachineSoft = 3,
+    #[doc = "7 - Machine Timer Interrupt"]
+    MachineTimer = 7,
+    #[doc = "11 - Machine External Interrupt"]
+    MachineExternal = 11,
+}
+pub use riscv::interrupt::Exception;
+#[doc = r" Priority levels in the device"]
+# [riscv :: pac_enum (unsafe PriorityNumber)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Priority {
+    #[doc = "0 - Priority level 0"]
+    P0 = 0,
+    #[doc = "1 - Priority level 1"]
+    P1 = 1,
+    #[doc = "2 - Priority level 2"]
+    P2 = 2,
+    #[doc = "3 - Priority level 3"]
+    P3 = 3,
+    #[doc = "4 - Priority level 4"]
+    P4 = 4,
+    #[doc = "5 - Priority level 5"]
+    P5 = 5,
+    #[doc = "6 - Priority level 6"]
+    P6 = 6,
+    #[doc = "7 - Priority level 7"]
+    P7 = 7,
+}
+#[doc = r" HARTs in the device"]
+# [riscv :: pac_enum (unsafe HartIdNumber)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Hart {
+    #[doc = "0 - Hart 0"]
+    H0 = 0,
+}
+pub use riscv::{
+    interrupt::{disable, enable, free, nested},
+    ExceptionNumber, HartIdNumber, InterruptNumber, PriorityNumber,
+};
+pub type Trap = riscv::interrupt::Trap<CoreInterrupt, Exception>;
+#[doc = r" Retrieves the cause of a trap in the current hart."]
+#[doc = r""]
+#[doc = r" If the raw cause is not a valid interrupt or exception for the target, it returns an error."]
+#[inline]
+pub fn try_cause() -> riscv::result::Result<Trap> {
+    riscv::interrupt::try_cause()
+}
+#[doc = r" Retrieves the cause of a trap in the current hart (machine mode)."]
+#[doc = r""]
+#[doc = r" If the raw cause is not a valid interrupt or exception for the target, it panics."]
+#[inline]
+pub fn cause() -> Trap {
+    try_cause().unwrap()
+}
+#[doc = r" External interrupts. These interrupts are handled by the external peripherals."]
+# [riscv :: pac_enum (unsafe ExternalInterruptNumber)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ExternalInterrupt {
     #[doc = "1 - WATCHDOG"]
     WATCHDOG = 1,
     #[doc = "2 - RTC"]
@@ -107,105 +166,12 @@ pub enum Interrupt {
     #[doc = "52 - I2C0"]
     I2C0 = 52,
 }
-#[doc = r" TryFromInterruptError"]
-#[derive(Debug, Copy, Clone)]
-pub struct TryFromInterruptError(());
-impl Interrupt {
-    #[doc = r" Attempt to convert a given value into an `Interrupt`"]
-    #[inline]
-    pub fn try_from(value: u8) -> Result<Self, TryFromInterruptError> {
-        match value {
-            1 => Ok(Interrupt::WATCHDOG),
-            2 => Ok(Interrupt::RTC),
-            3 => Ok(Interrupt::UART0),
-            4 => Ok(Interrupt::UART1),
-            5 => Ok(Interrupt::QSPI0),
-            6 => Ok(Interrupt::QSPI1),
-            7 => Ok(Interrupt::QSPI2),
-            8 => Ok(Interrupt::GPIO0),
-            9 => Ok(Interrupt::GPIO1),
-            10 => Ok(Interrupt::GPIO2),
-            11 => Ok(Interrupt::GPIO3),
-            12 => Ok(Interrupt::GPIO4),
-            13 => Ok(Interrupt::GPIO5),
-            14 => Ok(Interrupt::GPIO6),
-            15 => Ok(Interrupt::GPIO7),
-            16 => Ok(Interrupt::GPIO8),
-            17 => Ok(Interrupt::GPIO9),
-            18 => Ok(Interrupt::GPIO10),
-            19 => Ok(Interrupt::GPIO11),
-            20 => Ok(Interrupt::GPIO12),
-            21 => Ok(Interrupt::GPIO13),
-            22 => Ok(Interrupt::GPIO14),
-            23 => Ok(Interrupt::GPIO15),
-            24 => Ok(Interrupt::GPIO16),
-            25 => Ok(Interrupt::GPIO17),
-            26 => Ok(Interrupt::GPIO18),
-            27 => Ok(Interrupt::GPIO19),
-            28 => Ok(Interrupt::GPIO20),
-            29 => Ok(Interrupt::GPIO21),
-            30 => Ok(Interrupt::GPIO22),
-            31 => Ok(Interrupt::GPIO23),
-            32 => Ok(Interrupt::GPIO24),
-            33 => Ok(Interrupt::GPIO25),
-            34 => Ok(Interrupt::GPIO26),
-            35 => Ok(Interrupt::GPIO27),
-            36 => Ok(Interrupt::GPIO28),
-            37 => Ok(Interrupt::GPIO29),
-            38 => Ok(Interrupt::GPIO30),
-            39 => Ok(Interrupt::GPIO31),
-            40 => Ok(Interrupt::PWM0CMP0),
-            41 => Ok(Interrupt::PWM0CMP1),
-            42 => Ok(Interrupt::PWM0CMP2),
-            43 => Ok(Interrupt::PWM0CMP3),
-            44 => Ok(Interrupt::PWM1CMP0),
-            45 => Ok(Interrupt::PWM1CMP1),
-            46 => Ok(Interrupt::PWM1CMP2),
-            47 => Ok(Interrupt::PWM1CMP3),
-            48 => Ok(Interrupt::PWM2CMP0),
-            49 => Ok(Interrupt::PWM2CMP1),
-            50 => Ok(Interrupt::PWM2CMP2),
-            51 => Ok(Interrupt::PWM2CMP3),
-            52 => Ok(Interrupt::I2C0),
-            _ => Err(TryFromInterruptError(())),
-        }
+#[cfg(feature = "rt")]
+#[riscv_rt::core_interrupt(CoreInterrupt::MachineExternal)]
+fn plic_handler() {
+    let claim = crate::PLIC::ctx(Hart::H0).claim();
+    if let Some(s) = claim.claim::<ExternalInterrupt>() {
+        unsafe { _dispatch_external_interrupt(s.number()) }
+        claim.complete(s);
     }
 }
-#[cfg(feature = "rt")]
-#[macro_export]
-#[doc = r" Assigns a handler to an interrupt"]
-#[doc = r""]
-#[doc = r" This macro takes two arguments: the name of an interrupt and the path to the"]
-#[doc = r" function that will be used as the handler of that interrupt. That function"]
-#[doc = r" must have signature `fn()`."]
-#[doc = r""]
-#[doc = r" Optionally, a third argument may be used to declare interrupt local data."]
-#[doc = r" The handler will have exclusive access to these *local* variables on each"]
-#[doc = r" invocation. If the third argument is used then the signature of the handler"]
-#[doc = r" function must be `fn(&mut $NAME::Locals)` where `$NAME` is the first argument"]
-#[doc = r" passed to the macro."]
-#[doc = r""]
-#[doc = r" # Example"]
-#[doc = r""]
-#[doc = r" ``` ignore"]
-#[doc = r" interrupt!(TIM2, periodic);"]
-#[doc = r""]
-#[doc = r" fn periodic() {"]
-#[doc = r#"     print!(".");"#]
-#[doc = r" }"]
-#[doc = r""]
-#[doc = r" interrupt!(TIM3, tick, locals: {"]
-#[doc = r"     tick: bool = false;"]
-#[doc = r" });"]
-#[doc = r""]
-#[doc = r" fn tick(locals: &mut TIM3::Locals) {"]
-#[doc = r"     locals.tick = !locals.tick;"]
-#[doc = r""]
-#[doc = r"     if locals.tick {"]
-#[doc = r#"         println!("Tick");"#]
-#[doc = r"     } else {"]
-#[doc = r#"         println!("Tock");"#]
-#[doc = r"     }"]
-#[doc = r" }"]
-#[doc = r" ```"]
-macro_rules ! interrupt { ($ NAME : ident , $ path : path , locals : { $ ($ lvar : ident : $ lty : ty = $ lval : expr ;) * }) => { # [allow (non_snake_case)] mod $ NAME { pub struct Locals { $ (pub $ lvar : $ lty ,) * } } # [allow (non_snake_case)] # [no_mangle] pub extern "C" fn $ NAME () { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; static mut LOCALS : self :: $ NAME :: Locals = self :: $ NAME :: Locals { $ ($ lvar : $ lval ,) * } ; let f : fn (& mut self :: $ NAME :: Locals) = $ path ; f (unsafe { & mut LOCALS }) ; } } ; ($ NAME : ident , $ path : path) => { # [allow (non_snake_case)] # [no_mangle] pub extern "C" fn $ NAME () { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; let f : fn () = $ path ; f () ; } } }

@@ -34,19 +34,16 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    #[must_use]
     pub fn scale(&mut self) -> ScaleW<RtccfgSpec> {
         ScaleW::new(self, 0)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    #[must_use]
     pub fn enalways(&mut self) -> EnalwaysW<RtccfgSpec> {
         EnalwaysW::new(self, 12)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    #[must_use]
     pub fn cmpip(&mut self) -> CmpipW<RtccfgSpec> {
         CmpipW::new(self, 28)
     }

@@ -31,17 +31,17 @@ impl RegisterBlock {
     #[doc = "0x10 - Status register"]
     #[inline(always)]
     pub const fn sr(&self) -> &Sr {
-        unsafe { &*(self as *const Self).cast::<u8>().add(16).cast() }
+        unsafe { &*core::ptr::from_ref(self).cast::<u8>().add(16).cast() }
     }
     #[doc = "0x10 - Command register"]
     #[inline(always)]
     pub const fn cr(&self) -> &Cr {
-        unsafe { &*(self as *const Self).cast::<u8>().add(16).cast() }
+        unsafe { &*core::ptr::from_ref(self).cast::<u8>().add(16).cast() }
     }
     #[doc = "0x10 - Command register / Status register"]
     #[inline(always)]
     pub const fn cr_sr(&self) -> &CrSr {
-        unsafe { &*(self as *const Self).cast::<u8>().add(16).cast() }
+        unsafe { &*core::ptr::from_ref(self).cast::<u8>().add(16).cast() }
     }
 }
 #[doc = "prer_lo (rw) register accessor: Clock Prescale register lo-byte\n\nYou can [`read`](crate::Reg::read) this register and get [`prer_lo::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`prer_lo::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@prer_lo`]

@@ -25,13 +25,11 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - Minimum CS inactive time"]
     #[inline(always)]
-    #[must_use]
     pub fn intercs(&mut self) -> IntercsW<Delay1Spec> {
         IntercsW::new(self, 0)
     }
     #[doc = "Bits 16:23 - Maximum interframe delay"]
     #[inline(always)]
-    #[must_use]
     pub fn interxfr(&mut self) -> InterxfrW<Delay1Spec> {
         InterxfrW::new(self, 16)
     }
