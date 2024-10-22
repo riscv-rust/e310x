@@ -31,7 +31,7 @@ jobs:
     - name: Run clippy (direct mode)
       run: cargo clippy --features board-${{ matrix.board }} -- $CLIPPY_PARAMS
     - name: Run clippy (vectored mode)
-      run: cargo clippy --features virq,board-${{ matrix.board }} -- $CLIPPY_PARAMS
+      run: cargo clippy --features v-trap,board-${{ matrix.board }} -- $CLIPPY_PARAMS
   
    # Job to check that all the lint checks succeeded
   clippy-check:
