@@ -25,13 +25,11 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    #[must_use]
     pub fn enable(&mut self) -> EnableW<RxctrlSpec> {
         EnableW::new(self, 0)
     }
     #[doc = "Bits 16:18"]
     #[inline(always)]
-    #[must_use]
     pub fn counter(&mut self) -> CounterW<RxctrlSpec> {
         CounterW::new(self, 16)
     }

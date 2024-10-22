@@ -16,7 +16,6 @@ impl R {
 impl W {
     #[doc = "Bits 0:2 - Transmit watermark"]
     #[inline(always)]
-    #[must_use]
     pub fn txmark(&mut self) -> TxmarkW<TxmarkSpec> {
         TxmarkW::new(self, 0)
     }

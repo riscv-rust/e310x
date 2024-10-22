@@ -61,37 +61,31 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    #[must_use]
     pub fn delay(&mut self) -> DelayW<PmuwakepmSpec> {
         DelayW::new(self, 0)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    #[must_use]
     pub fn pmu_out_0_en(&mut self) -> PmuOut0EnW<PmuwakepmSpec> {
         PmuOut0EnW::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    #[must_use]
     pub fn pmu_out_1_en(&mut self) -> PmuOut1EnW<PmuwakepmSpec> {
         PmuOut1EnW::new(self, 5)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    #[must_use]
     pub fn corerst(&mut self) -> CorerstW<PmuwakepmSpec> {
         CorerstW::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    #[must_use]
     pub fn hfclkrst(&mut self) -> HfclkrstW<PmuwakepmSpec> {
         HfclkrstW::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    #[must_use]
     pub fn isolate(&mut self) -> IsolateW<PmuwakepmSpec> {
         IsolateW::new(self, 9)
     }

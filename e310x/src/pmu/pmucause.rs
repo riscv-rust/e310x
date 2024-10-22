@@ -163,13 +163,11 @@ impl R {
 impl W {
     #[doc = "Bits 0:1"]
     #[inline(always)]
-    #[must_use]
     pub fn wakeupcause(&mut self) -> WakeupcauseW<PmucauseSpec> {
         WakeupcauseW::new(self, 0)
     }
     #[doc = "Bits 8:9"]
     #[inline(always)]
-    #[must_use]
     pub fn resetcause(&mut self) -> ResetcauseW<PmucauseSpec> {
         ResetcauseW::new(self, 8)
     }
