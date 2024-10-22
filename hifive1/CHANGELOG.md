@@ -6,9 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Fix Led implementation, as pins are configured as inverted outputs
+- Adapt to embedded-hal 1.0
 - Replace static muts with Mutexes
 - Apply clippy changes
-- Bump MSRV to 1.72
+- Bump MSRV to 1.76
 - Adapt to new Cargo workspace
 - Use inline assembly instead of binary blobs for flash
 

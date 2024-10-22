@@ -25,13 +25,11 @@ impl R {
 impl W {
     #[doc = "Bit 6 - I2C core interrupt enable bit"]
     #[inline(always)]
-    #[must_use]
     pub fn ien(&mut self) -> IenW<CtrSpec> {
         IenW::new(self, 6)
     }
     #[doc = "Bit 7 - I2C core enable bit"]
     #[inline(always)]
-    #[must_use]
     pub fn en(&mut self) -> EnW<CtrSpec> {
         EnW::new(self, 7)
     }

@@ -9,6 +9,7 @@
 ///   - `uart0_<x>` — UART pins where `<x>` is one of (`tx`, `rx`)
 ///   - `dig#` — Digital/physical pins on the board where `#` is from range 0..19
 ///   - `led_<x>` - Internal LED light pins where `<x>` is one of (`red`, `green`, `blue`)
+///   - `pwmN_cmp#` - PWM channels where `N`` is from range 0..2 and `#` is from range 1..3
 ///
 /// # Example
 ///
@@ -127,6 +128,34 @@ macro_rules! pin {
     ($gpio:ident, led_blue) => {
         $gpio.pin21
     };
+    // PWM channels
+    ($gpio:ident, pwm0_cmp1) => {
+        $gpio.pin1
+    };
+    ($gpio:ident, pwm0_cmp2) => {
+        $gpio.pin2
+    };
+    ($gpio:ident, pwm0_cmp3) => {
+        $gpio.pin3
+    };
+    ($gpio:ident, pwm1_cmp1) => {
+        $gpio.pin19
+    };
+    ($gpio:ident, pwm1_cmp2) => {
+        $gpio.pin21
+    };
+    ($gpio:ident, pwm1_cmp3) => {
+        $gpio.pin22
+    };
+    ($gpio:ident, pwm2_cmp1) => {
+        $gpio.pin11
+    };
+    ($gpio:ident, pwm2_cmp2) => {
+        $gpio.pin12
+    };
+    ($gpio:ident, pwm2_cmp3) => {
+        $gpio.pin13
+    };
 }
 
 #[cfg(feature = "board-redv")]
@@ -140,6 +169,7 @@ macro_rules! pin {
 ///   - `uart0_<x>` — UART pins where `<x>` is one of (`tx`, `rx`)
 ///   - `dig#` — Digital/physical pins on the board where `#` is from range 0..19
 ///   - `led_<x>` - Internal LED light pins where `<x>` is one of (`red`, `green`, `blue`)
+///  - `pwmN_cmp#` - PWM channels where `N`` is from range 0..2 and `#` is from range 1..3
 ///
 /// # Example
 ///
@@ -251,6 +281,34 @@ macro_rules! pin {
     // onboard LEDs
     ($gpio:ident, led_blue) => {
         $gpio.pin5
+    };
+    // PWM channels
+    ($gpio:ident, pwm0_cmp1) => {
+        $gpio.pin1
+    };
+    ($gpio:ident, pwm0_cmp2) => {
+        $gpio.pin2
+    };
+    ($gpio:ident, pwm0_cmp3) => {
+        $gpio.pin3
+    };
+    ($gpio:ident, pwm1_cmp1) => {
+        $gpio.pin19
+    };
+    ($gpio:ident, pwm1_cmp2) => {
+        $gpio.pin21
+    };
+    ($gpio:ident, pwm1_cmp3) => {
+        $gpio.pin22
+    };
+    ($gpio:ident, pwm2_cmp1) => {
+        $gpio.pin11
+    };
+    ($gpio:ident, pwm2_cmp2) => {
+        $gpio.pin12
+    };
+    ($gpio:ident, pwm2_cmp3) => {
+        $gpio.pin13
     };
 }
 
