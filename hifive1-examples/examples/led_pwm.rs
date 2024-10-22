@@ -9,7 +9,7 @@
 
 use hifive1::{
     clock,
-    hal::{delay::Sleep, prelude::*, DeviceResources},
+    hal::{e310x::CLINT, prelude::*, DeviceResources},
     pin, sprintln,
 };
 extern crate panic_halt;
@@ -41,8 +41,7 @@ fn main() -> ! {
     let mut channel = pwm0.channel(pin);
 
     // Get the sleep struct from CLINT
-    let clint = dr.core_peripherals.clint;
-    let mut sleep = Sleep::new(clint.mtimecmp, clocks);
+    let mut sleep = CLINT::delay();
 
     const STEP: u32 = 1000; // 1s
     const DUTY_DELTA: u8 = 32;

@@ -6,7 +6,7 @@
 
 use hifive1::{
     clock,
-    hal::{delay::Sleep, prelude::*, DeviceResources},
+    hal::{e310x::CLINT, prelude::*, DeviceResources},
     pins, Led,
 };
 use semihosting::{println, process::exit};
@@ -27,8 +27,7 @@ fn main() -> ! {
     let mut ileds: [&mut dyn Led; 3] = [&mut tleds.0, &mut tleds.1, &mut tleds.2];
 
     // Get the sleep struct from CLINT
-    let clint = dr.core_peripherals.clint;
-    let mut sleep = Sleep::new(clint.mtimecmp, clocks);
+    let mut sleep = CLINT::delay();
 
     const N_TOGGLES: usize = 4;
     const STEP: u32 = 500; // 500ms

@@ -14,10 +14,7 @@ use hifive1::{
     pin, sprintln,
 };
 
-#[cfg(not(feature = "semihosting"))]
 extern crate panic_halt;
-#[cfg(feature = "semihosting")]
-extern crate semihosting;
 
 #[riscv_rt::entry]
 fn main() -> ! {
@@ -39,5 +36,7 @@ fn main() -> ! {
 
     sprintln!("Hello, world!");
 
-    loop {}
+    loop {
+        riscv::asm::wfi();
+    }
 }
