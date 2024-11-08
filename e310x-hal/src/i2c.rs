@@ -114,28 +114,10 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
         self.clear_interrupt();
     }
 
-    /// Set the start bit in the control register. The next byte sent
-    /// through the bus will be preceded by a (repeated) start condition.
-    ///
-    /// # Note
-    ///
-    /// This function does not start the transmission. You must call
-    /// [`Self::write_to_slave`] to start the transmission.
-    fn set_start(&self) {
-        self.i2c.cr().write(|w| w.sta().set_bit());
-    }
-
     /// Set the stop bit in the control register.
     /// A stop condition will be sent on the bus.
     fn set_stop(&self) {
         self.i2c.cr().write(|w| w.sto().set_bit());
-    }
-
-    /// Set the ACK bit in the control register. If `ack` is `true`, the
-    /// I2C will **NOT** acknowledge the next byte received. If `ack`
-    /// is `false`, the I2C will acknowledge the next byte received.
-    fn set_ack(&self, ack: bool) {
-        self.i2c.cr().write(|w| w.ack().bit(ack));
     }
 
     /// Set the next byte to be transmitted to the I2C slave device.
@@ -160,8 +142,10 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
     ///
     /// This function does not block until the write is complete. You must call
     /// [`Self::wait_for_write`] to wait for the write to complete.
-    fn write_to_slave(&self) {
-        self.i2c.cr().write(|w| w.wr().set_bit());
+    fn trigger_write(&self, start: bool, stop: bool) {
+        self.i2c
+            .cr()
+            .write(|w| w.sta().bit(start).wr().set_bit().sto().bit(stop));
     }
 
     /// Trigger a read from the slave device.
@@ -171,16 +155,20 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
     ///
     /// This function does not block until the read is complete. You must call
     /// [`Self::wait_for_read`] to wait for the read to complete.
-    fn read_from_slave(&self) {
-        self.i2c.cr().write(|w| w.rd().set_bit());
+    fn trigger_read(&self, ack: bool, stop: bool) {
+        self.i2c
+            .cr()
+            .write(|w| w.rd().set_bit().ack().bit(ack).sto().bit(stop));
     }
 
     /// Check if the I2C peripheral is idle.
-    fn is_idle(&self) -> nb::Result<(), ErrorKind> {
-        match self.read_sr().busy().bit_is_set() {
-            true => Err(nb::Error::WouldBlock),
-            false => Ok(()),
-        }
+    fn is_idle(&self) -> bool {
+        !self.read_sr().busy().bit_is_set()
+    }
+
+    /// Blocking version of [`Self::is_idle`].
+    fn wait_idle(&self) {
+        while !self.is_idle() {}
     }
 
     /// Acknowledge an interrupt.
@@ -191,21 +179,17 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
     /// and an [`ErrorKind::ArbitrationLoss`] is returned.
     fn ack_interrupt(&self) -> nb::Result<(), ErrorKind> {
         let sr = self.read_sr();
-
-        if sr.al().bit_is_set() {
-            self.set_stop();
-            Err(nb::Error::Other(ErrorKind::ArbitrationLoss))
-        } else if sr.if_().bit_is_set() {
+        if sr.if_().bit_is_set() {
             self.clear_interrupt();
-            Ok(())
+            if sr.al().bit_is_set() {
+                self.set_stop();
+                Err(nb::Error::Other(ErrorKind::ArbitrationLoss))
+            } else {
+                Ok(())
+            }
         } else {
             Err(nb::Error::WouldBlock)
         }
-    }
-
-    /// Blocking version of [`Self::is_idle`].
-    fn wait_idle(&self) {
-        nb::block!(self.is_idle()).unwrap();
     }
 
     /// Wait for a read operation to complete.
@@ -215,12 +199,7 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
     /// In case of arbitration loss it waits until the bus is idle
     /// before returning an [`ErrorKind::ArbitrationLoss`] error.
     fn wait_for_read(&self) -> Result<(), ErrorKind> {
-        if let Err(e) = nb::block!(self.ack_interrupt()) {
-            self.wait_idle();
-            Err(e)
-        } else {
-            Ok(())
-        }
+        nb::block!(self.ack_interrupt())
     }
 
     /// Wait for a write operation to complete.
@@ -232,13 +211,11 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
     ///
     /// In case of arbitration loss it waits until the bus is idle
     /// before returning an [`ErrorKind::ArbitrationLoss`] error.
-    fn wait_for_write(&self) -> Result<(), ErrorKind> {
-        if let Err(e) = nb::block!(self.ack_interrupt()) {
-            self.wait_idle();
-            Err(e)
-        } else if self.read_sr().rx_ack().bit_is_set() {
+    fn wait_for_write(&self, source: NoAcknowledgeSource) -> Result<(), ErrorKind> {
+        nb::block!(self.ack_interrupt())?;
+        if self.read_sr().rx_ack().bit_is_set() {
             self.set_stop();
-            Err(ErrorKind::NoAcknowledge(NoAcknowledgeSource::Unknown))
+            Err(ErrorKind::NoAcknowledge(source))
         } else {
             Ok(())
         }
@@ -258,53 +235,54 @@ impl<I2C: I2cX, PINS> i2c::I2c for I2c<I2C, PINS> {
         address: u8,
         operations: &mut [Operation<'_>],
     ) -> Result<(), Self::Error> {
+        let n_ops = operations.len();
+        if n_ops == 0 {
+            return Ok(());
+        }
+
         self.wait_idle();
         self.reset();
 
-        self.set_start();
-        let mut last_op_was_read = false;
-        for operation in operations.iter_mut() {
+        // we use this flag to detect when we need to send a (repeated) start
+        let mut last_op_was_read = match &operations[0] {
+            Operation::Read(_) => false,
+            Operation::Write(_) => true,
+        };
+
+        for (i, operation) in operations.iter_mut().enumerate() {
             match operation {
                 Operation::Write(bytes) => {
-                    if last_op_was_read {
-                        self.set_start();
-                        last_op_was_read = false;
-                    }
                     // Send write command
                     self.write_txr((address << 1) + FLAG_WRITE);
-                    self.write_to_slave();
-                    self.wait_for_write()?;
+                    self.trigger_write(last_op_was_read, false);
+                    self.wait_for_write(NoAcknowledgeSource::Address)?;
+                    last_op_was_read = false;
 
                     // Write bytes
-                    for byte in bytes.iter() {
+                    let n_bytes = bytes.len();
+                    for (j, byte) in bytes.iter().enumerate() {
                         self.write_txr(*byte);
-                        self.write_to_slave();
-                        self.wait_for_write()?;
+                        self.trigger_write(false, (i == n_ops - 1) && (j == n_bytes - 1));
+                        self.wait_for_write(NoAcknowledgeSource::Data)?;
                     }
                 }
                 Operation::Read(buffer) => {
-                    if !last_op_was_read {
-                        self.set_start();
-                        last_op_was_read = true;
-                    }
                     // Send read command
                     self.write_txr((address << 1) + FLAG_READ);
-                    self.write_to_slave();
-                    self.wait_for_write()?;
+                    self.trigger_write(!last_op_was_read, false);
+                    self.wait_for_write(NoAcknowledgeSource::Address)?;
+                    last_op_was_read = true;
 
                     // Read bytes
-                    let buffer_len = buffer.len();
-                    for (i, byte) in buffer.iter_mut().enumerate() {
-                        // Set ACK on all but the last byte
-                        self.set_ack(i == buffer_len - 1);
-                        self.read_from_slave();
+                    let n_bytes = buffer.len();
+                    for (j, byte) in buffer.iter_mut().enumerate() {
+                        self.trigger_read(j == n_bytes - 1, (i == n_ops - 1) && (j == n_bytes - 1));
                         self.wait_for_read()?;
                         *byte = self.read_rxr();
                     }
                 }
             }
         }
-        self.set_stop();
         self.wait_idle();
 
         Ok(())

@@ -13,7 +13,7 @@ pub use e310x::interrupt::{
 pub use embedded_hal::{
     delay::DelayNs,
     digital::{InputPin, OutputPin, StatefulOutputPin},
-    i2c::I2c,
+    i2c::I2c as _embedded_hal_i2c_I2c,
     pwm::SetDutyCycle,
     spi::{SpiBus, SpiDevice},
 };
