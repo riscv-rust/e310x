@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Now CLINT and PLIC are provided by `riscv-peripheral` 0.2
 - Adapt crate to work with `riscv` 0.12 and `riscv-rt` 0.13
-- Bump MSRV to 1.76.0 to ensure a correct behavior of portable-atomic
-- Regenerate code with `svd2rust` 8b809ac2c1e1a13f30af59ee41f4d66a4995d625 (unreleased)
+- Bump MSRV to 1.76.0 required by `riscv-peripheral`
+- Regenerate code with `svd2rust` 0.34.0
 
 ## [v0.11.0]
 

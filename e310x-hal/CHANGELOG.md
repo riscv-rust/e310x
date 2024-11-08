@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Use `portable-atomic` with `zaamo` feature to use native `amo*` operations.
 - Official target is now `riscv32imc-unknown-none-elf`, as it does not fully support the A extension.
 - Update `e310x` dependency and adapt code
-- Bump MSRV to 1.76.0 to ensure a correct behavior of portable-atomic
+- Bump MSRV to 1.76.0
 
 ## [v0.10.0] - 2023-03-28
 

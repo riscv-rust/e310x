@@ -165,7 +165,7 @@ impl<PWM: PwmX> Pwm<PWM> {
             CmpIndex::Cmp1 => self.pwm.cmp1().write(|w| unsafe { w.bits(duty) }),
             CmpIndex::Cmp2 => self.pwm.cmp2().write(|w| unsafe { w.bits(duty) }),
             CmpIndex::Cmp3 => self.pwm.cmp3().write(|w| unsafe { w.bits(duty) }),
-        }
+        };
     }
 
     /// Enables the PWM channel
@@ -174,7 +174,7 @@ impl<PWM: PwmX> Pwm<PWM> {
             CmpIndex::Cmp1 => self.pwm.cmp1().write(|w| unsafe { w.bits(u32::MAX) }),
             CmpIndex::Cmp2 => self.pwm.cmp2().write(|w| unsafe { w.bits(u32::MAX) }),
             CmpIndex::Cmp3 => self.pwm.cmp3().write(|w| unsafe { w.bits(u32::MAX) }),
-        }
+        };
     }
 
     /// Disables the PWM channel
