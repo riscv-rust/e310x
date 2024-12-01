@@ -198,14 +198,14 @@ pub struct Channel<'a, PWM, PIN> {
     pin: PIN,
 }
 
-impl<'a, PWM, PIN> Channel<'a, PWM, PIN> {
+impl<PWM, PIN> Channel<'_, PWM, PIN> {
     /// Frees the PWM channel
     pub fn free(self) -> PIN {
         self.pin
     }
 }
 
-impl<'a, PWM: PwmX, PIN: Pin<PWM>> Channel<'a, PWM, PIN> {
+impl<PWM: PwmX, PIN: Pin<PWM>> Channel<'_, PWM, PIN> {
     /// Returns the period of the PWM
     pub fn get_period(&self) -> PWM::CmpWidth {
         self.pwm.get_period()
@@ -237,11 +237,11 @@ impl<'a, PWM: PwmX, PIN: Pin<PWM>> Channel<'a, PWM, PIN> {
     }
 }
 
-impl<'a, PWM: PwmX, PIN: Pin<PWM>> ErrorType for Channel<'a, PWM, PIN> {
+impl<PWM: PwmX, PIN: Pin<PWM>> ErrorType for Channel<'_, PWM, PIN> {
     type Error = ErrorKind;
 }
 
-impl<'a, PWM: PwmX, PIN: Pin<PWM>> SetDutyCycle for Channel<'a, PWM, PIN> {
+impl<PWM: PwmX, PIN: Pin<PWM>> SetDutyCycle for Channel<'_, PWM, PIN> {
     fn max_duty_cycle(&self) -> u16 {
         PWM::bits_from_cmp_width(self.max_duty()) as _
     }

@@ -10,7 +10,7 @@ pub struct SpiSharedDevice<'bus, SPI, PINS, CS> {
     config: SpiConfig,
 }
 
-impl<'bus, SPI, PINS, CS> SpiSharedDevice<'bus, SPI, PINS, CS> {
+impl<SPI, PINS, CS> SpiSharedDevice<'_, SPI, PINS, CS> {
     /// Releases the CS pin back
     pub fn release(self) -> CS {
         self.cs
@@ -34,7 +34,7 @@ where
     }
 }
 
-impl<'bus, SPI, PINS, CS> ErrorType for SpiSharedDevice<'bus, SPI, PINS, CS>
+impl<SPI, PINS, CS> ErrorType for SpiSharedDevice<'_, SPI, PINS, CS>
 where
     SPI: SpiX,
     PINS: PinsNoCS<SPI>,
@@ -43,7 +43,7 @@ where
     type Error = ErrorKind;
 }
 
-impl<'bus, SPI, PINS, CS> SpiDevice for SpiSharedDevice<'bus, SPI, PINS, CS>
+impl<SPI, PINS, CS> SpiDevice for SpiSharedDevice<'_, SPI, PINS, CS>
 where
     SPI: SpiX,
     PINS: PinsNoCS<SPI> + PinsFull<SPI>,

@@ -1,5 +1,5 @@
-//! Basic blinking LEDs example using mtime/mtimecmp registers for "sleep" in a loop.
-//! Blinks each led once and goes to the next one.
+//! Sample example for the MAX3010x pulse oximeter and heart rate sensor
+//! using the I2C interface.
 
 #![no_std]
 #![no_main]

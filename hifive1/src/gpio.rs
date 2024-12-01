@@ -24,23 +24,25 @@ macro_rules! pin {
         ()
     };
     // spi
-    ($gpio:ident, spi0_sck) => {
+    ($gpio:ident, spi1_sck) => {
         $gpio.pin5
     };
-    ($gpio:ident, spi0_mosi) => {
+    ($gpio:ident, spi1_mosi) => {
         $gpio.pin3
     };
-    ($gpio:ident, spi0_miso) => {
+    ($gpio:ident, spi1_miso) => {
         $gpio.pin4
     };
-    ($gpio:ident, spi0_ss0) => {
+    ($gpio:ident, spi1_ss0) => {
         $gpio.pin2
     };
-    // spi_ss1 is not documented
-    ($gpio:ident, spi0_ss2) => {
+    ($gpio:ident, spi1_ss1) => {
+        $gpio.pin8
+    };
+    ($gpio:ident, spi1_ss2) => {
         $gpio.pin9
     };
-    ($gpio:ident, spi0_ss3) => {
+    ($gpio:ident, spi1_ss3) => {
         $gpio.pin10
     };
     // i2c
@@ -184,23 +186,25 @@ macro_rules! pin {
         ()
     };
     // spi
-    ($gpio:ident, spi0_sck) => {
+    ($gpio:ident, spi1_sck) => {
         $gpio.pin5
     };
-    ($gpio:ident, spi0_mosi) => {
+    ($gpio:ident, spi1_mosi) => {
         $gpio.pin3
     };
-    ($gpio:ident, spi0_miso) => {
+    ($gpio:ident, spi1_miso) => {
         $gpio.pin4
     };
-    ($gpio:ident, spi0_ss0) => {
+    ($gpio:ident, spi1_ss0) => {
         $gpio.pin2
     };
-    // spi_ss1 is not documented
-    ($gpio:ident, spi0_ss2) => {
+    ($gpio:ident, spi1_ss1) => {
+        $gpio.pin8
+    };
+    ($gpio:ident, spi1_ss2) => {
         $gpio.pin9
     };
-    ($gpio:ident, spi0_ss3) => {
+    ($gpio:ident, spi1_ss3) => {
         $gpio.pin10
     };
     // i2c

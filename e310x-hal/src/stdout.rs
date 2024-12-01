@@ -7,7 +7,7 @@ use nb::block;
 /// implementations.
 pub struct Stdout<'p, T: 'p>(pub &'p mut T);
 
-impl<'p, T: serial::Write> Write for Stdout<'p, T> {
+impl<T: serial::Write> Write for Stdout<'_, T> {
     fn write_str(&mut self, s: &str) -> ::core::fmt::Result {
         for byte in s.as_bytes() {
             if *byte == b'\n' {

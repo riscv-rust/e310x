@@ -20,7 +20,8 @@ riscv-rt = { version = "0.13.0", features = ["single-hart"] }
 panic-halt = "1.0.0"
 semihosting = { version = "0.1",  features = ["stdio", "panic-handler"] }
 # max3010x = "0.2.0" # TODO uncomment when the driver is published
-max3010x = { git = "https://github.com/romancardenas/max3010x-rs.git" }
+max3010x = { git = "https://github.com/eldruin/max3010x-rs.git" }
+mfrc522 = "0.8.0"
 
 [features]
 v-trap = ["hifive1/v-trap"]
