@@ -1,4 +1,7 @@
-use embedded_hal::spi::{self, ErrorKind, ErrorType, Phase, Polarity};
+use embedded_hal::{
+    delay::DelayNs,
+    spi::{self, ErrorKind, ErrorType, Phase, Polarity},
+};
 use embedded_hal_nb::spi::FullDuplex;
 
 use super::{Pins, PinsFull, PinsNoCS, SharedBus, SpiConfig, SpiExclusiveDevice, SpiX};
@@ -76,8 +79,12 @@ impl<SPI: SpiX, PINS: Pins<SPI>> SpiBus<SPI, PINS> {
     }
 
     /// Create a new [`SpiExclusiveDevice`] for exclusive use on this bus
-    pub fn new_device(self, config: &SpiConfig) -> SpiExclusiveDevice<SPI, PINS> {
-        SpiExclusiveDevice::new(self, config)
+    pub fn new_device<D: DelayNs>(
+        self,
+        config: &SpiConfig,
+        delay: D,
+    ) -> SpiExclusiveDevice<SPI, PINS, D> {
+        SpiExclusiveDevice::new(self, config, delay)
     }
 
     /// Configure the [`SpiBus`] with given [`SpiConfig`]

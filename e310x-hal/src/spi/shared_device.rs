@@ -1,53 +1,61 @@
-use embedded_hal::spi::{ErrorKind, ErrorType, Operation, SpiBus, SpiDevice};
+use embedded_hal::{
+    delay::DelayNs,
+    spi::{ErrorKind, ErrorType, Operation, SpiBus, SpiDevice},
+};
 use riscv::interrupt;
 
 use super::{PinCS, PinsFull, PinsNoCS, SharedBus, SpiConfig, SpiX};
 
 /// SPI shared device abstraction
-pub struct SpiSharedDevice<'bus, SPI, PINS, CS> {
+pub struct SpiSharedDevice<'bus, SPI, PINS, CS, D> {
     bus: &'bus SharedBus<SPI, PINS>,
     cs: CS,
     config: SpiConfig,
+    delay: D,
 }
 
-impl<SPI, PINS, CS> SpiSharedDevice<'_, SPI, PINS, CS> {
-    /// Releases the CS pin back
-    pub fn release(self) -> CS {
-        self.cs
+impl<SPI, PINS, CS, D> SpiSharedDevice<'_, SPI, PINS, CS, D> {
+    /// Releases the CS pin and delay back
+    pub fn release(self) -> (CS, D) {
+        (self.cs, self.delay)
     }
 }
 
-impl<'bus, SPI, PINS, CS> SpiSharedDevice<'bus, SPI, PINS, CS>
+impl<'bus, SPI, PINS, CS, D> SpiSharedDevice<'bus, SPI, PINS, CS, D>
 where
     SPI: SpiX,
     PINS: PinsNoCS<SPI>,
     CS: PinCS<SPI>,
+    D: DelayNs,
 {
     /// Create shared [SpiSharedDevice] using the existing [SharedBus]
     /// and given [SpiConfig]. The config gets cloned.
-    pub fn new(bus: &'bus SharedBus<SPI, PINS>, cs: CS, config: &SpiConfig) -> Self {
+    pub fn new(bus: &'bus SharedBus<SPI, PINS>, cs: CS, config: &SpiConfig, delay: D) -> Self {
         Self {
             bus,
             cs,
             config: config.clone(),
+            delay,
         }
     }
 }
 
-impl<SPI, PINS, CS> ErrorType for SpiSharedDevice<'_, SPI, PINS, CS>
+impl<SPI, PINS, CS, D> ErrorType for SpiSharedDevice<'_, SPI, PINS, CS, D>
 where
     SPI: SpiX,
     PINS: PinsNoCS<SPI>,
     CS: PinCS<SPI>,
+    D: DelayNs,
 {
     type Error = ErrorKind;
 }
 
-impl<SPI, PINS, CS> SpiDevice for SpiSharedDevice<'_, SPI, PINS, CS>
+impl<SPI, PINS, CS, D> SpiDevice for SpiSharedDevice<'_, SPI, PINS, CS, D>
 where
     SPI: SpiX,
     PINS: PinsNoCS<SPI> + PinsFull<SPI>,
     CS: PinCS<SPI>,
+    D: DelayNs,
 {
     fn transaction(&mut self, operations: &mut [Operation<'_, u8>]) -> Result<(), Self::Error> {
         let mut bus =
@@ -63,7 +71,10 @@ where
                 Operation::Write(write) => bus.write(write),
                 Operation::Transfer(read, write) => bus.transfer(read, write),
                 Operation::TransferInPlace(read_write) => bus.transfer_in_place(read_write),
-                Operation::DelayNs(_ns) => todo!(),
+                Operation::DelayNs(ns) => {
+                    self.delay.delay_ns(*ns);
+                    Ok(())
+                }
             };
             if res.is_err() {
                 break;

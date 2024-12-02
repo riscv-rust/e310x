@@ -8,7 +8,7 @@ use hifive1::{
     hal::{
         e310x::CLINT,
         prelude::*,
-        spi::{SpiBus, SpiConfig, SpiExclusiveDevice, MODE_0},
+        spi::{SpiBus, SpiConfig, MODE_0},
         DeviceResources,
     },
     pin, sprintln,
@@ -39,9 +39,10 @@ fn main() -> ! {
     let mosi = pin!(pins, spi1_mosi).into_iof0();
     let cs = pin!(pins, spi1_ss0).into_iof0();
 
+    let delay = riscv::delay::McycleDelay::new(clocks.coreclk().0);
     let spi_bus = SpiBus::new(p.QSPI1, (mosi, miso, sck, cs));
     let spi_cfg = SpiConfig::new(MODE_0, 1_000_000.hz(), &clocks);
-    let spi_device = SpiExclusiveDevice::new(spi_bus, &spi_cfg);
+    let spi_device = spi_bus.new_device(&spi_cfg, delay);
     let spi_itf = SpiInterface::new(spi_device);
 
     let mut mfrc522 = match Mfrc522::new(spi_itf).init() {

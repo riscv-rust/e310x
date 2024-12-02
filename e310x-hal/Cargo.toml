@@ -11,12 +11,13 @@ edition = "2021"
 rust-version = "1.76"
 
 [dependencies]
-embedded-hal = { version = "1.0.0" }
-embedded-hal-nb = { version = "1.0.0" }
-nb = "1.0.0"
-riscv = { version = "0.12.1", features = ["critical-section-single-hart"] }
+embedded-hal = "1.0.0"
+embedded-hal-nb = "1.0.0"
+embedded-io = "0.6.1"
 e310x = { path = "../e310x", version = "0.12.0", features = ["rt", "critical-section"] }
+nb = "1.0.0"
 portable-atomic = { version = "1.9", default-features = false}
+riscv = { version = "0.12.1", features = ["critical-section-single-hart"] }
 
 [features]
 g002 = ["e310x/g002"]

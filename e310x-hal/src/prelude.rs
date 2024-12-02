@@ -11,6 +11,7 @@ pub use e310x::interrupt::{
     PriorityNumber,
 };
 pub use embedded_hal::{
+    self,
     delay::DelayNs,
     digital::{InputPin, OutputPin, StatefulOutputPin},
     i2c::I2c as _embedded_hal_i2c_I2c,
@@ -19,6 +20,9 @@ pub use embedded_hal::{
 };
 
 pub use embedded_hal_nb::{
-    serial::{Read, Write},
+    self,
+    serial::{Read as _embedded_hal_nb_Read, Write as _embedded_hal_nb_Write},
     spi::FullDuplex,
 };
+
+pub use embedded_io;

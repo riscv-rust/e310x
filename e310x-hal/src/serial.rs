@@ -15,8 +15,7 @@
 
 use core::ops::Deref;
 use e310x::{uart0, Uart0, Uart1};
-use embedded_hal_nb::serial::{ErrorKind, ErrorType, Read, Write};
-use nb;
+use embedded_hal_nb::serial;
 
 use crate::{clock::Clocks, time::Bps};
 
@@ -73,12 +72,17 @@ impl<UART, PIN> Rx<UART, PIN> {
     }
 }
 
-impl<UART: UartX, PIN: RxPin<UART>> ErrorType for Rx<UART, PIN> {
-    type Error = ErrorKind;
+impl<UART: UartX, PIN: RxPin<UART>> serial::ErrorType for Rx<UART, PIN> {
+    type Error = serial::ErrorKind;
 }
 
-impl<UART: UartX, PIN: RxPin<UART>> Read for Rx<UART, PIN> {
-    fn read(&mut self) -> nb::Result<u8, ErrorKind> {
+impl<UART: UartX, PIN: RxPin<UART>> embedded_io::ErrorType for Rx<UART, PIN> {
+    type Error = embedded_io::ErrorKind;
+}
+
+impl<UART: UartX, PIN: RxPin<UART>> serial::Read for Rx<UART, PIN> {
+    #[inline]
+    fn read(&mut self) -> nb::Result<u8, Self::Error> {
         let rxdata = self.uart.rxdata().read();
 
         if rxdata.empty().bit_is_set() {
@@ -86,6 +90,28 @@ impl<UART: UartX, PIN: RxPin<UART>> Read for Rx<UART, PIN> {
         } else {
             Ok(rxdata.data().bits())
         }
+    }
+}
+
+impl<UART: UartX, PIN: RxPin<UART>> embedded_io::Read for Rx<UART, PIN> {
+    #[inline]
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize, Self::Error> {
+        if buf.is_empty() {
+            return Ok(0);
+        }
+        buf[0] = nb::block!(serial::Read::read(self)).unwrap(); // first byte may block
+        let mut count = 1;
+        for byte in buf.iter_mut().skip(1) {
+            match serial::Read::read(self) {
+                Ok(b) => {
+                    *byte = b;
+                    count += 1
+                }
+                Err(nb::Error::WouldBlock) => break,
+                _ => unreachable!(),
+            }
+        }
+        Ok(count)
     }
 }
 
@@ -102,29 +128,72 @@ impl<UART, PIN> Tx<UART, PIN> {
     }
 }
 
-impl<UART: UartX, PIN: TxPin<UART>> ErrorType for Tx<UART, PIN> {
-    type Error = ErrorKind;
+impl<UART: UartX, PIN: TxPin<UART>> Tx<UART, PIN> {
+    /// Returns true if the transmit buffer is full
+    fn is_buffer_full(&self) -> bool {
+        self.uart.txdata().read().full().bit_is_set()
+    }
 }
 
-impl<UART: UartX, PIN: TxPin<UART>> Write for Tx<UART, PIN> {
-    fn write(&mut self, byte: u8) -> nb::Result<(), ErrorKind> {
-        let txdata = self.uart.txdata().read();
+impl<UART: UartX, PIN: TxPin<UART>> serial::ErrorType for Tx<UART, PIN> {
+    type Error = serial::ErrorKind;
+}
 
-        if txdata.full().bit_is_set() {
-            Err(::nb::Error::WouldBlock)
+impl<UART: UartX, PIN: TxPin<UART>> embedded_io::ErrorType for Tx<UART, PIN> {
+    type Error = embedded_io::ErrorKind;
+}
+
+impl<UART: UartX, PIN: TxPin<UART>> serial::Write for Tx<UART, PIN> {
+    #[inline]
+    fn write(&mut self, byte: u8) -> nb::Result<(), Self::Error> {
+        if self.is_buffer_full() {
+            Err(nb::Error::WouldBlock)
         } else {
             self.uart.txdata().write(|w| unsafe { w.data().bits(byte) });
             Ok(())
         }
     }
 
-    fn flush(&mut self) -> nb::Result<(), ErrorKind> {
+    #[inline]
+    fn flush(&mut self) -> nb::Result<(), Self::Error> {
         if self.uart.ip().read().txwm().bit_is_set() {
             // FIFO count is below the receive watermark (1)
             Ok(())
         } else {
             Err(nb::Error::WouldBlock)
         }
+    }
+}
+
+impl<UART: UartX, PIN: TxPin<UART>> embedded_io::WriteReady for Tx<UART, PIN> {
+    #[inline]
+    fn write_ready(&mut self) -> Result<bool, Self::Error> {
+        Ok(!self.is_buffer_full())
+    }
+}
+
+impl<UART: UartX, PIN: TxPin<UART>> embedded_io::Write for Tx<UART, PIN> {
+    #[inline]
+    fn write(&mut self, buf: &[u8]) -> Result<usize, Self::Error> {
+        if buf.is_empty() {
+            return Ok(0);
+        }
+        nb::block!(serial::Write::write(self, buf[0])).unwrap(); // first byte may block
+        let mut count = 1;
+        for byte in buf.iter().skip(1) {
+            match serial::Write::write(self, *byte) {
+                Ok(()) => count += 1,
+                Err(nb::Error::WouldBlock) => break,
+                _ => unreachable!(),
+            }
+        }
+        Ok(count)
+    }
+
+    #[inline]
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        nb::block!(serial::Write::flush(self)).unwrap();
+        Ok(())
     }
 }
 
@@ -186,22 +255,48 @@ impl<UART: UartX, TX: TxPin<UART>, RX: RxPin<UART>> Serial<UART, TX, RX> {
     }
 }
 
-impl<UART, TX, RX> ErrorType for Serial<UART, TX, RX> {
-    type Error = ErrorKind;
+impl<UART: UartX, TX, RX> serial::ErrorType for Serial<UART, TX, RX> {
+    type Error = serial::ErrorKind;
 }
 
-impl<UART: UartX, TX, RX: RxPin<UART>> Read for Serial<UART, TX, RX> {
-    fn read(&mut self) -> nb::Result<u8, ErrorKind> {
+impl<UART: UartX, TX, RX: RxPin<UART>> serial::Read for Serial<UART, TX, RX> {
+    fn read(&mut self) -> nb::Result<u8, Self::Error> {
         self.rx.read()
     }
 }
 
-impl<UART: UartX, TX: TxPin<UART>, RX> Write for Serial<UART, TX, RX> {
-    fn write(&mut self, byte: u8) -> nb::Result<(), ErrorKind> {
+impl<UART: UartX, TX: TxPin<UART>, RX> serial::Write for Serial<UART, TX, RX> {
+    fn write(&mut self, byte: u8) -> nb::Result<(), Self::Error> {
         self.tx.write(byte)
     }
 
-    fn flush(&mut self) -> nb::Result<(), ErrorKind> {
+    fn flush(&mut self) -> nb::Result<(), Self::Error> {
+        self.tx.flush()
+    }
+}
+
+impl<UART, TX, RX> embedded_io::ErrorType for Serial<UART, TX, RX> {
+    type Error = embedded_io::ErrorKind;
+}
+
+impl<UART: UartX, TX, RX: RxPin<UART>> embedded_io::Read for Serial<UART, TX, RX> {
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize, Self::Error> {
+        self.rx.read(buf)
+    }
+}
+
+impl<UART: UartX, TX: TxPin<UART>, RX> embedded_io::WriteReady for Serial<UART, TX, RX> {
+    fn write_ready(&mut self) -> Result<bool, Self::Error> {
+        self.tx.write_ready()
+    }
+}
+
+impl<UART: UartX, TX: TxPin<UART>, RX> embedded_io::Write for Serial<UART, TX, RX> {
+    fn write(&mut self, buf: &[u8]) -> Result<usize, Self::Error> {
+        self.tx.write(buf)
+    }
+
+    fn flush(&mut self) -> Result<(), Self::Error> {
         self.tx.flush()
     }
 }

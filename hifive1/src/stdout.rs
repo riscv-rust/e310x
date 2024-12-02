@@ -1,7 +1,7 @@
 //! Stdout based on the UART hooked up to FTDI or J-Link
 
 use core::{
-    fmt::{self, Write as CoreWrite},
+    fmt::{self, Result, Write},
     ptr,
 };
 use e310x_hal::{
@@ -11,34 +11,19 @@ use e310x_hal::{
         gpio0::{Pin16, Pin17},
         NoInvert, IOF0,
     },
-    prelude::*,
     serial::{Rx, Serial, Tx},
+    stdout::Stdout,
     time::Bps,
 };
-use nb::block;
 
 struct SerialWrapper(Tx<Uart0, Pin17<IOF0<NoInvert>>>);
 
 static mut STDOUT: Option<SerialWrapper> = None;
 
-impl CoreWrite for SerialWrapper {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        for byte in s.as_bytes() {
-            if *byte == b'\n' {
-                let res = block!(self.0.write(b'\r'));
-
-                if res.is_err() {
-                    return Err(fmt::Error);
-                }
-            }
-
-            let res = block!(self.0.write(*byte));
-
-            if res.is_err() {
-                return Err(fmt::Error);
-            }
-        }
-        Ok(())
+impl Write for SerialWrapper {
+    fn write_str(&mut self, s: &str) -> Result {
+        let mut stdout = Stdout(&mut self.0);
+        stdout.write_str(s)
     }
 }
 
