@@ -16,7 +16,6 @@ impl R {
 impl W {
     #[doc = "Bits 0:11 - Divisor for serial clock"]
     #[inline(always)]
-    #[must_use]
     pub fn div(&mut self) -> DivW<SckdivSpec> {
         DivW::new(self, 0)
     }

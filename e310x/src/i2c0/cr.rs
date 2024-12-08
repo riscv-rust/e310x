@@ -44,37 +44,31 @@ pub type StaW<'a, REG> = crate::BitWriter<'a, REG>;
 impl W {
     #[doc = "Bit 0 - Interrupt acknowledge. When set, clears a pending interrupt"]
     #[inline(always)]
-    #[must_use]
     pub fn iack(&mut self) -> IackW<CrSpec> {
         IackW::new(self, 0)
     }
     #[doc = "Bit 3 - When a receiver, sent ACK (0) or NACK (1)"]
     #[inline(always)]
-    #[must_use]
     pub fn ack(&mut self) -> AckW<CrSpec> {
         AckW::new(self, 3)
     }
     #[doc = "Bit 4 - Write to slave"]
     #[inline(always)]
-    #[must_use]
     pub fn wr(&mut self) -> WrW<CrSpec> {
         WrW::new(self, 4)
     }
     #[doc = "Bit 5 - Read from slave"]
     #[inline(always)]
-    #[must_use]
     pub fn rd(&mut self) -> RdW<CrSpec> {
         RdW::new(self, 5)
     }
     #[doc = "Bit 6 - Generate stop condition"]
     #[inline(always)]
-    #[must_use]
     pub fn sto(&mut self) -> StoW<CrSpec> {
         StoW::new(self, 6)
     }
     #[doc = "Bit 7 - Generate (repeated) start condition"]
     #[inline(always)]
-    #[must_use]
     pub fn sta(&mut self) -> StaW<CrSpec> {
         StaW::new(self, 7)
     }

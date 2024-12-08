@@ -3,44 +3,35 @@
 //! The SiFive Inter-Integrated Circuit (I2C) Master Interface
 //! is based on OpenCores® I2C Master Core.
 //!
-//! You can use the `I2c` interface with these I2C instances
+//! You can use the [`I2c`] interface with these I2C instances
 //!
 //! # I2C0
 //! - SDA: Pin 12 IOF0
 //! - SCL: Pin 13 IOF0
 //! - Interrupt::I2C0
 
-use crate::clock::Clocks;
-use crate::gpio::{gpio0, IOF0};
-use crate::time::Bps;
-use core::mem;
+use crate::{clock::Clocks, time::Bps};
 use core::ops::Deref;
 use e310x::{i2c0, I2c0};
-use embedded_hal::blocking::i2c::{Read, Write, WriteRead};
+use embedded_hal::i2c::{self, ErrorKind, ErrorType, NoAcknowledgeSource, Operation};
 
-/// SDA pin - DO NOT IMPLEMENT THIS TRAIT
-mod sealed {
-    /// SDA pin
-    pub trait SdaPin<I2C> {}
+/// SDA pin
+pub trait SdaPin<I2C>: private::Sealed {}
 
-    /// SCL pin
-    pub trait SclPin<I2C> {}
-}
+/// SCL pin
+pub trait SclPin<I2C>: private::Sealed {}
 
-impl<T> sealed::SdaPin<I2c0> for gpio0::Pin12<IOF0<T>> {}
-impl<T> sealed::SclPin<I2c0> for gpio0::Pin13<IOF0<T>> {}
+/// I2cX trait extends the I2C peripheral
+pub trait I2cX: Deref<Target = i2c0::RegisterBlock> + private::Sealed {}
 
-/// I2C error
-#[derive(Debug, Eq, PartialEq)]
-pub enum Error {
-    /// Invalid peripheral state
-    InvalidState,
+mod i2c_impl {
+    use super::{I2c0, I2cX, SclPin, SdaPin};
+    use crate::gpio::{gpio0, IOF0};
 
-    /// Arbitration lost
-    ArbitrationLost,
-
-    /// No ACK received
-    NoAck,
+    /// I2C0
+    impl I2cX for I2c0 {}
+    impl<T> SdaPin<I2c0> for gpio0::Pin12<IOF0<T>> {}
+    impl<T> SclPin<I2c0> for gpio0::Pin13<IOF0<T>> {}
 }
 
 /// Transmission speed
@@ -61,12 +52,12 @@ pub struct I2c<I2C, PINS> {
     pins: PINS,
 }
 
-impl<SDA, SCL> I2c<I2c0, (SDA, SCL)> {
+impl<I2C: I2cX, SDA, SCL> I2c<I2C, (SDA, SCL)> {
     /// Configures an I2C peripheral
-    pub fn new(i2c: I2c0, sda: SDA, scl: SCL, speed: Speed, clocks: Clocks) -> Self
+    pub fn new(i2c: I2C, sda: SDA, scl: SCL, speed: Speed, clocks: Clocks) -> Self
     where
-        SDA: sealed::SdaPin<I2c0>,
-        SCL: sealed::SclPin<I2c0>,
+        SDA: SdaPin<I2C>,
+        SCL: SclPin<I2C>,
     {
         // Calculate prescaler value
         let desired_speed = match speed {
@@ -107,209 +98,205 @@ impl<I2C, PINS> I2c<I2C, PINS> {
     }
 }
 
-impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> I2c<I2C, PINS> {
-    fn reset(&self) {
-        // ACK pending interrupt event, clear commands
-        self.write_cr(|w| w.iack().set_bit());
-    }
-
-    fn write_cr<F>(&self, f: F)
-    where
-        F: FnOnce(&mut i2c0::cr::W) -> &mut i2c0::cr::W,
-    {
-        self.i2c.cr().write(|w| unsafe {
-            let mut value: u32 = 0;
-            f(mem::transmute::<&mut u32, &mut i2c0::cr::W>(&mut value));
-            w.bits(value)
-        });
-    }
-
+impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
+    /// Read the status register.
     fn read_sr(&self) -> i2c0::sr::R {
         self.i2c.sr().read()
     }
 
-    fn write_byte(&self, byte: u8) {
+    /// Clear the interrupt flag in the control register.
+    fn clear_interrupt(&self) {
+        self.i2c.cr().write(|w| w.iack().set_bit());
+    }
+
+    /// Reset the I2C peripheral.
+    fn reset(&self) {
+        self.clear_interrupt();
+    }
+
+    /// Set the stop bit in the control register.
+    /// A stop condition will be sent on the bus.
+    fn set_stop(&self) {
+        self.i2c.cr().write(|w| w.sto().set_bit());
+    }
+
+    /// Set the next byte to be transmitted to the I2C slave device.
+    ///
+    /// # Note
+    ///
+    /// This function does not start the transmission. You must call
+    /// [`Self::write_to_slave`] to start the transmission.
+    fn write_txr(&self, byte: u8) {
         self.i2c.txr_rxr().write(|w| unsafe { w.data().bits(byte) });
     }
 
-    fn read_byte(&self) -> u8 {
+    /// Read the last byte received from the I2C slave device.
+    fn read_rxr(&self) -> u8 {
         self.i2c.txr_rxr().read().data().bits()
     }
 
-    fn wait_for_interrupt(&self) -> Result<(), Error> {
-        loop {
-            let sr = self.read_sr();
+    /// Trigger a write to the slave device.
+    /// This function should be called after writing to the transmit register.
+    ///
+    /// # Note
+    ///
+    /// This function does not block until the write is complete. You must call
+    /// [`Self::wait_for_write`] to wait for the write to complete.
+    fn trigger_write(&self, start: bool, stop: bool) {
+        self.i2c
+            .cr()
+            .write(|w| w.sta().bit(start).wr().set_bit().sto().bit(stop));
+    }
 
+    /// Trigger a read from the slave device.
+    /// This function should be called before reading the receive register.
+    ///
+    /// # Note
+    ///
+    /// This function does not block until the read is complete. You must call
+    /// [`Self::wait_for_read`] to wait for the read to complete.
+    fn trigger_read(&self, ack: bool, stop: bool) {
+        self.i2c
+            .cr()
+            .write(|w| w.rd().set_bit().ack().bit(ack).sto().bit(stop));
+    }
+
+    /// Check if the I2C peripheral is idle.
+    fn is_idle(&self) -> bool {
+        !self.read_sr().busy().bit_is_set()
+    }
+
+    /// Blocking version of [`Self::is_idle`].
+    fn wait_idle(&self) {
+        while !self.is_idle() {}
+    }
+
+    /// Acknowledge an interrupt.
+    ///
+    /// # Errors
+    ///
+    /// In case of arbitration loss, a stop condition is sent
+    /// and an [`ErrorKind::ArbitrationLoss`] is returned.
+    fn ack_interrupt(&self) -> nb::Result<(), ErrorKind> {
+        let sr = self.read_sr();
+        if sr.if_().bit_is_set() {
+            self.clear_interrupt();
             if sr.al().bit_is_set() {
-                // Set STOP
-                self.write_cr(|w| w.sto().set_bit());
-                self.wait_for_complete();
-
-                return Err(Error::ArbitrationLost);
+                self.set_stop();
+                Err(nb::Error::Other(ErrorKind::ArbitrationLoss))
+            } else {
+                Ok(())
             }
-
-            if sr.if_().bit_is_set() {
-                // ACK the interrupt
-                self.write_cr(|w| w.iack().set_bit());
-
-                return Ok(());
-            }
+        } else {
+            Err(nb::Error::WouldBlock)
         }
     }
 
-    fn wait_for_read(&self) -> Result<(), Error> {
-        self.wait_for_interrupt()
+    /// Wait for a read operation to complete.
+    ///
+    /// # Errors
+    ///
+    /// In case of arbitration loss it waits until the bus is idle
+    /// before returning an [`ErrorKind::ArbitrationLoss`] error.
+    fn wait_for_read(&self) -> Result<(), ErrorKind> {
+        nb::block!(self.ack_interrupt())
     }
 
-    fn wait_for_write(&self) -> Result<(), Error> {
-        self.wait_for_interrupt()?;
-
+    /// Wait for a write operation to complete.
+    ///
+    /// # Errors
+    ///
+    /// If the slave device does not acknowledge the write, a stop condition
+    /// is sent and an [`ErrorKind::NoAcknowledge`] is returned.
+    ///
+    /// In case of arbitration loss it waits until the bus is idle
+    /// before returning an [`ErrorKind::ArbitrationLoss`] error.
+    fn wait_for_write(&self, source: NoAcknowledgeSource) -> Result<(), ErrorKind> {
+        nb::block!(self.ack_interrupt())?;
         if self.read_sr().rx_ack().bit_is_set() {
-            // Set STOP
-            self.write_cr(|w| w.sto().set_bit());
-            self.wait_for_complete();
-
-            return Err(Error::NoAck);
+            self.set_stop();
+            Err(ErrorKind::NoAcknowledge(source))
+        } else {
+            Ok(())
         }
-
-        Ok(())
-    }
-
-    fn wait_for_complete(&self) {
-        while self.read_sr().busy().bit_is_set() {}
     }
 }
 
 const FLAG_READ: u8 = 1;
 const FLAG_WRITE: u8 = 0;
 
-impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> Read for I2c<I2C, PINS> {
-    type Error = Error;
-
-    fn read(&mut self, address: u8, buffer: &mut [u8]) -> Result<(), Self::Error> {
-        self.reset();
-
-        if self.read_sr().busy().bit_is_set() {
-            return Err(Error::InvalidState);
-        }
-
-        // Write address + R
-        self.write_byte((address << 1) + FLAG_READ);
-
-        // Generate start condition and write command
-        self.write_cr(|w| w.sta().set_bit().wr().set_bit());
-        self.wait_for_write()?;
-
-        // Read bytes
-        let buffer_len = buffer.len();
-        for (i, byte) in buffer.iter_mut().enumerate() {
-            if i != buffer_len - 1 {
-                // R + ACK
-                self.write_cr(|w| w.rd().set_bit().ack().clear_bit());
-            } else {
-                // R + NACK + STOP
-                self.write_cr(|w| w.rd().set_bit().ack().set_bit().sto().set_bit());
-            }
-            self.wait_for_read()?;
-
-            *byte = self.read_byte();
-        }
-        Ok(())
-    }
+impl<I2C: I2cX, PINS> ErrorType for I2c<I2C, PINS> {
+    type Error = ErrorKind;
 }
 
-impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> Write for I2c<I2C, PINS> {
-    type Error = Error;
-
-    fn write(&mut self, address: u8, bytes: &[u8]) -> Result<(), Self::Error> {
-        self.reset();
-
-        if self.read_sr().busy().bit_is_set() {
-            return Err(Error::InvalidState);
-        }
-
-        // Write address + W
-        self.write_byte((address << 1) + FLAG_WRITE);
-
-        // Generate start condition and write command
-        self.write_cr(|w| w.sta().set_bit().wr().set_bit());
-        self.wait_for_write()?;
-
-        // Write bytes
-        for (i, byte) in bytes.iter().enumerate() {
-            self.write_byte(*byte);
-
-            if i != bytes.len() - 1 {
-                self.write_cr(|w| w.wr().set_bit());
-            } else {
-                self.write_cr(|w| w.wr().set_bit().sto().set_bit());
-            }
-            self.wait_for_write()?;
-        }
-        Ok(())
-    }
-}
-
-impl<I2C: Deref<Target = i2c0::RegisterBlock>, PINS> WriteRead for I2c<I2C, PINS> {
-    type Error = Error;
-
-    fn write_read(
+impl<I2C: I2cX, PINS> i2c::I2c for I2c<I2C, PINS> {
+    fn transaction(
         &mut self,
         address: u8,
-        bytes: &[u8],
-        buffer: &mut [u8],
+        operations: &mut [Operation<'_>],
     ) -> Result<(), Self::Error> {
+        let n_ops = operations.len();
+        if n_ops == 0 {
+            return Ok(());
+        }
+
+        self.wait_idle();
         self.reset();
 
-        if self.read_sr().busy().bit_is_set() {
-            return Err(Error::InvalidState);
-        }
+        // we use this flag to detect when we need to send a (repeated) start
+        let mut last_op_was_read = match &operations[0] {
+            Operation::Read(_) => false,
+            Operation::Write(_) => true,
+        };
 
-        if !bytes.is_empty() && buffer.is_empty() {
-            self.write(address, bytes)
-        } else if !buffer.is_empty() && bytes.is_empty() {
-            self.read(address, buffer)
-        } else if bytes.is_empty() && buffer.is_empty() {
-            Ok(())
-        } else {
-            // Write address + W
-            self.write_byte((address << 1) + FLAG_WRITE);
+        for (i, operation) in operations.iter_mut().enumerate() {
+            match operation {
+                Operation::Write(bytes) => {
+                    // Send write command
+                    self.write_txr((address << 1) + FLAG_WRITE);
+                    self.trigger_write(last_op_was_read, false);
+                    self.wait_for_write(NoAcknowledgeSource::Address)?;
+                    last_op_was_read = false;
 
-            // Generate start condition and write command
-            self.write_cr(|w| w.sta().set_bit().wr().set_bit());
-            self.wait_for_write()?;
-
-            // Write bytes
-            for byte in bytes {
-                self.write_byte(*byte);
-
-                self.write_cr(|w| w.wr().set_bit());
-                self.wait_for_write()?;
-            }
-
-            // Write address + R
-            self.write_byte((address << 1) + FLAG_READ);
-
-            // Generate repeated start condition and write command
-            self.write_cr(|w| w.sta().set_bit().wr().set_bit());
-            self.wait_for_write()?;
-
-            // Read bytes
-            let buffer_len = buffer.len();
-            for (i, byte) in buffer.iter_mut().enumerate() {
-                if i != buffer_len - 1 {
-                    // W + ACK
-                    self.write_cr(|w| w.rd().set_bit().ack().clear_bit());
-                } else {
-                    // W + NACK + STOP
-                    self.write_cr(|w| w.rd().set_bit().ack().set_bit().sto().set_bit());
+                    // Write bytes
+                    let n_bytes = bytes.len();
+                    for (j, byte) in bytes.iter().enumerate() {
+                        self.write_txr(*byte);
+                        self.trigger_write(false, (i == n_ops - 1) && (j == n_bytes - 1));
+                        self.wait_for_write(NoAcknowledgeSource::Data)?;
+                    }
                 }
-                self.wait_for_read()?;
+                Operation::Read(buffer) => {
+                    // Send read command
+                    self.write_txr((address << 1) + FLAG_READ);
+                    self.trigger_write(!last_op_was_read, false);
+                    self.wait_for_write(NoAcknowledgeSource::Address)?;
+                    last_op_was_read = true;
 
-                *byte = self.read_byte();
+                    // Read bytes
+                    let n_bytes = buffer.len();
+                    for (j, byte) in buffer.iter_mut().enumerate() {
+                        self.trigger_read(j == n_bytes - 1, (i == n_ops - 1) && (j == n_bytes - 1));
+                        self.wait_for_read()?;
+                        *byte = self.read_rxr();
+                    }
+                }
             }
-
-            Ok(())
         }
+        self.wait_idle();
+
+        Ok(())
     }
+}
+
+mod private {
+    use super::I2c0;
+    use crate::gpio::{gpio0, IOF0};
+
+    pub trait Sealed {}
+
+    // I2C0
+    impl Sealed for I2c0 {}
+    impl<T> Sealed for gpio0::Pin12<IOF0<T>> {}
+    impl<T> Sealed for gpio0::Pin13<IOF0<T>> {}
 }

@@ -1,6 +1,6 @@
 [package]
 name = "e310x-hal"
-version = "0.11.0"
+version = "0.12.0"
 authors = ["David Craven <david@craven.ch>"]
 repository = "https://github.com/riscv-rust/e310x"
 categories = ["embedded", "hardware-support", "no-std"]
@@ -8,18 +8,20 @@ description = "HAL for the E310x family of microcontrollers."
 keywords = ["riscv", "e310", "hal"]
 license = "ISC"
 edition = "2021"
-rust-version = "1.72"
+rust-version = "1.76"
 
 [dependencies]
-embedded-hal = { version = "0.2.6", features = ["unproven"] }
+embedded-hal = "1.0.0"
+embedded-hal-nb = "1.0.0"
+embedded-io = "0.6.1"
+e310x = { path = "../e310x", version = "0.12.0", features = ["rt", "critical-section"] }
 nb = "1.0.0"
-riscv = { version = "0.10.1", features = ["critical-section-single-hart"] }
-e310x = { path = "../e310x", version = "0.11.0", features = ["rt", "critical-section"] }
 portable-atomic = { version = "1.9", default-features = false}
+riscv = { version = "0.12.1", features = ["critical-section-single-hart"] }
 
 [features]
 g002 = ["e310x/g002"]
-virq = []
+v-trap = ["e310x/v-trap"]
 
 [package.metadata.docs.rs]
-features = ["g002", "virq"]
+features = ["g002"]

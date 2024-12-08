@@ -1,4 +1,4 @@
-use e310x::qspi0::csmode::Mode as MODE_A;
+use e310x::qspi0::csmode::Mode as CsMode;
 use embedded_hal::spi::Mode;
 
 use crate::{clock::Clocks, time::Hertz};
@@ -13,7 +13,7 @@ pub struct SpiConfig {
     /// Clock Divisor calculated from frozen core clock frequency and SPI frequency
     pub(crate) clock_divisor: u32,
     /// CS Mode
-    pub cs_mode: MODE_A,
+    pub cs_mode: CsMode,
     /// Watermark level for transmits
     pub txmark: u8,
     /// Watermark level for received
@@ -44,7 +44,7 @@ impl SpiConfig {
         Self {
             mode,
             clock_divisor,
-            cs_mode: MODE_A::Hold,
+            cs_mode: CsMode::Hold,
             txmark: 1,
             rxmark: 0,
             delays: SpiDelayConfig::default(),

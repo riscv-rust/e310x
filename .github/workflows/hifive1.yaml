@@ -11,8 +11,8 @@ jobs:
   build-riscv:
     strategy:
       matrix:
-        # All generated code should be running on stable now, MRSV is 1.72.0
-        toolchain: [nightly, stable, 1.72.0]
+        # All generated code should be running on stable now, MRSV is 1.76.0
+        toolchain: [nightly, stable, 1.76.0]
         board: [hifive1, hifive1-revb, redv, lofive, lofive-r1]
         include:
           # Nightly is only for reference and allowed to fail
@@ -29,7 +29,7 @@ jobs:
       - name: Build (direct)
         run: cargo build --package hifive1 --features board-${{ matrix.board }}
       - name: Build (vectored)
-        run: cargo build --package hifive1 --features board-${{ matrix.board }},virq
+        run: cargo build --package hifive1 --features board-${{ matrix.board }},v-trap
   
   # On MacOS and Ubuntu, we at least make sure that the crate builds and links.
   # On Windows, linking fails when the rt feature is enabled.
@@ -48,5 +48,5 @@ jobs:
       - name: Build (direct)
         run: cargo test --package hifive1 --features board-${{ matrix.board }}
       - name: Build (vectored)
-        run: cargo test --package hifive1 --features board-${{ matrix.board }},virq
+        run: cargo test --package hifive1 --features board-${{ matrix.board }},v-trap
   

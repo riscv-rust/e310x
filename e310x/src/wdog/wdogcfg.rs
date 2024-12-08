@@ -61,37 +61,31 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    #[must_use]
     pub fn scale(&mut self) -> ScaleW<WdogcfgSpec> {
         ScaleW::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    #[must_use]
     pub fn rsten(&mut self) -> RstenW<WdogcfgSpec> {
         RstenW::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    #[must_use]
     pub fn zerocmp(&mut self) -> ZerocmpW<WdogcfgSpec> {
         ZerocmpW::new(self, 9)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    #[must_use]
     pub fn enalways(&mut self) -> EnalwaysW<WdogcfgSpec> {
         EnalwaysW::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    #[must_use]
     pub fn encoreawake(&mut self) -> EncoreawakeW<WdogcfgSpec> {
         EncoreawakeW::new(self, 13)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    #[must_use]
     pub fn cmpip(&mut self) -> CmpipW<WdogcfgSpec> {
         CmpipW::new(self, 28)
     }

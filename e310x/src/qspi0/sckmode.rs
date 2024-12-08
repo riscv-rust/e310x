@@ -25,13 +25,11 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Serial clock phase"]
     #[inline(always)]
-    #[must_use]
     pub fn pha(&mut self) -> PhaW<SckmodeSpec> {
         PhaW::new(self, 0)
     }
     #[doc = "Bit 1 - Serial clock polarity"]
     #[inline(always)]
-    #[must_use]
     pub fn pol(&mut self) -> PolW<SckmodeSpec> {
         PolW::new(self, 1)
     }

@@ -9,6 +9,7 @@
 ///   - `uart0_<x>` — UART pins where `<x>` is one of (`tx`, `rx`)
 ///   - `dig#` — Digital/physical pins on the board where `#` is from range 0..19
 ///   - `led_<x>` - Internal LED light pins where `<x>` is one of (`red`, `green`, `blue`)
+///   - `pwmN_cmp#` - PWM channels where `N`` is from range 0..2 and `#` is from range 1..3
 ///
 /// # Example
 ///
@@ -23,23 +24,25 @@ macro_rules! pin {
         ()
     };
     // spi
-    ($gpio:ident, spi0_sck) => {
+    ($gpio:ident, spi1_sck) => {
         $gpio.pin5
     };
-    ($gpio:ident, spi0_mosi) => {
+    ($gpio:ident, spi1_mosi) => {
         $gpio.pin3
     };
-    ($gpio:ident, spi0_miso) => {
+    ($gpio:ident, spi1_miso) => {
         $gpio.pin4
     };
-    ($gpio:ident, spi0_ss0) => {
+    ($gpio:ident, spi1_ss0) => {
         $gpio.pin2
     };
-    // spi_ss1 is not documented
-    ($gpio:ident, spi0_ss2) => {
+    ($gpio:ident, spi1_ss1) => {
+        $gpio.pin8
+    };
+    ($gpio:ident, spi1_ss2) => {
         $gpio.pin9
     };
-    ($gpio:ident, spi0_ss3) => {
+    ($gpio:ident, spi1_ss3) => {
         $gpio.pin10
     };
     // i2c
@@ -127,6 +130,34 @@ macro_rules! pin {
     ($gpio:ident, led_blue) => {
         $gpio.pin21
     };
+    // PWM channels
+    ($gpio:ident, pwm0_cmp1) => {
+        $gpio.pin1
+    };
+    ($gpio:ident, pwm0_cmp2) => {
+        $gpio.pin2
+    };
+    ($gpio:ident, pwm0_cmp3) => {
+        $gpio.pin3
+    };
+    ($gpio:ident, pwm1_cmp1) => {
+        $gpio.pin19
+    };
+    ($gpio:ident, pwm1_cmp2) => {
+        $gpio.pin21
+    };
+    ($gpio:ident, pwm1_cmp3) => {
+        $gpio.pin22
+    };
+    ($gpio:ident, pwm2_cmp1) => {
+        $gpio.pin11
+    };
+    ($gpio:ident, pwm2_cmp2) => {
+        $gpio.pin12
+    };
+    ($gpio:ident, pwm2_cmp3) => {
+        $gpio.pin13
+    };
 }
 
 #[cfg(feature = "board-redv")]
@@ -140,6 +171,7 @@ macro_rules! pin {
 ///   - `uart0_<x>` — UART pins where `<x>` is one of (`tx`, `rx`)
 ///   - `dig#` — Digital/physical pins on the board where `#` is from range 0..19
 ///   - `led_<x>` - Internal LED light pins where `<x>` is one of (`red`, `green`, `blue`)
+///  - `pwmN_cmp#` - PWM channels where `N`` is from range 0..2 and `#` is from range 1..3
 ///
 /// # Example
 ///
@@ -154,23 +186,25 @@ macro_rules! pin {
         ()
     };
     // spi
-    ($gpio:ident, spi0_sck) => {
+    ($gpio:ident, spi1_sck) => {
         $gpio.pin5
     };
-    ($gpio:ident, spi0_mosi) => {
+    ($gpio:ident, spi1_mosi) => {
         $gpio.pin3
     };
-    ($gpio:ident, spi0_miso) => {
+    ($gpio:ident, spi1_miso) => {
         $gpio.pin4
     };
-    ($gpio:ident, spi0_ss0) => {
+    ($gpio:ident, spi1_ss0) => {
         $gpio.pin2
     };
-    // spi_ss1 is not documented
-    ($gpio:ident, spi0_ss2) => {
+    ($gpio:ident, spi1_ss1) => {
+        $gpio.pin8
+    };
+    ($gpio:ident, spi1_ss2) => {
         $gpio.pin9
     };
-    ($gpio:ident, spi0_ss3) => {
+    ($gpio:ident, spi1_ss3) => {
         $gpio.pin10
     };
     // i2c
@@ -251,6 +285,34 @@ macro_rules! pin {
     // onboard LEDs
     ($gpio:ident, led_blue) => {
         $gpio.pin5
+    };
+    // PWM channels
+    ($gpio:ident, pwm0_cmp1) => {
+        $gpio.pin1
+    };
+    ($gpio:ident, pwm0_cmp2) => {
+        $gpio.pin2
+    };
+    ($gpio:ident, pwm0_cmp3) => {
+        $gpio.pin3
+    };
+    ($gpio:ident, pwm1_cmp1) => {
+        $gpio.pin19
+    };
+    ($gpio:ident, pwm1_cmp2) => {
+        $gpio.pin21
+    };
+    ($gpio:ident, pwm1_cmp3) => {
+        $gpio.pin22
+    };
+    ($gpio:ident, pwm2_cmp1) => {
+        $gpio.pin11
+    };
+    ($gpio:ident, pwm2_cmp2) => {
+        $gpio.pin12
+    };
+    ($gpio:ident, pwm2_cmp3) => {
+        $gpio.pin13
     };
 }
 

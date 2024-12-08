@@ -2,10 +2,10 @@
 set -x
 set -e
 
-# used svd2rust v0.26.0
+# used svd2rust 0.34.0
 rm -rf src
 mkdir src
-svd2rust --target riscv -g -i e310x.svd
+svd2rust --target riscv --settings settings.yaml -g -i e310x.svd
 mv generic.rs src/
 form -i lib.rs -o src/
 rm lib.rs

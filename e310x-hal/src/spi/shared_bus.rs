@@ -1,5 +1,6 @@
 use core::cell::RefCell;
 use core::ops::Deref;
+use embedded_hal::delay::DelayNs;
 use riscv::interrupt;
 
 use super::{PinCS, PinsNoCS, SpiBus, SpiConfig, SpiSharedDevice, SpiX};
@@ -18,15 +19,17 @@ where
     }
 
     /// Create a new shared device on this SPI bus.
-    pub fn new_device<'bus, CS>(
+    pub fn new_device<'bus, CS, D>(
         &'bus self,
         cs: CS,
         config: &SpiConfig,
-    ) -> SpiSharedDevice<'bus, SPI, PINS, CS>
+        delay: D,
+    ) -> SpiSharedDevice<'bus, SPI, PINS, CS, D>
     where
         CS: PinCS<SPI>,
+        D: DelayNs,
     {
-        SpiSharedDevice::new(self, cs, config)
+        SpiSharedDevice::new(self, cs, config, delay)
     }
 }
 
@@ -53,9 +56,7 @@ where
 
     /// Releases the SPI peripheral and associated pins
     pub fn release(self) -> (SPI, PINS) {
-        let bus = self.0.into_inner();
-
-        (bus.spi, bus.pins)
+        self.0.into_inner().release()
     }
 }
 

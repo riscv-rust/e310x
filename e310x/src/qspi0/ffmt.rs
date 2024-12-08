@@ -286,49 +286,41 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Enable sending of command"]
     #[inline(always)]
-    #[must_use]
     pub fn cmd_en(&mut self) -> CmdEnW<FfmtSpec> {
         CmdEnW::new(self, 0)
     }
     #[doc = "Bits 1:3 - Number of address bytes (0 to 4)"]
     #[inline(always)]
-    #[must_use]
     pub fn addr_len(&mut self) -> AddrLenW<FfmtSpec> {
         AddrLenW::new(self, 1)
     }
     #[doc = "Bits 4:7 - Number of dummy cycles"]
     #[inline(always)]
-    #[must_use]
     pub fn pad_cnt(&mut self) -> PadCntW<FfmtSpec> {
         PadCntW::new(self, 4)
     }
     #[doc = "Bits 8:9 - Protocol for transmitting command"]
     #[inline(always)]
-    #[must_use]
     pub fn cmd_proto(&mut self) -> CmdProtoW<FfmtSpec> {
         CmdProtoW::new(self, 8)
     }
     #[doc = "Bits 10:11 - Protocol for transmitting address and padding"]
     #[inline(always)]
-    #[must_use]
     pub fn addr_proto(&mut self) -> AddrProtoW<FfmtSpec> {
         AddrProtoW::new(self, 10)
     }
     #[doc = "Bits 12:13 - Protocol for receiving data bytes"]
     #[inline(always)]
-    #[must_use]
     pub fn data_proto(&mut self) -> DataProtoW<FfmtSpec> {
         DataProtoW::new(self, 12)
     }
     #[doc = "Bits 16:23 - Value of command byte"]
     #[inline(always)]
-    #[must_use]
     pub fn cmd_code(&mut self) -> CmdCodeW<FfmtSpec> {
         CmdCodeW::new(self, 16)
     }
     #[doc = "Bits 24:31 - First 8 bits to transmit during dummy cycles"]
     #[inline(always)]
-    #[must_use]
     pub fn pad_code(&mut self) -> PadCodeW<FfmtSpec> {
         PadCodeW::new(self, 24)
     }

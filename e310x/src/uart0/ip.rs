@@ -25,13 +25,11 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    #[must_use]
     pub fn txwm(&mut self) -> TxwmW<IpSpec> {
         TxwmW::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    #[must_use]
     pub fn rxwm(&mut self) -> RxwmW<IpSpec> {
         RxwmW::new(self, 1)
     }

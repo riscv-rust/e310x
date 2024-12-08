@@ -210,25 +210,21 @@ impl R {
 impl W {
     #[doc = "Bits 0:1 - SPI protocol"]
     #[inline(always)]
-    #[must_use]
     pub fn proto(&mut self) -> ProtoW<FmtSpec> {
         ProtoW::new(self, 0)
     }
     #[doc = "Bit 2 - SPI endianness"]
     #[inline(always)]
-    #[must_use]
     pub fn endian(&mut self) -> EndianW<FmtSpec> {
         EndianW::new(self, 2)
     }
     #[doc = "Bit 3 - SPI I/O direction"]
     #[inline(always)]
-    #[must_use]
     pub fn dir(&mut self) -> DirW<FmtSpec> {
         DirW::new(self, 3)
     }
     #[doc = "Bits 16:19 - Number of bits per frame"]
     #[inline(always)]
-    #[must_use]
     pub fn len(&mut self) -> LenW<FmtSpec> {
         LenW::new(self, 16)
     }
