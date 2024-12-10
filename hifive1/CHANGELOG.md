@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [v0.13.0] - 2024-12-10
+
 - Fix Led implementation, as pins are configured as inverted outputs
 - Adapt to embedded-hal 1.0
 - Replace static muts with Mutexes

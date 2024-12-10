@@ -1,6 +1,6 @@
 [package]
 name = "hifive1"
-version = "0.14.0"
+version = "0.13.0"
 repository = "https://github.com/riscv-rust/e310x"
 authors = ["David Craven <david@craven.ch>"]
 categories = ["embedded", "hardware-support", "no-std"]

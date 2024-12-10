@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.12.0] - 2024-12-10
+
 ### Changed
 
 - Now CLINT and PLIC are provided by `riscv-peripheral` 0.2
