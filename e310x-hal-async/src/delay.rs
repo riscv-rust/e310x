@@ -30,5 +30,16 @@ mod async_no_mangle {
     /// it returns `None`. Alternatively, if the queue is not empty but the earliest timer has not expired
     /// yet, it returns `Some(next_expires)` where `next_expires` is the tick at which this timer expires.
     #[no_mangle]
-    fn _riscv_peripheral_aclint_wake_timers(current_tick: u64) -> Option<u64> {}
+    fn _riscv_peripheral_aclint_wake_timers(current_tick: u64) -> Option<u64> {
+        let mut next_expires = None;
+        while let Some(t) = unsafe { TIMER_QUEUE.peek() } {
+            if t.expires() > current_tick {
+                next_expires = Some(t.expires());
+                break;
+            }
+            let t = unsafe { TIMER_QUEUE.pop() }.unwrap();
+            t.waker().wake_by_ref();
+        }
+        next_expires
+    }
 }
