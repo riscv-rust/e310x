@@ -1,0 +1,20 @@
+[package]
+name = "hifive1-async-examples"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[dependencies]
+critical-section = { version = "1.2.0" }
+hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb"] } # Change to your board
+riscv = { version = "0.12.1" }
+riscv-rt = { version = "0.13.0", features = ["single-hart"] }
+panic-halt = "1.0.0"
+semihosting = { version = "0.1",  features = ["stdio", "panic-handler"] }
+# max3010x = "0.2.0" # TODO uncomment when the driver is published
+max3010x = { git = "https://github.com/eldruin/max3010x-rs.git" }
+mfrc522 = "0.8.0"
+
+[features]
+v-trap = ["hifive1/v-trap"]
