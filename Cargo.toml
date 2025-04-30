@@ -4,5 +4,5 @@ members = [
     "e310x",
     "e310x-hal", 
     "e310x-hal-async",
-    "hifive1",
+    "hifive1"
 ]
