@@ -6,6 +6,7 @@ edition = "2024"
 [workspace]
 
 [dependencies]
+embassy-executor = { version = "0.7.0" } #embassy executor for async tasks
 critical-section = { version = "1.2.0" }
 hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb"] } # Change to your board
 riscv = { version = "0.12.1" }
