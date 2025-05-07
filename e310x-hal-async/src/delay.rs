@@ -9,6 +9,8 @@ use e310x::CLINT;
 use heapless::binary_heap::{BinaryHeap, Min};
 use riscv_peripheral::{aclint::mtimer::MTIMER, hal_async::aclint::Timer};
 
+pub use riscv_peripheral::hal_async::aclint::DelayNs;
+
 const N_TIMERS: usize = 16;
 static TIMER_QUEUE: Mutex<RefCell<BinaryHeap<Timer, Min, N_TIMERS>>> =
     Mutex::new(RefCell::new(BinaryHeap::new()));
