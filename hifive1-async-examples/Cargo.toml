@@ -9,6 +9,7 @@ edition = "2024"
 embassy-executor = { version = "0.7.0" } #embassy executor for async tasks
 critical-section = { version = "1.2.0" }
 hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb"] } # Change to your board
+e310x-hal-async = { path = "../e310x-hal-async", version = "0.1.0" }
 riscv = { version = "0.12.1" }
 riscv-rt = { version = "0.13.0", features = ["single-hart"] }
 panic-halt = "1.0.0"
