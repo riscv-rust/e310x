@@ -24,7 +24,9 @@ async fn blink(mut led: BLUE) {
     const STEP: u32 = 1000; // 1s
     loop {
         Led::toggle(&mut led);
-        sprintln!("LED toggled. New state: {}", led.is_on());
+        let led_state = led.is_on();
+        sprintln!("LED toggled. New state: {}", led_state);
+
         sleep.delay_ms(STEP).await;
     }
 }
@@ -40,7 +42,7 @@ fn main() -> ! {
 
     //Blinking LED
     let pin = pin!(pins, led_blue);
-    let mut led = pin.into_inverted_output();
+    let led = pin.into_inverted_output();
 
     // Configure UART for stdout
     hifive1::stdout::configure(
@@ -51,8 +53,18 @@ fn main() -> ! {
         clocks,
     );
 
+    //Configure MTIMER interrupt
+    CLINT::mtimer_disable();
+    let mtimer = CLINT::mtimer();
+    let (mtimecmp, mtime) = (mtimer.mtimecmp0, mtimer.mtime);
+    mtime.write(0);
+    mtimecmp.write(2^16 - 1);
+    unsafe {
+        riscv::interrupt::enable();
+        CLINT::mtimer_enable();
+    }
+
     //Execute task
-    Led::toggle(&mut led);
     let executor = EXECUTOR.init(Executor::new());
     executor.run(|spawner| {
         spawner.spawn(blink(led)).unwrap();
