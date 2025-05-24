@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Regenerate code with `svd2rust` 0.36.1
+- Use `riscv` v0.13.0 and `riscv-rt` v0.14.0
+- In vectored mode, align `mtvec` to 64 bytes
+
 ## [v0.12.0] - 2024-12-10
 
 ### Changed

@@ -464,10 +464,6 @@ impl crate::Readable for IofEnSpec {}
 #[doc = "`write(|w| ..)` method takes [`iof_en::W`](W) writer structure"]
 impl crate::Writable for IofEnSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets iof_en to value 0"]
-impl crate::Resettable for IofEnSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for IofEnSpec {}

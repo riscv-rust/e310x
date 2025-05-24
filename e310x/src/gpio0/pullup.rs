@@ -464,10 +464,6 @@ impl crate::Readable for PullupSpec {}
 #[doc = "`write(|w| ..)` method takes [`pullup::W`](W) writer structure"]
 impl crate::Writable for PullupSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pullup to value 0"]
-impl crate::Resettable for PullupSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for PullupSpec {}

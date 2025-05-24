@@ -72,10 +72,6 @@ impl crate::Readable for LfrosccfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`lfrosccfg::W`](W) writer structure"]
 impl crate::Writable for LfrosccfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets lfrosccfg to value 0"]
-impl crate::Resettable for LfrosccfgSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for LfrosccfgSpec {}

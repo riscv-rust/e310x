@@ -34,32 +34,27 @@ impl RegisterBlock {
         &self.coreclkcfg
     }
 }
-#[doc = "hfrosccfg (rw) register accessor: Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`hfrosccfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`hfrosccfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@hfrosccfg`]
-module"]
+#[doc = "hfrosccfg (rw) register accessor: Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`hfrosccfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`hfrosccfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@hfrosccfg`] module"]
 #[doc(alias = "hfrosccfg")]
 pub type Hfrosccfg = crate::Reg<hfrosccfg::HfrosccfgSpec>;
 #[doc = "Clock Configuration Register"]
 pub mod hfrosccfg;
-#[doc = "hfxosccfg (rw) register accessor: Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`hfxosccfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`hfxosccfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@hfxosccfg`]
-module"]
+#[doc = "hfxosccfg (rw) register accessor: Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`hfxosccfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`hfxosccfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@hfxosccfg`] module"]
 #[doc(alias = "hfxosccfg")]
 pub type Hfxosccfg = crate::Reg<hfxosccfg::HfxosccfgSpec>;
 #[doc = "Clock Configuration Register"]
 pub mod hfxosccfg;
-#[doc = "pllcfg (rw) register accessor: PLL Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`pllcfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`pllcfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@pllcfg`]
-module"]
+#[doc = "pllcfg (rw) register accessor: PLL Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`pllcfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`pllcfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@pllcfg`] module"]
 #[doc(alias = "pllcfg")]
 pub type Pllcfg = crate::Reg<pllcfg::PllcfgSpec>;
 #[doc = "PLL Configuration Register"]
 pub mod pllcfg;
-#[doc = "plloutdiv (rw) register accessor: PLL Divider Register\n\nYou can [`read`](crate::Reg::read) this register and get [`plloutdiv::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`plloutdiv::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@plloutdiv`]
-module"]
+#[doc = "plloutdiv (rw) register accessor: PLL Divider Register\n\nYou can [`read`](crate::Reg::read) this register and get [`plloutdiv::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`plloutdiv::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@plloutdiv`] module"]
 #[doc(alias = "plloutdiv")]
 pub type Plloutdiv = crate::Reg<plloutdiv::PlloutdivSpec>;
 #[doc = "PLL Divider Register"]
 pub mod plloutdiv;
-#[doc = "coreclkcfg (rw) register accessor: Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`coreclkcfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`coreclkcfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@coreclkcfg`]
-module"]
+#[doc = "coreclkcfg (rw) register accessor: Clock Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`coreclkcfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`coreclkcfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@coreclkcfg`] module"]
 #[doc(alias = "coreclkcfg")]
 pub type Coreclkcfg = crate::Reg<coreclkcfg::CoreclkcfgSpec>;
 #[doc = "Clock Configuration Register"]

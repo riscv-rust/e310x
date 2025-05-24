@@ -239,10 +239,6 @@ impl crate::Readable for FmtSpec {}
 #[doc = "`write(|w| ..)` method takes [`fmt::W`](W) writer structure"]
 impl crate::Writable for FmtSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets fmt to value 0"]
-impl crate::Resettable for FmtSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for FmtSpec {}
