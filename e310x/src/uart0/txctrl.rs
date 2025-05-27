@@ -58,10 +58,6 @@ impl crate::Readable for TxctrlSpec {}
 #[doc = "`write(|w| ..)` method takes [`txctrl::W`](W) writer structure"]
 impl crate::Writable for TxctrlSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets txctrl to value 0"]
-impl crate::Resettable for TxctrlSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for TxctrlSpec {}

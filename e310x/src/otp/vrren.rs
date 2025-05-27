@@ -18,10 +18,6 @@ impl crate::Readable for VrrenSpec {}
 #[doc = "`write(|w| ..)` method takes [`vrren::W`](W) writer structure"]
 impl crate::Writable for VrrenSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets vrren to value 0"]
-impl crate::Resettable for VrrenSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for VrrenSpec {}

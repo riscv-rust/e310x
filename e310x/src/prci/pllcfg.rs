@@ -265,8 +265,6 @@ impl crate::Readable for PllcfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`pllcfg::W`](W) writer structure"]
 impl crate::Writable for PllcfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pllcfg to value 0x0003_06f9"]
 impl crate::Resettable for PllcfgSpec {

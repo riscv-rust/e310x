@@ -58,10 +58,6 @@ impl crate::Readable for PmuieSpec {}
 #[doc = "`write(|w| ..)` method takes [`pmuie::W`](W) writer structure"]
 impl crate::Writable for PmuieSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pmuie to value 0"]
-impl crate::Resettable for PmuieSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for PmuieSpec {}

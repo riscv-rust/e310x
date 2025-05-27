@@ -268,10 +268,6 @@ impl crate::Readable for CfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`cfg::W`](W) writer structure"]
 impl crate::Writable for CfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets cfg to value 0"]
-impl crate::Resettable for CfgSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for CfgSpec {}

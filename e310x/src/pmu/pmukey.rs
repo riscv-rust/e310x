@@ -18,10 +18,6 @@ impl crate::Readable for PmukeySpec {}
 #[doc = "`write(|w| ..)` method takes [`pmukey::W`](W) writer structure"]
 impl crate::Writable for PmukeySpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pmukey to value 0"]
-impl crate::Resettable for PmukeySpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for PmukeySpec {}

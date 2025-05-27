@@ -464,10 +464,6 @@ impl crate::Readable for DriveSpec {}
 #[doc = "`write(|w| ..)` method takes [`drive::W`](W) writer structure"]
 impl crate::Writable for DriveSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets drive to value 0"]
-impl crate::Resettable for DriveSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for DriveSpec {}

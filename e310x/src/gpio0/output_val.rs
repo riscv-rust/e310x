@@ -464,10 +464,6 @@ impl crate::Readable for OutputValSpec {}
 #[doc = "`write(|w| ..)` method takes [`output_val::W`](W) writer structure"]
 impl crate::Writable for OutputValSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets output_val to value 0"]
-impl crate::Resettable for OutputValSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for OutputValSpec {}

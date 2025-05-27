@@ -464,10 +464,6 @@ impl crate::Readable for HighIpSpec {}
 #[doc = "`write(|w| ..)` method takes [`high_ip::W`](W) writer structure"]
 impl crate::Writable for HighIpSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets high_ip to value 0"]
-impl crate::Resettable for HighIpSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for HighIpSpec {}

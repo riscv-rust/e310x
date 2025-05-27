@@ -44,10 +44,6 @@ impl crate::Readable for TxdataSpec {}
 #[doc = "`write(|w| ..)` method takes [`txdata::W`](W) writer structure"]
 impl crate::Writable for TxdataSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets txdata to value 0"]
-impl crate::Resettable for TxdataSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for TxdataSpec {}
