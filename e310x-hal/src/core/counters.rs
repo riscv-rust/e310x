@@ -60,7 +60,7 @@ pub struct PerformanceCounters {
 }
 
 impl PerformanceCounters {
-    pub(crate) fn new() -> Self {
+    pub(crate) const fn new() -> Self {
         Self {
             mcycle: MCYCLE,
             minstret: MINSTRET,
