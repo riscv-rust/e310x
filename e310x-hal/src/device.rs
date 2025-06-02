@@ -159,7 +159,7 @@ impl From<Peripherals> for DeviceResources {
         };
 
         DeviceResources {
-            core_peripherals: CorePeripherals::new(),
+            core_peripherals: CorePeripherals::new(p.clint, p.plic),
             peripherals,
             pins: p.gpio0.into(),
         }
