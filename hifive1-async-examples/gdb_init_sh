@@ -1,0 +1,13 @@
+# GDB init file for HiFive1 boards (including semihosting)
+
+# set history save on # uncomment to save history
+set confirm off
+set remotetimeout 240
+set print asm-demangle on
+
+target extended-remote :3333
+monitor reset halt
+monitor arm semihosting enable
+load
+continue # uncomment to start running after loading
+# quit # uncomment to exit after loading

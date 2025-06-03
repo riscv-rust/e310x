@@ -1,0 +1,11 @@
+[target.'cfg(all(target_arch = "riscv32", target_os = "none"))']
+runner = "qemu-system-riscv32 -machine sifive_e,revb=true -nographic -semihosting-config enable=on,target=native -kernel" # Uncomment for QEMU
+# runner = "riscv64-unknown-elf-gdb -q -x gdb_init" # Uncomment for hardware (no semihosting)
+# runner = "riscv64-unknown-elf-gdb -q -x gdb_init_sh" # Uncomment for hardware (semihosting)
+rustflags = [
+    "-C", "link-arg=-Thifive1-link.x",
+    "--cfg", "portable_atomic_target_feature=\"zaamo\"",
+]
+
+[build]
+target = "riscv32imc-unknown-none-elf"
