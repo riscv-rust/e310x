@@ -16,7 +16,6 @@
     <peripheral>
       <name>CLINT</name>
       <baseAddress>0x02000000</baseAddress>
-      <groupName>CLINT</groupName>
       <description>Coreplex Local Interrupts</description>
       <registers>
         <register>
@@ -58,7 +57,6 @@
     <peripheral>
       <name>PLIC</name>
       <baseAddress>0x0C000000</baseAddress>
-      <groupName>PLIC</groupName>
       <description>Platform Level Interrupt Control</description>
       <registers>
         <register>
@@ -200,7 +198,6 @@
     <peripheral>
       <name>WDOG</name>
       <baseAddress>0x10000000</baseAddress>
-      <groupName>Watchdog</groupName>
       <description>Watchdog</description>
       <registers>
         <register>
@@ -258,7 +255,6 @@
     <peripheral>
       <name>RTC</name>
       <baseAddress>0x10000000</baseAddress>
-      <groupName>Watchdog</groupName>
       <description>Watchdog</description>
       <registers>
         <register>
@@ -306,7 +302,6 @@
     <peripheral>
       <name>AONCLK</name>
       <baseAddress>0x10000000</baseAddress>
-      <groupName>AONCLOCK</groupName>
       <description>Always-On Clock Configuration</description>
       <registers>
         <register>
@@ -328,7 +323,6 @@
     <peripheral>
       <name>BACKUP</name>
       <baseAddress>0x10000000</baseAddress>
-      <groupName>BACKUP</groupName>
       <description>Backup Registers</description>
       <registers>
         <register>
@@ -346,7 +340,6 @@
     <peripheral>
       <name>PMU</name>
       <baseAddress>0x10000000</baseAddress>
-      <groupName>PMU</groupName>
       <description>PMU</description>
       <registers>
         <register>
@@ -461,7 +454,6 @@
     <peripheral>
       <name>PRCI</name>
       <baseAddress>0x10008000</baseAddress>
-      <groupName>PRCI</groupName>
       <description>Power Reset Clock Interrupts</description>
       <registers>
         <register>
@@ -565,7 +557,6 @@
       <name>OTP</name>
       <baseAddress>0x10010000</baseAddress>
 
-      <groupName>OTP</groupName>
       <description>One Time Programmable Memory</description>
 
       <registers>
@@ -648,7 +639,6 @@
       <name>GPIO0</name>
       <baseAddress>0x10012000</baseAddress>
 
-      <groupName>GPIO</groupName>
       <description>General Purpose Input Output</description>
 
       <registers>
@@ -1660,7 +1650,6 @@
       <name>UART0</name>
       <baseAddress>0x10013000</baseAddress>
 
-      <groupName>UART</groupName>
       <description>Universal Asynchronous Receiver Transmitter</description>
 
       <registers>
@@ -1755,7 +1744,6 @@
       <name>QSPI0</name>
       <baseAddress>0x10014000</baseAddress>
 
-      <groupName>QSPI</groupName>
       <description>Quad Serial Peripheral Interface</description>
 
       <registers>
@@ -2166,7 +2154,6 @@
       <name>PWM0</name>
       <baseAddress>0x10015000</baseAddress>
 
-      <groupName>PWM</groupName>
       <description>8-bit timer with 4 cmp</description>
 
       <registers>
@@ -2269,7 +2256,7 @@
     <peripheral>
       <name>I2C0</name>
       <baseAddress>0x10016000</baseAddress>
-      <groupName>I2C</groupName>
+      <groupName>g002</groupName>
       <description>Inter-Integrated Circuit Master Interface (FE310-G002 only)</description>
       <registers>
         <register>

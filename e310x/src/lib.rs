@@ -111,13 +111,16 @@ impl core::fmt::Debug for Pwm0 {
 #[doc = "8-bit timer with 4 cmp"]
 pub mod pwm0;
 #[doc = "Inter-Integrated Circuit Master Interface (FE310-G002 only)"]
+#[cfg(feature = "g002")]
 pub type I2c0 = crate::Periph<i2c0::RegisterBlock, 0x1001_6000>;
+#[cfg(feature = "g002")]
 impl core::fmt::Debug for I2c0 {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         f.debug_struct("I2c0").finish()
     }
 }
 #[doc = "Inter-Integrated Circuit Master Interface (FE310-G002 only)"]
+#[cfg(feature = "g002")]
 pub mod i2c0;
 #[doc = "Universal Asynchronous Receiver Transmitter"]
 pub type Uart1 = crate::Periph<uart0::RegisterBlock, 0x1002_3000>;
@@ -192,6 +195,7 @@ pub struct Peripherals {
     #[doc = "PWM0"]
     pub pwm0: Pwm0,
     #[doc = "I2C0"]
+    #[cfg(feature = "g002")]
     pub i2c0: I2c0,
     #[doc = "UART1"]
     pub uart1: Uart1,
@@ -236,6 +240,7 @@ impl Peripherals {
             uart0: Uart0::steal(),
             qspi0: Qspi0::steal(),
             pwm0: Pwm0::steal(),
+            #[cfg(feature = "g002")]
             i2c0: I2c0::steal(),
             uart1: Uart1::steal(),
             qspi1: Qspi1::steal(),
