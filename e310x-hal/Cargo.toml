@@ -19,6 +19,9 @@ nb = "1.0.0"
 portable-atomic = { version = "1.9", default-features = false}
 riscv = { version = "0.12.1", features = ["critical-section-single-hart"] }
 
+# Async HAL dependencies
+
+
 [features]
 g002 = ["e310x/g002"]
 v-trap = ["e310x/v-trap"]
