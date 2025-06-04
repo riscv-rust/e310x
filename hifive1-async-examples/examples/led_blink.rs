@@ -5,7 +5,6 @@
 #![no_std]
 #![no_main]
 
-use e310x_hal_async::{CLINT, prelude::*};
 use embassy_executor::Executor;
 use hifive1::{
     BLUE, Led, clock,

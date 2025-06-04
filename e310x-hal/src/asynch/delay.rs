@@ -28,29 +28,6 @@ use core::{
     task::{Poll, Waker},
 };
 
-extern "Rust" {
-    /// Reads the current value in the `MTIME` register of the [`MTIMER`] peripheral.
-    fn _riscv_peripheral_aclint_mtime_read() -> u64;
-
-    /// Writes a value in an `MTIMECMP` register of the [`MTIMER`] peripheral.
-    ///
-    /// The `MTIMECMP` register must be assigned to the HART in which MTimer interrupts are enabled.
-    /// This HART will be in charge of waking the timers that expire at the given tick when the
-    /// `MTIME` register reaches the value of its `MTIMECMP` register.
-    fn _riscv_peripheral_aclint_mtimecmp_write(val: u64);
-
-    /// Pushes a new timer to the timer queue. If the timer queue is full, the function must panic.
-    fn _riscv_peripheral_aclint_push_timer(t: Timer);
-
-    /// Pops all the expired timers from the timer queue and wakes their associated wakers.
-    ///
-    /// # Returns
-    ///
-    /// - `Some(u64)` with the earliest tick at which a timer remaining in the queue expires.
-    /// - `None` if the timer queue is empty after popping all the expired timers.
-    fn _riscv_peripheral_aclint_wake_timers(current_tick: u64) -> Option<u64>;
-}
-
 /// Machine-level timer interrupt handler. This handler is triggered whenever the `MTIME`
 /// register reaches the value of the `MTIMECMP` register of the HART in charge of waking the timers.
 #[export_name = "MachineTimer"]
