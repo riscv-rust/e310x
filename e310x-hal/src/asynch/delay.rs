@@ -15,6 +15,10 @@ use core::{
     cmp::{Eq, Ord, Ordering, PartialEq, PartialOrd},
     task::{Poll, Waker},
 };
+use heapless::binary_heap::{BinaryHeap, Min};
+use critical_section::Mutex;
+use core::cell::RefCell;
+use e310x::Clint;
 
 const N_TIMERS: usize = 16;
 static TIMER_QUEUE: Mutex<RefCell<BinaryHeap<Timer, Min, N_TIMERS>>> =
