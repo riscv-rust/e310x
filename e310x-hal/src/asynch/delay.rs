@@ -24,13 +24,6 @@ const N_TIMERS: usize = 16;
 static TIMER_QUEUE: Mutex<RefCell<BinaryHeap<Timer, Min, N_TIMERS>>> =
     Mutex::new(RefCell::new(BinaryHeap::new()));
 
-/// Queue handling functions
-/// Returns the `MTIMER` register for the current HART ID.
-#[inline]
-fn riscv_peripheral_aclint_mtimer() -> MTIMER {
-    CLINT::mtimer()
-}
-
 /// Tries to push a new timer to the timer queue assigned to the `MTIMER` register for the current HART ID.
 /// If it fails (e.g., the timer queue is full), it returns back the timer that failed to be pushed.
 #[inline]
