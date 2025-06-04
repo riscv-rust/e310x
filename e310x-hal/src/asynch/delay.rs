@@ -5,19 +5,7 @@
 //! The asynchronous delay implementation for the (A)CLINT peripheral relies on the machine-level timer interrupts.
 //! Therefore, it needs to schedule the machine-level timer interrupts via the [`MTIMECMP`] register assigned to the current HART.
 //! Thus, the [`Delay`] instance must be created on the same HART that is used to call the asynchronous delay methods.
-//!
-//! # Requirements
-//!
-//! The following `extern "Rust"` functions must be implemented:
-//!
-//! - `fn _riscv_peripheral_aclint_mtimer(hart_id: usize) -> MTIMER`: This function returns the `MTIMER` register for the given HART ID.
-//! - `fn _riscv_peripheral_aclint_push_timer(t: Timer) -> Result<(), Timer>`: This function pushes a new timer to a timer queue assigned to the given HART ID.
-//!   If it fails (e.g., the timer queue is full), it returns back the timer that failed to be pushed.
-//!   The logic of timer queues are application-specific and are not provided by this crate.
-//! - `fn _riscv_peripheral_aclint_wake_timers(current_tick: u64) -> Option<u64>`:
-//!   This function pops all the expired timers from a timer queue assigned to the current HART ID and wakes their associated wakers.
-//!   The function returns the next [`MTIME`] tick at which the next timer expires. If the queue is empty, it returns `None`.
-
+ 
 pub use crate::hal_async::delay::DelayNs;
 use crate::{
     aclint::mtimer::{Mtimer, MTIMER},
@@ -27,6 +15,48 @@ use core::{
     cmp::{Eq, Ord, Ordering, PartialEq, PartialOrd},
     task::{Poll, Waker},
 };
+
+const N_TIMERS: usize = 16;
+static TIMER_QUEUE: Mutex<RefCell<BinaryHeap<Timer, Min, N_TIMERS>>> =
+    Mutex::new(RefCell::new(BinaryHeap::new()));
+
+/// Queue handling functions
+/// Returns the `MTIMER` register for the current HART ID.
+#[inline]
+fn riscv_peripheral_aclint_mtimer() -> MTIMER {
+    CLINT::mtimer()
+}
+
+/// Tries to push a new timer to the timer queue assigned to the `MTIMER` register for the current HART ID.
+/// If it fails (e.g., the timer queue is full), it returns back the timer that failed to be pushed.
+#[inline]
+fn riscv_peripheral_aclint_push_timer(t: Timer) -> Result<(), Timer> {
+    critical_section::with(|cs| {
+        let timer_queue = &mut *TIMER_QUEUE.borrow_ref_mut(cs);
+        timer_queue.push(t)
+    })
+}
+
+/// Pops all the expired timers from the timer queue assigned to the `MTIMER` register for the
+/// current HART ID and wakes their associated wakers. Once it is done, if the queue is empty,
+/// it returns `None`. Alternatively, if the queue is not empty but the earliest timer has not expired
+/// yet, it returns `Some(next_expires)` where `next_expires` is the tick at which this timer expires.
+#[inline]
+fn riscv_peripheral_aclint_wake_timers(current_tick: u64) -> Option<u64> {
+    critical_section::with(|cs| {
+        let timer_queue = &mut *TIMER_QUEUE.borrow_ref_mut(cs);
+        let mut next_expires = None;
+        while let Some(t) = timer_queue.peek() {
+            if t.expires() > current_tick {
+                next_expires = Some(t.expires());
+                break;
+            }
+            let t = timer_queue.pop().unwrap();
+            t.waker().wake_by_ref();
+        }
+        next_expires
+    })
+}
 
 /// Machine-level timer interrupt handler. This handler is triggered whenever the `MTIME`
 /// register reaches the value of the `MTIMECMP` register of the HART in charge of waking the timers.
@@ -39,7 +69,7 @@ fn machine_timer() {
 #[inline]
 fn schedule_machine_timer() {
     let current_tick = unsafe { _riscv_peripheral_aclint_mtime_read() };
-    if let Some(next_expires) = unsafe { _riscv_peripheral_aclint_wake_timers(current_tick) } {
+    if let Some(next_expires) = unsafe { riscv_peripheral_aclint_wake_timers(current_tick) } {
         debug_assert!(next_expires > current_tick);
         unsafe {
             _riscv_peripheral_aclint_mtimecmp_write(next_expires);
@@ -58,7 +88,7 @@ impl<M: Mtimer> MTIMER<M> {
                     // Push timer to queue only on first pending poll
                     pushed = true;
                     let timer = Timer::new(expires, cx.waker().clone());
-                    unsafe { _riscv_peripheral_aclint_push_timer(timer) };
+                    unsafe { riscv_peripheral_aclint_push_timer(timer) };
                     // Schedule machine timer interrupt
                     schedule_machine_timer();
                 }
@@ -93,7 +123,7 @@ impl<M: Mtimer> DelayNs for MTIMER<M> {
 
 /// Timer queue entry.
 ///
-/// When pushed to the timer queue via the `_riscv_peripheral_aclint_push_timer` function,
+/// When pushed to the timer queue via the `riscv_peripheral_aclint_push_timer` function,
 /// this entry provides the necessary information to adapt it to the timer queue implementation.
 #[derive(Debug)]
 pub struct Timer {
