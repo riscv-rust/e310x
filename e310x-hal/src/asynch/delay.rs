@@ -67,13 +67,13 @@ fn machine_timer() {
 
 /// Schedules the next machine timer interrupt for the given HART ID according to the timer queue.
 #[inline]
-fn schedule_machine_timer() {
-    let current_tick = unsafe { _riscv_peripheral_aclint_mtime_read() };
-    if let Some(next_expires) = unsafe { riscv_peripheral_aclint_wake_timers(current_tick) } {
+fn schedule_machine_timer(clint: &Clint) {
+    let clint = unsafe { Clint::steal() };
+    let mtimer = clint.mtimer();
+    let current_tick = mtimer.mtime().read();
+    if let Some(next_expires) = riscv_peripheral_aclint_wake_timers(current_tick) {
         debug_assert!(next_expires > current_tick);
-        unsafe {
-            _riscv_peripheral_aclint_mtimecmp_write(next_expires);
-        }
+        mtimer.mtimecmp().write(next_expires);
     }
 }
 
@@ -88,7 +88,7 @@ impl<M: Mtimer> MTIMER<M> {
                     // Push timer to queue only on first pending poll
                     pushed = true;
                     let timer = Timer::new(expires, cx.waker().clone());
-                    unsafe { riscv_peripheral_aclint_push_timer(timer) };
+                    riscv_peripheral_aclint_push_timer(timer);
                     // Schedule machine timer interrupt
                     schedule_machine_timer();
                 }
