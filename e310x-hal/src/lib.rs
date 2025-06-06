@@ -63,6 +63,6 @@ pub mod wdog;
 pub mod i2c;
 
 #[cfg(feature = "async")]
-pub mod hal_async;
+pub mod asynch;
 
 pub use device::DeviceResources;

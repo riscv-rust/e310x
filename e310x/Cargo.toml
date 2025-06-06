@@ -12,7 +12,7 @@ edition = "2021"
 
 [dependencies]
 critical-section = { version = "1.2.0", optional = true }
-riscv = { git = "https://github.com/rust-embedded/riscv.git", branch = "riscv-peripheral-rework" }
+riscv = { git = "https://github.com/rust-embedded/riscv.git"}
 riscv-peripheral = { git = "https://github.com/rust-embedded/riscv.git"}
 riscv-rt = { git = "https://github.com/rust-embedded/riscv.git", features = ["no-interrupts"], optional = true }
 # riscv = "0.13.0"

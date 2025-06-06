@@ -4,13 +4,11 @@
 //! family of microcontrollers.
 
 #![deny(missing_docs)]
-#![no_std]
 
 pub mod delay;
-pub mod prelude;
 
 // HAL Async Utilities
-//! async trait implementations for embedded-hal
+// async trait implementations for embedded-hal
 
 use core::{
     future::Future,
@@ -18,9 +16,6 @@ use core::{
     task::{Context, Poll},
 };
 pub use embedded_hal_async::*; // re-export embedded-hal-async to allow macros to use it
-
-#[cfg(feature = "aclint-hal-async")]
-pub mod aclint; // ACLINT and CLINT peripherals
 
 /// A future that delegates to a function returning `Poll`.
 ///
