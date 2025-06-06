@@ -8,12 +8,11 @@ edition = "2024"
 [dependencies]
 embassy-executor = { version = "0.7.0", features = ["arch-riscv32", "executor-thread"] } #embassy executor for async tasks
 critical-section = { version = "1.2.0" }
-hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb"] } # Change to your board
+hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb", "async"] } # Change to your board
 riscv = { git = "https://github.com/rust-embedded/riscv.git"}
 riscv-rt = { git = "https://github.com/rust-embedded/riscv.git", features = ["single-hart"]}
 #riscv = { version = "0.12.1" }
 #riscv-rt = { version = "0.14.0", features = ["single-hart"] }
-static_cell = "1.0"
 panic-halt = "1.0.0"
 semihosting = { version = "0.1",  features = ["stdio", "panic-handler"] }
 

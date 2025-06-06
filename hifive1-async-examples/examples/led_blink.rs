@@ -5,33 +5,21 @@
 #![no_std]
 #![no_main]
 
-use embassy_executor::Executor;
+use embassy_executor::Spawner;
 use hifive1::{
-    BLUE, Led, clock,
-    hal::{DeviceResources, prelude::*},
+    Led, clock,
+    hal::{
+        DeviceResources,
+        asynch::delay::Delay,
+        e310x::{Clint, interrupt::Hart},
+        prelude::*,
+    },
     pin, sprintln,
 };
-use static_cell::StaticCell;
 extern crate panic_halt;
 
-static EXECUTOR: StaticCell<Executor> = StaticCell::new();
-
-#[embassy_executor::task]
-async fn blink(mut led: BLUE) {
-    // Get the sleep struct from CLINT
-    let mut sleep = CLINT::async_delay();
-    const STEP: u32 = 1000; // 1s
-    loop {
-        Led::toggle(&mut led);
-        let led_state = led.is_on();
-        sprintln!("LED toggled. New state: {}", led_state);
-
-        sleep.delay_ms(STEP).await;
-    }
-}
-
-#[riscv_rt::entry]
-fn main() -> ! {
+#[embassy_executor::main]
+async fn main(_spawner: Spawner) -> ! {
     let dr = DeviceResources::take().unwrap();
     let p = dr.peripherals;
     let pins: hifive1::hal::device::DeviceGpioPins = dr.pins;
@@ -41,7 +29,7 @@ fn main() -> ! {
 
     //Blinking LED
     let pin = pin!(pins, led_blue);
-    let led = pin.into_inverted_output();
+    let mut led = pin.into_inverted_output();
 
     // Configure UART for stdout
     hifive1::stdout::configure(
@@ -52,20 +40,26 @@ fn main() -> ! {
         clocks,
     );
 
-    //Configure MTIMER interrupt
-    CLINT::mtimer_disable();
-    let mtimer = CLINT::mtimer();
-    let (mtimecmp, mtime) = (mtimer.mtimecmp0, mtimer.mtime);
+    // Get Mtimer
+    let mtimer = unsafe { Clint::steal() }.mtimer();
+
+    // Configure MTIMER interrupt
+    mtimer.disable();
+    let (mtimecmp, mtime) = (mtimer.mtimecmp(Hart::H0), mtimer.mtime());
     mtime.write(0);
-    mtimecmp.write(2^16 - 1);
+    mtimecmp.write(0xFFFF);
     unsafe {
         riscv::interrupt::enable();
-        CLINT::mtimer_enable();
+        mtimer.enable();
     }
 
-    //Execute task
-    let executor = EXECUTOR.init(Executor::new());
-    executor.run(|spawner| {
-        spawner.spawn(blink(led)).unwrap();
-    });
+    // Execute loop
+    const STEP: u32 = 1000; // 1s
+    let mut delay = Delay;
+    loop {
+        Led::toggle(&mut led);
+        let led_state = led.is_on();
+        sprintln!("LED toggled. New state: {}", led_state);
+        delay.delay_ms(STEP).await;
+    }
 }
