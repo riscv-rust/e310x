@@ -95,32 +95,6 @@ async fn delay_ticks(n_ticks: u64) {
     .await;
 }
 
-/// async delay trait implementation from `embedded-hal-async`
-#[derive(Clone)]
-pub struct Delay;
-
-impl DelayNs for Delay {
-    #[inline]
-    async fn delay_ns(&mut self, ns: u32) {
-        let n_ticks =
-            ns as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000_000;
-        delay_ticks(n_ticks).await;
-    }
-
-    #[inline]
-    async fn delay_us(&mut self, us: u32) {
-        let n_ticks =
-            us as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000;
-        delay_ticks(n_ticks).await;
-    }
-
-    #[inline]
-    async fn delay_ms(&mut self, ms: u32) {
-        let n_ticks = ms as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000;
-        delay_ticks(n_ticks).await;
-    }
-}
-
 /// Timer queue entry.
 ///
 /// When pushed to the timer queue via the `riscv_peripheral_aclint_push_timer` function,
@@ -168,5 +142,56 @@ impl Ord for Timer {
 impl PartialOrd for Timer {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.expires.cmp(&other.expires))
+    }
+}
+
+/// async delay trait implementation from `embedded-hal-async`
+#[derive(Clone)]
+pub struct Delay;
+
+impl Delay {
+    /// Delays for the given number of nanoseconds.
+    #[inline]
+    pub async fn delay_ns(&mut self, ns: u32) {
+        let n_ticks =
+            ns as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000_000;
+        delay_ticks(n_ticks).await;
+    }
+
+    /// Delays for the given number of microseconds.
+    #[inline]
+    pub async fn delay_us(&mut self, us: u32) {
+        let n_ticks =
+            us as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000;
+        delay_ticks(n_ticks).await;
+    }
+
+    /// Delays for the given number of milliseconds.
+    #[inline]
+    pub async fn delay_ms(&mut self, ms: u32) {
+        let n_ticks = ms as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000;
+        delay_ticks(n_ticks).await;
+    }
+}
+
+impl DelayNs for Delay {
+    #[inline]
+    async fn delay_ns(&mut self, ns: u32) {
+        let n_ticks =
+            ns as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000_000;
+        delay_ticks(n_ticks).await;
+    }
+
+    #[inline]
+    async fn delay_us(&mut self, us: u32) {
+        let n_ticks =
+            us as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000;
+        delay_ticks(n_ticks).await;
+    }
+
+    #[inline]
+    async fn delay_ms(&mut self, ms: u32) {
+        let n_ticks = ms as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000;
+        delay_ticks(n_ticks).await;
     }
 }
