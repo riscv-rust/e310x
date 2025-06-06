@@ -23,6 +23,7 @@ board-redv = ["e310x-hal/g002"]
 board-lofive = []
 board-lofive-r1 = ["e310x-hal/g002"]
 v-trap = ["e310x-hal/v-trap"]
+async = ["e310x-hal/async"]
 
 [package.metadata.docs.rs]
 features = ['board-hifive1-revb']
