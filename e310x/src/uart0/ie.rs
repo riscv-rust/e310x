@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn txwm(&mut self) -> TxwmW<IeSpec> {
+    pub fn txwm(&mut self) -> TxwmW<'_, IeSpec> {
         TxwmW::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn rxwm(&mut self) -> RxwmW<IeSpec> {
+    pub fn rxwm(&mut self) -> RxwmW<'_, IeSpec> {
         RxwmW::new(self, 1)
     }
 }

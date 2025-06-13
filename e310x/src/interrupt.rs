@@ -168,8 +168,9 @@ pub enum ExternalInterrupt {
 }
 #[cfg(feature = "rt")]
 #[riscv_rt::core_interrupt(CoreInterrupt::MachineExternal)]
-fn plic_handler() {
-    let claim = crate::PLIC::ctx(Hart::H0).claim();
+unsafe fn plic_handler() {
+    let plic = unsafe { crate::Plic::steal() };
+    let claim = plic.ctx(Hart::H0).claim();
     if let Some(s) = claim.claim::<ExternalInterrupt>() {
         unsafe { _dispatch_external_interrupt(s.number()) }
         claim.complete(s);

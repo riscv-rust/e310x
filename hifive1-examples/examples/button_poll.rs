@@ -1,4 +1,4 @@
-//! Example of polling a button and turning on a LED when the button is pressed.
+//! Example of polling a button and turning on an LED when the button is pressed.
 //!
 //! # Hardware
 //!
@@ -10,14 +10,15 @@
 
 use hifive1::{
     clock,
-    hal::{e310x::CLINT, prelude::*, DeviceResources},
-    pin, sprintln, Led,
+    hal::{prelude::*, DeviceResources},
+    pin, sprintln, stdout, Led,
 };
 extern crate panic_halt;
 
 #[riscv_rt::entry]
 fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
+    let cp = dr.core_peripherals;
     let p = dr.peripherals;
     let pins = dr.pins;
 
@@ -25,7 +26,7 @@ fn main() -> ! {
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
     // Configure UART for stdout
-    hifive1::stdout::configure(
+    stdout::configure(
         p.UART0,
         pin!(pins, uart0_tx),
         pin!(pins, uart0_rx),
@@ -40,8 +41,8 @@ fn main() -> ! {
     let pin = pin!(pins, led_blue);
     let mut led = pin.into_inverted_output();
 
-    // Get the sleep struct from CLINT
-    let mut sleep = CLINT::delay();
+    // Get the MTIMER peripheral from CLINT
+    let mut mtimer = cp.clint.mtimer();
 
     const STEP: u32 = 1000; // 1s
     loop {
@@ -53,6 +54,6 @@ fn main() -> ! {
             led.off();
         }
         sprintln!("LED is on: {}", led.is_on());
-        sleep.delay_ms(STEP);
+        mtimer.delay_ms(STEP);
     }
 }

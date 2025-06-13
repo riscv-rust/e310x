@@ -34,17 +34,17 @@ impl R {
 impl W {
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn rtc(&mut self) -> RtcW<PmuieSpec> {
+    pub fn rtc(&mut self) -> RtcW<'_, PmuieSpec> {
         RtcW::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn dwakeup(&mut self) -> DwakeupW<PmuieSpec> {
+    pub fn dwakeup(&mut self) -> DwakeupW<'_, PmuieSpec> {
         DwakeupW::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn awakeup(&mut self) -> AwakeupW<PmuieSpec> {
+    pub fn awakeup(&mut self) -> AwakeupW<'_, PmuieSpec> {
         AwakeupW::new(self, 3)
     }
 }

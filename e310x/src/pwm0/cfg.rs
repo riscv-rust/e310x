@@ -169,92 +169,92 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    pub fn scale(&mut self) -> ScaleW<CfgSpec> {
+    pub fn scale(&mut self) -> ScaleW<'_, CfgSpec> {
         ScaleW::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn sticky(&mut self) -> StickyW<CfgSpec> {
+    pub fn sticky(&mut self) -> StickyW<'_, CfgSpec> {
         StickyW::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn zerocmp(&mut self) -> ZerocmpW<CfgSpec> {
+    pub fn zerocmp(&mut self) -> ZerocmpW<'_, CfgSpec> {
         ZerocmpW::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn deglitch(&mut self) -> DeglitchW<CfgSpec> {
+    pub fn deglitch(&mut self) -> DeglitchW<'_, CfgSpec> {
         DeglitchW::new(self, 10)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn enalways(&mut self) -> EnalwaysW<CfgSpec> {
+    pub fn enalways(&mut self) -> EnalwaysW<'_, CfgSpec> {
         EnalwaysW::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn enoneshot(&mut self) -> EnoneshotW<CfgSpec> {
+    pub fn enoneshot(&mut self) -> EnoneshotW<'_, CfgSpec> {
         EnoneshotW::new(self, 13)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn cmp0center(&mut self) -> Cmp0centerW<CfgSpec> {
+    pub fn cmp0center(&mut self) -> Cmp0centerW<'_, CfgSpec> {
         Cmp0centerW::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn cmp1center(&mut self) -> Cmp1centerW<CfgSpec> {
+    pub fn cmp1center(&mut self) -> Cmp1centerW<'_, CfgSpec> {
         Cmp1centerW::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn cmp2center(&mut self) -> Cmp2centerW<CfgSpec> {
+    pub fn cmp2center(&mut self) -> Cmp2centerW<'_, CfgSpec> {
         Cmp2centerW::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn cmp3center(&mut self) -> Cmp3centerW<CfgSpec> {
+    pub fn cmp3center(&mut self) -> Cmp3centerW<'_, CfgSpec> {
         Cmp3centerW::new(self, 19)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn cmp0gang(&mut self) -> Cmp0gangW<CfgSpec> {
+    pub fn cmp0gang(&mut self) -> Cmp0gangW<'_, CfgSpec> {
         Cmp0gangW::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn cmp1gang(&mut self) -> Cmp1gangW<CfgSpec> {
+    pub fn cmp1gang(&mut self) -> Cmp1gangW<'_, CfgSpec> {
         Cmp1gangW::new(self, 25)
     }
     #[doc = "Bits 26:36"]
     #[inline(always)]
-    pub fn cmp2gang(&mut self) -> Cmp2gangW<CfgSpec> {
+    pub fn cmp2gang(&mut self) -> Cmp2gangW<'_, CfgSpec> {
         Cmp2gangW::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn cmp3gang(&mut self) -> Cmp3gangW<CfgSpec> {
+    pub fn cmp3gang(&mut self) -> Cmp3gangW<'_, CfgSpec> {
         Cmp3gangW::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn cmp0ip(&mut self) -> Cmp0ipW<CfgSpec> {
+    pub fn cmp0ip(&mut self) -> Cmp0ipW<'_, CfgSpec> {
         Cmp0ipW::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn cmp1ip(&mut self) -> Cmp1ipW<CfgSpec> {
+    pub fn cmp1ip(&mut self) -> Cmp1ipW<'_, CfgSpec> {
         Cmp1ipW::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn cmp2ip(&mut self) -> Cmp2ipW<CfgSpec> {
+    pub fn cmp2ip(&mut self) -> Cmp2ipW<'_, CfgSpec> {
         Cmp2ipW::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn cmp3ip(&mut self) -> Cmp3ipW<CfgSpec> {
+    pub fn cmp3ip(&mut self) -> Cmp3ipW<'_, CfgSpec> {
         Cmp3ipW::new(self, 31)
     }
 }

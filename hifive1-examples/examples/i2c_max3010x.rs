@@ -7,7 +7,6 @@
 use hifive1::{
     clock,
     hal::{
-        e310x::CLINT,
         i2c::{I2c, Speed},
         prelude::*,
         DeviceResources,
@@ -20,6 +19,7 @@ extern crate panic_halt;
 #[riscv_rt::entry]
 fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
+    let cp = dr.core_peripherals;
     let p = dr.peripherals;
     let pins = dr.pins;
 
@@ -50,12 +50,12 @@ fn main() -> ! {
 
     let mut data = [0; 3];
 
-    // Get the sleep struct from CLINT
-    let mut sleep = CLINT::delay();
+    // Get the MTIMER peripheral from CLINT
+    let mut mtimer = cp.clint.mtimer();
     const STEP: u32 = 1000; // 1s
     loop {
         let samples_read = sensor.read_fifo(&mut data).unwrap();
         sprintln!("Samples read: {}", samples_read);
-        sleep.delay_ms(STEP);
+        mtimer.delay_ms(STEP);
     }
 }

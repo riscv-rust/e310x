@@ -6,7 +6,6 @@
 use hifive1::{
     clock,
     hal::{
-        e310x::CLINT,
         prelude::*,
         spi::{SpiBus, SpiConfig, MODE_0},
         DeviceResources,
@@ -19,6 +18,7 @@ extern crate panic_halt;
 #[riscv_rt::entry]
 fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
+    let cp = dr.core_peripherals;
     let p = dr.peripherals;
     let pins = dr.pins;
 
@@ -57,9 +57,9 @@ fn main() -> ! {
     sprintln!("Version: {:x}", version);
 
     // Get the sleep struct from CLINT
-    let mut sleep = CLINT::delay();
+    let mut mtimer = cp.clint.mtimer();
     const STEP: u32 = 1000; // 1s
     loop {
-        sleep.delay_ms(STEP);
+        mtimer.delay_ms(STEP);
     }
 }

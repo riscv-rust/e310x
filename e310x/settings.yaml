@@ -43,8 +43,7 @@ riscv_config:
 
   clint:
     name: "CLINT"
-    freq: 32768
-    async_delay: false
+    mtime_freq: 32768
 
   plic:
     name: "PLIC"

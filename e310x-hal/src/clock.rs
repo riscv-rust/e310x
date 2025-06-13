@@ -1,6 +1,6 @@
 //! Clock configuration
 use crate::time::Hertz;
-use e310x::{Aonclk as AONCLK, Prci as PRCI, CLINT};
+use e310x::{Aonclk as AONCLK, Clint, Prci as PRCI};
 use riscv::interrupt;
 use riscv::register::mcycle;
 
@@ -290,7 +290,7 @@ impl CoreClk {
         // Need to wait 100 us
         // RTC is running at 32kHz.
         // So wait 4 ticks of RTC.
-        let mtime = CLINT::mtimer().mtime;
+        let mtime = unsafe { Clint::steal() }.mtimer().mtime();
         let time = mtime.read() + 4;
         while mtime.read() < time {}
         // Now it is safe to check for PLL Lock
@@ -384,7 +384,7 @@ impl Clocks {
 
     /// Measure the coreclk frequency by counting the number of aonclk ticks.
     fn _measure_coreclk(&self, min_ticks: u64) -> Hertz {
-        let mtime = CLINT::mtimer().mtime;
+        let mtime = unsafe { Clint::steal() }.mtimer().mtime();
         interrupt::free(|| {
             // Don't start measuring until we see an mtime tick
             while mtime.read() == mtime.read() {}

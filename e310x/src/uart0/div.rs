@@ -16,7 +16,7 @@ impl R {
 impl W {
     #[doc = "Bits 0:15"]
     #[inline(always)]
-    pub fn value(&mut self) -> ValueW<DivSpec> {
+    pub fn value(&mut self) -> ValueW<'_, DivSpec> {
         ValueW::new(self, 0)
     }
 }

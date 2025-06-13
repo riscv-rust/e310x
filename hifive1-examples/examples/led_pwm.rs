@@ -9,14 +9,15 @@
 
 use hifive1::{
     clock,
-    hal::{e310x::CLINT, prelude::*, DeviceResources},
-    pin, sprintln,
+    hal::{prelude::*, DeviceResources},
+    pin, sprintln, stdout,
 };
 extern crate panic_halt;
 
 #[riscv_rt::entry]
 fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
+    let cp = dr.core_peripherals;
     let p = dr.peripherals;
     let pins = dr.pins;
 
@@ -24,7 +25,7 @@ fn main() -> ! {
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
     // Configure UART for stdout
-    hifive1::stdout::configure(
+    stdout::configure(
         p.UART0,
         pin!(pins, uart0_tx),
         pin!(pins, uart0_rx),
@@ -40,8 +41,8 @@ fn main() -> ! {
 
     let mut channel = pwm0.channel(pin);
 
-    // Get the sleep struct from CLINT
-    let mut sleep = CLINT::delay();
+    // Get the MTIMER peripheral from CLINT
+    let mut mtimer = cp.clint.mtimer();
 
     const STEP: u32 = 1000; // 1s
     const DUTY_DELTA: u8 = 32;
@@ -52,6 +53,6 @@ fn main() -> ! {
         channel.set_duty_cycle(duty as u16).unwrap();
         duty = duty.wrapping_add(DUTY_DELTA);
 
-        sleep.delay_ms(STEP);
+        mtimer.delay_ms(STEP);
     }
 }

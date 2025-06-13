@@ -5,7 +5,7 @@ pub type SleepW<'a, REG> = crate::BitWriter<'a, REG>;
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn sleep(&mut self) -> SleepW<PmusleepSpec> {
+    pub fn sleep(&mut self) -> SleepW<'_, PmusleepSpec> {
         SleepW::new(self, 0)
     }
 }

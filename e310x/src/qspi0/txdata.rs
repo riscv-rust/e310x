@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - Transmit data"]
     #[inline(always)]
-    pub fn data(&mut self) -> DataW<TxdataSpec> {
+    pub fn data(&mut self) -> DataW<'_, TxdataSpec> {
         DataW::new(self, 0)
     }
     #[doc = "Bit 31 - FIFO full flag"]
     #[inline(always)]
-    pub fn full(&mut self) -> FullW<TxdataSpec> {
+    pub fn full(&mut self) -> FullW<'_, TxdataSpec> {
         FullW::new(self, 31)
     }
 }

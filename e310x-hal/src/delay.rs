@@ -1,7 +1,7 @@
 //! # Delays
 
 use crate::clock::Clocks;
-use e310x::CLINT;
+use e310x::Clint;
 use embedded_hal::delay::DelayNs;
 use riscv::register::mip;
 
@@ -22,7 +22,7 @@ impl DelayNs for Delay {
     fn delay_ns(&mut self, ns: u32) {
         let ticks = (ns as u64) * TICKS_PER_SECOND / 1_000_000_000;
 
-        let mtime = CLINT::mtimer().mtime;
+        let mtime = unsafe { Clint::steal() }.mtimer().mtime();
         let t = mtime.read() + ticks;
         while mtime.read() < t {}
     }
@@ -45,12 +45,13 @@ impl Sleep {
 impl DelayNs for Sleep {
     fn delay_ns(&mut self, ns: u32) {
         let ticks = (ns as u64) * u64::from(self.clock_freq) / 1_000_000_000;
-        let t = CLINT::mtimer().mtime.read() + ticks;
+        let clint = unsafe { e310x::Clint::steal() };
+        let t = clint.mtimer().mtime().read() + ticks;
 
-        CLINT::mtimecmp0().write(t);
+        clint.mtimecmp0().write(t);
 
         // Enable timer interrupt
-        unsafe { CLINT::mtimer_enable() };
+        unsafe { clint.mtimer().enable() };
 
         // Wait For Interrupt will put CPU to sleep until an interrupt hits
         // in our case when internal timer mtime value >= mtimecmp value
@@ -66,6 +67,6 @@ impl DelayNs for Sleep {
         }
 
         // Clear timer interrupt
-        CLINT::mtimer_disable();
+        clint.mtimer().disable();
     }
 }

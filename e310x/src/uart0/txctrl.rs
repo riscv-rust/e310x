@@ -34,17 +34,17 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<TxctrlSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, TxctrlSpec> {
         EnableW::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn nstop(&mut self) -> NstopW<TxctrlSpec> {
+    pub fn nstop(&mut self) -> NstopW<'_, TxctrlSpec> {
         NstopW::new(self, 1)
     }
     #[doc = "Bits 16:18"]
     #[inline(always)]
-    pub fn counter(&mut self) -> CounterW<TxctrlSpec> {
+    pub fn counter(&mut self) -> CounterW<'_, TxctrlSpec> {
         CounterW::new(self, 16)
     }
 }

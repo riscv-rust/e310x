@@ -1,15 +1,13 @@
-//! Prints "hello world!" to the host console.
-//!
-//! If "semihosting" feature is enabled, the message is printed using semihosting.
-//! Otherwise, the message is printed using the UART0 peripheral.
+//! Prints "hello world!" to the host console using the UART0 peripheral.
 
 #![no_std]
 #![no_main]
 
 extern crate panic_halt;
 use hifive1::{
+    clock,
     hal::{prelude::*, DeviceResources},
-    pin, sprintln as println,
+    pin, sprintln, stdout,
 };
 
 #[riscv_rt::entry]
@@ -19,10 +17,10 @@ fn main() -> ! {
     let pins = dr.pins;
 
     // Configure clocks
-    let clocks = hifive1::clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
+    let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
     // Configure UART for stdout
-    hifive1::stdout::configure(
+    stdout::configure(
         p.UART0,
         pin!(pins, uart0_tx),
         pin!(pins, uart0_rx),
@@ -30,7 +28,7 @@ fn main() -> ! {
         clocks,
     );
 
-    println!("Hello, world!");
+    sprintln!("Hello, world!");
     loop {
         riscv::asm::wfi();
     }

@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - CS to SCK Delay"]
     #[inline(always)]
-    pub fn cssck(&mut self) -> CssckW<Delay0Spec> {
+    pub fn cssck(&mut self) -> CssckW<'_, Delay0Spec> {
         CssckW::new(self, 0)
     }
     #[doc = "Bits 16:23 - SCK to CS Delay"]
     #[inline(always)]
-    pub fn sckcs(&mut self) -> SckcsW<Delay0Spec> {
+    pub fn sckcs(&mut self) -> SckcsW<'_, Delay0Spec> {
         SckcsW::new(self, 16)
     }
 }

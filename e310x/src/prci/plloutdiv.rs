@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:5"]
     #[inline(always)]
-    pub fn div(&mut self) -> DivW<PlloutdivSpec> {
+    pub fn div(&mut self) -> DivW<'_, PlloutdivSpec> {
         DivW::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn divby1(&mut self) -> Divby1W<PlloutdivSpec> {
+    pub fn divby1(&mut self) -> Divby1W<'_, PlloutdivSpec> {
         Divby1W::new(self, 8)
     }
 }
