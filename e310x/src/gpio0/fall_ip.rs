@@ -295,162 +295,162 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> Pin0W<FallIpSpec> {
+    pub fn pin0(&mut self) -> Pin0W<'_, FallIpSpec> {
         Pin0W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> Pin1W<FallIpSpec> {
+    pub fn pin1(&mut self) -> Pin1W<'_, FallIpSpec> {
         Pin1W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> Pin2W<FallIpSpec> {
+    pub fn pin2(&mut self) -> Pin2W<'_, FallIpSpec> {
         Pin2W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> Pin3W<FallIpSpec> {
+    pub fn pin3(&mut self) -> Pin3W<'_, FallIpSpec> {
         Pin3W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> Pin4W<FallIpSpec> {
+    pub fn pin4(&mut self) -> Pin4W<'_, FallIpSpec> {
         Pin4W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> Pin5W<FallIpSpec> {
+    pub fn pin5(&mut self) -> Pin5W<'_, FallIpSpec> {
         Pin5W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> Pin6W<FallIpSpec> {
+    pub fn pin6(&mut self) -> Pin6W<'_, FallIpSpec> {
         Pin6W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> Pin7W<FallIpSpec> {
+    pub fn pin7(&mut self) -> Pin7W<'_, FallIpSpec> {
         Pin7W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> Pin8W<FallIpSpec> {
+    pub fn pin8(&mut self) -> Pin8W<'_, FallIpSpec> {
         Pin8W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> Pin9W<FallIpSpec> {
+    pub fn pin9(&mut self) -> Pin9W<'_, FallIpSpec> {
         Pin9W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> Pin10W<FallIpSpec> {
+    pub fn pin10(&mut self) -> Pin10W<'_, FallIpSpec> {
         Pin10W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> Pin11W<FallIpSpec> {
+    pub fn pin11(&mut self) -> Pin11W<'_, FallIpSpec> {
         Pin11W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> Pin12W<FallIpSpec> {
+    pub fn pin12(&mut self) -> Pin12W<'_, FallIpSpec> {
         Pin12W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> Pin13W<FallIpSpec> {
+    pub fn pin13(&mut self) -> Pin13W<'_, FallIpSpec> {
         Pin13W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> Pin14W<FallIpSpec> {
+    pub fn pin14(&mut self) -> Pin14W<'_, FallIpSpec> {
         Pin14W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> Pin15W<FallIpSpec> {
+    pub fn pin15(&mut self) -> Pin15W<'_, FallIpSpec> {
         Pin15W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> Pin16W<FallIpSpec> {
+    pub fn pin16(&mut self) -> Pin16W<'_, FallIpSpec> {
         Pin16W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> Pin17W<FallIpSpec> {
+    pub fn pin17(&mut self) -> Pin17W<'_, FallIpSpec> {
         Pin17W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> Pin18W<FallIpSpec> {
+    pub fn pin18(&mut self) -> Pin18W<'_, FallIpSpec> {
         Pin18W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> Pin19W<FallIpSpec> {
+    pub fn pin19(&mut self) -> Pin19W<'_, FallIpSpec> {
         Pin19W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> Pin20W<FallIpSpec> {
+    pub fn pin20(&mut self) -> Pin20W<'_, FallIpSpec> {
         Pin20W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> Pin21W<FallIpSpec> {
+    pub fn pin21(&mut self) -> Pin21W<'_, FallIpSpec> {
         Pin21W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> Pin22W<FallIpSpec> {
+    pub fn pin22(&mut self) -> Pin22W<'_, FallIpSpec> {
         Pin22W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> Pin23W<FallIpSpec> {
+    pub fn pin23(&mut self) -> Pin23W<'_, FallIpSpec> {
         Pin23W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> Pin24W<FallIpSpec> {
+    pub fn pin24(&mut self) -> Pin24W<'_, FallIpSpec> {
         Pin24W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> Pin25W<FallIpSpec> {
+    pub fn pin25(&mut self) -> Pin25W<'_, FallIpSpec> {
         Pin25W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> Pin26W<FallIpSpec> {
+    pub fn pin26(&mut self) -> Pin26W<'_, FallIpSpec> {
         Pin26W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> Pin27W<FallIpSpec> {
+    pub fn pin27(&mut self) -> Pin27W<'_, FallIpSpec> {
         Pin27W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> Pin28W<FallIpSpec> {
+    pub fn pin28(&mut self) -> Pin28W<'_, FallIpSpec> {
         Pin28W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> Pin29W<FallIpSpec> {
+    pub fn pin29(&mut self) -> Pin29W<'_, FallIpSpec> {
         Pin29W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> Pin30W<FallIpSpec> {
+    pub fn pin30(&mut self) -> Pin30W<'_, FallIpSpec> {
         Pin30W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> Pin31W<FallIpSpec> {
+    pub fn pin31(&mut self) -> Pin31W<'_, FallIpSpec> {
         Pin31W::new(self, 31)
     }
 }

@@ -16,7 +16,7 @@ impl R {
 impl W {
     #[doc = "Bits 0:2 - Receive watermark"]
     #[inline(always)]
-    pub fn rxmark(&mut self) -> RxmarkW<RxmarkSpec> {
+    pub fn rxmark(&mut self) -> RxmarkW<'_, RxmarkSpec> {
         RxmarkW::new(self, 0)
     }
 }

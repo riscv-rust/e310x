@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<HfxosccfgSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, HfxosccfgSpec> {
         EnableW::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&mut self) -> ReadyW<HfxosccfgSpec> {
+    pub fn ready(&mut self) -> ReadyW<'_, HfxosccfgSpec> {
         ReadyW::new(self, 31)
     }
 }

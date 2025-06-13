@@ -16,7 +16,7 @@ impl R {
 impl W {
     #[doc = "Bits 0:15"]
     #[inline(always)]
-    pub fn value(&mut self) -> ValueW<RtchiSpec> {
+    pub fn value(&mut self) -> ValueW<'_, RtchiSpec> {
         ValueW::new(self, 0)
     }
 }
