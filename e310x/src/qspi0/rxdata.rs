@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - Received data"]
     #[inline(always)]
-    pub fn data(&mut self) -> DataW<RxdataSpec> {
+    pub fn data(&mut self) -> DataW<'_, RxdataSpec> {
         DataW::new(self, 0)
     }
     #[doc = "Bit 31 - FIFO empty flag"]
     #[inline(always)]
-    pub fn empty(&mut self) -> EmptyW<RxdataSpec> {
+    pub fn empty(&mut self) -> EmptyW<'_, RxdataSpec> {
         EmptyW::new(self, 31)
     }
 }

@@ -85,7 +85,7 @@ impl R {
 impl W {
     #[doc = "Bits 0:1 - Chip select mode"]
     #[inline(always)]
-    pub fn mode(&mut self) -> ModeW<CsmodeSpec> {
+    pub fn mode(&mut self) -> ModeW<'_, CsmodeSpec> {
         ModeW::new(self, 0)
     }
 }

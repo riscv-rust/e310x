@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- The I2C0 code is now gated under the `g002` feature
 - Regenerate code with `svd2rust` 0.36.1
-- Use `riscv` v0.13.0 and `riscv-rt` v0.14.0
+- Use `riscv` v0.14.0, `riscv-peripheral` v0.3.0, and `riscv-rt` v0.15.0
 - In vectored mode, align `mtvec` to 64 bytes
 
 ## [v0.12.0] - 2024-12-10
