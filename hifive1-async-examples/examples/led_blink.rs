@@ -11,6 +11,7 @@ use hifive1::{
     hal::{
         DeviceResources,
         asynch::delay::Delay,
+        asynch::prelude::*,
         e310x::{Clint, interrupt::Hart},
         prelude::*,
     },
@@ -22,6 +23,7 @@ extern crate panic_halt;
 async fn main(_spawner: Spawner) -> ! {
     let dr = DeviceResources::take().unwrap();
     let p = dr.peripherals;
+
     let pins: hifive1::hal::device::DeviceGpioPins = dr.pins;
 
     // Configure clocks
@@ -47,15 +49,12 @@ async fn main(_spawner: Spawner) -> ! {
     mtimer.disable();
     let (mtimecmp, mtime) = (mtimer.mtimecmp(Hart::H0), mtimer.mtime());
     mtime.write(0);
-    mtimecmp.write(0xFFFF);
-    unsafe {
-        riscv::interrupt::enable();
-        mtimer.enable();
-    }
+    mtimecmp.write(u64::MAX);
+    unsafe { riscv::interrupt::enable() };
 
     // Execute loop
     const STEP: u32 = 1000; // 1s
-    let mut delay = Delay;
+    let mut delay = Delay::new(mtimer);
     loop {
         Led::toggle(&mut led);
         let led_state = led.is_on();

@@ -6,6 +6,7 @@
 #![deny(missing_docs)]
 
 pub mod delay;
+pub mod prelude;
 
 // HAL Async Utilities
 // async trait implementations for embedded-hal

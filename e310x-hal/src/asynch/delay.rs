@@ -16,11 +16,13 @@ use critical_section::Mutex;
 use e310x::{interrupt::Hart, Clint};
 use embedded_hal_async::delay::DelayNs;
 use heapless::binary_heap::{BinaryHeap, Min};
+use riscv_peripheral::aclint::mtimer::MTIMER;
 
 const N_TIMERS: usize = 16;
 static TIMER_QUEUE: Mutex<RefCell<BinaryHeap<Timer, Min, N_TIMERS>>> =
     Mutex::new(RefCell::new(BinaryHeap::new()));
 
+/// Added a get Mtimer function for convenience
 /// Tries to push a new timer to the timer queue assigned to the `MTIMER` register for the current HART ID.
 /// If it fails (e.g., the timer queue is full), it returns back the timer that failed to be pushed.
 #[inline]
@@ -54,45 +56,23 @@ fn riscv_peripheral_aclint_wake_timers(current_tick: u64) -> Option<u64> {
 
 /// Machine-level timer interrupt handler. This handler is triggered whenever the `MTIME`
 /// register reaches the value of the `MTIMECMP` register of the HART in charge of waking the timers.
-#[export_name = "MachineTimer"]
+#[riscv_rt::core_interrupt(e310x::interrupt::CoreInterrupt::MachineTimer)]
 fn machine_timer() {
-    schedule_machine_timer();
+    let clint = unsafe { Clint::steal() };
+    let mtimer = clint.mtimer();
+    schedule_machine_timer(&mtimer);
 }
 
 /// Schedules the next machine timer interrupt for the given HART ID according to the timer queue.
 #[inline]
-fn schedule_machine_timer() {
-    let clint = unsafe { Clint::steal() };
-    let mtimer = clint.mtimer();
+fn schedule_machine_timer(mtimer: &MTIMER<Clint>) {
     let current_tick = mtimer.mtime().read();
+    mtimer.disable();
     if let Some(next_expires) = riscv_peripheral_aclint_wake_timers(current_tick) {
         debug_assert!(next_expires > current_tick);
         mtimer.mtimecmp(Hart::H0).write(next_expires);
+        unsafe { mtimer.enable() };
     }
-}
-
-/// Delays for the given number of ticks.
-#[inline]
-async fn delay_ticks(n_ticks: u64) {
-    let clint = unsafe { Clint::steal() };
-    let expires = clint.mtimer().mtime().read() + n_ticks;
-    let mut pushed = false;
-    poll_fn(move |cx| {
-        if clint.mtimer().mtime().read() < expires {
-            if !pushed {
-                // Push timer to queue only on first pending poll
-                pushed = true;
-                let timer = Timer::new(expires, cx.waker().clone());
-                let _ = riscv_peripheral_aclint_push_timer(timer);
-                // Schedule machine timer interrupt
-                schedule_machine_timer();
-            }
-            Poll::Pending
-        } else {
-            Poll::Ready(())
-        }
-    })
-    .await;
 }
 
 /// Timer queue entry.
@@ -147,51 +127,61 @@ impl PartialOrd for Timer {
 
 /// async delay trait implementation from `embedded-hal-async`
 #[derive(Clone)]
-pub struct Delay;
+pub struct Delay {
+    mtimer: MTIMER<Clint>,
+}
 
 impl Delay {
-    /// Delays for the given number of nanoseconds.
+    /// Creates a new delay instance.
     #[inline]
-    pub async fn delay_ns(&mut self, ns: u32) {
-        let n_ticks =
-            ns as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000_000;
-        delay_ticks(n_ticks).await;
+    pub fn new(mtimer: MTIMER<Clint>) -> Self {
+        Self { mtimer }
     }
 
-    /// Delays for the given number of microseconds.
+    /// Delays for the given number of ticks.
     #[inline]
-    pub async fn delay_us(&mut self, us: u32) {
-        let n_ticks =
-            us as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000;
-        delay_ticks(n_ticks).await;
-    }
-
-    /// Delays for the given number of milliseconds.
-    #[inline]
-    pub async fn delay_ms(&mut self, ms: u32) {
-        let n_ticks = ms as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000;
-        delay_ticks(n_ticks).await;
+    async fn delay_ticks(&mut self, n_ticks: u64) {
+        let mtime = self.mtimer.mtime();
+        let expires = mtime.read() + n_ticks;
+        let mut pushed = false;
+        poll_fn(move |cx| {
+            if mtime.read() < expires {
+                if !pushed {
+                    // Push timer to queue only on first pending poll
+                    pushed = true;
+                    let timer = Timer::new(expires, cx.waker().clone());
+                    let _ = riscv_peripheral_aclint_push_timer(timer);
+                    // Schedule machine timer interrupt
+                    schedule_machine_timer(&self.mtimer);
+                }
+                Poll::Pending
+            } else {
+                Poll::Ready(())
+            }
+        })
+        .await;
     }
 }
 
 impl DelayNs for Delay {
+    /// Delays for the given number of nanoseconds.
     #[inline]
     async fn delay_ns(&mut self, ns: u32) {
-        let n_ticks =
-            ns as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000_000;
-        delay_ticks(n_ticks).await;
+        let n_ticks = ns as u64 * self.mtimer.mtime_freq() as u64 / 1_000_000_000;
+        self.delay_ticks(n_ticks).await;
     }
 
+    /// Delays for the given number of microseconds.
     #[inline]
     async fn delay_us(&mut self, us: u32) {
-        let n_ticks =
-            us as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000_000;
-        delay_ticks(n_ticks).await;
+        let n_ticks = us as u64 * self.mtimer.mtime_freq() as u64 / 1_000_000;
+        self.delay_ticks(n_ticks).await;
     }
 
+    /// Delays for the given number of milliseconds.
     #[inline]
     async fn delay_ms(&mut self, ms: u32) {
-        let n_ticks = ms as u64 * unsafe { Clint::steal() }.mtimer().mtime_freq() as u64 / 1_000;
-        delay_ticks(n_ticks).await;
+        let n_ticks = ms as u64 * self.mtimer.mtime_freq() as u64 / 1_000;
+        self.delay_ticks(n_ticks).await;
     }
 }
