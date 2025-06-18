@@ -5,7 +5,7 @@ pub type SleepW<'a, REG> = crate::BitWriter<'a, REG>;
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn sleep(&mut self) -> SleepW<PmusleepSpec> {
+    pub fn sleep(&mut self) -> SleepW<'_, PmusleepSpec> {
         SleepW::new(self, 0)
     }
 }
@@ -17,10 +17,6 @@ impl crate::RegisterSpec for PmusleepSpec {
 #[doc = "`write(|w| ..)` method takes [`pmusleep::W`](W) writer structure"]
 impl crate::Writable for PmusleepSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pmusleep to value 0"]
-impl crate::Resettable for PmusleepSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for PmusleepSpec {}

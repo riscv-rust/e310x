@@ -1863,162 +1863,162 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> Pin0W<IofSelSpec> {
+    pub fn pin0(&mut self) -> Pin0W<'_, IofSelSpec> {
         Pin0W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> Pin1W<IofSelSpec> {
+    pub fn pin1(&mut self) -> Pin1W<'_, IofSelSpec> {
         Pin1W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> Pin2W<IofSelSpec> {
+    pub fn pin2(&mut self) -> Pin2W<'_, IofSelSpec> {
         Pin2W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> Pin3W<IofSelSpec> {
+    pub fn pin3(&mut self) -> Pin3W<'_, IofSelSpec> {
         Pin3W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> Pin4W<IofSelSpec> {
+    pub fn pin4(&mut self) -> Pin4W<'_, IofSelSpec> {
         Pin4W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> Pin5W<IofSelSpec> {
+    pub fn pin5(&mut self) -> Pin5W<'_, IofSelSpec> {
         Pin5W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> Pin6W<IofSelSpec> {
+    pub fn pin6(&mut self) -> Pin6W<'_, IofSelSpec> {
         Pin6W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> Pin7W<IofSelSpec> {
+    pub fn pin7(&mut self) -> Pin7W<'_, IofSelSpec> {
         Pin7W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> Pin8W<IofSelSpec> {
+    pub fn pin8(&mut self) -> Pin8W<'_, IofSelSpec> {
         Pin8W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> Pin9W<IofSelSpec> {
+    pub fn pin9(&mut self) -> Pin9W<'_, IofSelSpec> {
         Pin9W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> Pin10W<IofSelSpec> {
+    pub fn pin10(&mut self) -> Pin10W<'_, IofSelSpec> {
         Pin10W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> Pin11W<IofSelSpec> {
+    pub fn pin11(&mut self) -> Pin11W<'_, IofSelSpec> {
         Pin11W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> Pin12W<IofSelSpec> {
+    pub fn pin12(&mut self) -> Pin12W<'_, IofSelSpec> {
         Pin12W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> Pin13W<IofSelSpec> {
+    pub fn pin13(&mut self) -> Pin13W<'_, IofSelSpec> {
         Pin13W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> Pin14W<IofSelSpec> {
+    pub fn pin14(&mut self) -> Pin14W<'_, IofSelSpec> {
         Pin14W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> Pin15W<IofSelSpec> {
+    pub fn pin15(&mut self) -> Pin15W<'_, IofSelSpec> {
         Pin15W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> Pin16W<IofSelSpec> {
+    pub fn pin16(&mut self) -> Pin16W<'_, IofSelSpec> {
         Pin16W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> Pin17W<IofSelSpec> {
+    pub fn pin17(&mut self) -> Pin17W<'_, IofSelSpec> {
         Pin17W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> Pin18W<IofSelSpec> {
+    pub fn pin18(&mut self) -> Pin18W<'_, IofSelSpec> {
         Pin18W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> Pin19W<IofSelSpec> {
+    pub fn pin19(&mut self) -> Pin19W<'_, IofSelSpec> {
         Pin19W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> Pin20W<IofSelSpec> {
+    pub fn pin20(&mut self) -> Pin20W<'_, IofSelSpec> {
         Pin20W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> Pin21W<IofSelSpec> {
+    pub fn pin21(&mut self) -> Pin21W<'_, IofSelSpec> {
         Pin21W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> Pin22W<IofSelSpec> {
+    pub fn pin22(&mut self) -> Pin22W<'_, IofSelSpec> {
         Pin22W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> Pin23W<IofSelSpec> {
+    pub fn pin23(&mut self) -> Pin23W<'_, IofSelSpec> {
         Pin23W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> Pin24W<IofSelSpec> {
+    pub fn pin24(&mut self) -> Pin24W<'_, IofSelSpec> {
         Pin24W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> Pin25W<IofSelSpec> {
+    pub fn pin25(&mut self) -> Pin25W<'_, IofSelSpec> {
         Pin25W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> Pin26W<IofSelSpec> {
+    pub fn pin26(&mut self) -> Pin26W<'_, IofSelSpec> {
         Pin26W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> Pin27W<IofSelSpec> {
+    pub fn pin27(&mut self) -> Pin27W<'_, IofSelSpec> {
         Pin27W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> Pin28W<IofSelSpec> {
+    pub fn pin28(&mut self) -> Pin28W<'_, IofSelSpec> {
         Pin28W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> Pin29W<IofSelSpec> {
+    pub fn pin29(&mut self) -> Pin29W<'_, IofSelSpec> {
         Pin29W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> Pin30W<IofSelSpec> {
+    pub fn pin30(&mut self) -> Pin30W<'_, IofSelSpec> {
         Pin30W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> Pin31W<IofSelSpec> {
+    pub fn pin31(&mut self) -> Pin31W<'_, IofSelSpec> {
         Pin31W::new(self, 31)
     }
 }
@@ -2032,10 +2032,6 @@ impl crate::Readable for IofSelSpec {}
 #[doc = "`write(|w| ..)` method takes [`iof_sel::W`](W) writer structure"]
 impl crate::Writable for IofSelSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets iof_sel to value 0"]
-impl crate::Resettable for IofSelSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for IofSelSpec {}

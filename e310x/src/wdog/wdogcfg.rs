@@ -61,32 +61,32 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    pub fn scale(&mut self) -> ScaleW<WdogcfgSpec> {
+    pub fn scale(&mut self) -> ScaleW<'_, WdogcfgSpec> {
         ScaleW::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn rsten(&mut self) -> RstenW<WdogcfgSpec> {
+    pub fn rsten(&mut self) -> RstenW<'_, WdogcfgSpec> {
         RstenW::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn zerocmp(&mut self) -> ZerocmpW<WdogcfgSpec> {
+    pub fn zerocmp(&mut self) -> ZerocmpW<'_, WdogcfgSpec> {
         ZerocmpW::new(self, 9)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn enalways(&mut self) -> EnalwaysW<WdogcfgSpec> {
+    pub fn enalways(&mut self) -> EnalwaysW<'_, WdogcfgSpec> {
         EnalwaysW::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn encoreawake(&mut self) -> EncoreawakeW<WdogcfgSpec> {
+    pub fn encoreawake(&mut self) -> EncoreawakeW<'_, WdogcfgSpec> {
         EncoreawakeW::new(self, 13)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn cmpip(&mut self) -> CmpipW<WdogcfgSpec> {
+    pub fn cmpip(&mut self) -> CmpipW<'_, WdogcfgSpec> {
         CmpipW::new(self, 28)
     }
 }
@@ -100,10 +100,6 @@ impl crate::Readable for WdogcfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`wdogcfg::W`](W) writer structure"]
 impl crate::Writable for WdogcfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets wdogcfg to value 0"]
-impl crate::Resettable for WdogcfgSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for WdogcfgSpec {}

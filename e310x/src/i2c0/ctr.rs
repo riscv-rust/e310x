@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 6 - I2C core interrupt enable bit"]
     #[inline(always)]
-    pub fn ien(&mut self) -> IenW<CtrSpec> {
+    pub fn ien(&mut self) -> IenW<'_, CtrSpec> {
         IenW::new(self, 6)
     }
     #[doc = "Bit 7 - I2C core enable bit"]
     #[inline(always)]
-    pub fn en(&mut self) -> EnW<CtrSpec> {
+    pub fn en(&mut self) -> EnW<'_, CtrSpec> {
         EnW::new(self, 7)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for CtrSpec {}
 #[doc = "`write(|w| ..)` method takes [`ctr::W`](W) writer structure"]
 impl crate::Writable for CtrSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets ctr to value 0"]
-impl crate::Resettable for CtrSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for CtrSpec {}

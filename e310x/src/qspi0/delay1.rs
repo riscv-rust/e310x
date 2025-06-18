@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - Minimum CS inactive time"]
     #[inline(always)]
-    pub fn intercs(&mut self) -> IntercsW<Delay1Spec> {
+    pub fn intercs(&mut self) -> IntercsW<'_, Delay1Spec> {
         IntercsW::new(self, 0)
     }
     #[doc = "Bits 16:23 - Maximum interframe delay"]
     #[inline(always)]
-    pub fn interxfr(&mut self) -> InterxfrW<Delay1Spec> {
+    pub fn interxfr(&mut self) -> InterxfrW<'_, Delay1Spec> {
         InterxfrW::new(self, 16)
     }
 }
@@ -44,8 +44,6 @@ impl crate::Readable for Delay1Spec {}
 #[doc = "`write(|w| ..)` method takes [`delay1::W`](W) writer structure"]
 impl crate::Writable for Delay1Spec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets delay1 to value 0x01"]
 impl crate::Resettable for Delay1Spec {

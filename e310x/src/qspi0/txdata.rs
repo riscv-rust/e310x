@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - Transmit data"]
     #[inline(always)]
-    pub fn data(&mut self) -> DataW<TxdataSpec> {
+    pub fn data(&mut self) -> DataW<'_, TxdataSpec> {
         DataW::new(self, 0)
     }
     #[doc = "Bit 31 - FIFO full flag"]
     #[inline(always)]
-    pub fn full(&mut self) -> FullW<TxdataSpec> {
+    pub fn full(&mut self) -> FullW<'_, TxdataSpec> {
         FullW::new(self, 31)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for TxdataSpec {}
 #[doc = "`write(|w| ..)` method takes [`txdata::W`](W) writer structure"]
 impl crate::Writable for TxdataSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets txdata to value 0"]
-impl crate::Resettable for TxdataSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for TxdataSpec {}

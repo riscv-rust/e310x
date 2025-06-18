@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<HfxosccfgSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, HfxosccfgSpec> {
         EnableW::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&mut self) -> ReadyW<HfxosccfgSpec> {
+    pub fn ready(&mut self) -> ReadyW<'_, HfxosccfgSpec> {
         ReadyW::new(self, 31)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for HfxosccfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`hfxosccfg::W`](W) writer structure"]
 impl crate::Writable for HfxosccfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets hfxosccfg to value 0"]
-impl crate::Resettable for HfxosccfgSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for HfxosccfgSpec {}

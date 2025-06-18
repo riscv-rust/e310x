@@ -34,17 +34,17 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<TxctrlSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, TxctrlSpec> {
         EnableW::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn nstop(&mut self) -> NstopW<TxctrlSpec> {
+    pub fn nstop(&mut self) -> NstopW<'_, TxctrlSpec> {
         NstopW::new(self, 1)
     }
     #[doc = "Bits 16:18"]
     #[inline(always)]
-    pub fn counter(&mut self) -> CounterW<TxctrlSpec> {
+    pub fn counter(&mut self) -> CounterW<'_, TxctrlSpec> {
         CounterW::new(self, 16)
     }
 }
@@ -58,10 +58,6 @@ impl crate::Readable for TxctrlSpec {}
 #[doc = "`write(|w| ..)` method takes [`txctrl::W`](W) writer structure"]
 impl crate::Writable for TxctrlSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets txctrl to value 0"]
-impl crate::Resettable for TxctrlSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for TxctrlSpec {}

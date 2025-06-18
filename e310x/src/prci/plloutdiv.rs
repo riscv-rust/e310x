@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:5"]
     #[inline(always)]
-    pub fn div(&mut self) -> DivW<PlloutdivSpec> {
+    pub fn div(&mut self) -> DivW<'_, PlloutdivSpec> {
         DivW::new(self, 0)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn divby1(&mut self) -> Divby1W<PlloutdivSpec> {
+    pub fn divby1(&mut self) -> Divby1W<'_, PlloutdivSpec> {
         Divby1W::new(self, 8)
     }
 }
@@ -44,8 +44,6 @@ impl crate::Readable for PlloutdivSpec {}
 #[doc = "`write(|w| ..)` method takes [`plloutdiv::W`](W) writer structure"]
 impl crate::Writable for PlloutdivSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets plloutdiv to value 0x0100"]
 impl crate::Resettable for PlloutdivSpec {

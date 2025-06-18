@@ -44,32 +44,32 @@ pub type StaW<'a, REG> = crate::BitWriter<'a, REG>;
 impl W {
     #[doc = "Bit 0 - Interrupt acknowledge. When set, clears a pending interrupt"]
     #[inline(always)]
-    pub fn iack(&mut self) -> IackW<CrSpec> {
+    pub fn iack(&mut self) -> IackW<'_, CrSpec> {
         IackW::new(self, 0)
     }
     #[doc = "Bit 3 - When a receiver, sent ACK (0) or NACK (1)"]
     #[inline(always)]
-    pub fn ack(&mut self) -> AckW<CrSpec> {
+    pub fn ack(&mut self) -> AckW<'_, CrSpec> {
         AckW::new(self, 3)
     }
     #[doc = "Bit 4 - Write to slave"]
     #[inline(always)]
-    pub fn wr(&mut self) -> WrW<CrSpec> {
+    pub fn wr(&mut self) -> WrW<'_, CrSpec> {
         WrW::new(self, 4)
     }
     #[doc = "Bit 5 - Read from slave"]
     #[inline(always)]
-    pub fn rd(&mut self) -> RdW<CrSpec> {
+    pub fn rd(&mut self) -> RdW<'_, CrSpec> {
         RdW::new(self, 5)
     }
     #[doc = "Bit 6 - Generate stop condition"]
     #[inline(always)]
-    pub fn sto(&mut self) -> StoW<CrSpec> {
+    pub fn sto(&mut self) -> StoW<'_, CrSpec> {
         StoW::new(self, 6)
     }
     #[doc = "Bit 7 - Generate (repeated) start condition"]
     #[inline(always)]
-    pub fn sta(&mut self) -> StaW<CrSpec> {
+    pub fn sta(&mut self) -> StaW<'_, CrSpec> {
         StaW::new(self, 7)
     }
 }
@@ -81,10 +81,6 @@ impl crate::RegisterSpec for CrSpec {
 #[doc = "`write(|w| ..)` method takes [`cr::W`](W) writer structure"]
 impl crate::Writable for CrSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets cr to value 0"]
-impl crate::Resettable for CrSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for CrSpec {}

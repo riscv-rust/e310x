@@ -295,162 +295,162 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> Pin0W<InputEnSpec> {
+    pub fn pin0(&mut self) -> Pin0W<'_, InputEnSpec> {
         Pin0W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> Pin1W<InputEnSpec> {
+    pub fn pin1(&mut self) -> Pin1W<'_, InputEnSpec> {
         Pin1W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> Pin2W<InputEnSpec> {
+    pub fn pin2(&mut self) -> Pin2W<'_, InputEnSpec> {
         Pin2W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> Pin3W<InputEnSpec> {
+    pub fn pin3(&mut self) -> Pin3W<'_, InputEnSpec> {
         Pin3W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> Pin4W<InputEnSpec> {
+    pub fn pin4(&mut self) -> Pin4W<'_, InputEnSpec> {
         Pin4W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> Pin5W<InputEnSpec> {
+    pub fn pin5(&mut self) -> Pin5W<'_, InputEnSpec> {
         Pin5W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> Pin6W<InputEnSpec> {
+    pub fn pin6(&mut self) -> Pin6W<'_, InputEnSpec> {
         Pin6W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> Pin7W<InputEnSpec> {
+    pub fn pin7(&mut self) -> Pin7W<'_, InputEnSpec> {
         Pin7W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> Pin8W<InputEnSpec> {
+    pub fn pin8(&mut self) -> Pin8W<'_, InputEnSpec> {
         Pin8W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> Pin9W<InputEnSpec> {
+    pub fn pin9(&mut self) -> Pin9W<'_, InputEnSpec> {
         Pin9W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> Pin10W<InputEnSpec> {
+    pub fn pin10(&mut self) -> Pin10W<'_, InputEnSpec> {
         Pin10W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> Pin11W<InputEnSpec> {
+    pub fn pin11(&mut self) -> Pin11W<'_, InputEnSpec> {
         Pin11W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> Pin12W<InputEnSpec> {
+    pub fn pin12(&mut self) -> Pin12W<'_, InputEnSpec> {
         Pin12W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> Pin13W<InputEnSpec> {
+    pub fn pin13(&mut self) -> Pin13W<'_, InputEnSpec> {
         Pin13W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> Pin14W<InputEnSpec> {
+    pub fn pin14(&mut self) -> Pin14W<'_, InputEnSpec> {
         Pin14W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> Pin15W<InputEnSpec> {
+    pub fn pin15(&mut self) -> Pin15W<'_, InputEnSpec> {
         Pin15W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> Pin16W<InputEnSpec> {
+    pub fn pin16(&mut self) -> Pin16W<'_, InputEnSpec> {
         Pin16W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> Pin17W<InputEnSpec> {
+    pub fn pin17(&mut self) -> Pin17W<'_, InputEnSpec> {
         Pin17W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> Pin18W<InputEnSpec> {
+    pub fn pin18(&mut self) -> Pin18W<'_, InputEnSpec> {
         Pin18W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> Pin19W<InputEnSpec> {
+    pub fn pin19(&mut self) -> Pin19W<'_, InputEnSpec> {
         Pin19W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> Pin20W<InputEnSpec> {
+    pub fn pin20(&mut self) -> Pin20W<'_, InputEnSpec> {
         Pin20W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> Pin21W<InputEnSpec> {
+    pub fn pin21(&mut self) -> Pin21W<'_, InputEnSpec> {
         Pin21W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> Pin22W<InputEnSpec> {
+    pub fn pin22(&mut self) -> Pin22W<'_, InputEnSpec> {
         Pin22W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> Pin23W<InputEnSpec> {
+    pub fn pin23(&mut self) -> Pin23W<'_, InputEnSpec> {
         Pin23W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> Pin24W<InputEnSpec> {
+    pub fn pin24(&mut self) -> Pin24W<'_, InputEnSpec> {
         Pin24W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> Pin25W<InputEnSpec> {
+    pub fn pin25(&mut self) -> Pin25W<'_, InputEnSpec> {
         Pin25W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> Pin26W<InputEnSpec> {
+    pub fn pin26(&mut self) -> Pin26W<'_, InputEnSpec> {
         Pin26W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> Pin27W<InputEnSpec> {
+    pub fn pin27(&mut self) -> Pin27W<'_, InputEnSpec> {
         Pin27W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> Pin28W<InputEnSpec> {
+    pub fn pin28(&mut self) -> Pin28W<'_, InputEnSpec> {
         Pin28W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> Pin29W<InputEnSpec> {
+    pub fn pin29(&mut self) -> Pin29W<'_, InputEnSpec> {
         Pin29W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> Pin30W<InputEnSpec> {
+    pub fn pin30(&mut self) -> Pin30W<'_, InputEnSpec> {
         Pin30W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> Pin31W<InputEnSpec> {
+    pub fn pin31(&mut self) -> Pin31W<'_, InputEnSpec> {
         Pin31W::new(self, 31)
     }
 }
@@ -464,10 +464,6 @@ impl crate::Readable for InputEnSpec {}
 #[doc = "`write(|w| ..)` method takes [`input_en::W`](W) writer structure"]
 impl crate::Writable for InputEnSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets input_en to value 0"]
-impl crate::Resettable for InputEnSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for InputEnSpec {}

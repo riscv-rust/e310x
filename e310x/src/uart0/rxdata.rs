@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7"]
     #[inline(always)]
-    pub fn data(&mut self) -> DataW<RxdataSpec> {
+    pub fn data(&mut self) -> DataW<'_, RxdataSpec> {
         DataW::new(self, 0)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn empty(&mut self) -> EmptyW<RxdataSpec> {
+    pub fn empty(&mut self) -> EmptyW<'_, RxdataSpec> {
         EmptyW::new(self, 31)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for RxdataSpec {}
 #[doc = "`write(|w| ..)` method takes [`rxdata::W`](W) writer structure"]
 impl crate::Writable for RxdataSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets rxdata to value 0"]
-impl crate::Resettable for RxdataSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for RxdataSpec {}

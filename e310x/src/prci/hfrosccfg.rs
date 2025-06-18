@@ -43,22 +43,22 @@ impl R {
 impl W {
     #[doc = "Bits 0:5"]
     #[inline(always)]
-    pub fn div(&mut self) -> DivW<HfrosccfgSpec> {
+    pub fn div(&mut self) -> DivW<'_, HfrosccfgSpec> {
         DivW::new(self, 0)
     }
     #[doc = "Bits 16:20"]
     #[inline(always)]
-    pub fn trim(&mut self) -> TrimW<HfrosccfgSpec> {
+    pub fn trim(&mut self) -> TrimW<'_, HfrosccfgSpec> {
         TrimW::new(self, 16)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<HfrosccfgSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, HfrosccfgSpec> {
         EnableW::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&mut self) -> ReadyW<HfrosccfgSpec> {
+    pub fn ready(&mut self) -> ReadyW<'_, HfrosccfgSpec> {
         ReadyW::new(self, 31)
     }
 }
@@ -72,10 +72,6 @@ impl crate::Readable for HfrosccfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`hfrosccfg::W`](W) writer structure"]
 impl crate::Writable for HfrosccfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets hfrosccfg to value 0"]
-impl crate::Resettable for HfrosccfgSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for HfrosccfgSpec {}

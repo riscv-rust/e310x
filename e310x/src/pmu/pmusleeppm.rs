@@ -61,32 +61,32 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    pub fn delay(&mut self) -> DelayW<PmusleeppmSpec> {
+    pub fn delay(&mut self) -> DelayW<'_, PmusleeppmSpec> {
         DelayW::new(self, 0)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pmu_out_0_en(&mut self) -> PmuOut0EnW<PmusleeppmSpec> {
+    pub fn pmu_out_0_en(&mut self) -> PmuOut0EnW<'_, PmusleeppmSpec> {
         PmuOut0EnW::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pmu_out_1_en(&mut self) -> PmuOut1EnW<PmusleeppmSpec> {
+    pub fn pmu_out_1_en(&mut self) -> PmuOut1EnW<'_, PmusleeppmSpec> {
         PmuOut1EnW::new(self, 5)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn corerst(&mut self) -> CorerstW<PmusleeppmSpec> {
+    pub fn corerst(&mut self) -> CorerstW<'_, PmusleeppmSpec> {
         CorerstW::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn hfclkrst(&mut self) -> HfclkrstW<PmusleeppmSpec> {
+    pub fn hfclkrst(&mut self) -> HfclkrstW<'_, PmusleeppmSpec> {
         HfclkrstW::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn isolate(&mut self) -> IsolateW<PmusleeppmSpec> {
+    pub fn isolate(&mut self) -> IsolateW<'_, PmusleeppmSpec> {
         IsolateW::new(self, 9)
     }
 }
@@ -100,11 +100,6 @@ impl crate::Readable for PmusleeppmSpec {}
 #[doc = "`write(|w| ..)` method takes [`pmusleeppm::W`](W) writer structure"]
 impl crate::Writable for PmusleeppmSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
-#[doc = "`reset()` method sets pmusleeppm[%s]
-to value 0"]
-impl crate::Resettable for PmusleeppmSpec {
-    const RESET_VALUE: u32 = 0;
-}
+#[doc = "`reset()` method sets pmusleeppm[%s] to value 0"]
+impl crate::Resettable for PmusleeppmSpec {}

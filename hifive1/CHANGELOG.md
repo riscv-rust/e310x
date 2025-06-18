@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Update `e310x-hal` dependency and adapt code
+
 ## [v0.13.0] - 2024-12-10
 
 - Fix Led implementation, as pins are configured as inverted outputs

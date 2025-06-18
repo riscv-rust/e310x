@@ -18,10 +18,6 @@ impl crate::Readable for WriteEnSpec {}
 #[doc = "`write(|w| ..)` method takes [`write_en::W`](W) writer structure"]
 impl crate::Writable for WriteEnSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets write_en to value 0"]
-impl crate::Resettable for WriteEnSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for WriteEnSpec {}

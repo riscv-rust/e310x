@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn txwm(&mut self) -> TxwmW<IpSpec> {
+    pub fn txwm(&mut self) -> TxwmW<'_, IpSpec> {
         TxwmW::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn rxwm(&mut self) -> RxwmW<IpSpec> {
+    pub fn rxwm(&mut self) -> RxwmW<'_, IpSpec> {
         RxwmW::new(self, 1)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for IpSpec {}
 #[doc = "`write(|w| ..)` method takes [`ip::W`](W) writer structure"]
 impl crate::Writable for IpSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets ip to value 0"]
-impl crate::Resettable for IpSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for IpSpec {}

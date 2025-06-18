@@ -286,42 +286,42 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Enable sending of command"]
     #[inline(always)]
-    pub fn cmd_en(&mut self) -> CmdEnW<FfmtSpec> {
+    pub fn cmd_en(&mut self) -> CmdEnW<'_, FfmtSpec> {
         CmdEnW::new(self, 0)
     }
     #[doc = "Bits 1:3 - Number of address bytes (0 to 4)"]
     #[inline(always)]
-    pub fn addr_len(&mut self) -> AddrLenW<FfmtSpec> {
+    pub fn addr_len(&mut self) -> AddrLenW<'_, FfmtSpec> {
         AddrLenW::new(self, 1)
     }
     #[doc = "Bits 4:7 - Number of dummy cycles"]
     #[inline(always)]
-    pub fn pad_cnt(&mut self) -> PadCntW<FfmtSpec> {
+    pub fn pad_cnt(&mut self) -> PadCntW<'_, FfmtSpec> {
         PadCntW::new(self, 4)
     }
     #[doc = "Bits 8:9 - Protocol for transmitting command"]
     #[inline(always)]
-    pub fn cmd_proto(&mut self) -> CmdProtoW<FfmtSpec> {
+    pub fn cmd_proto(&mut self) -> CmdProtoW<'_, FfmtSpec> {
         CmdProtoW::new(self, 8)
     }
     #[doc = "Bits 10:11 - Protocol for transmitting address and padding"]
     #[inline(always)]
-    pub fn addr_proto(&mut self) -> AddrProtoW<FfmtSpec> {
+    pub fn addr_proto(&mut self) -> AddrProtoW<'_, FfmtSpec> {
         AddrProtoW::new(self, 10)
     }
     #[doc = "Bits 12:13 - Protocol for receiving data bytes"]
     #[inline(always)]
-    pub fn data_proto(&mut self) -> DataProtoW<FfmtSpec> {
+    pub fn data_proto(&mut self) -> DataProtoW<'_, FfmtSpec> {
         DataProtoW::new(self, 12)
     }
     #[doc = "Bits 16:23 - Value of command byte"]
     #[inline(always)]
-    pub fn cmd_code(&mut self) -> CmdCodeW<FfmtSpec> {
+    pub fn cmd_code(&mut self) -> CmdCodeW<'_, FfmtSpec> {
         CmdCodeW::new(self, 16)
     }
     #[doc = "Bits 24:31 - First 8 bits to transmit during dummy cycles"]
     #[inline(always)]
-    pub fn pad_code(&mut self) -> PadCodeW<FfmtSpec> {
+    pub fn pad_code(&mut self) -> PadCodeW<'_, FfmtSpec> {
         PadCodeW::new(self, 24)
     }
 }
@@ -335,10 +335,6 @@ impl crate::Readable for FfmtSpec {}
 #[doc = "`write(|w| ..)` method takes [`ffmt::W`](W) writer structure"]
 impl crate::Writable for FfmtSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets ffmt to value 0"]
-impl crate::Resettable for FfmtSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for FfmtSpec {}

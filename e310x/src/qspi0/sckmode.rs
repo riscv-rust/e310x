@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Serial clock phase"]
     #[inline(always)]
-    pub fn pha(&mut self) -> PhaW<SckmodeSpec> {
+    pub fn pha(&mut self) -> PhaW<'_, SckmodeSpec> {
         PhaW::new(self, 0)
     }
     #[doc = "Bit 1 - Serial clock polarity"]
     #[inline(always)]
-    pub fn pol(&mut self) -> PolW<SckmodeSpec> {
+    pub fn pol(&mut self) -> PolW<'_, SckmodeSpec> {
         PolW::new(self, 1)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for SckmodeSpec {}
 #[doc = "`write(|w| ..)` method takes [`sckmode::W`](W) writer structure"]
 impl crate::Writable for SckmodeSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets sckmode to value 0"]
-impl crate::Resettable for SckmodeSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for SckmodeSpec {}

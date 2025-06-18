@@ -18,10 +18,6 @@ impl crate::Readable for RtcloSpec {}
 #[doc = "`write(|w| ..)` method takes [`rtclo::W`](W) writer structure"]
 impl crate::Writable for RtcloSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets rtclo to value 0"]
-impl crate::Resettable for RtcloSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for RtcloSpec {}

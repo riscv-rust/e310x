@@ -221,37 +221,37 @@ impl R {
 impl W {
     #[doc = "Bits 0:2"]
     #[inline(always)]
-    pub fn pllr(&mut self) -> PllrW<PllcfgSpec> {
+    pub fn pllr(&mut self) -> PllrW<'_, PllcfgSpec> {
         PllrW::new(self, 0)
     }
     #[doc = "Bits 4:9"]
     #[inline(always)]
-    pub fn pllf(&mut self) -> PllfW<PllcfgSpec> {
+    pub fn pllf(&mut self) -> PllfW<'_, PllcfgSpec> {
         PllfW::new(self, 4)
     }
     #[doc = "Bits 10:11"]
     #[inline(always)]
-    pub fn pllq(&mut self) -> PllqW<PllcfgSpec> {
+    pub fn pllq(&mut self) -> PllqW<'_, PllcfgSpec> {
         PllqW::new(self, 10)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn sel(&mut self) -> SelW<PllcfgSpec> {
+    pub fn sel(&mut self) -> SelW<'_, PllcfgSpec> {
         SelW::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn refsel(&mut self) -> RefselW<PllcfgSpec> {
+    pub fn refsel(&mut self) -> RefselW<'_, PllcfgSpec> {
         RefselW::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn bypass(&mut self) -> BypassW<PllcfgSpec> {
+    pub fn bypass(&mut self) -> BypassW<'_, PllcfgSpec> {
         BypassW::new(self, 18)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn lock(&mut self) -> LockW<PllcfgSpec> {
+    pub fn lock(&mut self) -> LockW<'_, PllcfgSpec> {
         LockW::new(self, 31)
     }
 }
@@ -265,8 +265,6 @@ impl crate::Readable for PllcfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`pllcfg::W`](W) writer structure"]
 impl crate::Writable for PllcfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pllcfg to value 0x0003_06f9"]
 impl crate::Resettable for PllcfgSpec {

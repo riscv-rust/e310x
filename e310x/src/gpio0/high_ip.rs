@@ -295,162 +295,162 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> Pin0W<HighIpSpec> {
+    pub fn pin0(&mut self) -> Pin0W<'_, HighIpSpec> {
         Pin0W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> Pin1W<HighIpSpec> {
+    pub fn pin1(&mut self) -> Pin1W<'_, HighIpSpec> {
         Pin1W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> Pin2W<HighIpSpec> {
+    pub fn pin2(&mut self) -> Pin2W<'_, HighIpSpec> {
         Pin2W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> Pin3W<HighIpSpec> {
+    pub fn pin3(&mut self) -> Pin3W<'_, HighIpSpec> {
         Pin3W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> Pin4W<HighIpSpec> {
+    pub fn pin4(&mut self) -> Pin4W<'_, HighIpSpec> {
         Pin4W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> Pin5W<HighIpSpec> {
+    pub fn pin5(&mut self) -> Pin5W<'_, HighIpSpec> {
         Pin5W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> Pin6W<HighIpSpec> {
+    pub fn pin6(&mut self) -> Pin6W<'_, HighIpSpec> {
         Pin6W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> Pin7W<HighIpSpec> {
+    pub fn pin7(&mut self) -> Pin7W<'_, HighIpSpec> {
         Pin7W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> Pin8W<HighIpSpec> {
+    pub fn pin8(&mut self) -> Pin8W<'_, HighIpSpec> {
         Pin8W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> Pin9W<HighIpSpec> {
+    pub fn pin9(&mut self) -> Pin9W<'_, HighIpSpec> {
         Pin9W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> Pin10W<HighIpSpec> {
+    pub fn pin10(&mut self) -> Pin10W<'_, HighIpSpec> {
         Pin10W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> Pin11W<HighIpSpec> {
+    pub fn pin11(&mut self) -> Pin11W<'_, HighIpSpec> {
         Pin11W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> Pin12W<HighIpSpec> {
+    pub fn pin12(&mut self) -> Pin12W<'_, HighIpSpec> {
         Pin12W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> Pin13W<HighIpSpec> {
+    pub fn pin13(&mut self) -> Pin13W<'_, HighIpSpec> {
         Pin13W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> Pin14W<HighIpSpec> {
+    pub fn pin14(&mut self) -> Pin14W<'_, HighIpSpec> {
         Pin14W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> Pin15W<HighIpSpec> {
+    pub fn pin15(&mut self) -> Pin15W<'_, HighIpSpec> {
         Pin15W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> Pin16W<HighIpSpec> {
+    pub fn pin16(&mut self) -> Pin16W<'_, HighIpSpec> {
         Pin16W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> Pin17W<HighIpSpec> {
+    pub fn pin17(&mut self) -> Pin17W<'_, HighIpSpec> {
         Pin17W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> Pin18W<HighIpSpec> {
+    pub fn pin18(&mut self) -> Pin18W<'_, HighIpSpec> {
         Pin18W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> Pin19W<HighIpSpec> {
+    pub fn pin19(&mut self) -> Pin19W<'_, HighIpSpec> {
         Pin19W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> Pin20W<HighIpSpec> {
+    pub fn pin20(&mut self) -> Pin20W<'_, HighIpSpec> {
         Pin20W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> Pin21W<HighIpSpec> {
+    pub fn pin21(&mut self) -> Pin21W<'_, HighIpSpec> {
         Pin21W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> Pin22W<HighIpSpec> {
+    pub fn pin22(&mut self) -> Pin22W<'_, HighIpSpec> {
         Pin22W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> Pin23W<HighIpSpec> {
+    pub fn pin23(&mut self) -> Pin23W<'_, HighIpSpec> {
         Pin23W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> Pin24W<HighIpSpec> {
+    pub fn pin24(&mut self) -> Pin24W<'_, HighIpSpec> {
         Pin24W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> Pin25W<HighIpSpec> {
+    pub fn pin25(&mut self) -> Pin25W<'_, HighIpSpec> {
         Pin25W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> Pin26W<HighIpSpec> {
+    pub fn pin26(&mut self) -> Pin26W<'_, HighIpSpec> {
         Pin26W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> Pin27W<HighIpSpec> {
+    pub fn pin27(&mut self) -> Pin27W<'_, HighIpSpec> {
         Pin27W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> Pin28W<HighIpSpec> {
+    pub fn pin28(&mut self) -> Pin28W<'_, HighIpSpec> {
         Pin28W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> Pin29W<HighIpSpec> {
+    pub fn pin29(&mut self) -> Pin29W<'_, HighIpSpec> {
         Pin29W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> Pin30W<HighIpSpec> {
+    pub fn pin30(&mut self) -> Pin30W<'_, HighIpSpec> {
         Pin30W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> Pin31W<HighIpSpec> {
+    pub fn pin31(&mut self) -> Pin31W<'_, HighIpSpec> {
         Pin31W::new(self, 31)
     }
 }
@@ -464,10 +464,6 @@ impl crate::Readable for HighIpSpec {}
 #[doc = "`write(|w| ..)` method takes [`high_ip::W`](W) writer structure"]
 impl crate::Writable for HighIpSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets high_ip to value 0"]
-impl crate::Resettable for HighIpSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for HighIpSpec {}

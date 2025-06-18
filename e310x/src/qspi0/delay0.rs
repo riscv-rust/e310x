@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:7 - CS to SCK Delay"]
     #[inline(always)]
-    pub fn cssck(&mut self) -> CssckW<Delay0Spec> {
+    pub fn cssck(&mut self) -> CssckW<'_, Delay0Spec> {
         CssckW::new(self, 0)
     }
     #[doc = "Bits 16:23 - SCK to CS Delay"]
     #[inline(always)]
-    pub fn sckcs(&mut self) -> SckcsW<Delay0Spec> {
+    pub fn sckcs(&mut self) -> SckcsW<'_, Delay0Spec> {
         SckcsW::new(self, 16)
     }
 }
@@ -44,8 +44,6 @@ impl crate::Readable for Delay0Spec {}
 #[doc = "`write(|w| ..)` method takes [`delay0::W`](W) writer structure"]
 impl crate::Writable for Delay0Spec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets delay0 to value 0x0001_0001"]
 impl crate::Resettable for Delay0Spec {

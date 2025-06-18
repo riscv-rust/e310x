@@ -62,4 +62,7 @@ pub mod wdog;
 #[cfg(feature = "g002")]
 pub mod i2c;
 
+#[cfg(feature = "async")]
+pub mod asynch;
+
 pub use device::DeviceResources;

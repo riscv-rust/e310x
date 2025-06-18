@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<RxctrlSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, RxctrlSpec> {
         EnableW::new(self, 0)
     }
     #[doc = "Bits 16:18"]
     #[inline(always)]
-    pub fn counter(&mut self) -> CounterW<RxctrlSpec> {
+    pub fn counter(&mut self) -> CounterW<'_, RxctrlSpec> {
         CounterW::new(self, 16)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for RxctrlSpec {}
 #[doc = "`write(|w| ..)` method takes [`rxctrl::W`](W) writer structure"]
 impl crate::Writable for RxctrlSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets rxctrl to value 0"]
-impl crate::Resettable for RxctrlSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for RxctrlSpec {}

@@ -163,12 +163,12 @@ impl R {
 impl W {
     #[doc = "Bits 0:1"]
     #[inline(always)]
-    pub fn wakeupcause(&mut self) -> WakeupcauseW<PmucauseSpec> {
+    pub fn wakeupcause(&mut self) -> WakeupcauseW<'_, PmucauseSpec> {
         WakeupcauseW::new(self, 0)
     }
     #[doc = "Bits 8:9"]
     #[inline(always)]
-    pub fn resetcause(&mut self) -> ResetcauseW<PmucauseSpec> {
+    pub fn resetcause(&mut self) -> ResetcauseW<'_, PmucauseSpec> {
         ResetcauseW::new(self, 8)
     }
 }
@@ -182,10 +182,6 @@ impl crate::Readable for PmucauseSpec {}
 #[doc = "`write(|w| ..)` method takes [`pmucause::W`](W) writer structure"]
 impl crate::Writable for PmucauseSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets pmucause to value 0"]
-impl crate::Resettable for PmucauseSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for PmucauseSpec {}

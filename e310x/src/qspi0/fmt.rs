@@ -210,22 +210,22 @@ impl R {
 impl W {
     #[doc = "Bits 0:1 - SPI protocol"]
     #[inline(always)]
-    pub fn proto(&mut self) -> ProtoW<FmtSpec> {
+    pub fn proto(&mut self) -> ProtoW<'_, FmtSpec> {
         ProtoW::new(self, 0)
     }
     #[doc = "Bit 2 - SPI endianness"]
     #[inline(always)]
-    pub fn endian(&mut self) -> EndianW<FmtSpec> {
+    pub fn endian(&mut self) -> EndianW<'_, FmtSpec> {
         EndianW::new(self, 2)
     }
     #[doc = "Bit 3 - SPI I/O direction"]
     #[inline(always)]
-    pub fn dir(&mut self) -> DirW<FmtSpec> {
+    pub fn dir(&mut self) -> DirW<'_, FmtSpec> {
         DirW::new(self, 3)
     }
     #[doc = "Bits 16:19 - Number of bits per frame"]
     #[inline(always)]
-    pub fn len(&mut self) -> LenW<FmtSpec> {
+    pub fn len(&mut self) -> LenW<'_, FmtSpec> {
         LenW::new(self, 16)
     }
 }
@@ -239,10 +239,6 @@ impl crate::Readable for FmtSpec {}
 #[doc = "`write(|w| ..)` method takes [`fmt::W`](W) writer structure"]
 impl crate::Writable for FmtSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets fmt to value 0"]
-impl crate::Resettable for FmtSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for FmtSpec {}

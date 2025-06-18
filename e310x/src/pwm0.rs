@@ -49,44 +49,37 @@ impl RegisterBlock {
         &self.cmp3
     }
 }
-#[doc = "cfg (rw) register accessor: PWM Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cfg`]
-module"]
+#[doc = "cfg (rw) register accessor: PWM Configuration Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cfg::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cfg::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cfg`] module"]
 #[doc(alias = "cfg")]
 pub type Cfg = crate::Reg<cfg::CfgSpec>;
 #[doc = "PWM Configuration Register"]
 pub mod cfg;
-#[doc = "count (rw) register accessor: Counter Register\n\nYou can [`read`](crate::Reg::read) this register and get [`count::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`count::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@count`]
-module"]
+#[doc = "count (rw) register accessor: Counter Register\n\nYou can [`read`](crate::Reg::read) this register and get [`count::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`count::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@count`] module"]
 #[doc(alias = "count")]
 pub type Count = crate::Reg<count::CountSpec>;
 #[doc = "Counter Register"]
 pub mod count;
-#[doc = "pwms (rw) register accessor: Scaled Halfword Counter Register\n\nYou can [`read`](crate::Reg::read) this register and get [`pwms::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`pwms::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@pwms`]
-module"]
+#[doc = "pwms (rw) register accessor: Scaled Halfword Counter Register\n\nYou can [`read`](crate::Reg::read) this register and get [`pwms::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`pwms::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@pwms`] module"]
 #[doc(alias = "pwms")]
 pub type Pwms = crate::Reg<pwms::PwmsSpec>;
 #[doc = "Scaled Halfword Counter Register"]
 pub mod pwms;
-#[doc = "cmp0 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp0::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp0::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp0`]
-module"]
+#[doc = "cmp0 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp0::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp0::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp0`] module"]
 #[doc(alias = "cmp0")]
 pub type Cmp0 = crate::Reg<cmp0::Cmp0Spec>;
 #[doc = "Compare Register"]
 pub mod cmp0;
-#[doc = "cmp1 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp1::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp1::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp1`]
-module"]
+#[doc = "cmp1 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp1::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp1::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp1`] module"]
 #[doc(alias = "cmp1")]
 pub type Cmp1 = crate::Reg<cmp1::Cmp1Spec>;
 #[doc = "Compare Register"]
 pub mod cmp1;
-#[doc = "cmp2 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp2::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp2::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp2`]
-module"]
+#[doc = "cmp2 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp2::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp2::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp2`] module"]
 #[doc(alias = "cmp2")]
 pub type Cmp2 = crate::Reg<cmp2::Cmp2Spec>;
 #[doc = "Compare Register"]
 pub mod cmp2;
-#[doc = "cmp3 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp3::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp3::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp3`]
-module"]
+#[doc = "cmp3 (rw) register accessor: Compare Register\n\nYou can [`read`](crate::Reg::read) this register and get [`cmp3::R`]. You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`cmp3::W`]. You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@cmp3`] module"]
 #[doc(alias = "cmp3")]
 pub type Cmp3 = crate::Reg<cmp3::Cmp3Spec>;
 #[doc = "Compare Register"]

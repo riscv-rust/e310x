@@ -295,162 +295,162 @@ impl R {
 impl W {
     #[doc = "Bit 0"]
     #[inline(always)]
-    pub fn pin0(&mut self) -> Pin0W<FallIeSpec> {
+    pub fn pin0(&mut self) -> Pin0W<'_, FallIeSpec> {
         Pin0W::new(self, 0)
     }
     #[doc = "Bit 1"]
     #[inline(always)]
-    pub fn pin1(&mut self) -> Pin1W<FallIeSpec> {
+    pub fn pin1(&mut self) -> Pin1W<'_, FallIeSpec> {
         Pin1W::new(self, 1)
     }
     #[doc = "Bit 2"]
     #[inline(always)]
-    pub fn pin2(&mut self) -> Pin2W<FallIeSpec> {
+    pub fn pin2(&mut self) -> Pin2W<'_, FallIeSpec> {
         Pin2W::new(self, 2)
     }
     #[doc = "Bit 3"]
     #[inline(always)]
-    pub fn pin3(&mut self) -> Pin3W<FallIeSpec> {
+    pub fn pin3(&mut self) -> Pin3W<'_, FallIeSpec> {
         Pin3W::new(self, 3)
     }
     #[doc = "Bit 4"]
     #[inline(always)]
-    pub fn pin4(&mut self) -> Pin4W<FallIeSpec> {
+    pub fn pin4(&mut self) -> Pin4W<'_, FallIeSpec> {
         Pin4W::new(self, 4)
     }
     #[doc = "Bit 5"]
     #[inline(always)]
-    pub fn pin5(&mut self) -> Pin5W<FallIeSpec> {
+    pub fn pin5(&mut self) -> Pin5W<'_, FallIeSpec> {
         Pin5W::new(self, 5)
     }
     #[doc = "Bit 6"]
     #[inline(always)]
-    pub fn pin6(&mut self) -> Pin6W<FallIeSpec> {
+    pub fn pin6(&mut self) -> Pin6W<'_, FallIeSpec> {
         Pin6W::new(self, 6)
     }
     #[doc = "Bit 7"]
     #[inline(always)]
-    pub fn pin7(&mut self) -> Pin7W<FallIeSpec> {
+    pub fn pin7(&mut self) -> Pin7W<'_, FallIeSpec> {
         Pin7W::new(self, 7)
     }
     #[doc = "Bit 8"]
     #[inline(always)]
-    pub fn pin8(&mut self) -> Pin8W<FallIeSpec> {
+    pub fn pin8(&mut self) -> Pin8W<'_, FallIeSpec> {
         Pin8W::new(self, 8)
     }
     #[doc = "Bit 9"]
     #[inline(always)]
-    pub fn pin9(&mut self) -> Pin9W<FallIeSpec> {
+    pub fn pin9(&mut self) -> Pin9W<'_, FallIeSpec> {
         Pin9W::new(self, 9)
     }
     #[doc = "Bit 10"]
     #[inline(always)]
-    pub fn pin10(&mut self) -> Pin10W<FallIeSpec> {
+    pub fn pin10(&mut self) -> Pin10W<'_, FallIeSpec> {
         Pin10W::new(self, 10)
     }
     #[doc = "Bit 11"]
     #[inline(always)]
-    pub fn pin11(&mut self) -> Pin11W<FallIeSpec> {
+    pub fn pin11(&mut self) -> Pin11W<'_, FallIeSpec> {
         Pin11W::new(self, 11)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn pin12(&mut self) -> Pin12W<FallIeSpec> {
+    pub fn pin12(&mut self) -> Pin12W<'_, FallIeSpec> {
         Pin12W::new(self, 12)
     }
     #[doc = "Bit 13"]
     #[inline(always)]
-    pub fn pin13(&mut self) -> Pin13W<FallIeSpec> {
+    pub fn pin13(&mut self) -> Pin13W<'_, FallIeSpec> {
         Pin13W::new(self, 13)
     }
     #[doc = "Bit 14"]
     #[inline(always)]
-    pub fn pin14(&mut self) -> Pin14W<FallIeSpec> {
+    pub fn pin14(&mut self) -> Pin14W<'_, FallIeSpec> {
         Pin14W::new(self, 14)
     }
     #[doc = "Bit 15"]
     #[inline(always)]
-    pub fn pin15(&mut self) -> Pin15W<FallIeSpec> {
+    pub fn pin15(&mut self) -> Pin15W<'_, FallIeSpec> {
         Pin15W::new(self, 15)
     }
     #[doc = "Bit 16"]
     #[inline(always)]
-    pub fn pin16(&mut self) -> Pin16W<FallIeSpec> {
+    pub fn pin16(&mut self) -> Pin16W<'_, FallIeSpec> {
         Pin16W::new(self, 16)
     }
     #[doc = "Bit 17"]
     #[inline(always)]
-    pub fn pin17(&mut self) -> Pin17W<FallIeSpec> {
+    pub fn pin17(&mut self) -> Pin17W<'_, FallIeSpec> {
         Pin17W::new(self, 17)
     }
     #[doc = "Bit 18"]
     #[inline(always)]
-    pub fn pin18(&mut self) -> Pin18W<FallIeSpec> {
+    pub fn pin18(&mut self) -> Pin18W<'_, FallIeSpec> {
         Pin18W::new(self, 18)
     }
     #[doc = "Bit 19"]
     #[inline(always)]
-    pub fn pin19(&mut self) -> Pin19W<FallIeSpec> {
+    pub fn pin19(&mut self) -> Pin19W<'_, FallIeSpec> {
         Pin19W::new(self, 19)
     }
     #[doc = "Bit 20"]
     #[inline(always)]
-    pub fn pin20(&mut self) -> Pin20W<FallIeSpec> {
+    pub fn pin20(&mut self) -> Pin20W<'_, FallIeSpec> {
         Pin20W::new(self, 20)
     }
     #[doc = "Bit 21"]
     #[inline(always)]
-    pub fn pin21(&mut self) -> Pin21W<FallIeSpec> {
+    pub fn pin21(&mut self) -> Pin21W<'_, FallIeSpec> {
         Pin21W::new(self, 21)
     }
     #[doc = "Bit 22"]
     #[inline(always)]
-    pub fn pin22(&mut self) -> Pin22W<FallIeSpec> {
+    pub fn pin22(&mut self) -> Pin22W<'_, FallIeSpec> {
         Pin22W::new(self, 22)
     }
     #[doc = "Bit 23"]
     #[inline(always)]
-    pub fn pin23(&mut self) -> Pin23W<FallIeSpec> {
+    pub fn pin23(&mut self) -> Pin23W<'_, FallIeSpec> {
         Pin23W::new(self, 23)
     }
     #[doc = "Bit 24"]
     #[inline(always)]
-    pub fn pin24(&mut self) -> Pin24W<FallIeSpec> {
+    pub fn pin24(&mut self) -> Pin24W<'_, FallIeSpec> {
         Pin24W::new(self, 24)
     }
     #[doc = "Bit 25"]
     #[inline(always)]
-    pub fn pin25(&mut self) -> Pin25W<FallIeSpec> {
+    pub fn pin25(&mut self) -> Pin25W<'_, FallIeSpec> {
         Pin25W::new(self, 25)
     }
     #[doc = "Bit 26"]
     #[inline(always)]
-    pub fn pin26(&mut self) -> Pin26W<FallIeSpec> {
+    pub fn pin26(&mut self) -> Pin26W<'_, FallIeSpec> {
         Pin26W::new(self, 26)
     }
     #[doc = "Bit 27"]
     #[inline(always)]
-    pub fn pin27(&mut self) -> Pin27W<FallIeSpec> {
+    pub fn pin27(&mut self) -> Pin27W<'_, FallIeSpec> {
         Pin27W::new(self, 27)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn pin28(&mut self) -> Pin28W<FallIeSpec> {
+    pub fn pin28(&mut self) -> Pin28W<'_, FallIeSpec> {
         Pin28W::new(self, 28)
     }
     #[doc = "Bit 29"]
     #[inline(always)]
-    pub fn pin29(&mut self) -> Pin29W<FallIeSpec> {
+    pub fn pin29(&mut self) -> Pin29W<'_, FallIeSpec> {
         Pin29W::new(self, 29)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn pin30(&mut self) -> Pin30W<FallIeSpec> {
+    pub fn pin30(&mut self) -> Pin30W<'_, FallIeSpec> {
         Pin30W::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn pin31(&mut self) -> Pin31W<FallIeSpec> {
+    pub fn pin31(&mut self) -> Pin31W<'_, FallIeSpec> {
         Pin31W::new(self, 31)
     }
 }
@@ -464,10 +464,6 @@ impl crate::Readable for FallIeSpec {}
 #[doc = "`write(|w| ..)` method takes [`fall_ie::W`](W) writer structure"]
 impl crate::Writable for FallIeSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets fall_ie to value 0"]
-impl crate::Resettable for FallIeSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for FallIeSpec {}

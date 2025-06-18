@@ -17,11 +17,19 @@ embedded-io = "0.6.1"
 e310x = { path = "../e310x", version = "0.12.0", features = ["rt", "critical-section"] }
 nb = "1.0.0"
 portable-atomic = { version = "1.9", default-features = false}
-riscv = { version = "0.12.1", features = ["critical-section-single-hart"] }
+riscv = { version = "0.14.0", features = ["critical-section-single-hart"] }
+
+# Async HAL dependencies
+riscv-peripheral = { version = "0.3.0", optional = true }
+riscv-rt = { version = "0.15.0", optional = true }
+embedded-hal-async = { version = "1.0.0", optional =  true }
+critical-section = { version = "1.2.0", optional = true }
+heapless = { version = "0.8.0", optional = true }
 
 [features]
 g002 = ["e310x/g002"]
 v-trap = ["e310x/v-trap"]
+async = ["riscv-peripheral", "riscv-rt", "embedded-hal-async", "critical-section", "heapless"]
 
 [package.metadata.docs.rs]
 features = ["g002"]

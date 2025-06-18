@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Transmit watermark enable"]
     #[inline(always)]
-    pub fn txwm(&mut self) -> TxwmW<IeSpec> {
+    pub fn txwm(&mut self) -> TxwmW<'_, IeSpec> {
         TxwmW::new(self, 0)
     }
     #[doc = "Bit 1 - Receive watermark enable"]
     #[inline(always)]
-    pub fn rxwm(&mut self) -> RxwmW<IeSpec> {
+    pub fn rxwm(&mut self) -> RxwmW<'_, IeSpec> {
         RxwmW::new(self, 1)
     }
 }
@@ -44,10 +44,6 @@ impl crate::Readable for IeSpec {}
 #[doc = "`write(|w| ..)` method takes [`ie::W`](W) writer structure"]
 impl crate::Writable for IeSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets ie to value 0"]
-impl crate::Resettable for IeSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for IeSpec {}

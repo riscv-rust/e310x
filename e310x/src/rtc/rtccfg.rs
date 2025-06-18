@@ -34,17 +34,17 @@ impl R {
 impl W {
     #[doc = "Bits 0:3"]
     #[inline(always)]
-    pub fn scale(&mut self) -> ScaleW<RtccfgSpec> {
+    pub fn scale(&mut self) -> ScaleW<'_, RtccfgSpec> {
         ScaleW::new(self, 0)
     }
     #[doc = "Bit 12"]
     #[inline(always)]
-    pub fn enalways(&mut self) -> EnalwaysW<RtccfgSpec> {
+    pub fn enalways(&mut self) -> EnalwaysW<'_, RtccfgSpec> {
         EnalwaysW::new(self, 12)
     }
     #[doc = "Bit 28"]
     #[inline(always)]
-    pub fn cmpip(&mut self) -> CmpipW<RtccfgSpec> {
+    pub fn cmpip(&mut self) -> CmpipW<'_, RtccfgSpec> {
         CmpipW::new(self, 28)
     }
 }
@@ -58,10 +58,6 @@ impl crate::Readable for RtccfgSpec {}
 #[doc = "`write(|w| ..)` method takes [`rtccfg::W`](W) writer structure"]
 impl crate::Writable for RtccfgSpec {
     type Safety = crate::Unsafe;
-    const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
-    const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
 #[doc = "`reset()` method sets rtccfg to value 0"]
-impl crate::Resettable for RtccfgSpec {
-    const RESET_VALUE: u32 = 0;
-}
+impl crate::Resettable for RtccfgSpec {}
