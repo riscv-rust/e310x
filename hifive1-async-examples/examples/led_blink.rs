@@ -23,7 +23,6 @@ extern crate panic_halt;
 async fn main(_spawner: Spawner) -> ! {
     let dr = DeviceResources::take().unwrap();
     let p = dr.peripherals;
-
     let pins: hifive1::hal::device::DeviceGpioPins = dr.pins;
 
     // Configure clocks
@@ -41,7 +40,7 @@ async fn main(_spawner: Spawner) -> ! {
         115_200.bps(),
         clocks,
     );
-
+  
     // Get Mtimer
     let mtimer = unsafe { Clint::steal() }.mtimer();
 
