@@ -10,9 +10,8 @@ use hifive1::{
     Led, clock,
     hal::{
         DeviceResources,
-        asynch::delay::Delay,
         asynch::prelude::*,
-        e310x::{Clint, interrupt::Hart},
+        e310x::{Gpio0, Plic},
         prelude::*,
     },
     pin, sprintln,
@@ -22,6 +21,7 @@ extern crate panic_halt;
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) -> ! {
     let dr = DeviceResources::take().unwrap();
+    let cp = dr.core_peripherals;
     let p = dr.peripherals;
     let pins: hifive1::hal::device::DeviceGpioPins = dr.pins;
 
@@ -41,23 +41,43 @@ async fn main(_spawner: Spawner) -> ! {
         clocks,
     );
 
-    // Get Mtimer
-    let mtimer = dr.clint.mtimer();
+    // Button pin (GPIO9) as pull-up input
+    let mut button = pins.pin9.into_pull_up_input();
 
-    // Configure MTIMER interrupt
-    mtimer.disable();
-    let (mtimecmp, mtime) = (mtimer.mtimecmp(Hart::H0), mtimer.mtime());
-    mtime.write(0);
-    mtimecmp.write(u64::MAX);
-    unsafe { riscv::interrupt::enable() };
+    // Set button interrupt source priority
+    let plic = cp.plic;
+    let priorities = plic.priorities();
+    priorities.reset::<ExternalInterrupt>();
+    unsafe { priorities.set_priority(ExternalInterrupt::GPIO9, Priority::P1) };
+
+    // Clear pending interrupts from previous states
+    let gpio_block = unsafe { Gpio0::steal() };
+
+    unsafe {
+        gpio_block.fall_ie().write(|w| w.bits(0x00000000));
+        gpio_block.rise_ie().write(|w| w.bits(0x00000000));
+        gpio_block.fall_ip().write(|w| w.bits(0xffffffff));
+        gpio_block.rise_ip().write(|w| w.bits(0xffffffff));
+    }
+
+    // Enable GPIO9 interrupt in PLIC
+    let ctx = plic.ctx0();
+    unsafe {
+        ctx.enables().disable_all::<ExternalInterrupt>();
+        ctx.threshold().set_threshold(Priority::P0);
+        ctx.enables().enable(ExternalInterrupt::GPIO9);
+        riscv::interrupt::enable();
+        plic.enable();
+    };
 
     // Execute loop
-    const STEP: u32 = 1000; // 1s
-    let mut delay = Delay::new(mtimer);
     loop {
         Led::toggle(&mut led);
         let led_state = led.is_on();
         sprintln!("LED toggled. New state: {}", led_state);
-        delay.delay_ms(STEP).await;
+        button
+            .wait_for_any_edge()
+            .await
+            .expect("Failed to wait for button press");
     }
 }

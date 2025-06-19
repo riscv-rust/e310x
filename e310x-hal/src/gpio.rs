@@ -278,6 +278,7 @@ macro_rules! gpio {
                     }
                 }
 
+                #[cfg(not(feature = "async"))]
                 impl<MODE> ErrorType for $PXi<Input<MODE>> {
                     type Error = Infallible;
                 }
