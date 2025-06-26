@@ -36,13 +36,13 @@ pub trait GpioExt {
     /// interrupt enable bit in the GPIO peripheral. You must call
     /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) on the pin to enable its interrupt in
     /// the PLIC.
-    fn enable_interrupts(self, event: EventType);
+    fn enable_interrupts(event: EventType);
 
     /// Disables the specified interrupt event for all the GPIO pins.
-    fn disable_interrupts(self, event: EventType);
+    fn disable_interrupts(event: EventType);
 
     /// Clears the specified interrupt event pending flag for all the GPIO pins.
-    fn clear_pending_interrupts(self, event: EventType);
+    fn clear_pending_interrupts(event: EventType);
 }
 
 /// Unknown mode (type state)
@@ -211,7 +211,7 @@ macro_rules! gpio {
                     }
                 }
 
-                fn enable_interrupts(self, event: EventType) {
+                fn enable_interrupts(event: EventType) {
                     let p = Self::peripheral();
 
                     unsafe {
@@ -242,7 +242,7 @@ macro_rules! gpio {
                     }
                 }
 
-                fn disable_interrupts(self, event: EventType) {
+                fn disable_interrupts(event: EventType) {
                     let p = Self::peripheral();
 
                     unsafe {
@@ -273,7 +273,7 @@ macro_rules! gpio {
                     }
                 }
 
-                fn clear_pending_interrupts(self, event: EventType) {
+                fn clear_pending_interrupts(event: EventType) {
                     let p = Self::peripheral();
 
                     unsafe {
