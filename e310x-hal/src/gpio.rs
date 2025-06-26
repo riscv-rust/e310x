@@ -34,6 +34,9 @@ pub trait GpioExt {
 
     /// Disables the specified interrupt event for all the GPIO pins.
     fn disable_interrupts(self, event: EventType);
+
+    /// Clears the specified interrupt event pending flag for all the GPIO pins.
+    fn clear_pending_interrupts(self, event: EventType);
 }
 
 /// Unknown mode (type state)
@@ -259,6 +262,37 @@ macro_rules! gpio {
                                 p.low_ie().write(|w| w.bits(0));
                                 p.rise_ie().write(|w| w.bits(0));
                                 p.fall_ie().write(|w| w.bits(0));
+                            }
+                        }
+                    }
+                }
+
+                fn clear_pending_interrupts(self, event: EventType) {
+                    let p = Self::peripheral();
+
+                    unsafe {
+                        match event {
+                            EventType::High => {
+                                p.high_ip().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::Low => {
+                                p.low_ip().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::Rise => {
+                                p.rise_ip().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::Fall => {
+                                p.fall_ip().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::BothEdges => {
+                                p.rise_ip().write(|w| w.bits(0xFFFFFFFF));
+                                p.fall_ip().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::All => {
+                                p.high_ip().write(|w| w.bits(0xFFFFFFFF));
+                                p.low_ip().write(|w| w.bits(0xFFFFFFFF));
+                                p.rise_ip().write(|w| w.bits(0xFFFFFFFF));
+                                p.fall_ip().write(|w| w.bits(0xFFFFFFFF));
                             }
                         }
                     }
