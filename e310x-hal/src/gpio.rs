@@ -28,6 +28,12 @@ pub trait GpioExt {
 
     /// Splits the GPIO block into independent pins and registers.
     fn split(self) -> Self::Parts;
+
+    /// Enables the specified interrupt event for all the GPIO pins.
+    fn enable_interrupts(self, event: EventType);
+
+    /// Disables the specified interrupt event for all the GPIO pins.
+    fn disable_interrupts(self, event: EventType);
 }
 
 /// Unknown mode (type state)
@@ -195,7 +201,70 @@ macro_rules! gpio {
                         )+
                     }
                 }
+
+                fn enable_interrupts(self, event: EventType) {
+                    let p = Self::peripheral();
+
+                    unsafe {
+                        match event {
+                            EventType::High => {
+                                p.high_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::Low => {
+                                p.low_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::Rise => {
+                                p.rise_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::Fall => {
+                                p.fall_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::BothEdges => {
+                                p.rise_ie().write(|w| w.bits(0xFFFFFFFF));
+                                p.fall_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                            EventType::All => {
+                                p.high_ie().write(|w| w.bits(0xFFFFFFFF));
+                                p.low_ie().write(|w| w.bits(0xFFFFFFFF));
+                                p.rise_ie().write(|w| w.bits(0xFFFFFFFF));
+                                p.fall_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                        }
+                    }
+                }
+
+                fn disable_interrupts(self, event: EventType) {
+                    let p = Self::peripheral();
+
+                    unsafe {
+                        match event {
+                            EventType::High => {
+                                p.high_ie().write(|w| w.bits(0));
+                            }
+                            EventType::Low => {
+                                p.low_ie().write(|w| w.bits(0));
+                            }
+                            EventType::Rise => {
+                                p.rise_ie().write(|w| w.bits(0));
+                            }
+                            EventType::Fall => {
+                                p.fall_ie().write(|w| w.bits(0));
+                            }
+                            EventType::BothEdges => {
+                                p.rise_ie().write(|w| w.bits(0));
+                                p.fall_ie().write(|w| w.bits(0));
+                            }
+                            EventType::All => {
+                                p.high_ie().write(|w| w.bits(0));
+                                p.low_ie().write(|w| w.bits(0));
+                                p.rise_ie().write(|w| w.bits(0));
+                                p.fall_ie().write(|w| w.bits(0));
+                            }
+                        }
+                    }
+                }
             }
+
 
             $(
                 /// Pin
