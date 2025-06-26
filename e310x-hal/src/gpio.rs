@@ -34,7 +34,7 @@ pub trait GpioExt {
     ///
     ///  This function does not enable the interrupts in the PLIC, it only sets the
     /// interrupt enable bit in the GPIO peripheral. You must call
-    /// [`enable_exti()`](Self::enable_exti) per pin to enable the interrupt in
+    /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) on the pin to enable its interrupt in
     /// the PLIC.
     fn enable_interrupts(self, event: EventType);
 
@@ -407,7 +407,8 @@ macro_rules! gpio {
                     /// # Note
                     ///
                     /// This function enables the external interrupt source in the PLIC,
-                    /// but does not enable the PLIC peripheral itself.
+                    /// but does not enable the PLIC peripheral itself. To enable the plic peripheral
+                    /// you must call `Plic::enable()`.
                     /// # Safety
                     ///
                     /// Enabling an interrupt source can break mask-based critical sections.
