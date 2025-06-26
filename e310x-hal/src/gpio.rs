@@ -248,26 +248,26 @@ macro_rules! gpio {
                     unsafe {
                         match event {
                             EventType::High => {
-                                p.high_ie().write(|w| w.bits(0));
+                                p.high_ie().write(|w| w.bits(0x00000000));
                             }
                             EventType::Low => {
-                                p.low_ie().write(|w| w.bits(0));
+                                p.low_ie().write(|w| w.bits(0x00000000));
                             }
                             EventType::Rise => {
-                                p.rise_ie().write(|w| w.bits(0));
+                                p.rise_ie().write(|w| w.bits(0x00000000));
                             }
                             EventType::Fall => {
-                                p.fall_ie().write(|w| w.bits(0));
+                                p.fall_ie().write(|w| w.bits(0x00000000));
                             }
                             EventType::BothEdges => {
-                                p.rise_ie().write(|w| w.bits(0));
-                                p.fall_ie().write(|w| w.bits(0));
+                                p.rise_ie().write(|w| w.bits(0x00000000));
+                                p.fall_ie().write(|w| w.bits(0x00000000));
                             }
                             EventType::All => {
-                                p.high_ie().write(|w| w.bits(0));
-                                p.low_ie().write(|w| w.bits(0));
-                                p.rise_ie().write(|w| w.bits(0));
-                                p.fall_ie().write(|w| w.bits(0));
+                                p.high_ie().write(|w| w.bits(0x00000000));
+                                p.low_ie().write(|w| w.bits(0x00000000));
+                                p.rise_ie().write(|w| w.bits(0x00000000));
+                                p.fall_ie().write(|w| w.bits(0x00000000));
                             }
                         }
                     }
