@@ -412,19 +412,19 @@ macro_rules! gpio {
                     /// # Safety
                     ///
                     /// Enabling an interrupt source can break mask-based critical sections.
-                    pub unsafe fn enable_exti() {
+                    pub unsafe fn enable_exti(&self) {
                         let ctx = unsafe{Plic::steal()}.ctx0();
                         ctx.enables().enable(ExternalInterrupt::$handle);
                     }
 
                     /// Disables the external interrupt source for the pin.
-                    pub fn disable_exti() {
+                    pub fn disable_exti(&self) {
                         let ctx = unsafe{Plic::steal()}.ctx0();
                         ctx.enables().disable(ExternalInterrupt::$handle);
                     }
 
                     /// Returns if the external interrupt source for the pin is enabled.
-                    pub fn is_exti_enabled() -> bool {
+                    pub fn is_exti_enabled(&self) -> bool {
                         let ctx = unsafe{Plic::steal()}.ctx0();
                         ctx.enables().is_enabled(ExternalInterrupt::$handle)
                     }
@@ -433,13 +433,13 @@ macro_rules! gpio {
                     ///  # Safety
                     ///
                     ///  Changing the priority level can break priority-based critical sections.
-                    pub unsafe fn set_exti_priority(priority: Priority) {
+                    pub unsafe fn set_exti_priority(&self, priority: Priority) {
                         let priorities = unsafe{Plic::steal()}.priorities();
                         priorities.set_priority(ExternalInterrupt::$handle, priority);
                     }
 
                     /// Returns the external interrupt source priority.
-                    pub fn get_exti_priority() -> Priority {
+                    pub fn get_exti_priority(&self) -> Priority {
                         let priorities = unsafe{Plic::steal()}.priorities();
                         priorities.get_priority(ExternalInterrupt::$handle)
                     }
@@ -451,7 +451,7 @@ macro_rules! gpio {
                     /// interrupt enable bit in the GPIO peripheral. You must call
                     /// [`enable_exti()`](Self::enable_exti) to enable the interrupt in
                     /// the PLIC.
-                    pub fn enable_interrupt(event: EventType) {
+                    pub fn enable_interrupt(&self, event: EventType) {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
@@ -476,7 +476,7 @@ macro_rules! gpio {
                     }
 
                     /// Disables the selected interrupts for the pin in the interrupt enable registers
-                    pub fn disable_interrupt(event: EventType) {
+                    pub fn disable_interrupt(&self, event: EventType) {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
@@ -501,7 +501,7 @@ macro_rules! gpio {
                     }
 
                     /// Clears pending interrupts for the selected pin interrupts.
-                    pub fn clear_pending_interrupt(event: EventType) {
+                    pub fn clear_pending_interrupt(&self, event: EventType) {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
@@ -532,7 +532,7 @@ macro_rules! gpio {
                     ///  rising or falling edge interrupts are enabled
                     ///  and All will return true if any of the
                     ///  interrupts are enabled.
-                    pub fn is_interrupt_enabled(event: EventType) -> bool {
+                    pub fn is_interrupt_enabled(&self, event: EventType) -> bool {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
@@ -561,7 +561,7 @@ macro_rules! gpio {
                     ///  rising or falling edge interrupts are pending
                     ///  and All will return true if any of the
                     ///  interrupts are pending.
-                    pub fn is_interrupt_pending(event: EventType) -> bool {
+                    pub fn is_interrupt_pending(&self, event: EventType) -> bool {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
