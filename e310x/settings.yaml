@@ -50,4 +50,5 @@ riscv_config:
     core_interrupt: "MachineExternal"
     hart_id: "H0"
 
+  base_isa: "rv32i"
   mtvec_align: 64

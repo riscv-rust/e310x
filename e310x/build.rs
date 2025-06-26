@@ -12,7 +12,9 @@ fn main() {
             .unwrap();
         println!("cargo:rustc-link-search={}", out.display());
         println!("cargo:rerun-if-changed=device.x");
-        println!("cargo:rustc-env=RISCV_MTVEC_ALIGN={}", 64usize);
+        println!("cargo:rustc-env=RISCV_RT_BASE_ISA=rv32i");
+        println!("cargo:rerun-if-env-changed=RISCV_RT_BASE_ISA");
+        println!("cargo:rustc-env=RISCV_MTVEC_ALIGN=64");
         println!("cargo:rerun-if-env-changed=RISCV_MTVEC_ALIGN");
     }
     println!("cargo:rerun-if-changed=build.rs");
