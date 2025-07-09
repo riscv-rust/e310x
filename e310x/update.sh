@@ -2,7 +2,7 @@
 set -x
 set -e
 
-# used svd2rust 0.36.1
+# used svd2rust 0.37.0
 rm -rf src
 mkdir src
 svd2rust --target riscv --settings settings.yaml --feature-group -g -i e310x.svd

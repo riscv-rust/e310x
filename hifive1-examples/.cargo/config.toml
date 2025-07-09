@@ -9,3 +9,6 @@ rustflags = [
 
 [build]
 target = "riscv32imc-unknown-none-elf"
+
+[env]
+RISCV_RT_BASE_ISA = "rv32i"

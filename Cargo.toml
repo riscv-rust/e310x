@@ -4,4 +4,16 @@ members = [
     "e310x",
     "e310x-hal",
     "hifive1",
+    "hifive1-examples",
 ]
+default-members = [
+    "e310x",
+    "e310x-hal",
+    "hifive1",
+]
+
+[workspace.dependencies]
+critical-section = "1.2.0"
+riscv = "0.15.0"
+riscv-peripheral = "0.4.0"
+riscv-rt = "0.16.0"
