@@ -43,22 +43,22 @@ impl R {
 impl W {
     #[doc = "Bits 0:5"]
     #[inline(always)]
-    pub fn div(&mut self) -> DivW<HfrosccfgSpec> {
+    pub fn div(&mut self) -> DivW<'_, HfrosccfgSpec> {
         DivW::new(self, 0)
     }
     #[doc = "Bits 16:20"]
     #[inline(always)]
-    pub fn trim(&mut self) -> TrimW<HfrosccfgSpec> {
+    pub fn trim(&mut self) -> TrimW<'_, HfrosccfgSpec> {
         TrimW::new(self, 16)
     }
     #[doc = "Bit 30"]
     #[inline(always)]
-    pub fn enable(&mut self) -> EnableW<HfrosccfgSpec> {
+    pub fn enable(&mut self) -> EnableW<'_, HfrosccfgSpec> {
         EnableW::new(self, 30)
     }
     #[doc = "Bit 31"]
     #[inline(always)]
-    pub fn ready(&mut self) -> ReadyW<HfrosccfgSpec> {
+    pub fn ready(&mut self) -> ReadyW<'_, HfrosccfgSpec> {
         ReadyW::new(self, 31)
     }
 }

@@ -6,14 +6,15 @@
 
 use hifive1::{
     clock,
-    hal::{e310x::CLINT, prelude::*, DeviceResources},
-    pin, pins, sprintln, Led,
+    hal::{prelude::*, DeviceResources},
+    pin, pins, sprintln, stdout, Led,
 };
 extern crate panic_halt;
 
 #[riscv_rt::entry]
 fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
+    let cp = dr.core_peripherals;
     let p = dr.peripherals;
     let pins = dr.pins;
 
@@ -21,7 +22,7 @@ fn main() -> ! {
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
     // Configure UART for stdout
-    hifive1::stdout::configure(
+    stdout::configure(
         p.UART0,
         pin!(pins, uart0_tx),
         pin!(pins, uart0_rx),
@@ -35,15 +36,15 @@ fn main() -> ! {
     // get leds as the Led trait in an array so we can index them
     let mut ileds: [&mut dyn Led; 3] = [&mut tleds.0, &mut tleds.1, &mut tleds.2];
 
-    // Get the sleep struct from CLINT
-    let mut sleep = CLINT::delay();
+    // Get the MTIMER peripheral from CLINT
+    let mut mtimer = cp.clint.mtimer();
 
     const STEP: u32 = 1000; // 1s
     loop {
         for (i, led) in ileds.iter_mut().enumerate() {
             led.toggle().unwrap();
             sprintln!("LED {} toggled. New state: {}", i, led.is_on());
-            sleep.delay_ms(STEP);
+            mtimer.delay_ms(STEP);
         }
     }
 }

@@ -43,12 +43,12 @@ riscv_config:
 
   clint:
     name: "CLINT"
-    freq: 32768
-    async_delay: false
+    mtime_freq: 32768
 
   plic:
     name: "PLIC"
     core_interrupt: "MachineExternal"
     hart_id: "H0"
 
+  base_isa: "rv32i"
   mtvec_align: 64

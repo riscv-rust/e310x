@@ -6,10 +6,19 @@
 
 use hifive1::{
     clock,
-    hal::{prelude::*, DeviceResources},
+    hal::{e310x::Clint, prelude::*, DeviceResources},
     pin, sprintln, stdout, Led,
 };
 extern crate panic_halt;
+
+#[riscv_rt::core_interrupt(CoreInterrupt::MachineTimer)]
+fn mtimer_handler() {
+    let clint = unsafe { Clint::steal() };
+    let mtimer = clint.mtimer();
+    mtimer
+        .mtimecmp0()
+        .modify(|prev| *prev += mtimer.mtime_freq() as u64);
+}
 
 #[riscv_rt::entry]
 fn main() -> ! {
@@ -35,12 +44,18 @@ fn main() -> ! {
     let mut led = pin.into_inverted_output();
 
     // Get the MTIMER peripheral from CLINT
-    let mut mtimer = cp.clint.mtimer();
+    let mtimer = cp.clint.mtimer();
+    mtimer.mtime().write(0);
+    mtimer.mtimecmp0().write(mtimer.mtime_freq() as u64); // Set the first compare value
 
-    const STEP: u32 = 1000; // 1s
+    unsafe {
+        mtimer.enable();
+        riscv::interrupt::enable();
+    }
+
     loop {
         Led::toggle(&mut led);
         sprintln!("LED toggled. New state: {}", led.is_on());
-        mtimer.delay_ms(STEP);
+        riscv::asm::wfi();
     }
 }

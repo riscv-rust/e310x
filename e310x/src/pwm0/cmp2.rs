@@ -16,7 +16,7 @@ impl R {
 impl W {
     #[doc = "Bits 0:15"]
     #[inline(always)]
-    pub fn value(&mut self) -> ValueW<Cmp2Spec> {
+    pub fn value(&mut self) -> ValueW<'_, Cmp2Spec> {
         ValueW::new(self, 0)
     }
 }

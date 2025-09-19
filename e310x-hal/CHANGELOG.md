@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Update `e310x` dependency and adapt code
+
 ## [v0.12.0] - 2024-12-10
 
 ### Changed

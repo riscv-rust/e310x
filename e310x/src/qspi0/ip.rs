@@ -25,12 +25,12 @@ impl R {
 impl W {
     #[doc = "Bit 0 - Transmit watermark enable"]
     #[inline(always)]
-    pub fn txwm(&mut self) -> TxwmW<IpSpec> {
+    pub fn txwm(&mut self) -> TxwmW<'_, IpSpec> {
         TxwmW::new(self, 0)
     }
     #[doc = "Bit 1 - Receive watermark enable"]
     #[inline(always)]
-    pub fn rxwm(&mut self) -> RxwmW<IpSpec> {
+    pub fn rxwm(&mut self) -> RxwmW<'_, IpSpec> {
         RxwmW::new(self, 1)
     }
 }
