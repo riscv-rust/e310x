@@ -15,9 +15,26 @@ pub enum EventType {
     Rise,
     /// Falling edge event
     Fall,
+    /// Both levels event
+    ///
+    /// # Note
+    ///
+    /// In the methods that check if an interrupt is enabled or pending,
+    /// this event type works like an **any** operator between `High` and `Low` events.
+    BothLevels,
     /// Both edges event
+    ///
+    /// # Note
+    ///
+    /// In the methods that check if an interrupt is enabled or pending,
+    /// this event type works like an **any** operator between `Rise` and `Fall` events.
     BothEdges,
     /// All events
+    ///
+    /// # Note
+    ///
+    /// In the methods that check if an interrupt is enabled or pending,
+    /// this event type works like an **any** operator between all event types.
     All,
 }
 
@@ -34,9 +51,9 @@ pub trait GpioExt {
     /// # Note
     ///
     ///  This function does not enable the interrupts in the PLIC, it only sets the
-    /// interrupt enable bit in the GPIO peripheral. You must call
-    /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) on the pin to enable its interrupt in
-    /// the PLIC.
+    /// interrupt enable bits in the GPIO peripheral. You must call the
+    /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) method of every pin
+    /// to enable their interrupt in the PLIC.
     fn enable_interrupts(event: EventType);
 
     /// Disables the specified interrupt event for all the GPIO pins.
@@ -222,6 +239,12 @@ macro_rules! gpio {
                         EventType::Low => {
                             unsafe{ p.low_ie().write(|w| w.bits(0xFFFFFFFF)) };
                         }
+                        EventType::BothLevels => {
+                            unsafe {
+                                p.high_ie().write(|w| w.bits(0xFFFFFFFF));
+                                p.low_ie().write(|w| w.bits(0xFFFFFFFF));
+                            }
+                        }
                         EventType::Rise => {
                             unsafe{ p.rise_ie().write(|w| w.bits(0xFFFFFFFF)) };
                         }
@@ -255,6 +278,12 @@ macro_rules! gpio {
                         EventType::Low => {
                             unsafe { p.low_ie().write(|w| w.bits(0x00000000)); }
                         }
+                        EventType::BothLevels => {
+                            unsafe {
+                                p.high_ie().write(|w| w.bits(0x00000000));
+                                p.low_ie().write(|w| w.bits(0x00000000));
+                            }
+                        }
                         EventType::Rise => {
                             unsafe { p.rise_ie().write(|w| w.bits(0x00000000)); }
                         }
@@ -287,6 +316,12 @@ macro_rules! gpio {
                         }
                         EventType::Low => {
                             unsafe { p.low_ip().write(|w| w.bits(0xFFFFFFFF)); }
+                        }
+                        EventType::BothLevels => {
+                            unsafe {
+                                p.high_ip().write(|w| w.bits(0xFFFFFFFF));
+                                p.low_ip().write(|w| w.bits(0xFFFFFFFF));
+                            }
                         }
                         EventType::Rise => {
                             unsafe { p.rise_ip().write(|w| w.bits(0xFFFFFFFF)); }
@@ -415,8 +450,8 @@ macro_rules! gpio {
                     /// # Note
                     ///
                     /// This function enables the external interrupt source in the PLIC,
-                    /// but does not enable the PLIC peripheral itself. To enable the plic peripheral
-                    /// you must call [`Plic::enable()`](riscv-peripheral::plic::enables::ENABLES::enable).
+                    /// but does not enable the PLIC peripheral itself. For more details,
+                    /// refer to the [`e310x::Plic`] documentation.
                     ///
                     /// # Safety
                     ///
@@ -432,7 +467,7 @@ macro_rules! gpio {
                         ctx.enables().disable(ExternalInterrupt::$handle);
                     }
 
-                    /// Returns if the external interrupt source for the pin is enabled.
+                    /// Returns whether the external interrupt source for the pin is enabled.
                     pub fn is_exti_enabled(&self, plic: &Plic) -> bool {
                         let ctx = plic.ctx0();
                         ctx.enables().is_enabled(ExternalInterrupt::$handle)
@@ -473,6 +508,12 @@ macro_rules! gpio {
                             EventType::Low => {
                                 unsafe { gpio_block.low_ie().modify(|r, w| w.bits(r.bits() | pin_mask)); }
                             }
+                            EventType::BothLevels => {
+                                unsafe {
+                                    gpio_block.high_ie().modify(|r, w| w.bits(r.bits() | pin_mask));
+                                    gpio_block.low_ie().modify(|r, w| w.bits(r.bits() | pin_mask));
+                                }
+                            }
                             EventType::Rise => {
                                 unsafe { gpio_block.rise_ie().modify(|r, w| w.bits(r.bits() | pin_mask)); }
                             }
@@ -507,6 +548,12 @@ macro_rules! gpio {
                             }
                             EventType::Low => {
                                 unsafe { gpio_block.low_ie().modify(|r, w| w.bits(r.bits() & !pin_mask)); }
+                            }
+                            EventType::BothLevels => {
+                                unsafe {
+                                    gpio_block.high_ie().modify(|r, w| w.bits(r.bits() & !pin_mask));
+                                    gpio_block.low_ie().modify(|r, w| w.bits(r.bits() & !pin_mask));
+                                }
                             }
                             EventType::Rise => {
                                 unsafe { gpio_block.rise_ie().modify(|r, w| w.bits(r.bits() & !pin_mask)); }
@@ -543,6 +590,12 @@ macro_rules! gpio {
                             EventType::Low => {
                                 unsafe { gpio_block.low_ip().write(|w| w.bits(pin_mask)); }
                             }
+                            EventType::BothLevels => {
+                                unsafe {
+                                    gpio_block.high_ip().write(|w| w.bits(pin_mask));
+                                    gpio_block.low_ip().write(|w| w.bits(pin_mask));
+                                }
+                            }
                             EventType::Rise => {
                                 unsafe { gpio_block.rise_ip().write(|w| w.bits(pin_mask)); }
                             }
@@ -570,9 +623,11 @@ macro_rules! gpio {
                     ///
                     ///  # Note
                     ///
-                    ///  Both Edges will return true if either the
-                    ///  rising or falling edge interrupts are enabled
-                    ///  and All will return true if any of the
+                    ///  [EventType::BothEdges] will return true if either the
+                    ///  rising or falling edge interrupts are enabled,
+                    ///  [EventType::BothLevels] will return true if either the
+                    ///  high or low level interrupts are enabled
+                    ///  and [EventType::All] will return true if any of the
                     ///  interrupts are enabled.
                     pub fn is_interrupt_enabled(&self, event: EventType) -> bool {
                         let gpio_block = $GPIOX::peripheral();
@@ -581,6 +636,10 @@ macro_rules! gpio {
                         match event {
                             EventType::High => gpio_block.high_ie().read().bits() & pin_mask != 0,
                             EventType::Low => gpio_block.low_ie().read().bits() & pin_mask != 0,
+                            EventType::BothLevels => {
+                                (gpio_block.high_ie().read().bits() & pin_mask != 0) ||
+                                (gpio_block.low_ie().read().bits() & pin_mask != 0)
+                            }
                             EventType::Rise => gpio_block.rise_ie().read().bits() & pin_mask != 0,
                             EventType::Fall => gpio_block.fall_ie().read().bits() & pin_mask != 0,
                             EventType::BothEdges => {
@@ -600,9 +659,11 @@ macro_rules! gpio {
                     ///
                     ///  # Note
                     ///
-                    ///  Both Edges will return true if either the
-                    ///  rising or falling edge interrupts are pending
-                    ///  and All will return true if any of the
+                    ///  [EventType::BothEdges] will return true if either the
+                    ///  rising or falling edge interrupts are pending,
+                    ///  [EventType::BothLevels] will return true if either the
+                    ///  high or low level interrupts are pending
+                    ///  and [EventType::All] will return true if any of the
                     ///  interrupts are pending.
                     pub fn is_interrupt_pending(&self, event: EventType) -> bool {
                         let gpio_block = $GPIOX::peripheral();
@@ -611,6 +672,10 @@ macro_rules! gpio {
                         match event {
                             EventType::High => gpio_block.high_ip().read().bits() & pin_mask != 0,
                             EventType::Low => gpio_block.low_ip().read().bits() & pin_mask != 0,
+                            EventType::BothLevels => {
+                                (gpio_block.high_ip().read().bits() & pin_mask != 0) ||
+                                (gpio_block.low_ip().read().bits() & pin_mask != 0)
+                            }
                             EventType::Rise => gpio_block.rise_ip().read().bits() & pin_mask != 0,
                             EventType::Fall => gpio_block.fall_ip().read().bits() & pin_mask != 0,
                             EventType::BothEdges => {
