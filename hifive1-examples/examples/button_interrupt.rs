@@ -6,7 +6,11 @@ use core::cell::RefCell;
 use critical_section::Mutex;
 use hifive1::{
     clock,
-    hal::{DeviceResources, gpio::{Input, PullUp, EventType, gpio0}, e310x::Gpio0, prelude::*},
+    hal::{
+        gpio::{gpio0, EventType, Input, PullUp},
+        prelude::*,
+        DeviceResources,
+    },
     pin, sprintln, stdout, Led,
 };
 extern crate panic_halt;
@@ -21,12 +25,12 @@ fn gpio9_handler() {
     critical_section::with(|cs| {
         let button_ref = BUTTON.borrow_ref(cs);
         let button = button_ref.as_ref().unwrap();
-        
+
         // Check the interrupt source
-        if button.is_interrupt_pending(EventType::Rise){
+        if button.is_interrupt_pending(EventType::Rise) {
             sprintln!("Rising Edge");
         }
-        if button.is_interrupt_pending(EventType::Fall){
+        if button.is_interrupt_pending(EventType::Fall) {
             sprintln!("Falling Edge");
         }
 
@@ -45,6 +49,10 @@ fn main() -> ! {
     // Configure clocks
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
 
+    // Disable and clear all GPIO interrupts
+    pins.disable_interrupts(EventType::All);
+    pins.clear_interrupts(EventType::All);
+
     // Configure UART for stdout
     stdout::configure(
         p.UART0,
@@ -55,11 +63,7 @@ fn main() -> ! {
     );
 
     sprintln!("Configuring GPIOs...");
-    
-    // Disable and clear all GPIO interrupts
-    Gpio0::disable_interrupts(EventType::All);
-    Gpio0::clear_interrupts(EventType::All);
-    
+
     // Configure button pin (GPIO9) as pull-up input
     let button = pins.pin9.into_pull_up_input();
     // Configure blue LED pin (GPIO21) as inverted output
@@ -70,7 +74,6 @@ fn main() -> ! {
     let plic = cp.plic;
     let priorities = plic.priorities();
     priorities.reset::<ExternalInterrupt>();
-    unsafe { priorities.set_priority(ExternalInterrupt::GPIO9, Priority::P1) };
 
     // Enable GPIO9 interrupt for both edges
     unsafe { button.set_exti_priority(&plic, Priority::P1) };
@@ -96,7 +99,12 @@ fn main() -> ! {
         // Check if the button is low
         let mut button_state = false;
         critical_section::with(|cs| {
-            button_state = BUTTON.borrow_ref_mut(cs).as_mut().unwrap().is_low().unwrap();
+            button_state = BUTTON
+                .borrow_ref_mut(cs)
+                .as_mut()
+                .unwrap()
+                .is_low()
+                .unwrap();
         });
 
         if button_state {

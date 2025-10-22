@@ -1,7 +1,7 @@
 //! Device resources available in FE310-G000 and FE310-G002 chip packages
 
 use crate::core::CorePeripherals;
-use crate::gpio::{gpio0::*, GpioExt, Unknown};
+use crate::gpio::{gpio0::*, EventType, GpioExt, Unknown};
 use e310x::{
     Aonclk, Backup, Gpio0, Otp, Peripherals, Pmu, Prci, Pwm0, Pwm1, Pwm2, Qspi0, Qspi1, Rtc, Uart0,
     Wdog,
@@ -90,6 +90,117 @@ pub struct DeviceGpioPins {
     pub pin22: Pin22<Unknown>,
     /// GPIO 23, package pin 45
     pub pin23: Pin23<Unknown>,
+}
+
+impl DeviceGpioPins {
+    /// Enables the specified interrupt event for all the GPIO pins.
+    ///
+    /// # Note
+    ///
+    ///  This function does not enable the interrupts in the PLIC, it only sets the
+    /// interrupt enable bits in the GPIO peripheral. You must call the
+    /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) method of every pin
+    /// to enable their interrupt in the PLIC.
+    pub fn enable_interrupts(&self, event: EventType) {
+        let gpio = unsafe { Gpio0::steal() };
+
+        match event {
+            EventType::High => {
+                unsafe { gpio.high_ie().write(|w| w.bits(0xFFFFFFFF)) };
+            }
+            EventType::Low => {
+                unsafe { gpio.low_ie().write(|w| w.bits(0xFFFFFFFF)) };
+            }
+            EventType::BothLevels => unsafe {
+                gpio.high_ie().write(|w| w.bits(0xFFFFFFFF));
+                gpio.low_ie().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::Rise => {
+                unsafe { gpio.rise_ie().write(|w| w.bits(0xFFFFFFFF)) };
+            }
+            EventType::Fall => {
+                unsafe { gpio.fall_ie().write(|w| w.bits(0xFFFFFFFF)) };
+            }
+            EventType::BothEdges => unsafe {
+                gpio.rise_ie().write(|w| w.bits(0xFFFFFFFF));
+                gpio.fall_ie().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::All => unsafe {
+                gpio.high_ie().write(|w| w.bits(0xFFFFFFFF));
+                gpio.low_ie().write(|w| w.bits(0xFFFFFFFF));
+                gpio.rise_ie().write(|w| w.bits(0xFFFFFFFF));
+                gpio.fall_ie().write(|w| w.bits(0xFFFFFFFF));
+            },
+        }
+    }
+
+    /// Disables the specified interrupt event for all the GPIO pins.
+    pub fn disable_interrupts(&self, event: EventType) {
+        let gpio = unsafe { Gpio0::steal() };
+
+        match event {
+            EventType::High => unsafe {
+                gpio.high_ie().write(|w| w.bits(0x00000000));
+            },
+            EventType::Low => unsafe {
+                gpio.low_ie().write(|w| w.bits(0x00000000));
+            },
+            EventType::BothLevels => unsafe {
+                gpio.high_ie().write(|w| w.bits(0x00000000));
+                gpio.low_ie().write(|w| w.bits(0x00000000));
+            },
+            EventType::Rise => unsafe {
+                gpio.rise_ie().write(|w| w.bits(0x00000000));
+            },
+            EventType::Fall => unsafe {
+                gpio.fall_ie().write(|w| w.bits(0x00000000));
+            },
+            EventType::BothEdges => unsafe {
+                gpio.rise_ie().write(|w| w.bits(0x00000000));
+                gpio.fall_ie().write(|w| w.bits(0x00000000));
+            },
+            EventType::All => unsafe {
+                gpio.high_ie().write(|w| w.bits(0x00000000));
+                gpio.low_ie().write(|w| w.bits(0x00000000));
+                gpio.rise_ie().write(|w| w.bits(0x00000000));
+                gpio.fall_ie().write(|w| w.bits(0x00000000));
+            },
+        }
+    }
+
+    /// Clears the specified interrupt event pending flag for all the GPIO pins.
+    pub fn clear_interrupts(&self, event: EventType) {
+        let gpio = unsafe { Gpio0::steal() };
+
+        match event {
+            EventType::High => unsafe {
+                gpio.high_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::Low => unsafe {
+                gpio.low_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::BothLevels => unsafe {
+                gpio.high_ip().write(|w| w.bits(0xFFFFFFFF));
+                gpio.low_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::Rise => unsafe {
+                gpio.rise_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::Fall => unsafe {
+                gpio.fall_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::BothEdges => unsafe {
+                gpio.rise_ip().write(|w| w.bits(0xFFFFFFFF));
+                gpio.fall_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+            EventType::All => unsafe {
+                gpio.high_ip().write(|w| w.bits(0xFFFFFFFF));
+                gpio.low_ip().write(|w| w.bits(0xFFFFFFFF));
+                gpio.rise_ip().write(|w| w.bits(0xFFFFFFFF));
+                gpio.fall_ip().write(|w| w.bits(0xFFFFFFFF));
+            },
+        }
+    }
 }
 
 impl From<Gpio0> for DeviceGpioPins {

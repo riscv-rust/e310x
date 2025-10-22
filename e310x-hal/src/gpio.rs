@@ -45,22 +45,6 @@ pub trait GpioExt {
 
     /// Splits the GPIO block into independent pins and registers.
     fn split(self) -> Self::Parts;
-
-    /// Enables the specified interrupt event for all the GPIO pins.
-    ///
-    /// # Note
-    ///
-    ///  This function does not enable the interrupts in the PLIC, it only sets the
-    /// interrupt enable bits in the GPIO peripheral. You must call the
-    /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) method of every pin
-    /// to enable their interrupt in the PLIC.
-    fn enable_interrupts(event: EventType);
-
-    /// Disables the specified interrupt event for all the GPIO pins.
-    fn disable_interrupts(event: EventType);
-
-    /// Clears the specified interrupt event pending flag for all the GPIO pins.
-    fn clear_interrupts(event: EventType);
 }
 
 /// Unknown mode (type state)
@@ -228,125 +212,7 @@ macro_rules! gpio {
                         )+
                     }
                 }
-
-                fn enable_interrupts(event: EventType) {
-                    let p = Self::peripheral();
-
-                    match event {
-                        EventType::High => {
-                            unsafe { p.high_ie().write(|w| w.bits(0xFFFFFFFF)) };
-                        }
-                        EventType::Low => {
-                            unsafe{ p.low_ie().write(|w| w.bits(0xFFFFFFFF)) };
-                        }
-                        EventType::BothLevels => {
-                            unsafe {
-                                p.high_ie().write(|w| w.bits(0xFFFFFFFF));
-                                p.low_ie().write(|w| w.bits(0xFFFFFFFF));
-                            }
-                        }
-                        EventType::Rise => {
-                            unsafe{ p.rise_ie().write(|w| w.bits(0xFFFFFFFF)) };
-                        }
-                        EventType::Fall => {
-                            unsafe{ p.fall_ie().write(|w| w.bits(0xFFFFFFFF)) };
-                        }
-                        EventType::BothEdges => {
-                            unsafe {
-                                p.rise_ie().write(|w| w.bits(0xFFFFFFFF));
-                                p.fall_ie().write(|w| w.bits(0xFFFFFFFF));
-                            }
-                        }
-                        EventType::All => {
-                            unsafe {
-                                p.high_ie().write(|w| w.bits(0xFFFFFFFF));
-                                p.low_ie().write(|w| w.bits(0xFFFFFFFF));
-                                p.rise_ie().write(|w| w.bits(0xFFFFFFFF));
-                                p.fall_ie().write(|w| w.bits(0xFFFFFFFF));
-                            }
-                        }
-                    }
-                }
-
-                fn disable_interrupts(event: EventType) {
-                    let p = Self::peripheral();
-
-                    match event {
-                        EventType::High => {
-                            unsafe { p.high_ie().write(|w| w.bits(0x00000000)); }
-                        }
-                        EventType::Low => {
-                            unsafe { p.low_ie().write(|w| w.bits(0x00000000)); }
-                        }
-                        EventType::BothLevels => {
-                            unsafe {
-                                p.high_ie().write(|w| w.bits(0x00000000));
-                                p.low_ie().write(|w| w.bits(0x00000000));
-                            }
-                        }
-                        EventType::Rise => {
-                            unsafe { p.rise_ie().write(|w| w.bits(0x00000000)); }
-                        }
-                        EventType::Fall => {
-                            unsafe { p.fall_ie().write(|w| w.bits(0x00000000)); }
-                        }
-                        EventType::BothEdges => {
-                            unsafe {
-                                p.rise_ie().write(|w| w.bits(0x00000000));
-                                p.fall_ie().write(|w| w.bits(0x00000000));
-                            }
-                        }
-                        EventType::All => {
-                            unsafe {
-                                p.high_ie().write(|w| w.bits(0x00000000));
-                                p.low_ie().write(|w| w.bits(0x00000000));
-                                p.rise_ie().write(|w| w.bits(0x00000000));
-                                p.fall_ie().write(|w| w.bits(0x00000000));
-                            }
-                        }
-                    }
-                }
-
-                fn clear_interrupts(event: EventType) {
-                    let p = Self::peripheral();
-
-                    match event {
-                        EventType::High => {
-                            unsafe { p.high_ip().write(|w| w.bits(0xFFFFFFFF)); }
-                        }
-                        EventType::Low => {
-                            unsafe { p.low_ip().write(|w| w.bits(0xFFFFFFFF)); }
-                        }
-                        EventType::BothLevels => {
-                            unsafe {
-                                p.high_ip().write(|w| w.bits(0xFFFFFFFF));
-                                p.low_ip().write(|w| w.bits(0xFFFFFFFF));
-                            }
-                        }
-                        EventType::Rise => {
-                            unsafe { p.rise_ip().write(|w| w.bits(0xFFFFFFFF)); }
-                        }
-                        EventType::Fall => {
-                            unsafe { p.fall_ip().write(|w| w.bits(0xFFFFFFFF)); }
-                        }
-                        EventType::BothEdges => {
-                            unsafe {
-                                p.rise_ip().write(|w| w.bits(0xFFFFFFFF));
-                                p.fall_ip().write(|w| w.bits(0xFFFFFFFF));
-                            }
-                        }
-                        EventType::All => {
-                            unsafe {
-                                p.high_ip().write(|w| w.bits(0xFFFFFFFF));
-                                p.low_ip().write(|w| w.bits(0xFFFFFFFF));
-                                p.rise_ip().write(|w| w.bits(0xFFFFFFFF));
-                                p.fall_ip().write(|w| w.bits(0xFFFFFFFF));
-                            }
-                        }
-                    }
-                }
             }
-
 
             $(
                 /// Pin
