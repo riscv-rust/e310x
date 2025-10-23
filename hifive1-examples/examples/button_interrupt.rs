@@ -70,15 +70,26 @@ fn main() -> ! {
     let mut led = pin!(pins, led_blue).into_inverted_output();
 
     sprintln!("Configuring external interrupts...");
-    // Set button interrupt source priority
+
+    // Make sure interrupts are disabled
+    riscv::interrupt::disable();
+
+    // Reset PLIC interrupts and set priority threshold
     let plic = cp.plic;
     let priorities = plic.priorities();
+    let ctx = plic.ctx0();
     priorities.reset::<ExternalInterrupt>();
-    unsafe { priorities.set_priority(ExternalInterrupt::GPIO9, Priority::P1) };
+    unsafe {
+        ctx.enables().disable_all::<ExternalInterrupt>();
+        ctx.threshold().set_threshold(Priority::P0);
+    }
 
     // Enable GPIO9 interrupt for both edges
-    unsafe { button.set_exti_priority(&plic, Priority::P1) };
     button.enable_interrupt(EventType::BothEdges);
+    unsafe {
+        button.set_exti_priority(&plic, Priority::P1);
+        button.enable_exti(&plic);
+    }
 
     // Store button pin in a shared resource
     critical_section::with(|cs| {
@@ -86,12 +97,9 @@ fn main() -> ! {
     });
 
     sprintln!("Enabling external interrupts...");
-    // Enable GPIO9 interrupt in PLIC
-    let ctx = plic.ctx0();
+
+    // Enable global interrupts
     unsafe {
-        ctx.enables().disable_all::<ExternalInterrupt>();
-        ctx.threshold().set_threshold(Priority::P0);
-        ctx.enables().enable(ExternalInterrupt::GPIO9);
         riscv::interrupt::enable();
         plic.enable();
     }
