@@ -2,28 +2,41 @@
 #![no_main]
 #![no_std]
 
+use core::cell::RefCell;
+use critical_section::Mutex;
 use hifive1::{
     clock,
-    hal::DeviceResources,
-    hal::{e310x::Gpio0, prelude::*},
+    hal::{
+        gpio::{gpio0, EventType, Input, PullUp},
+        prelude::*,
+        DeviceResources,
+    },
     pin, sprintln, stdout, Led,
 };
 extern crate panic_halt;
+
+static BUTTON: Mutex<RefCell<Option<gpio0::Pin9<Input<PullUp>>>>> = Mutex::new(RefCell::new(None));
 
 /* Handler for the GPIO9 interrupt */
 #[riscv_rt::external_interrupt(ExternalInterrupt::GPIO9)]
 fn gpio9_handler() {
     sprintln!("GPIO9 interrupt!");
-    // Clear the GPIO pending interrupt
-    let gpio_block = unsafe { Gpio0::steal() };
-    let _prev_fall = gpio_block.fall_ip().read().pin9().bit_is_set();
-    let _prev_rise = gpio_block.rise_ip().read().pin9().bit_is_set();
-    // Clear the interrupt by writing 1 to the pending bit
-    gpio_block.fall_ip().write(|w| w.pin9().set_bit());
-    gpio_block.rise_ip().write(|w| w.pin9().set_bit());
-    let _post_fall = gpio_block.fall_ip().read().pin9().bit_is_set();
-    let _post_rise = gpio_block.rise_ip().read().pin9().bit_is_set();
-    let _ok = _prev_fall || _prev_rise; // Ensure we cleared the interrupt
+    // Take the button
+    critical_section::with(|cs| {
+        let mut button_ref = BUTTON.borrow_ref_mut(cs);
+        let button = button_ref.as_mut().unwrap();
+
+        // Check the interrupt source
+        if button.is_interrupt_pending(EventType::Rise) {
+            sprintln!("Rising Edge");
+        }
+        if button.is_interrupt_pending(EventType::Fall) {
+            sprintln!("Falling Edge");
+        }
+
+        // Clear the interrupt
+        button.clear_interrupt(EventType::BothEdges);
+    });
 }
 
 #[riscv_rt::entry]
@@ -31,10 +44,14 @@ fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
     let cp = dr.core_peripherals;
     let p = dr.peripherals;
-    let pins = dr.pins;
+    let mut pins = dr.pins;
 
     // Configure clocks
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
+
+    // Disable and clear all GPIO interrupts
+    pins.disable_interrupts(EventType::All);
+    pins.clear_interrupts(EventType::All);
 
     // Configure UART for stdout
     stdout::configure(
@@ -46,47 +63,60 @@ fn main() -> ! {
     );
 
     sprintln!("Configuring GPIOs...");
+
     // Configure button pin (GPIO9) as pull-up input
     let mut button = pins.pin9.into_pull_up_input();
     // Configure blue LED pin (GPIO21) as inverted output
     let mut led = pin!(pins, led_blue).into_inverted_output();
 
     sprintln!("Configuring external interrupts...");
-    // Set button interrupt source priority
+
+    // Make sure interrupts are disabled
+    riscv::interrupt::disable();
+
+    // Reset PLIC interrupts and set priority threshold
     let plic = cp.plic;
     let priorities = plic.priorities();
-    priorities.reset::<ExternalInterrupt>();
-    unsafe { priorities.set_priority(ExternalInterrupt::GPIO9, Priority::P1) };
-
-    // Enable GPIO9 interrupt for both edges
-    let gpio_block = unsafe { Gpio0::steal() };
-    unsafe {
-        // Clear pending interrupts from previous states
-        gpio_block.low_ie().write(|w| w.bits(0x00000000));
-        gpio_block.high_ie().write(|w| w.bits(0x00000000));
-        gpio_block.fall_ie().write(|w| w.bits(0x00000000));
-        gpio_block.rise_ie().write(|w| w.bits(0x00000000));
-        gpio_block.low_ip().write(|w| w.bits(0xffffffff));
-        gpio_block.high_ip().write(|w| w.bits(0xffffffff));
-        gpio_block.fall_ip().write(|w| w.bits(0xffffffff));
-        gpio_block.rise_ip().write(|w| w.bits(0xffffffff));
-    }
-    gpio_block.fall_ie().write(|w| w.pin9().set_bit());
-    gpio_block.rise_ie().write(|w| w.pin9().set_bit());
-
-    sprintln!("Enabling external interrupts...");
-    // Enable GPIO9 interrupt in PLIC
     let ctx = plic.ctx0();
+    priorities.reset::<ExternalInterrupt>();
     unsafe {
         ctx.enables().disable_all::<ExternalInterrupt>();
         ctx.threshold().set_threshold(Priority::P0);
-        ctx.enables().enable(ExternalInterrupt::GPIO9);
+    }
+
+    // Enable GPIO9 interrupt for both edges
+    button.enable_interrupt(EventType::BothEdges);
+    unsafe {
+        button.set_exti_priority(&plic, Priority::P1);
+        button.enable_exti(&plic);
+    }
+
+    // Store button pin in a shared resource
+    critical_section::with(|cs| {
+        BUTTON.borrow(cs).replace(Some(button));
+    });
+
+    sprintln!("Enabling external interrupts...");
+
+    // Enable global interrupts
+    unsafe {
         riscv::interrupt::enable();
         plic.enable();
     }
 
     loop {
-        if button.is_low().unwrap() {
+        // Check if the button is low
+        let mut button_state = false;
+        critical_section::with(|cs| {
+            button_state = BUTTON
+                .borrow_ref_mut(cs)
+                .as_mut()
+                .unwrap()
+                .is_low()
+                .unwrap();
+        });
+
+        if button_state {
             sprintln!("Button pressed");
             led.on();
         } else {
