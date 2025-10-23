@@ -322,13 +322,13 @@ macro_rules! gpio {
                     /// # Safety
                     ///
                     /// Enabling an interrupt source can break mask-based critical sections.
-                    pub unsafe fn enable_exti(&self, plic: &Plic) {
+                    pub unsafe fn enable_exti(&mut self, plic: &Plic) {
                         let ctx = plic.ctx0();
                         ctx.enables().enable(ExternalInterrupt::$handle);
                     }
 
                     /// Disables the external interrupt source for the pin.
-                    pub fn disable_exti(&self, plic: &Plic) {
+                    pub fn disable_exti(&mut self, plic: &Plic) {
                         let ctx = plic.ctx0();
                         ctx.enables().disable(ExternalInterrupt::$handle);
                     }
@@ -344,7 +344,7 @@ macro_rules! gpio {
                     ///  # Safety
                     ///
                     ///  Changing the priority level can break priority-based critical sections.
-                    pub unsafe fn set_exti_priority(&self, plic: &Plic, priority: Priority) {
+                    pub unsafe fn set_exti_priority(&mut self, plic: &Plic, priority: Priority) {
                         let priorities = plic.priorities();
                         priorities.set_priority(ExternalInterrupt::$handle, priority);
                     }
@@ -363,7 +363,7 @@ macro_rules! gpio {
                     /// interrupt enable bit in the GPIO peripheral. You must call
                     /// [`enable_exti()`](Self::enable_exti) to enable the interrupt in
                     /// the PLIC.
-                    pub fn enable_interrupt(&self, event: EventType) {
+                    pub fn enable_interrupt(&mut self, event: EventType) {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
@@ -404,7 +404,7 @@ macro_rules! gpio {
                     }
 
                     /// Disables the selected interrupts for the pin in the interrupt enable registers
-                    pub fn disable_interrupt(&self, event: EventType) {
+                    pub fn disable_interrupt(&mut self, event: EventType) {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 
@@ -445,7 +445,7 @@ macro_rules! gpio {
                     }
 
                     /// Clears pending interrupts for the selected pin interrupts.
-                    pub fn clear_interrupt(&self, event: EventType) {
+                    pub fn clear_interrupt(&mut self, event: EventType) {
                         let gpio_block = $GPIOX::peripheral();
                         let pin_mask = 1 << $i;
 

@@ -101,7 +101,7 @@ impl DeviceGpioPins {
     /// interrupt enable bits in the GPIO peripheral. You must call the
     /// [`enable_exti()`](super::gpio::gpio0::Pin0::enable_exti) method of every pin
     /// to enable their interrupt in the PLIC.
-    pub fn enable_interrupts(&self, event: EventType) {
+    pub fn enable_interrupts(&mut self, event: EventType) {
         let gpio = unsafe { Gpio0::steal() };
 
         match event {
@@ -135,7 +135,7 @@ impl DeviceGpioPins {
     }
 
     /// Disables the specified interrupt event for all the GPIO pins.
-    pub fn disable_interrupts(&self, event: EventType) {
+    pub fn disable_interrupts(&mut self, event: EventType) {
         let gpio = unsafe { Gpio0::steal() };
 
         match event {
@@ -169,7 +169,7 @@ impl DeviceGpioPins {
     }
 
     /// Clears the specified interrupt event pending flag for all the GPIO pins.
-    pub fn clear_interrupts(&self, event: EventType) {
+    pub fn clear_interrupts(&mut self, event: EventType) {
         let gpio = unsafe { Gpio0::steal() };
 
         match event {

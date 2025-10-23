@@ -23,8 +23,8 @@ fn gpio9_handler() {
     sprintln!("GPIO9 interrupt!");
     // Take the button
     critical_section::with(|cs| {
-        let button_ref = BUTTON.borrow_ref(cs);
-        let button = button_ref.as_ref().unwrap();
+        let mut button_ref = BUTTON.borrow_ref_mut(cs);
+        let button = button_ref.as_mut().unwrap();
 
         // Check the interrupt source
         if button.is_interrupt_pending(EventType::Rise) {
@@ -44,7 +44,7 @@ fn main() -> ! {
     let dr = DeviceResources::take().unwrap();
     let cp = dr.core_peripherals;
     let p = dr.peripherals;
-    let pins = dr.pins;
+    let mut pins = dr.pins;
 
     // Configure clocks
     let clocks = clock::configure(p.PRCI, p.AONCLK, 320.mhz().into());
@@ -65,7 +65,7 @@ fn main() -> ! {
     sprintln!("Configuring GPIOs...");
 
     // Configure button pin (GPIO9) as pull-up input
-    let button = pins.pin9.into_pull_up_input();
+    let mut button = pins.pin9.into_pull_up_input();
     // Configure blue LED pin (GPIO21) as inverted output
     let mut led = pin!(pins, led_blue).into_inverted_output();
 
@@ -74,6 +74,7 @@ fn main() -> ! {
     let plic = cp.plic;
     let priorities = plic.priorities();
     priorities.reset::<ExternalInterrupt>();
+    unsafe { priorities.set_priority(ExternalInterrupt::GPIO9, Priority::P1) };
 
     // Enable GPIO9 interrupt for both edges
     unsafe { button.set_exti_priority(&plic, Priority::P1) };
