@@ -6,13 +6,19 @@ macro_rules! impl_pmu_enum_traits {
     ($name:ident, $default:expr) => {
         impl From<$name> for u8 {
             #[inline(always)]
-            fn from(variant: $name) -> Self { variant as _ }
+            fn from(variant: $name) -> Self {
+                variant as _
+            }
         }
-        impl crate::FieldSpec for $name { type Ux = u8; }
+        impl crate::FieldSpec for $name {
+            type Ux = u8;
+        }
         impl crate::IsEnum for $name {}
         impl Default for $name {
             #[inline(always)]
-            fn default() -> Self { $default }
+            fn default() -> Self {
+                $default
+            }
         }
     };
 }
