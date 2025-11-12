@@ -2,6 +2,32 @@
 pub type R = crate::R<PmucauseSpec>;
 #[doc = "Register `pmucause` writer"]
 pub type W = crate::W<PmucauseSpec>;
+macro_rules! impl_pmu_enum_traits {
+    ($name:ident, $default:expr) => {
+        impl From<$name> for u8 {
+            #[inline(always)]
+            fn from(variant: $name) -> Self { variant as _ }
+        }
+        impl crate::FieldSpec for $name { type Ux = u8; }
+        impl crate::IsEnum for $name {}
+        impl Default for $name {
+            #[inline(always)]
+            fn default() -> Self { $default }
+        }
+    };
+}
+/// Bit width for WAKEUPCAUSE field.
+const WAKEUPCAUSE_WIDTH: u32 = 2;
+/// Bit mask for WAKEUPCAUSE field.
+const WAKEUPCAUSE_MASK: u32 = (1 << WAKEUPCAUSE_WIDTH) - 1;
+/// Bit offset for WAKEUPCAUSE field.
+const WAKEUPCAUSE_OFFSET: u8 = 0;
+/// Bit width for RESETCAUSE field.
+const RESETCAUSE_WIDTH: u32 = 2;
+/// Bit mask for RESETCAUSE field.
+const RESETCAUSE_MASK: u32 = (1 << RESETCAUSE_WIDTH) - 1;
+/// Bit offset for RESETCAUSE field.
+const RESETCAUSE_OFFSET: u8 = 8;
 #[doc = "\n\nValue on reset: 0"]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
@@ -13,16 +39,7 @@ pub enum Wakeupcause {
     #[doc = "2: Digital input wakeup"]
     Digital = 2,
 }
-impl From<Wakeupcause> for u8 {
-    #[inline(always)]
-    fn from(variant: Wakeupcause) -> Self {
-        variant as _
-    }
-}
-impl crate::FieldSpec for Wakeupcause {
-    type Ux = u8;
-}
-impl crate::IsEnum for Wakeupcause {}
+impl_pmu_enum_traits!(Wakeupcause, Wakeupcause::Reset);
 #[doc = "Field `wakeupcause` reader - "]
 pub type WakeupcauseR = crate::FieldReader<Wakeupcause>;
 impl WakeupcauseR {
@@ -86,16 +103,7 @@ pub enum Resetcause {
     #[doc = "2: Watchdog reset"]
     Watchdog = 2,
 }
-impl From<Resetcause> for u8 {
-    #[inline(always)]
-    fn from(variant: Resetcause) -> Self {
-        variant as _
-    }
-}
-impl crate::FieldSpec for Resetcause {
-    type Ux = u8;
-}
-impl crate::IsEnum for Resetcause {}
+impl_pmu_enum_traits!(Resetcause, Resetcause::PowerOn);
 #[doc = "Field `resetcause` reader - "]
 pub type ResetcauseR = crate::FieldReader<Resetcause>;
 impl ResetcauseR {
@@ -152,24 +160,34 @@ impl R {
     #[doc = "Bits 0:1"]
     #[inline(always)]
     pub fn wakeupcause(&self) -> WakeupcauseR {
-        WakeupcauseR::new((self.bits & 3) as u8)
+        WakeupcauseR::new(((self.bits >> WAKEUPCAUSE_OFFSET as u32) & WAKEUPCAUSE_MASK) as u8)
+    }
+    /// Returns the wakeup cause as an enum, if valid.
+    #[inline(always)]
+    pub fn wakeupcause_enum(&self) -> Option<Wakeupcause> {
+        self.wakeupcause().variant()
     }
     #[doc = "Bits 8:9"]
     #[inline(always)]
     pub fn resetcause(&self) -> ResetcauseR {
-        ResetcauseR::new(((self.bits >> 8) & 3) as u8)
+        ResetcauseR::new(((self.bits >> RESETCAUSE_OFFSET as u32) & RESETCAUSE_MASK) as u8)
+    }
+    /// Returns the reset cause as an enum, if valid.
+    #[inline(always)]
+    pub fn resetcause_enum(&self) -> Option<Resetcause> {
+        self.resetcause().variant()
     }
 }
 impl W {
     #[doc = "Bits 0:1"]
     #[inline(always)]
     pub fn wakeupcause(&mut self) -> WakeupcauseW<'_, PmucauseSpec> {
-        WakeupcauseW::new(self, 0)
+        WakeupcauseW::new(self, WAKEUPCAUSE_OFFSET)
     }
     #[doc = "Bits 8:9"]
     #[inline(always)]
     pub fn resetcause(&mut self) -> ResetcauseW<'_, PmucauseSpec> {
-        ResetcauseW::new(self, 8)
+        ResetcauseW::new(self, RESETCAUSE_OFFSET)
     }
 }
 #[doc = "PMU Cause Register\n\nYou can [`read`](crate::Reg::read) this register and get [`pmucause::R`](R). You can [`reset`](crate::Reg::reset), [`write`](crate::Reg::write), [`write_with_zero`](crate::Reg::write_with_zero) this register using [`pmucause::W`](W). You can also [`modify`](crate::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
