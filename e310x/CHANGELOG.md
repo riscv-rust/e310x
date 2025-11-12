@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Improved pmucause.rs
+
 ### Changed
 
 - The I2C0 code is now gated under the `g002` feature
