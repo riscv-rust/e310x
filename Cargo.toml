@@ -5,6 +5,7 @@ members = [
     "e310x-hal",
     "hifive1",
     "hifive1-examples",
+    "hifive1-async-examples",
 ]
 default-members = [
     "e310x",

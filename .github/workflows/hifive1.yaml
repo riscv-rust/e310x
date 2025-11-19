@@ -11,8 +11,8 @@ jobs:
   build-riscv:
     strategy:
       matrix:
-        # All generated code should be running on stable now, MRSV is 1.76.0
-        toolchain: [nightly, stable, 1.76.0]
+        # All generated code should be running on stable now, MRSV is 1.79.0
+        toolchain: [nightly, stable, 1.79.0]
         board: [hifive1, hifive1-revb, redv, lofive, lofive-r1]
         include:
           # Nightly is only for reference and allowed to fail

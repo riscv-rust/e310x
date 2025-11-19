@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 - Update `e310x-hal` dependency and adapt code
+- Add async feature flag to enable embedded-hal-async digital module support
 
 ## [v0.13.0] - 2024-12-10
 

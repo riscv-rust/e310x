@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update `e310x` dependency and adapt code
 - Add interrupt managing methods to `e310x-hal::gpio` module
+- Add embedded-hal-async digital module support to `e310x-hal::gpio` module
 
 ## [v0.12.0] - 2024-12-10
 

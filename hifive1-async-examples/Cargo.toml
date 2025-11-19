@@ -1,0 +1,15 @@
+[package]
+name = "hifive1-async-examples"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.83"
+
+[dependencies]
+embassy-executor = { version = "0.9.1", features = ["arch-riscv32", "executor-thread"] } #embassy executor for async tasks
+hifive1 = { path = "../hifive1", version = "0.13.0", features = ["board-hifive1-revb", "async"] } # Change to your boardW
+riscv = { workspace = true }
+riscv-rt = { workspace = true, features = [] }
+panic-halt = "1.0.0"
+
+[features]
+v-trap = ["hifive1/v-trap"]
