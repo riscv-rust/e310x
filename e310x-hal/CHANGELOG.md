@@ -8,13 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Changed
+
 - Update `e310x` dependency and adapt code
 - Add interrupt managing methods to `e310x-hal::gpio` module
 - Add embedded-hal-async digital module support to `e310x-hal::gpio` module
+- Add embedded-hal-async delay module support to `e310x-hal`
+- Add embassy-time-driver support to `e310x-hal`
 
 ## [v0.12.0] - 2024-12-10
 
 ### Changed
+
 - Fix `StatefulOutputPin::is_set_high`. It now reads from `output_val`
 - UART traits are implemented now from `embedded-hal-nb` 1.0.0
 - Update `embedded-hal` to 1.0.0
@@ -29,15 +33,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [v0.10.0] - 2023-03-28
 
 ### Added
+
 - Added Pulse Width Modulation interface implementing `embedded_hal::Pwm`
 - Added `interrupt` module for vectored interrupt handlers. This module is only active if feature `virq` is selected.
 
 ### Changed
+
 - Refactored `e310x-hal::spi` module, splitting the abstraction into `SpiBus` and `SpiExclusiveDevice/SpiSharedDevice` to allow multiple devices on a single SPI bus to co-exist
 - Update `e310x` dependency to version 0.11
 - Update `riscv` dependency to version 0.10
 
 ### Removed
+
 - removed interrupt linking definitions, they are now provided by `e310x` via `svd2rust`
 
 ## [v0.9.4] - 2022-07-10

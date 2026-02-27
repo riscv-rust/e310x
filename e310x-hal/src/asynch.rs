@@ -5,5 +5,9 @@
 
 #![deny(missing_docs)]
 
+pub mod delay;
 pub mod digital;
 pub mod prelude;
+
+#[cfg(feature = "embassy")]
+pub mod embassy;
