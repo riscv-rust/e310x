@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Bump MSRV to 1.82.0 required by `riscv`
 - Update `e310x-hal` dependency and adapt code
 - Add async feature flag to enable embedded-hal-async modules support
 - Add embassy feature flag to enable embassy-time-driver module support

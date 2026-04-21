@@ -11,8 +11,9 @@ jobs:
   build-riscv:
     strategy:
       matrix:
-        # All generated code should be running on stable now, MRSV is 1.79.0
-        toolchain: [ stable, nightly, 1.79.0 ]
+        # All generated code should be running on stable now, MRSV is 1.85.0
+        # We need to use 1.85.0 for Rust edition 2024 in embassy-time-driver
+        toolchain: [ stable, nightly, 1.85.0 ]
         include:
           # Nightly is only for reference and allowed to fail
           - toolchain: nightly
