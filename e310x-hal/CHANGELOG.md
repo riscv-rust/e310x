@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Bump MSRV to 1.82.0 required by `riscv`
+- Bump dependency versions (heapless, embedded-io)
+- Bump MSRV to 1.81.0 required by `riscv`
 - Update `e310x` dependency and adapt code
 - Add interrupt managing methods to `e310x-hal::gpio` module
 - Add embedded-hal-async digital module support to `e310x-hal::gpio` module
