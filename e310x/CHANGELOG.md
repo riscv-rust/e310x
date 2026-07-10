@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Bump MSRV to 1.81.0 required by `riscv`
 - The I2C0 code is now gated under the `g002` feature
 - Regenerate code with `svd2rust` 0.37.0
-- Use `riscv` v0.16.0, `riscv-peripheral` v0.5.0, and `riscv-rt` v0.17.1
+- Use `riscv` v0.16.1, `riscv-peripheral` v0.5.1, and `riscv-rt` v0.18.0
 - In vectored mode, align `mtvec` to 64 bytes
 
 ## [v0.12.0] - 2024-12-10

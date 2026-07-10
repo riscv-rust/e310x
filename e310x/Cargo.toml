@@ -14,7 +14,7 @@ edition = "2021"
 critical-section = { workspace = true, optional = true }
 riscv = { workspace = true }
 riscv-peripheral = { workspace = true }
-riscv-rt = { workspace = true, optional = true, features = ["no-interrupts", "single-hart"] }
+riscv-rt = { workspace = true, optional = true, features = ["custom-interrupts", "single-hart"] }
 vcell = "0.1.3"
 
 [features]
