@@ -28,7 +28,7 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
                     let mut i2cwaker = I2C_WAKER.borrow_ref_mut(cs);
                     *i2cwaker = Some(cx.waker().clone())
                 });
-                // Turn on i2c interrupt
+                // Turn on I2C interrupt
                 self.enable_interrupt();
                 Poll::Pending
             }
@@ -48,7 +48,7 @@ impl<I2C: I2cX, PINS> I2c<I2C, PINS> {
                         let mut i2cwaker = I2C_WAKER.borrow_ref_mut(cs);
                         *i2cwaker = Some(cx.waker().clone())
                     });
-                    // Turn on i2c interrupt
+                    // Turn on I2C interrupt
                     self.enable_interrupt();
                     Poll::Pending
                 }

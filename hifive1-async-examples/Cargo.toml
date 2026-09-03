@@ -19,8 +19,9 @@ panic-halt = "1.0.0"
 embassy-time = { version = "0.5.0" }
 
 # Specific devices
-embedded-devices = { version = "0.10.2", features = ["async", "bosch-bme280"] }
-uom = { version = "0.37.0", default-features = false, features = ["f32", "si"] }
+bme280-rs = { version = "0.4.1", default-features = false, features = [
+    "async",
+] }
 
 [features]
 v-trap = ["hifive1/v-trap"]

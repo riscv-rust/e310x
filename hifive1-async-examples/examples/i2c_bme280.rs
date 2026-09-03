@@ -5,10 +5,8 @@
 #![no_std]
 #![no_main]
 
+use bme280_rs::{AsyncBme280, Configuration, Filter, Oversampling, SensorMode};
 use embassy_executor::Spawner;
-use embedded_devices::devices::bosch::bme280::registers::{IIRFilter, Oversampling};
-use embedded_devices::devices::bosch::bme280::{address::Address, BME280Async, Configuration};
-use embedded_devices::sensor::OneshotSensorAsync;
 use hifive1::{
     clock,
     hal::{
@@ -21,7 +19,6 @@ use hifive1::{
     },
     sprintln,
 };
-use uom::si::{pressure::pascal, ratio::percent, thermodynamic_temperature::degree_celsius};
 extern crate panic_halt;
 
 #[embassy_executor::main]
@@ -37,10 +34,16 @@ async fn main(_spawner: Spawner) -> ! {
     // Configure UART for stdout
     hifive1::stdout::configure(p.UART0, pins.pin17, pins.pin16, 115_200.bps(), clocks);
 
+    sprintln!("Configuring I2C...");
+
     // I2C configuration
     let sda = pins.pin12.into_iof0();
     let scl = pins.pin13.into_iof0();
     let mut i2c = I2c::new(p.I2C0, sda, scl, Speed::Normal, clocks);
+
+    // Disable and clear pending I2C interrupts from previous states
+    i2c.disable_interrupt();
+    i2c.clear_interrupt();
 
     // Get the MTIMER peripheral from CLINT
     let mtimer = cp.clint.mtimer();
@@ -51,48 +54,66 @@ async fn main(_spawner: Spawner) -> ! {
     let mut delay = Delay::new(mtimer);
     const STEP: u32 = 1000; // 1s
 
-    // Set button interrupt source priority
+    sprintln!("Configuring external interrupts...");
+
+    // Make sure interrupts are disabled
+    riscv::interrupt::disable();
+
+    // Reset PLIC interrupts and set priority threshold
     let plic = cp.plic;
     let priorities = plic.priorities();
-    priorities.reset::<ExternalInterrupt>();
-    unsafe { i2c.set_exti_priority(&plic, Priority::P1) };
-
-    // Enable interrupts
     let ctx = plic.ctx0();
+    priorities.reset::<ExternalInterrupt>();
     unsafe {
         ctx.enables().disable_all::<ExternalInterrupt>();
-        i2c.enable_exti(&plic);
         ctx.threshold().set_threshold(Priority::P0);
+    }
+
+    // Enable I2C0 interrupt source
+    unsafe {
+        i2c.set_exti_priority(&plic, Priority::P1);
+        i2c.enable_exti(&plic);
+    }
+
+    sprintln!("Enabling external interrupts...");
+
+    // Enable global interrupts
+    unsafe {
         riscv::interrupt::enable();
         plic.enable();
-    };
+    }
 
-    //BME280 sensor configuration
-    let bme280_delay = Delay::new(mtimer);
-    let mut bme280 = BME280Async::new_i2c(bme280_delay, i2c, Address::Primary);
+    sprintln!("Configuring BME280 sensor...");
+
+    // BME280 sensor configuration
+    let mut bme280 = AsyncBme280::new(i2c, delay.clone());
     bme280.init().await.unwrap();
     bme280
-        .configure(Configuration {
-            temperature_oversampling: Oversampling::X_16,
-            pressure_oversampling: Oversampling::X_16,
-            humidity_oversampling: Oversampling::X_16,
-            iir_filter: IIRFilter::Disabled,
-        })
+        .set_sampling_configuration(
+            Configuration::default()
+                .with_temperature_oversampling(Oversampling::Oversample16)
+                .with_pressure_oversampling(Oversampling::Oversample16)
+                .with_humidity_oversampling(Oversampling::Oversample16)
+                .with_filter(Filter::Off)
+                .with_sensor_mode(SensorMode::Forced),
+        )
         .await
         .unwrap();
+
+    sprintln!("Measuring...");
+
+    // Execute loop
     loop {
         // Measure
-        let measurement = bme280.measure().await.unwrap();
+        bme280.take_forced_measurement().await.unwrap();
+        let sample = bme280.read_sample().await.unwrap();
 
         // Retrieve the returned temperature as °C, pressure in Pa and humidity in %RH
-        let temp = measurement.temperature.get::<degree_celsius>();
-        let pressure = measurement.pressure.unwrap().get::<pascal>();
-        let humidity = measurement.humidity.unwrap().get::<percent>();
         sprintln!(
             "Current measurement: {:.2} Celsius, {:.2} Pa, {:.2}%RH",
-            temp,
-            pressure,
-            humidity
+            sample.temperature.unwrap(),
+            sample.pressure.unwrap(),
+            sample.humidity.unwrap()
         );
 
         delay.delay_ms(STEP).await;
