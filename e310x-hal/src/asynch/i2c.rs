@@ -1,8 +1,5 @@
 //! # I2C Async API
-//! # Note
-//!
-//! Implementation of the Async Embedded HAL I2C functionality.
-//!
+
 use crate::i2c::{I2c, I2cX};
 use core::cell::RefCell;
 use core::future::poll_fn;

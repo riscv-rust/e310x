@@ -1,8 +1,4 @@
 //! # Digital I/O
-//! # Note
-//!
-//! Implementation of the Async Embedded HAL I/O functionality.
-//!
 
 macro_rules! gpio_async {
     ($GPIOX:ident, [
