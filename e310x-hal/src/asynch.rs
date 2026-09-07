@@ -7,6 +7,8 @@
 
 pub mod delay;
 pub mod digital;
+#[cfg(feature = "g002")]
+pub mod i2c;
 pub mod prelude;
 
 #[cfg(feature = "embassy")]

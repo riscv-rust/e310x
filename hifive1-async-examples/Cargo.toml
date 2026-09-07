@@ -2,7 +2,7 @@
 name = "hifive1-async-examples"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.83"
+rust-version = "1.87"
 
 [dependencies]
 embassy-executor = { version = "0.9.1", features = [
@@ -17,6 +17,11 @@ riscv = { workspace = true }
 riscv-rt = { workspace = true, features = [] }
 panic-halt = "1.0.0"
 embassy-time = { version = "0.5.0" }
+
+# Specific devices
+bme280-rs = { version = "0.4.1", default-features = false, features = [
+    "async",
+] }
 
 [features]
 v-trap = ["hifive1/v-trap"]
