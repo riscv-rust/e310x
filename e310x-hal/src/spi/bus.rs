@@ -6,7 +6,69 @@ use embedded_hal_nb::spi::FullDuplex;
 
 use super::{Pins, PinsFull, PinsNoCS, SharedBus, SpiConfig, SpiExclusiveDevice, SpiX};
 
+use e310x::{interrupt::Priority, Plic};
+
 const EMPTY_WRITE_PAD: u8 = 0x00;
+
+/// Select between SPI transmission or reception for bits.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CommType {
+    /// Transmission
+    Tx,
+    /// Reception
+    Rx,
+    /// Both transmission and reception
+    ///
+    /// # Note
+    /// In the methods that check if an interrupt is enabled or pending.
+    /// this event type works like an **any** operator between `Tx` and `Rx` events.
+    TxRx,
+}
+
+/// Watermark values limited from 0 to 7.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum WatermarkValue {
+    /// Watermark Value 0
+    W0 = 0,
+    /// Watermark Value 1
+    W1 = 1,
+    /// Watermark Value 2
+    W2 = 2,
+    /// Watermark Value 3
+    W3 = 3,
+    /// Watermark Value 4
+    W4 = 4,
+    /// Watermark Value 5
+    W5 = 5,
+    /// Watermark Value 6
+    W6 = 6,
+    /// Watermark Value 7
+    W7 = 7,
+}
+
+impl From<WatermarkValue> for u8 {
+    fn from(w: WatermarkValue) -> u8 {
+        w as u8
+    }
+}
+
+impl TryFrom<u8> for WatermarkValue {
+    type Error = ();
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(WatermarkValue::W0),
+            1 => Ok(WatermarkValue::W1),
+            2 => Ok(WatermarkValue::W2),
+            3 => Ok(WatermarkValue::W3),
+            4 => Ok(WatermarkValue::W4),
+            5 => Ok(WatermarkValue::W5),
+            6 => Ok(WatermarkValue::W6),
+            7 => Ok(WatermarkValue::W7),
+            _ => Err(()),
+        }
+    }
+}
 
 /// SPI bus abstraction
 pub struct SpiBus<SPI, PINS> {
@@ -18,6 +80,163 @@ impl<SPI, PINS> SpiBus<SPI, PINS> {
     /// Releases the SPI peripheral and associated pins
     pub fn release(self) -> (SPI, PINS) {
         (self.spi, self.pins)
+    }
+}
+
+impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
+    /// Enables the external interrupt source for the SPI.
+    ///
+    /// # Note
+    /// This function enables the external interrupt source in the PLIC,
+    /// but does not enable the PLIC peripheral itself. To enable the plic peripheral
+    /// you must call [`Plic::enable()`](riscv_peripheral::plic::enables::ENABLES::enable).
+    ///
+    /// # Safety
+    /// Enabling an interrupt source can break mask-based critical sections.
+    pub unsafe fn enable_exti(&self, plic: &Plic) {
+        let ctx = plic.ctx0();
+        ctx.enables().enable(SPI::INTERRUPT_SOURCE);
+    }
+
+    /// Disables the external interrupt source for the pin.
+    pub fn disable_exti(&self, plic: &Plic) {
+        let ctx = plic.ctx0();
+        ctx.enables().disable(SPI::INTERRUPT_SOURCE);
+    }
+
+    /// Returns whether the external interrupt source for the pin is enabled.
+    pub fn is_exti_enabled(&self, plic: &Plic) -> bool {
+        let ctx = plic.ctx0();
+        ctx.enables().is_enabled(SPI::INTERRUPT_SOURCE)
+    }
+
+    /// Sets the external interrupt source priority.
+    ///
+    /// # Safety
+    ///
+    /// Changing the priority level can break priority-based critical sections.
+    pub unsafe fn set_exti_priority(&self, plic: &Plic, priority: Priority) {
+        let priorities = plic.priorities();
+        priorities.set_priority(SPI::INTERRUPT_SOURCE, priority);
+    }
+
+    /// Returns the external interrupt source priority.
+    pub fn get_exti_priority(&self, plic: &Plic) -> Priority {
+        let priorities = plic.priorities();
+        priorities.get_priority(SPI::INTERRUPT_SOURCE)
+    }
+
+    /// Enable the SPI specified interrupt bit in the control register.
+    ///
+    /// # Note
+    /// This function does not enable the interrupt in the PLIC, it only sets the
+    /// interrupt enable bit in the SPI peripheral. You must call
+    /// [`enable_exti()`](Self::enable_exti) to enable the interrupt in
+    /// the PLIC.
+    pub fn enable_interrupt(&self, comm_type: CommType) {
+        // Match the CommType enum
+        match comm_type {
+            CommType::Tx => {
+                // Enable Tx interrupt while keeping Rx interrupt
+                self.spi.ie().modify(|r, w| {
+                    w.rxwm().bit(r.rxwm().bit_is_set());
+                    w.txwm().set_bit()
+                });
+            }
+            CommType::Rx => {
+                // Enable Rx interrupt while keeping Tx interrupt
+                self.spi.ie().modify(|r, w| {
+                    w.txwm().bit(r.txwm().bit_is_set());
+                    w.rxwm().set_bit()
+                });
+            }
+            CommType::TxRx => {
+                self.spi.ie().write(|w| w.txwm().set_bit().rxwm().set_bit());
+            }
+        }
+    }
+
+    /// Disable the SPI interrupt enable bit in the control register.
+    pub fn disable_interrupt(&self, comm_type: CommType) {
+        // Match the CommType enum
+        match comm_type {
+            CommType::Tx => {
+                // Disable Tx interrupt while keeping Rx interrupt
+                self.spi.ie().modify(|r, w| {
+                    w.rxwm().bit(r.rxwm().bit_is_set());
+                    w.txwm().clear_bit()
+                });
+            }
+            CommType::Rx => {
+                // Disable Rx interrupt while keeping Tx interrupt
+                self.spi.ie().modify(|r, w| {
+                    w.txwm().bit(r.txwm().bit_is_set());
+                    w.rxwm().clear_bit()
+                });
+            }
+            CommType::TxRx => {
+                self.spi
+                    .ie()
+                    .write(|w| w.txwm().clear_bit().rxwm().clear_bit());
+            }
+        }
+    }
+
+    /// Change the Watermark Register for the specified SPI communication to the specified value.
+    pub fn set_watermark(&self, comm_type: CommType, watermark: WatermarkValue) {
+        // Match the CommType enum
+        match comm_type {
+            CommType::Tx => {
+                self.spi
+                    .txmark()
+                    .write(|w| unsafe { w.txmark().bits(watermark.into()) });
+            }
+            CommType::Rx => {
+                self.spi
+                    .rxmark()
+                    .write(|w| unsafe { w.rxmark().bits(watermark.into()) });
+            }
+            CommType::TxRx => {
+                self.spi
+                    .txmark()
+                    .write(|w| unsafe { w.txmark().bits(watermark.into()) });
+                self.spi
+                    .rxmark()
+                    .write(|w| unsafe { w.rxmark().bits(watermark.into()) });
+            }
+        }
+    }
+
+    /// Get the Watermark Registers value.
+    pub fn get_watermarks(&self) -> (u8, u8) {
+        (
+            self.spi.txmark().read().txmark().bits(),
+            self.spi.rxmark().read().rxmark().bits(),
+        )
+    }
+
+    /// Check if the SPI interrupt is enabled for the specified communication type.
+    pub fn is_interrupt_enabled(&self, comm_type: CommType) -> bool {
+        // Match the CommType enum
+        match comm_type {
+            CommType::Tx => self.spi.ie().read().txwm().bit_is_set(),
+            CommType::Rx => self.spi.ie().read().rxwm().bit_is_set(),
+            CommType::TxRx => {
+                self.spi.ie().read().txwm().bit_is_set() || self.spi.ie().read().rxwm().bit_is_set()
+            }
+        }
+    }
+
+    /// Returns true if the interrupt flag is set for the specified communication type.
+    pub fn is_interrupt_pending(&self, comm_type: CommType) -> bool {
+        // Match the CommType enum
+        match comm_type {
+            CommType::Tx => self.spi.ip().read().txwm().bit_is_set(),
+            CommType::Rx => self.spi.ip().read().rxwm().bit_is_set(),
+            CommType::TxRx => {
+                self.spi.ip().read().txwm().bit_is_set() || self.spi.ip().read().rxwm().bit_is_set()
+            }
+        }
     }
 }
 
@@ -39,7 +258,7 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
     /// Read a single byte from the SPI bus.
     ///
     /// This function will return `nb::Error::WouldBlock` if the RX FIFO is empty.
-    fn read_input(&self) -> nb::Result<u8, ErrorKind> {
+    pub(crate) fn read_input(&self) -> nb::Result<u8, ErrorKind> {
         let rxdata = self.spi.rxdata().read();
         if rxdata.empty().bit_is_set() {
             Err(nb::Error::WouldBlock)
@@ -51,7 +270,7 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
     /// Write a single byte to the SPI bus.
     ///
     /// This function will return `nb::Error::WouldBlock` if the TX FIFO is full.
-    fn write_output(&self, word: u8) -> nb::Result<(), ErrorKind> {
+    pub(crate) fn write_output(&self, word: u8) -> nb::Result<(), ErrorKind> {
         if self.spi.txdata().read().full().bit_is_set() {
             Err(nb::Error::WouldBlock)
         } else {
@@ -65,7 +284,7 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
     /// # Note
     ///
     /// Data in the RX FIFO (if any) will be lost.
-    fn wait_for_rxfifo(&self) {
+    pub(crate) fn wait_for_rxfifo(&self) {
         // Ensure that RX FIFO is empty
         while self.read_input().is_ok() {}
     }
