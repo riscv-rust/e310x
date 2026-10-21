@@ -84,8 +84,8 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
                     let spiwaker = &mut SPI_WAKERS.borrow_ref_mut(cs)[SPI::SPI_INDEX].0;
                     *spiwaker = Some(cx.waker().clone());
                 });
-                self.set_watermark(CommType::Rx, WatermarkValue::W0);
-                self.enable_interrupt(CommType::Rx);
+                self.set_watermark_inner(CommType::Rx, WatermarkValue::W0);
+                self.enable_interrupt_inner(CommType::Rx);
                 Poll::Pending
             }
             Err(nb::Error::Other(e)) => Poll::Ready(Err(e)),
@@ -106,8 +106,8 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
                     let spiwaker = &mut SPI_WAKERS.borrow_ref_mut(cs)[SPI::SPI_INDEX].1;
                     *spiwaker = Some(cx.waker().clone())
                 });
-                self.set_watermark(CommType::Tx, WatermarkValue::W7);
-                self.enable_interrupt(CommType::Tx);
+                self.set_watermark_inner(CommType::Tx, WatermarkValue::W7);
+                self.enable_interrupt_inner(CommType::Tx);
                 Poll::Pending
             }
             Err(nb::Error::Other(e)) => Poll::Ready(Err(e)),
@@ -475,8 +475,8 @@ impl<SPI: SpiX, PINS: PinsFull<SPI>> spi::SpiBus for SpiBus<SPI, PINS> {
                     let spiwaker = &mut SPI_WAKERS.borrow_ref_mut(cs)[SPI::SPI_INDEX].1;
                     *spiwaker = Some(cx.waker().clone())
                 });
-                self.set_watermark(CommType::Tx, WatermarkValue::W1);
-                self.enable_interrupt(CommType::Tx);
+                self.set_watermark_inner(CommType::Tx, WatermarkValue::W1);
+                self.enable_interrupt_inner(CommType::Tx);
                 Poll::Pending
             }
         })
