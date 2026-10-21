@@ -133,15 +133,23 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
     /// interrupt enable bit in the SPI peripheral. You must call
     /// [`enable_exti()`](Self::enable_exti) to enable the interrupt in
     /// the PLIC.
+    #[inline]
     pub fn enable_interrupt(&mut self, comm_type: CommType) {
-        self.enable_interrupt_inner(comm_type);
+        // SAFETY: `&mut self` guarantees exclusive access to the bus.
+        unsafe { self.enable_interrupt_inner(comm_type) };
     }
 
     /// Shared-reference implementation of [`enable_interrupt()`](Self::enable_interrupt).
     ///
     /// Used by the asynchronous driver, where concurrent read and write futures
     /// only have a shared reference to the bus.
-    pub(crate) fn enable_interrupt_inner(&self, comm_type: CommType) {
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that no other code modifies the SPI interrupt
+    /// enable register concurrently with this call, as concurrent writes can be lost.
+    #[inline]
+    pub(crate) unsafe fn enable_interrupt_inner(&self, comm_type: CommType) {
         // Match the CommType enum
         match comm_type {
             CommType::Tx => {
@@ -165,15 +173,23 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
     }
 
     /// Disable the SPI interrupt enable bit in the control register.
+    #[inline]
     pub fn disable_interrupt(&mut self, comm_type: CommType) {
-        self.disable_interrupt_inner(comm_type);
+        // SAFETY: `&mut self` guarantees exclusive access to the bus.
+        unsafe { self.disable_interrupt_inner(comm_type) };
     }
 
     /// Shared-reference implementation of [`disable_interrupt()`](Self::disable_interrupt).
     ///
     /// Used by the asynchronous driver, where concurrent read and write futures
     /// only have a shared reference to the bus.
-    pub(crate) fn disable_interrupt_inner(&self, comm_type: CommType) {
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that no other code modifies the SPI interrupt
+    /// enable register concurrently with this call, as concurrent writes can be lost.
+    #[inline]
+    pub(crate) unsafe fn disable_interrupt_inner(&self, comm_type: CommType) {
         // Match the CommType enum
         match comm_type {
             CommType::Tx => {
@@ -199,15 +215,27 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
     }
 
     /// Change the Watermark Register for the specified SPI communication to the specified value.
+    #[inline]
     pub fn set_watermark(&mut self, comm_type: CommType, watermark: WatermarkValue) {
-        self.set_watermark_inner(comm_type, watermark);
+        // SAFETY: `&mut self` guarantees exclusive access to the bus.
+        unsafe { self.set_watermark_inner(comm_type, watermark) };
     }
 
     /// Shared-reference implementation of [`set_watermark()`](Self::set_watermark).
     ///
     /// Used by the asynchronous driver, where concurrent read and write futures
     /// only have a shared reference to the bus.
-    pub(crate) fn set_watermark_inner(&self, comm_type: CommType, watermark: WatermarkValue) {
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that no other code modifies the SPI watermark
+    /// registers concurrently with this call, as concurrent writes can be lost.
+    #[inline]
+    pub(crate) unsafe fn set_watermark_inner(
+        &self,
+        comm_type: CommType,
+        watermark: WatermarkValue,
+    ) {
         // Match the CommType enum
         match comm_type {
             CommType::Tx => {

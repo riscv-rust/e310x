@@ -79,13 +79,17 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
         poll_fn(|cx| match self.read_input() {
             Ok(data) => Poll::Ready(Ok(data)),
             Err(nb::Error::WouldBlock) => {
-                // Register the waker to be notified when an interrupt occurs
                 critical_section::with(|cs| {
+                    // Register the waker to be notified when an interrupt occurs
                     let spiwaker = &mut SPI_WAKERS.borrow_ref_mut(cs)[SPI::SPI_INDEX].0;
                     *spiwaker = Some(cx.waker().clone());
+                    // SAFETY: This function is meant to be called by the asynchronous driver in a controlled environment
+                    // where concurrent access is correctly managed.
+                    unsafe {
+                        self.set_watermark_inner(CommType::Rx, WatermarkValue::W0);
+                        self.enable_interrupt_inner(CommType::Rx);
+                    }
                 });
-                self.set_watermark_inner(CommType::Rx, WatermarkValue::W0);
-                self.enable_interrupt_inner(CommType::Rx);
                 Poll::Pending
             }
             Err(nb::Error::Other(e)) => Poll::Ready(Err(e)),
@@ -101,13 +105,17 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
         poll_fn(|cx| match self.write_output(word) {
             Ok(()) => Poll::Ready(Ok(())),
             Err(nb::Error::WouldBlock) => {
-                // Register the waker to be notified when an interrupt occurs
                 critical_section::with(|cs| {
+                    // Register the waker to be notified when an interrupt occurs
                     let spiwaker = &mut SPI_WAKERS.borrow_ref_mut(cs)[SPI::SPI_INDEX].1;
-                    *spiwaker = Some(cx.waker().clone())
+                    *spiwaker = Some(cx.waker().clone());
+                    // SAFETY: This function is meant to be called by the asynchronous driver in a controlled environment
+                    // where concurrent access is correctly managed.
+                    unsafe {
+                        self.set_watermark_inner(CommType::Tx, WatermarkValue::W7);
+                        self.enable_interrupt_inner(CommType::Tx);
+                    }
                 });
-                self.set_watermark_inner(CommType::Tx, WatermarkValue::W7);
-                self.enable_interrupt_inner(CommType::Tx);
                 Poll::Pending
             }
             Err(nb::Error::Other(e)) => Poll::Ready(Err(e)),
@@ -125,7 +133,7 @@ impl<SPI: SpiX, PINS> SpiBus<SPI, PINS> {
         });
     }
 
-    ///Wake the write task
+    /// Wake the write task
     fn wake_write(&self, wakers: &Mutex<RefCell<WakerPair>>) {
         critical_section::with(|cs| {
             let write_waker = &mut wakers.borrow_ref_mut(cs).1;
@@ -473,10 +481,10 @@ impl<SPI: SpiX, PINS: PinsFull<SPI>> spi::SpiBus for SpiBus<SPI, PINS> {
                 // Register the waker to be notified when an interrupt occurs
                 critical_section::with(|cs| {
                     let spiwaker = &mut SPI_WAKERS.borrow_ref_mut(cs)[SPI::SPI_INDEX].1;
-                    *spiwaker = Some(cx.waker().clone())
+                    *spiwaker = Some(cx.waker().clone());
+                    self.set_watermark(CommType::Tx, WatermarkValue::W1);
+                    self.enable_interrupt(CommType::Tx);
                 });
-                self.set_watermark_inner(CommType::Tx, WatermarkValue::W1);
-                self.enable_interrupt_inner(CommType::Tx);
                 Poll::Pending
             }
         })

@@ -6,11 +6,14 @@
 #![no_main]
 
 use embassy_executor::Spawner;
-use embedded_devices::devices::bosch::bme280::registers::{IIRFilter, Oversampling};
-use embedded_devices::devices::bosch::bme280::{address::Address, BME280Async, Configuration};
-use embedded_devices::sensor::OneshotSensorAsync;
-use embedded_devices::uom::si::{
-    pressure::pascal, ratio::percent, thermodynamic_temperature::degree_celsius,
+use embedded_devices::{
+    devices::bosch::bme280::{
+        address::Address,
+        registers::{IIRFilter, Oversampling},
+        BME280Async, Configuration,
+    },
+    sensor::OneshotSensorAsync,
+    uom::si::{pressure::pascal, ratio::percent, thermodynamic_temperature::degree_celsius},
 };
 use hifive1::{
     clock,
