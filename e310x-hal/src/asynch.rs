@@ -10,6 +10,7 @@ pub mod digital;
 #[cfg(feature = "g002")]
 pub mod i2c;
 pub mod prelude;
+pub mod spi;
 
 #[cfg(feature = "embassy")]
 pub mod embassy;

@@ -5,8 +5,16 @@
 #![no_std]
 #![no_main]
 
-use bme280_rs::{AsyncBme280, Configuration, Filter, Oversampling, SensorMode};
 use embassy_executor::Spawner;
+use embedded_devices::{
+    devices::bosch::bme280::{
+        address::Address,
+        registers::{IIRFilter, Oversampling},
+        BME280Async, Configuration,
+    },
+    sensor::OneshotSensorAsync,
+    uom::si::{pressure::pascal, ratio::percent, thermodynamic_temperature::degree_celsius},
+};
 use hifive1::{
     clock,
     hal::{
@@ -86,17 +94,15 @@ async fn main(_spawner: Spawner) -> ! {
     sprintln!("Configuring BME280 sensor...");
 
     // BME280 sensor configuration
-    let mut bme280 = AsyncBme280::new(i2c, delay.clone());
+    let mut bme280 = BME280Async::new_i2c(delay.clone(), i2c, Address::Primary);
     bme280.init().await.unwrap();
     bme280
-        .set_sampling_configuration(
-            Configuration::default()
-                .with_temperature_oversampling(Oversampling::Oversample16)
-                .with_pressure_oversampling(Oversampling::Oversample16)
-                .with_humidity_oversampling(Oversampling::Oversample16)
-                .with_filter(Filter::Off)
-                .with_sensor_mode(SensorMode::Forced),
-        )
+        .configure(Configuration {
+            temperature_oversampling: Oversampling::X_16,
+            pressure_oversampling: Oversampling::X_16,
+            humidity_oversampling: Oversampling::X_16,
+            iir_filter: IIRFilter::Disabled,
+        })
         .await
         .unwrap();
 
@@ -105,15 +111,17 @@ async fn main(_spawner: Spawner) -> ! {
     // Execute loop
     loop {
         // Measure
-        bme280.take_forced_measurement().await.unwrap();
-        let sample = bme280.read_sample().await.unwrap();
+        let measurement = bme280.measure().await.unwrap();
 
         // Retrieve the returned temperature as °C, pressure in Pa and humidity in %RH
+        let temp = measurement.temperature.get::<degree_celsius>();
+        let pressure = measurement.pressure.unwrap().get::<pascal>();
+        let humidity = measurement.humidity.unwrap().get::<percent>();
         sprintln!(
             "Current measurement: {:.2} Celsius, {:.2} Pa, {:.2}%RH",
-            sample.temperature.unwrap(),
-            sample.pressure.unwrap(),
-            sample.humidity.unwrap()
+            temp,
+            pressure,
+            humidity
         );
 
         delay.delay_ms(STEP).await;

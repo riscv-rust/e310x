@@ -1,9 +1,12 @@
 /// Helper traits for SPI pins
 use core::ops::Deref;
-use e310x::{qspi0, Qspi0, Qspi1, Qspi2};
+use e310x::{interrupt::ExternalInterrupt, qspi0, Qspi0, Qspi1, Qspi2};
 
 #[doc(hidden)]
-pub trait SpiX: Deref<Target = qspi0::RegisterBlock> + private::Sealed {}
+pub trait SpiX: Deref<Target = qspi0::RegisterBlock> + private::Sealed {
+    const SPI_INDEX: usize;
+    const INTERRUPT_SOURCE: ExternalInterrupt;
+}
 
 /// SPI pins
 ///
@@ -36,9 +39,12 @@ pub trait PinCS<SPI>: private::Sealed {
 
 /* SPI0 pins */
 mod spi0_impl {
-    use super::{Pins, Qspi0, SpiX};
+    use super::{ExternalInterrupt, Pins, Qspi0, SpiX};
 
-    impl SpiX for Qspi0 {}
+    impl SpiX for Qspi0 {
+        const SPI_INDEX: usize = 0;
+        const INTERRUPT_SOURCE: ExternalInterrupt = ExternalInterrupt::QSPI0;
+    }
 
     impl Pins<Qspi0> for () {
         const CS_INDEX: Option<u32> = Some(0);
@@ -47,7 +53,7 @@ mod spi0_impl {
 
 /* SPI1 pins */
 mod spi1_impl {
-    use super::{PinCS, Pins, PinsFull, PinsNoCS, Qspi1, SpiX};
+    use super::{ExternalInterrupt, PinCS, Pins, PinsFull, PinsNoCS, Qspi1, SpiX};
     use crate::gpio::{gpio0, NoInvert, IOF0};
 
     type Mosi = gpio0::Pin3<IOF0<NoInvert>>;
@@ -58,7 +64,10 @@ mod spi1_impl {
     type Cs2 = gpio0::Pin9<IOF0<NoInvert>>;
     type Cs3 = gpio0::Pin10<IOF0<NoInvert>>;
 
-    impl SpiX for Qspi1 {}
+    impl SpiX for Qspi1 {
+        const SPI_INDEX: usize = 1;
+        const INTERRUPT_SOURCE: ExternalInterrupt = ExternalInterrupt::QSPI1;
+    }
 
     impl PinCS<Qspi1> for Cs0 {
         const CS_INDEX: u32 = 0;
@@ -158,7 +167,7 @@ mod spi1_impl {
 
 /* SPI2 pins */
 mod spi2_impl {
-    use super::{PinCS, Pins, PinsFull, PinsNoCS, Qspi2, SpiX};
+    use super::{ExternalInterrupt, PinCS, Pins, PinsFull, PinsNoCS, Qspi2, SpiX};
     use crate::gpio::{gpio0, NoInvert, IOF0};
 
     type Mosi = gpio0::Pin27<IOF0<NoInvert>>;
@@ -166,7 +175,10 @@ mod spi2_impl {
     type Sck = gpio0::Pin29<IOF0<NoInvert>>;
     type Cs0 = gpio0::Pin26<IOF0<NoInvert>>;
 
-    impl SpiX for Qspi2 {}
+    impl SpiX for Qspi2 {
+        const SPI_INDEX: usize = 2;
+        const INTERRUPT_SOURCE: ExternalInterrupt = ExternalInterrupt::QSPI2;
+    }
 
     impl PinCS<Qspi2> for Cs0 {
         const CS_INDEX: u32 = 0;
