@@ -17,6 +17,7 @@ riscv = { workspace = true }
 riscv-rt = { workspace = true, features = [] }
 panic-halt = "1.0.0"
 embassy-time = { version = "0.5.0" }
+embassy-sync = { version = "0.7.2" }
 
 # Specific devices
 embedded-devices = { version = "0.10.3", default-features = false, features = [
