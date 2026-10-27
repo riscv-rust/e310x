@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add interrupt managing methods to `e310x-hal::gpio` module
 - Add interrupt managing methods to `e310x-hal::i2c` module
 - Add interrupt managing methods to `e310x-hal::serial` module
+- Add interrupt managing methods to `e310x-hal::spi` module
 - Add embedded-hal-async digital module support to `e310x-hal::gpio` module
 - Add embedded-hal-async delay module support to `e310x-hal`
 - Add embassy-time-driver support to `e310x-hal`
