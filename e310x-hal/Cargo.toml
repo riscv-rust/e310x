@@ -26,6 +26,7 @@ riscv = { workspace = true, features = ["critical-section-single-hart"] }
 riscv-peripheral = { workspace = true, optional = true }
 riscv-rt = { workspace = true, optional = true }
 embedded-hal-async = { version = "1.0.0", optional = true }
+embedded-io-async = { version = "0.7.0", optional = true }
 critical-section = { workspace = true, optional = true }
 heapless = { version = "0.9.3", optional = true }
 embassy-time-driver = { version = "0.2.0", optional = true, features = [
@@ -41,6 +42,7 @@ async = [
     "riscv-peripheral",
     "riscv-rt",
     "embedded-hal-async",
+    "embedded-io-async",
     "critical-section",
     "heapless",
     "embassy-sync",
